@@ -1,15 +1,25 @@
 $(document).ready(function () {
-	
+
+    $('#login-btn').click(function() {
+        
+        $(this).button('loading');
+         setTimeout(function(){
+             validate();
+         }, 250);   
+    });
 	    // Validate
     function validate() {
         // Trim
-        //$('username').val($('username').val().trim());
+
 
         // Check if there empty strings
-        if($('username').val() == '' || $('password').val() == '') {
-            alert('Please input the required fields');
+        if($('#username').val() == '' || $('#password').val() == '') {
+            $('.alert').empty();
+            $('.alert').append('Please input the required fields.').removeClass('hide');
+            $('#login-btn').button('reset');
             return false;
         }
+
         // Check Login
         var err_message = '';
         $.ajax({
@@ -22,29 +32,30 @@ $(document).ready(function () {
             },
             success: function (response) {
                 var decode = jQuery.parseJSON(response);
-                
+
                 if(decode.success == false) {
                     err_message = decode.msg;
+                    
                 }
-            },
-            error: function(jqXHR, textStatus, errorThrown)
-			{
-			  console.log(jqXHR);
-			  console.log(textStatus);
-			  console.log(errorThrown);
-			}
+                $('#login-btn').button('reset');
+            }
         });
 
         if(err_message != '') {
-            alert(err_message);
+            //alert(err_message);
+            $('.alert').empty();
+            $('.alert').append(err_message).removeClass('hide');
+            //$('.alert')
             return false;
         }
         
         return true;
     }
 
-    $('#login-btn').click(function () {
-    	var result = validate();	   
-    	console.log(result);
-    });
+    function loader() {
+        $('#login-btn').button('loading');
+        return true;
+    }
+
+
 });

@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.13, created on 2014-02-28 09:37:52
+<?php /* Smarty version Smarty-3.1.13, created on 2014-03-04 10:06:23
          compiled from "application\views\templates\pages\login.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:81553100623872737-72690016%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '830223a3284ab01d204c616321dc876ec13d850e' => 
     array (
       0 => 'application\\views\\templates\\pages\\login.tpl',
-      1 => 1393576670,
+      1 => 1393923978,
       2 => 'file',
     ),
     '03165d5a3348cfc07fa5b39e20575fc5b1e89f47' => 
@@ -39,11 +39,13 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 		
 	<div class="container">
 		<div class="login-cont">
-			<form class="form-signin" role="form">
+			<div class="alert alert-danger hide"></div>
+			<form action='<?php echo $_smarty_tpl->tpl_vars['base_url']->value;?>
+login/validate_user' method="post" class="form-signin" role="form">
 		        <h2 class="form-signin-heading">Please sign in</h2>
-		        <input type="text" class="form-control" placeholder="Username" required="" autofocus="" id="username">
-		        <input type="password" class="form-control" placeholder="Password" required="" id="password">
-		        <button class="btn btn-lg btn-primary btn-block" type="submit" data-loading-text="Validating..." id="login-btn" onclick="return false;">Sign in</button>
+		        <input type="text" class="form-control" placeholder="Username" required="" autofocus="" id="username" name="username">
+		        <input type="password" class="form-control" placeholder="Password" required="" id="password" name="password">
+		        <a class="btn btn-lg btn-primary btn-block" data-loading-text="Validating..." id="login-btn">Sign in</a>
 	     	</form>
 	     </div>
 	</div>

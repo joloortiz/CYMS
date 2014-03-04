@@ -48,9 +48,9 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = '';
+$db['default']['hostname'] = '192.168.1.127';
+$db['default']['username'] = 'cymsuser';
+$db['default']['password'] = '1234';
 $db['default']['database'] = 'cyms';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';

@@ -57,9 +57,29 @@ class Login extends MY_Controller {
 		echo json_encode($data);
 	}
 
-	/*
-	private function set_session(){
+	public function start_session() {
+		$username = $this->input->post('username');
 
+		try {
+			#load users_model
+			$this->load->model('users_model');
+
+			$user = $this->users_model->get_by_username($username);
+			$this->session->set_userdata('cyms', $user[0]);
+
+			$data['success'] = TRUE;
+			$data['msg'] = '';
+		}
+		catch(Exception $e) {
+			$data['success'] = FALSE;
+            $data['msg'] = $e->getMessage();
+		}
+
+		echo json_encode($data);
 	}
-	*/
+
+	function logout() {
+		$this->session->unset_userdata('cyms');
+		redirect(base_url() . 'login');
+	}
 }

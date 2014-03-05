@@ -1,16 +1,20 @@
 $(document).ready(function () {
 
     $('#login-btn').click(function() {
-        
-        $(this).button('loading');
-         setTimeout(function(){
-             validate();
-         }, 250);   
-    });
-	    // Validate
-    function validate() {
-        // Trim
 
+        $(this).button('loading');
+        setTimeout(function(){
+            if(validate() == true){
+                if(start_session() == true){
+                    window.location = $('body').attr('base-url');
+                } 
+            }
+        }, 250)
+
+    });
+
+
+    function validate() {
 
         // Check if there empty strings
         if($('#username').val() == '' || $('#password').val() == '') {
@@ -52,10 +56,33 @@ $(document).ready(function () {
         return true;
     }
 
-    function loader() {
-        $('#login-btn').button('loading');
-        return true;
-    }
+    function start_session() {
+        var err_message = '';
 
+        $.ajax({
+            url: $('body').attr('base-url') + 'login/start_session',
+            type: 'POST',
+            async: false,
+            data: {
+                username: $('#username').val()
+            },
+            success: function (response) {
+                var decode = jQuery.parseJSON(response);
+
+                if(decode.success == false) {
+                    err_message = decode.msg;                
+                }
+
+                $('#login-btn').button('reset');
+            }
+        });
+
+        if(err_message != '') {
+            $('.alert').empty();
+            $('.alert').append(err_message).removeClass('hide');
+            return false;
+        };
+            return true;
+        }
 
 });

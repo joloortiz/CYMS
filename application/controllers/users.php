@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Dashboard extends MY_Controller {
+class Users extends MY_Controller {
 /*
 	function __construct(){
 		parent::__construct();
@@ -18,10 +18,13 @@ class Dashboard extends MY_Controller {
 */
 	# Index
 	function index() {
+		$this->load->model('users_model');
+		$users = $this->users_model->get_users();
+		
+		
 		$this->smarty->assign('layout', 'crud_pages_layout.tpl');
 		$this->smarty->assign('page_css', 'admin.css');
-		$this->smarty->assign('page', 'home');
-		$this->smarty->view('pages/dashboard.tpl');
+		$this->smarty->assign('page', 'users');
+		$this->smarty->view('pages/users.tpl');
 	}
-
 }

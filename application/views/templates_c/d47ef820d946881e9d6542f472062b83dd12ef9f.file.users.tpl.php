@@ -1,13 +1,13 @@
-<?php /* Smarty version Smarty-3.1.13, created on 2014-03-06 10:16:38
-         compiled from "application\views\templates\pages\dashboard.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:24196531006024bf698-18338695%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /* Smarty version Smarty-3.1.13, created on 2014-03-06 10:48:30
+         compiled from "application\views\templates\pages\users.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:1145453183cc05bfb97-65379511%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
-    '444d4efe06d4939adab8b9d0eaeb6194b7c90f40' => 
+    'd47ef820d946881e9d6542f472062b83dd12ef9f' => 
     array (
-      0 => 'application\\views\\templates\\pages\\dashboard.tpl',
-      1 => 1394097216,
+      0 => 'application\\views\\templates\\pages\\users.tpl',
+      1 => 1394099308,
       2 => 'file',
     ),
     'f029f73a84fa2a99f5d7a55dbe11c466cb920102' => 
@@ -17,12 +17,12 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '24196531006024bf698-18338695',
+  'nocache_hash' => '1145453183cc05bfb97-65379511',
   'function' => 
   array (
   ),
   'version' => 'Smarty-3.1.13',
-  'unifunc' => 'content_5310060251bec6_58092336',
+  'unifunc' => 'content_53183cc069f739_34245058',
   'variables' => 
   array (
     'layout' => 0,
@@ -31,7 +31,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_5310060251bec6_58092336')) {function content_5310060251bec6_58092336($_smarty_tpl) {?><!DOCTYPE html> 
+<?php if ($_valid && !is_callable('content_53183cc069f739_34245058')) {function content_53183cc069f739_34245058($_smarty_tpl) {?><!DOCTYPE html> 
 <html lang="en">
     <?php echo $_smarty_tpl->getSubTemplate ("segments/head.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0);?>
 
@@ -60,8 +60,22 @@ van-types<?php }?>">Van Types</a></li>
 		    <div class="col-md-9">
 				
 
-		<h1>DASHBOARD HERE!</h1>
+		<h1>Users</h1>
 
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Username</th>
+					<th>Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Sample1231241</td>
+					<td>Sampler I. Am</td>
+				</tr>
+			</tbody>
+		</table>
 
 		        <?php echo $_smarty_tpl->getSubTemplate ("segments/scripts.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0);?>
 

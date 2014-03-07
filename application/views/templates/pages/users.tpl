@@ -1,7 +1,7 @@
 {extends file="layouts/"|cat:$layout}
 {block name=body}
 
-		<h1>Users</h1>
+		<h1>{$page_title}</h1>
 
 		<table class="table">
 			<thead>
@@ -11,6 +11,22 @@
 				</tr>
 			</thead>
 			<tbody>
+				<tr>
+					<td>Sample1231241</td>
+					<td>Sampler I. Am</td>
+				</tr>
+				<tr>
+					<td>Sample1231241</td>
+					<td>Sampler I. Am</td>
+				</tr>
+				<tr>
+					<td>Sample1231241</td>
+					<td>Sampler I. Am</td>
+				</tr>
+				<tr>
+					<td>Sample1231241</td>
+					<td>Sampler I. Am</td>
+				</tr>
 				<tr>
 					<td>Sample1231241</td>
 					<td>Sampler I. Am</td>

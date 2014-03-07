@@ -1,13 +1,13 @@
-<?php /* Smarty version Smarty-3.1.13, created on 2014-03-07 04:03:36
-         compiled from "application\views\templates\pages\users.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:1145453183cc05bfb97-65379511%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /* Smarty version Smarty-3.1.13, created on 2014-03-07 09:29:44
+         compiled from "application\views\templates\pages\users_add.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:248005319373746fd47-01895236%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
-    'd47ef820d946881e9d6542f472062b83dd12ef9f' => 
+    '810b719153b62fb3b36499d677ce15538f27423f' => 
     array (
-      0 => 'application\\views\\templates\\pages\\users.tpl',
-      1 => 1394161077,
+      0 => 'application\\views\\templates\\pages\\users_add.tpl',
+      1 => 1394176868,
       2 => 'file',
     ),
     'f029f73a84fa2a99f5d7a55dbe11c466cb920102' => 
@@ -17,12 +17,12 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1145453183cc05bfb97-65379511',
+  'nocache_hash' => '248005319373746fd47-01895236',
   'function' => 
   array (
   ),
   'version' => 'Smarty-3.1.13',
-  'unifunc' => 'content_53183cc069f739_34245058',
+  'unifunc' => 'content_531937375570b1_82884218',
   'variables' => 
   array (
     'layout' => 0,
@@ -31,7 +31,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_53183cc069f739_34245058')) {function content_53183cc069f739_34245058($_smarty_tpl) {?><!DOCTYPE html> 
+<?php if ($_valid && !is_callable('content_531937375570b1_82884218')) {function content_531937375570b1_82884218($_smarty_tpl) {?><!DOCTYPE html> 
 <html lang="en">
     <?php echo $_smarty_tpl->getSubTemplate ("segments/head.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0);?>
 
@@ -63,36 +63,45 @@ van-types<?php }?>">Van Types</a></li>
 		<h1><?php echo $_smarty_tpl->tpl_vars['page_title']->value;?>
 </h1>
 
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Username</th>
-					<th>Name</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Sample1231241</td>
-					<td>Sampler I. Am</td>
-				</tr>
-				<tr>
-					<td>Sample1231241</td>
-					<td>Sampler I. Am</td>
-				</tr>
-				<tr>
-					<td>Sample1231241</td>
-					<td>Sampler I. Am</td>
-				</tr>
-				<tr>
-					<td>Sample1231241</td>
-					<td>Sampler I. Am</td>
-				</tr>
-				<tr>
-					<td>Sample1231241</td>
-					<td>Sampler I. Am</td>
-				</tr>
-			</tbody>
-		</table>
+		<form class="form-horizontal" role="form">
+			<div class="form-group">
+			    <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+			    <div class="col-xs-4">
+			    	<input type="text" class="form-control" id="lastname" placeholder="Last Name">
+			    </div>
+			   	<div class="col-xs-4 padding-left-0">
+			    	<input type="text" class="form-control" id="firstname" placeholder="First Name">
+			    </div>
+			    <div class="col-xs-1 padding-left-0">
+			    	<input type="text" class="form-control" id="mi" placeholder="MI">
+			    </div>
+		  	</div>
+			<div class="form-group has-feedback">
+			    <label for="inputEmail3" class="col-sm-2 control-label">Username</label>
+			    <div class="col-xs-4">
+			    	<input type="text" class="form-control" id="username">
+			    	<span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
+			    	<span class="glyphicon glyphicon-remove form-control-feedback hide"></span>
+			    </div>
+		  	</div>
+			<div class="form-group">
+			    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+			    <div class="col-xs-4">
+			    	<input type="password" class="form-control" id="password">
+			    </div>
+			</div>
+			<div class="form-group">
+			    <label for="inputPassword3" class="col-sm-2 control-label">Contact No</label>
+			    <div class="col-xs-4">
+			    	<input type="text" class="form-control" id="contactno">
+			    </div>
+			 </div>
+			<div class="form-group">
+			    <div class="col-sm-offset-2 col-sm-10">
+			    	<button type="submit" class="btn btn-primary">Submit</button>
+			    </div>
+		  	</div>
+		</form>
 
 		        <?php echo $_smarty_tpl->getSubTemplate ("segments/scripts.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0);?>
 

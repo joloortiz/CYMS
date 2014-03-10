@@ -20,7 +20,19 @@ class MY_Controller extends CI_Controller {
    
     public function __construct() {
 		parent::__construct();
+
+        //Session 
+
+        //$session_id = $this->session->userdata('cyms');
         
+        /*
+        if(isset($session_id)){
+            redirect('/dashboard');
+        }elseif(!isset($session_id)){
+            redirect('/login');
+        }
+        */
+
         // CSS
 		$css = array(
 			'style.css'

@@ -27,38 +27,59 @@ class Login extends MY_Controller {
 	}
 
 	public function validate_user() {
-		$username = mysql_real_escape_string($this->input->post('username'));
-		$password = $this->input->post('password');
-		
-		#load users_model
-		$this->load->model(users_model);
+		$username = $this->input->post('username');
+		$password = md5($this->input->post('password'));
 
-		#check if username exists
-		$is_username_existing = $this->users_model->is_username_existing($username);
+		try {
+			#load users_model
+			$this->load->model('users_model');
+			$msg = '';
 
-		#check if password is correct
-		$is_password_valid = $this->users_model->is_password_valid($username, $password);
+			
+			if($this->users_model->is_username_existing($username) == FALSE){
+				$msg = 'Username does not exist.';
+				$data['success'] = FALSE;
+			}elseif($this->users_model->is_password_valid($username, $password) == FALSE){
+				$msg = 'Incorrect password.';
+				$data['success'] = FALSE;
+			}elseif($this->users_model->is_account_active($username, $password) == FALSE){
+				$msg = 'Account inactive. Contact the System Administrator.';
+				$data['success'] = FALSE;
+			}
 
-		#check if account is active
-		$is_account_active = $this->users_model->is_account_active($username, $password);
-
-		if($is_username_existing == 0){
-			$msg = "Username does not exist";
-		}elseif($is_password_valid == 0){
-			$msg = "Incorrect password";
-		}elseif($is_account_active){
-			$msg = "Account inactive. Contact the System Administrator.";
-		}else{
-			$msg = "";
-			$data['success'] = true;
+			$data['success'] = $msg == '' ? true : false;
 			$data['msg'] = $msg;
 		}
-		
-		$data['msg'] = "gwapo ko";
+		catch(Exception $e) {
+			$data['success'] = FALSE;
+            $data['msg'] = $e->getMessage();
+		}
 		echo json_encode($data);
 	}
 
-	private function set_session(){
+	public function start_session() {
+		$username = $this->input->post('username');
 
+		try {
+			#load users_model
+			$this->load->model('users_model');
+
+			$user = $this->users_model->get_by_username($username);
+			$this->session->set_userdata('cyms', $user[0]);
+
+			$data['success'] = TRUE;
+			$data['msg'] = '';
+		}
+		catch(Exception $e) {
+			$data['success'] = FALSE;
+            $data['msg'] = $e->getMessage();
+		}
+
+		echo json_encode($data);
+	}
+
+	function logout() {
+		$this->session->unset_userdata('cyms');
+		redirect(base_url() . 'login');
 	}
 }

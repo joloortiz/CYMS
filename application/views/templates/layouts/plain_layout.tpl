@@ -3,6 +3,9 @@
     {include file="segments/head.tpl"}
 	<body base-url="{$base_url}">
 		{block name=body}{/block}
-        {include file="segments/scripts.tpl"}
+
+		<footer>
+			{include file="segments/scripts.tpl"}
+		</footer>
 	</body>
 </html>

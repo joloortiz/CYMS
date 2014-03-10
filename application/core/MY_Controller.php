@@ -23,7 +23,7 @@ class MY_Controller extends CI_Controller {
         
         // CSS
 		$css = array(
-			// 'style.css'
+			'style.css'
 		);
       
 		// JS

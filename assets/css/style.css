@@ -1,0 +1,29 @@
+.absolute-hide {
+	opacity: 0 !important;
+}
+
+.row.buffer-top {
+	margin-top: 10px;
+}
+
+.faded {
+	opacity: .6;
+}
+
+.disabled {
+	pointer-events: none;
+}
+
+.action {
+	cursor: pointer;
+}
+
+.color-swatch {
+	border: 1px solid black;
+	height: 1.5em;
+	width: 5em;
+}
+
+.check-selection.single-select {
+	opacity: .8;
+}

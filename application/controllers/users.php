@@ -14,20 +14,79 @@ class Users extends MY_Controller {
 
 	# Index
 	function index() {
+		#Initialize Opt Variable
+		$opt = '';
+
+		#Load Users Model
 		$this->load->model('users_model');
 		$users = $this->users_model->get_users();
-				
+		
+		#Check for notification messages
+		if($this->input->get('add') == 'success'){
+			$opt = 'add';
+			$msg = '<strong>Well done!</strong> A new user is successfully added.';
+		}
+
+
+		$this->smarty->assign('opt', $opt);
+		$this->smarty->assign('msg', $msg);
 		$this->smarty->assign('page_title', 'Users');
 		$this->smarty->view('pages/users.tpl');
 	}
 
 	public function add() {
-		$this->load->model('users_model');
-
-		
-		
 		$this->smarty->assign('page_title', 'Add User');
 		$this->smarty->view('pages/users_add.tpl');
+	}
+
+	public function save(){
+		$firstname = $this->input->post('firstname');
+		$lastname = $this->input->post('lastname');
+		$mi = $this->input->post('mi');
+		$username = $this->input->post('username');
+		$password = md5($this->input->post('password'));
+		$contactno = $this->input->post('contactno');
+		$opt = $this->input->post('opt');
+		$added_by_username = $this->session->userdata['cyms']['u_username'];
+
+        try {
+            // Load Users Model
+            $this->load->model('users_model');
+            
+            if($opt == 'add') {
+                $insertData = array(
+                    'u_firstname' => $firstname,
+                    'u_lastname' => $lastname,
+                    'u_mi' => $mi,
+                    'u_username' => $username,
+                    'u_password' => $password,
+                    'u_contactno' => $contactno,
+                    'u_addedby' => $added_by_username
+                );
+                $this->users_model->Insert($insertData);
+            } else if($opt == 'edit') {
+                $updateData = array(
+                	'u_id' => $u_id,
+                    'u_fname' => $firstname,
+                    'u_lname' => $lastname,
+                    'u_mname' => $mi,
+                    'u_gender' => $username,
+                    'u_bday' => $password,
+                    'u_contactno' => $contactno,
+                );
+                if($password != '') $updateData['u_password'] = $password;
+                $this->users_model->Update($updateData, $uId);
+            } else if($opt == 'delete') {
+                $this->users_model->Delete($uId);
+            }
+            
+            $data['success'] = true;
+        } catch (Exception $e) {
+            $data['success'] = false;
+            $data['msg'] = $e->getMessage();
+        }
+        
+        echo json_encode($data);
 	}
 
 	public function is_username_existing() {

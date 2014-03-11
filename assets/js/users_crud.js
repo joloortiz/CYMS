@@ -12,16 +12,22 @@ $(document).ready(function () {
 			if(is_username_existing(username) == false){
 				$(this).parents(':eq(1)').addClass('has-success');
 				$(this).parents(':eq(1)').find('.glyphicon-ok').removeClass('hide');
-				console.log('graphics - false');
 			}
 			else{
 				$(this).parents(':eq(1)').addClass('has-error');
 				$(this).parents(':eq(1)').find('.glyphicon-remove').removeClass('hide');
-				console.log('graphics - true');
 			}
 		}
 
-	})
+	});
+
+	$('#firstname, #lastname, #mi, #username, #password, #contactno').focusout(function(){
+
+		if($(this).val() == ''){
+			$(this).parents(':eq(1)').addClass('has-error');
+		}
+
+	});	
 
 	function is_username_existing(username) {
 		var returnflag = false;
@@ -35,7 +41,6 @@ $(document).ready(function () {
 	        },
 	        success: function (response) {
 	            var decode = jQuery.parseJSON(response);
-	            console.log(decode.success);
 	            if(decode.success == false) {
 	                returnflag = false;
 	            }
@@ -52,5 +57,81 @@ $(document).ready(function () {
 	    	return false;
 	    }
 	}
+
+	function add_users_validate(){
+		var firstname = $('#firstname').val();
+		var lastname = $('#lastname').val();
+		var mi = $('#mi').val();
+		var username = $('#username').val();
+		var password = $('#password').val();
+		var contactno = $('#contactno').val();
+		var opt = 'add';
+		var err_message = '';
+
+		if(firstname == '' || lastname == '' || mi == '' || username == '' || password == '' || contactno == '') {
+			if(firstname == '' || lastname == '' || mi == ''){
+				$('#firstname, #lastname, #mi').parents(':eq(1)').addClass('has-error');
+			}
+			if(username == '') {
+				$('#username').parents(':eq(1)').addClass('has-error');
+			}
+			if(password == '') {
+				$('#password').parents(':eq(1)').addClass('has-error');
+			}
+			if(contactno == ''){
+				$('#contactno').parents(':eq(1)').addClass('has-error');
+			}
+
+			err_message = "Please fill in the required fields."
+			$('.alert').empty();
+            $('.alert').append(err_message).removeClass('hide');
+            $('#submit').button('reset');
+			return false;
+		}else if(is_username_existing(username) == true){
+			err_message = "Username is already taken."
+			$('.alert').empty();
+            $('.alert').append(err_message).removeClass('hide');
+            $('#submit').button('reset');
+			return false;
+		}else{
+			var err_message = '';
+	        $.ajax({
+	            url: $('body').attr('base-url') + 'users/save',
+	            type: 'POST',
+	            async: false,
+	            data: {
+	            	firstname: firstname,
+	            	lastname: lastname,
+	            	mi: mi,
+	                username: username,  
+	                password: password,
+	                contactno: contactno,
+	                opt: opt
+	            },
+	            success: function (response) {
+	                var decode = jQuery.parseJSON(response);
+
+	                if(decode.success == false) {
+	                    err_message = decode.msg;
+	                    $('#submit').button('reset');
+	                }
+	            }
+	        });
+	        if(err_message != '') {
+	            alert(err_message);
+	            return false;
+	        }
+			return true;
+		}
+	}
+
+	$('#submit').click(function() {
+		$(this).button('loading');
+	    setTimeout(function(){
+			if(add_users_validate() == true) {
+				window.location = $('body').attr('base-url') + 'users/?add=success';
+			}
+		}, 250)
+	});
 
 });

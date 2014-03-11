@@ -57,4 +57,24 @@ class Users_model extends CI_Model{
 		}
 
 	}
+
+	# Create User 
+    function Insert($data) {
+        $this->db->insert('users', $data);
+        return;
+    }
+
+    # Update
+    function Update($data, $id) {
+        $this->db->where('u_id', $id);
+        $this->db->update('users', $data);
+        return;
+    }
+    
+    # Delete
+    function Delete($id) {
+        $this->db->where('u_id', $id);
+        $this->db->delete('users');
+        return;
+    }
 }

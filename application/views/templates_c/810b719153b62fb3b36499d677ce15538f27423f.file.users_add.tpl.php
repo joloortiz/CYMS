@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.13, created on 2014-03-07 09:29:44
+<?php /* Smarty version Smarty-3.1.13, created on 2014-03-11 10:09:07
          compiled from "application\views\templates\pages\users_add.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:248005319373746fd47-01895236%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '810b719153b62fb3b36499d677ce15538f27423f' => 
     array (
       0 => 'application\\views\\templates\\pages\\users_add.tpl',
-      1 => 1394176868,
+      1 => 1394528901,
       2 => 'file',
     ),
     'f029f73a84fa2a99f5d7a55dbe11c466cb920102' => 
@@ -62,7 +62,7 @@ van-types<?php }?>">Van Types</a></li>
 
 		<h1><?php echo $_smarty_tpl->tpl_vars['page_title']->value;?>
 </h1>
-
+		<div class="alert alert-danger hide"></div>
 		<form class="form-horizontal" role="form">
 			<div class="form-group">
 			    <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
@@ -73,8 +73,8 @@ van-types<?php }?>">Van Types</a></li>
 			    	<input type="text" class="form-control" id="firstname" placeholder="First Name">
 			    </div>
 			    <div class="col-xs-1 padding-left-0">
-			    	<input type="text" class="form-control" id="mi" placeholder="MI">
-			    </div>
+			    	<input type="text" maxlength="2" class="form-control" id="mi" placeholder="M.I.">
+			    </div>			    	
 		  	</div>
 			<div class="form-group has-feedback">
 			    <label for="inputEmail3" class="col-sm-2 control-label">Username</label>
@@ -98,7 +98,7 @@ van-types<?php }?>">Van Types</a></li>
 			 </div>
 			<div class="form-group">
 			    <div class="col-sm-offset-2 col-sm-10">
-			    	<button type="submit" class="btn btn-primary">Submit</button>
+			    	<a type="submit" class="btn btn-primary" id="submit" data-loading-text="Loading...">Submit</a>
 			    </div>
 		  	</div>
 		</form>

@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.13, created on 2014-03-07 04:03:36
+<?php /* Smarty version Smarty-3.1.13, created on 2014-03-11 11:44:53
          compiled from "application\views\templates\pages\users.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:1145453183cc05bfb97-65379511%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'd47ef820d946881e9d6542f472062b83dd12ef9f' => 
     array (
       0 => 'application\\views\\templates\\pages\\users.tpl',
-      1 => 1394161077,
+      1 => 1394534689,
       2 => 'file',
     ),
     'f029f73a84fa2a99f5d7a55dbe11c466cb920102' => 
@@ -62,6 +62,9 @@ van-types<?php }?>">Van Types</a></li>
 
 		<h1><?php echo $_smarty_tpl->tpl_vars['page_title']->value;?>
 </h1>
+
+		<div class="alert alert-success <?php if ($_smarty_tpl->tpl_vars['opt']->value==''){?>hide<?php }?>"><?php if ($_smarty_tpl->tpl_vars['opt']->value!=''){?><?php echo $_smarty_tpl->tpl_vars['msg']->value;?>
+<?php }?></div>
 
 		<table class="table">
 			<thead>

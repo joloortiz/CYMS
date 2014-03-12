@@ -1,4 +1,11 @@
 $(document).ready(function () {
+	$('#tablesorter').tablesorter({
+		headers: {
+			2: { 
+                sorter: false 
+            } 
+        }   
+	}); 
 
 	$('#username').focusout(function(){
 		var username = $(this).val();

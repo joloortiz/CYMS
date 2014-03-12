@@ -50,6 +50,8 @@ define('STYLESHEETS_DIR', ASSETS_DIR . 'css/');
 define('SCRIPTS_DIR', ASSETS_DIR . 'js/');
 define('IMAGES_DIR', ASSETS_DIR . 'images/');
 
+define('BASE_URL', 'http://localhost/cyms/');
+
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

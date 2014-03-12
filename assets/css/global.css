@@ -2,3 +2,21 @@
 
 /* Sidebar Nav Style */
 
+#tablesorter .header {
+background-image: url(/cyms/assets/images/bg.gif);
+background-repeat: no-repeat;
+background-position: center right;
+cursor: pointer;
+}
+
+.headerSortUp {
+background-image: url(/cyms/assets/images/asc.gif) !important;
+}
+
+.headerSortDown {
+background-image: url(/cyms/assets/images/desc.gif) !important;
+}
+
+#tablesorter a {
+	cursor: pointer;
+}

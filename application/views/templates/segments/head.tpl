@@ -15,5 +15,6 @@
     {/if}
 
 	<link href="/cyms/assets/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/cyms/assets/css/global.css" rel="stylesheet">
 
 </head>

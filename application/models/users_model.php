@@ -9,6 +9,17 @@ class Users_model extends CI_Model{
 		return $query->result_array();
 	}
 
+	function record_count() {
+        return $this->db->count_all("users");
+    }
+
+    # Get Users for pagination
+    function p_users($limit, $start) {
+        $this->db->limit($limit, $start);
+        $query = $this->db->get("users");
+		return $query->result_array();
+   }
+
 	function get_by_username($username) {
 		$this->db->where('u_username', $username);
 		$query = $this->db->get('users');
@@ -78,3 +89,5 @@ class Users_model extends CI_Model{
         return;
     }
 }
+
+?>

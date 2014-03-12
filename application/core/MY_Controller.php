@@ -25,6 +25,9 @@ class MY_Controller extends CI_Controller {
 
         //$session_id = $this->session->userdata('cyms');
         
+		// Check templates_c
+		$this->check_temp_cache();
+        
         /*
         if(isset($session_id)){
             redirect('/dashboard');
@@ -46,5 +49,15 @@ class MY_Controller extends CI_Controller {
 		$this->smarty->assign('base_url', base_url());
         $this->smarty->assign('default_css', $css);
 		$this->smarty->assign('default_js', $js);
+    }
+    
+    // Check templates_c (cache)
+    function check_temp_cache() {
+    
+    	if( !file_exists(APPPATH. "views/templates_c") ) {
+    
+    		mkdir(APPPATH. "views/templates_c", 0777);
+    		chmod(APPPATH. "views/templates_c", 0777);
+    	}
     }
 }

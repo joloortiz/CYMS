@@ -18,10 +18,18 @@ class Dashboard extends MY_Controller {
 */
 	# Index
 	function index() {
+
+
 		$this->smarty->assign('layout', 'crud_pages_layout.tpl');
 		$this->smarty->assign('page_css', 'admin.css');
 		$this->smarty->assign('page', 'home');
 		$this->smarty->view('pages/dashboard.tpl');
+	}
+
+	function test() {
+		$data['username'] = $this->session->userdata['cyms']['u_username'];
+
+		echo json_encode($data);
 	}
 
 }

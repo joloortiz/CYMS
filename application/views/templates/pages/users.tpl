@@ -3,6 +3,8 @@
 
 		<h1>{$page_title}</h1>
 
+		<div class="alert alert-success {if $opt == ''}hide{/if}">{if $opt != ''}{$msg}{/if}</div>
+
 		<table class="table">
 			<thead>
 				<tr>

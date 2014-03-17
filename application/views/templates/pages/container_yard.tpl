@@ -69,7 +69,8 @@
 
 					<div id="map" class="panel panel-default" data-zoom="1">
 						<div class="panel-body">
-
+							<div id="O72" class="cv" style="left: 31px; top: 16px;">O61 </div>
+							<div id="O71" class="cv" style="left: 31px; top: 16px;">O61 </div>
 							<div id="O61" class="cv" style="left: 31px; top: 16px;">O61 </div>
 							<div id="O62" class="cv" style="left: 31px; top: 47px;">O62 </div>
 							<div id="O63" class="cv" style="left: 62px; top: 16px;">O63 </div>
@@ -496,7 +497,7 @@
 							<div id="c1A" class="cv cv1" style="left: 1395px; top: 512px;" >c1A </div>
 							<div id="c1B" class="cv cv1" style="left: 1426px; top: 481px;" >c1B </div>
 							<div id="c1C" class="cv cv1" style="left: 1426px; top: 512px;" >c1C </div>
-
+							<div id="c1C" class="cv cv1" style="left: 1426px; top: 512px;" >c1C </div>
 						</div>
 					</div>
 				</div>

@@ -1,5 +1,46 @@
 /* Global CSS */
 
+/* Bootstrap Override*/ 
+
+ .btn-primary  {
+ 	background-color: #ffbf00;
+	border: 0;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+	background-color: #efaf00;
+	border: 0;
+}
+
+.btn-primary.disabled, .btn-primary[disabled], fieldset[disabled] .btn-primary, .btn-primary.disabled:hover, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary:hover, .btn-primary.disabled:focus, .btn-primary[disabled]:focus, fieldset[disabled] .btn-primary:focus, .btn-primary.disabled:active, .btn-primary[disabled]:active, fieldset[disabled] .btn-primary:active, .btn-primary.disabled.active, .btn-primary[disabled].active, fieldset[disabled] .btn-primary.active {
+	background-color: #ffd04f;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
+	background-color: #ffbf00;
+}
+
+a {
+	color: #ffbf00;
+}
+
+a:hover, a:focus {
+	color: #efaf00;
+}
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+	background-color: #ffbf00;
+	border-color: #f4b300;
+}
+
+.pagination>li>a, .pagination>li>span {
+	color: #efaf00;
+}
+
+.pagination>li>a:hover, .pagination>li>span:hover, .pagination>li>a:focus, .pagination>li>span:focus {
+	color: #f4b300;
+}
+
 /* Sidebar Nav Style */
 
 #tablesorter .header {

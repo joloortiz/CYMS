@@ -1564,7 +1564,14 @@ hr {
   margin-top: 20px;
   margin-bottom: 20px;
   border: 0;
-  border-top: 1px solid #eeeeee;
+  border-top: 3px solid #eeeeee;
+}
+
+.cy-hr {
+  width: 100%;
+  position: relative;
+  top: 565px;
+  display: none;
 }
 
 /* line 125, ../components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/_scaffolding.scss */

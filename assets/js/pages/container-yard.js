@@ -37,6 +37,8 @@ $('#zoom-in').click(function(){
     resetdragevent();
 });
 
+$('.cv').draggable();
+
 
 /*
  * FUNCTIONS

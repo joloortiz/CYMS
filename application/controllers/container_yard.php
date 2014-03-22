@@ -7,8 +7,7 @@ class Container_yard extends MY_Controller {
 		$this->smarty->assign('page_css', $css);
 		
 		$js = array(
-				'jquery-ui-1.10.4.custom.js',
-				'jquery.nicescroll.min.js',
+				'jquery-ui-1.10.3.js',
 				'pages/container-yard.js'
 		);
 		$this->smarty->assign('page_js', $js);

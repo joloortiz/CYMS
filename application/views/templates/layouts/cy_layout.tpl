@@ -10,8 +10,10 @@
 	            <link type="text/css" rel="stylesheet" href="{$base_url}{$smarty.const.STYLESHEETS_DIR}{$v}" media="screen">
 	        {/foreach}
 	    {/if}
+        <link href="/cyms/assets/css/global.css" rel="stylesheet">
 
         <script data-main="{$base_url}{$smarty.const.SCRIPTS_DIR}/cy layout/bootloader" src="{$base_url}{$smarty.const.SCRIPTS_DIR}{$layout_js}"></script>
+
     </head>
     <body base-url="{$base_url}">
     	{block name=body}{/block}

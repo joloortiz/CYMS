@@ -7779,6 +7779,8 @@ header {
   background-color: #ffbf00;
   background-image: url(../images/companynamebefore.png);
   background-repeat: no-repeat;
+  border-bottom: 5px solid #000000;
+  border-radius: 0px 0 5px 5px;
 }
 /* line 44, ../sass/main.scss */
 header #companyname {
@@ -7831,14 +7833,6 @@ header .form-group {
   margin-bottom: 0px;
 }
 /* line 95, ../sass/main.scss */
-header::after {
-  position: absolute;
-  content: ' ';
-  width: 100%;
-  height: 5px;
-  border-radius: 0px 0 5px 5px;
-  background-color: #000000;
-}
 
 /* line 105, ../sass/main.scss */
 #main {

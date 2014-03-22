@@ -37,7 +37,7 @@
 		    			</div>
 						<div class="panel-body">
 
-							<div id="AFP10001" class="entry cv" data-status="1" data-type="1" data-position="" style="">AFP</div>
+							<div id="AFP10001" class="entry" data-status="1" data-type="1" data-position="" style="">AFP</div>
 							<div id="AFP10002" class="entry cv" data-status="2" data-type="2" style="">AFP</div>
 							<div id="AFP10003" class="entry cv" data-status="3" data-type="3" style="">AFP</div>
 							<div id="AFP10004" class="entry cv" data-status="3" data-type="4" style="">AFP</div>
@@ -60,9 +60,15 @@
 						<div class="panel-body">
 							Legend 
 							<div class="pull-right">
-								<a id="zoom-out" class="btn btn-default btn-sm "><span class="glyphicon glyphicon-zoom-out"></span></a> 
-								<a id="zoom" class="btn btn-default btn-sm "><span class="glyphicon glyphicon-search"></span></a> 
-								<a id="zoom-in" class="btn btn-default btn-sm "><span class="glyphicon glyphicon-zoom-in"></span></a>
+							
+								<a id="edit-btn" class="btn btn-primary" editmode="0"><span class="glyphicon glyphicon-pencil"></span>  Edit</a>
+								<a id="cancel-btn" class="btn btn-primary hide"><span class="glyphicon glyphicon-remove"></span> Cancel</a>
+								<a id="save-btn" class="btn btn-primary hide"><span class="glyphicon glyphicon-ok"></span>  Save</a>																
+								<div class="hide">
+									<a id="zoom-out" class="btn btn-default btn-sm "><span class="glyphicon glyphicon-zoom-out"></span></a> 
+									<a id="zoom" class="btn btn-default btn-sm "><span class="glyphicon glyphicon-search"></span></a> 
+									<a id="zoom-in" class="btn btn-default btn-sm "><span class="glyphicon glyphicon-zoom-in"></span></a>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -515,29 +521,144 @@
 							<div id="c1B" class="cv cv1" style="left: 1536px; top: 493px;" >c1B </div>
 							<div id="c1C" class="cv cv1" style="left: 1536px; top: 524px;" >c1C </div>
 							
+							<div id="CE1" class="cv cv1" style="left: 1629px; top: 524px;" >CE1 </div>
+							<div id="CE2" class="cv cv1" style="left: 1629px; top: 493px;" >CE2 </div>
+							<div id="CE3" class="cv cv1" style="left: 1629px; top: 462px;" >CE3 </div>
+							<div id="CE4" class="cv cv1" style="left: 1629px; top: 431px;" >CE4 </div>
+							<div id="CE5" class="cv cv1" style="left: 1629px; top: 400px;" >CE5 </div>
+							<div id="CE6" class="cv cv1" style="left: 1629px; top: 369px;" >CE6 </div>
+							
 							<hr class="cy-hr">
 							
-							<div id="c1C" class="cv cv1" style="left: 1536px; top: 570px;" >c1C </div>
-							<div id="c1C" class="cv cv1" style="left: 1505px; top: 570px;" >c1C </div>
-							<div id="c1C" class="cv cv1" style="left: 1474px; top: 570px;" >c1C </div>
-							<div id="c1C" class="cv cv1" style="left: 1412px; top: 570px;" >c1C </div>
-							<div id="c1C" class="cv cv1" style="left: 1381px; top: 570px;" >c1C </div>
-							<div id="c1C" class="cv cv1" style="left: 1350px; top: 570px;" >c1C </div>
-							<div id="c1C" class="cv cv1" style="left: 1319px; top: 570px;" >c1C </div>
-							<div id="c1C" class="cv cv1" style="left: 1288px; top: 570px;" >c1C </div>
-							<div id="c1C" class="cv cv1" style="left: 1257px; top: 570px;" >c1C </div>
-							<div id="c1C" class="cv cv1" style="left: 1226px; top: 570px;" >c1C </div>
-							<div id="c1C" class="cv cv1" style="left: 1195px; top: 570px;" >c1C </div>
-							<div id="c1C" class="cv cv1" style="left: 1164px; top: 570px;" >c1C </div>
-							<div id="c1C" class="cv cv1" style="left: 1133px; top: 570px;" >c1C </div>
+							<div id="R1" class="cv cv1" style="left: 1629px; top: 600px;" >R1 </div>
+							<div id="R2" class="cv cv1" style="left: 1598px; top: 600px;" >R2 </div>
+							<div id="R3" class="cv cv1" style="left: 1567px; top: 600px;" >R3 </div>
+							<div id="R4" class="cv cv1" style="left: 1536px; top: 600px;" >R4 </div>
+							<div id="R5" class="cv cv1" style="left: 1505px; top: 600px;" >R5 </div>
+							<div id="R6" class="cv cv1" style="left: 1474px; top: 600px;" >R6 </div>
+							<div id="R7" class="cv cv1" style="left: 1443px; top: 600px;" >R7 </div>
+							<div id="R8" class="cv cv1" style="left: 1412px; top: 600px;" >R8 </div>
+							<div id="R9" class="cv cv1" style="left: 1381px; top: 600px;" >R9 </div>
+							<div id="R1A" class="cv cv1" style="left: 1350px; top: 600px;" >R10 </div>
+							<div id="R1B" class="cv cv1" style="left: 1319px; top: 600px;" >R11 </div>
+							<div id="R1C" class="cv cv1" style="left: 1288px; top: 600px;" >R12 </div>
 							
+							<div id="G1" class="cv cv1" style="left: 1629px; top: 831px;" >G1 </div>
+							<div id="G2" class="cv cv1" style="left: 1598px; top: 831px;" >G2 </div>
+							<div id="G3" class="cv cv1" style="left: 1567px; top: 831px;" >G3 </div>
+							<div id="G4" class="cv cv1" style="left: 1536px; top: 831px;" >G4 </div>
+							<div id="G5" class="cv cv1" style="left: 1505px; top: 831px;" >G5 </div>
+							<div id="G6" class="cv cv1" style="left: 1474px; top: 831px;" >G6 </div>
+							<div id="G7" class="cv cv1" style="left: 1443px; top: 831px;" >G7 </div>
+							<div id="G8" class="cv cv1" style="left: 1412px; top: 831px;" >G8 </div>
+							<div id="G9" class="cv cv1" style="left: 1381px; top: 831px;" >G9 </div>
+							<div id="G1A" class="cv cv1" style="left: 1350px; top: 831px;" >G10 </div>
+							<div id="G1B" class="cv cv1" style="left: 1319px; top: 831px;" >G11 </div>
+							<div id="G1C" class="cv cv1" style="left: 1288px; top: 831px;" >G12 </div>
+							
+							<div id="11" class="cv cv1" style="left: 1195px; top: 676px;" >11 </div>
+							<div id="12" class="cv cv1" style="left: 1195px; top: 707px;" >12 </div>
+							<div id="13" class="cv cv1" style="left: 1195px; top: 738px;" >13 </div>
+							<div id="14" class="cv cv1" style="left: 1195px; top: 769px;" >14 </div>
+							<div id="15" class="cv cv1" style="left: 1195px; top: 800px;" >15 </div>
+							<div id="16" class="cv cv1" style="left: 1195px; top: 831px;" >16 </div>
+							<div id="17" class="cv cv1" style="left: 1195px; top: 862px;" >17 </div>
+							<div id="18" class="cv cv1" style="left: 1195px; top: 893px;" >18 </div>
+							<div id="19" class="cv cv1" style="left: 1195px; top: 924px;" >19 </div>
+							<div id="1A" class="cv cv1" style="left: 1195px; top: 955px;" >1A </div>
+							<div id="21" class="cv cv1" style="left: 1164px; top: 676px;" >21 </div>
+							<div id="22" class="cv cv1" style="left: 1164px; top: 707px;" >22 </div>
+							<div id="23" class="cv cv1" style="left: 1164px; top: 738px;" >23 </div>
+							<div id="24" class="cv cv1" style="left: 1164px; top: 769px;" >24 </div>
+							<div id="25" class="cv cv1" style="left: 1164px; top: 800px;" >25 </div>
+							<div id="26" class="cv cv1" style="left: 1164px; top: 831px;" >26 </div>
+							<div id="27" class="cv cv1" style="left: 1164px; top: 862px;" >27 </div>
+							<div id="28" class="cv cv1" style="left: 1164px; top: 893px;" >28 </div>
+							<div id="29" class="cv cv1" style="left: 1164px; top: 924px;" >29 </div>
+							<div id="2A" class="cv cv1" style="left: 1164px; top: 955px;" >2A </div>							
+							<div id="31" class="cv cv1" style="left: 1133px; top: 676px;" >31 </div>
+							<div id="32" class="cv cv1" style="left: 1133px; top: 707px;" >32 </div>
+							<div id="33" class="cv cv1" style="left: 1133px; top: 738px;" >33 </div>
+							<div id="34" class="cv cv1" style="left: 1133px; top: 769px;" >34 </div>
+							<div id="35" class="cv cv1" style="left: 1133px; top: 800px;" >35 </div>
+							<div id="36" class="cv cv1" style="left: 1133px; top: 831px;" >36 </div>
+							<div id="37" class="cv cv1" style="left: 1133px; top: 862px;" >37 </div>
+							<div id="38" class="cv cv1" style="left: 1133px; top: 893px;" >38 </div>
+							<div id="39" class="cv cv1" style="left: 1133px; top: 924px;" >39 </div>
+							<div id="3A" class="cv cv1" style="left: 1133px; top: 955px;" >3A </div>
+							<div id="41" class="cv cv1" style="left: 1102px; top: 676px;" >41 </div>
+							<div id="42" class="cv cv1" style="left: 1102px; top: 707px;" >42 </div>
+							<div id="43" class="cv cv1" style="left: 1102px; top: 738px;" >43 </div>
+							<div id="44" class="cv cv1" style="left: 1102px; top: 769px;" >44 </div>
+							<div id="45" class="cv cv1" style="left: 1102px; top: 800px;" >45 </div>
+							<div id="46" class="cv cv1" style="left: 1102px; top: 831px;" >46 </div>
+							<div id="47" class="cv cv1" style="left: 1102px; top: 862px;" >47 </div>
+							<div id="48" class="cv cv1" style="left: 1102px; top: 893px;" >48 </div>
+							<div id="49" class="cv cv1" style="left: 1102px; top: 924px;" >49 </div>
+							<div id="4A" class="cv cv1" style="left: 1102px; top: 955px;" >4A </div>
+							<div id="51" class="cv cv1" style="left: 1071px; top: 676px;" >51 </div>
+							<div id="52" class="cv cv1" style="left: 1071px; top: 707px;" >52 </div>
+							<div id="53" class="cv cv1" style="left: 1071px; top: 738px;" >53 </div>
+							<div id="54" class="cv cv1" style="left: 1071px; top: 769px;" >54 </div>
+							<div id="55" class="cv cv1" style="left: 1071px; top: 800px;" >55 </div>
+							<div id="56" class="cv cv1" style="left: 1071px; top: 831px;" >56 </div>
+							<div id="57" class="cv cv1" style="left: 1071px; top: 862px;" >57 </div>
+							<div id="58" class="cv cv1" style="left: 1071px; top: 893px;" >58 </div>
+							<div id="59" class="cv cv1" style="left: 1071px; top: 924px;" >59 </div>
+							<div id="5A" class="cv cv1" style="left: 1071px; top: 955px;" >5A </div>							
+							
+							<div id="CS1" class="cv cv1" style="left: 978px; top: 831px;" >CS1 </div>
+							<div id="CS2" class="cv cv1" style="left: 978px; top: 862px;" >CS2 </div>
+							<div id="CS3" class="cv cv1" style="left: 947px; top: 800px;" >CS3 </div>
+							<div id="CS4" class="cv cv1" style="left: 916px; top: 800px;" >CS4 </div>
+							<div id="CS5" class="cv cv1" style="left: 885px; top: 800px;" >CS5 </div>
+							<div id="CS6" class="cv cv1" style="left: 854px; top: 800px;" >CS6 </div>
+							<div id="CS7" class="cv cv1" style="left: 823px; top: 800px;" >CS7 </div>
+							<div id="CS8" class="cv cv1" style="left: 792px; top: 800px;" >CS8 </div>
+							<div id="CS9" class="cv cv1" style="left: 761px; top: 800px;" >CS9 </div>
+							<div id="CSA" class="cv cv1" style="left: 730px; top: 800px;" >CSA </div>
+							<div id="CSB" class="cv cv1" style="left: 699px; top: 800px;" >CSB </div>
+							<div id="CSC" class="cv cv1" style="left: 668px; top: 800px;" >CSC </div>
+							
+							<div id="MS1" class="cv cv1" style="left: 606px; top: 800px;" >MS1 </div>
+							<div id="MS2" class="cv cv1" style="left: 606px; top: 769px;" >MS2 </div>
+							<div id="MS3" class="cv cv1" style="left: 606px; top: 738px;" >MS3 </div>							
+							<div id="MS4" class="cv cv1" style="left: 575px; top: 707px;" >MS4 </div>
+							<div id="MS5" class="cv cv1" style="left: 544px; top: 707px;" >MS5 </div>
+							<div id="MS6" class="cv cv1" style="left: 513px; top: 707px;" >MS6 </div>
+							<div id="MS7" class="cv cv1" style="left: 482px; top: 707px;" >MS7 </div>
+							<div id="MS8" class="cv cv1" style="left: 451px; top: 707px;" >MS8 </div>
+							<div id="MS9" class="cv cv1" style="left: 420px; top: 707px;" >MS9 </div>
+							<div id="MSA" class="cv cv1" style="left: 389px; top: 707px;" >MSA </div>
+							<div id="MSB" class="cv cv1" style="left: 358px; top: 707px;" >MSB </div>
+							<div id="MSC" class="cv cv1" style="left: 327px; top: 707px;" >MSC </div>
+							<div id="MSD" class="cv cv1" style="left: 296px; top: 707px;" >MSD </div>
+							<div id="MSE" class="cv cv1" style="left: 265px; top: 707px;" >MSE </div>
+							<div id="MSF" class="cv cv1" style="left: 234px; top: 707px;" >MSF </div>
+							<div id="MSG" class="cv cv1" style="left: 203px; top: 707px;" >MSG </div>
+							<div id="MSH" class="cv cv1" style="left: 172px; top: 707px;" >MSH </div>
+							<div id="MSI" class="cv cv1" style="left: 141px; top: 707px;" >MSI </div>
+							
+							<div id="RM1" class="cv cv1" style="left: 482px; top: 800px;" >RM1 </div>
+							<div id="RM2" class="cv cv1" style="left: 451px; top: 800px;" >RM2 </div>
+							<div id="RM3" class="cv cv1" style="left: 420px; top: 800px;" >RM3 </div>
+							<div id="RM4" class="cv cv1" style="left: 389px; top: 800px;" >RM4 </div>
+							<div id="RM5" class="cv cv1" style="left: 358px; top: 800px;" >RM5 </div>
+							<div id="RM6" class="cv cv1" style="left: 327px; top: 800px;" >RM6 </div>
+							<div id="RM7" class="cv cv1" style="left: 296px; top: 800px;" >RM7 </div>
+							<div id="RM8" class="cv cv1" style="left: 265px; top: 800px;" >RM8 </div>
+							<div id="RM9" class="cv cv1" style="left: 234px; top: 800px;" >RM9 </div>
+							<div id="RMA" class="cv cv1" style="left: 203px; top: 800px;" >RMA </div>
+							<div id="RMB" class="cv cv1" style="left: 172px; top: 800px;" >RMB </div>
+							<div id="RMC" class="cv cv1" style="left: 141px; top: 800px;" >RMC </div>
+							<div id="RMD" class="cv cv1" style="left: 110px; top: 800px;" >RMD </div>
+							<div id="RME" class="cv cv1" style="left: 79px; top: 800px;" >RME </div>
+							<div id="RMF" class="cv cv1" style="left: 48px; top: 800px;" >RMF </div>							
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		</div>
-		<footer>
-		</footer>
 {/block}
 

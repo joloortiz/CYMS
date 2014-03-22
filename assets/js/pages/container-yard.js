@@ -9,8 +9,8 @@ resetdragevent();
 /*
  * EVENT LISTENERS
  */
-
-$("#map").niceScroll({cursorwidth: '8px', cursorcolor: 'rgba(0,0,0,.3)', /*touchbehavior: true*/});
+/*
+$("#map").niceScroll({cursorwidth: '8px', cursorcolor: 'rgba(0,0,0,.3)'});
 
 $('#zoom').click(function(){
     $('#map').data('zoom', 1);
@@ -24,7 +24,7 @@ $('#zoom-out').click(function(){
     zoom -= 0.2;
     $('#map').data('zoom', zoom);
     $('#map .panel-body').css({'-webkit-transform': 'scale(' + zoom + ')', '-webkit-transform-origin': '0 0'})
-    $("#map").getNiceScroll().resize();
+    //$("#map").getNiceScroll().resize();
     resetdragevent();
 });
 
@@ -33,11 +33,11 @@ $('#zoom-in').click(function(){
     zoom += 0.2;
     $('#map').data('zoom', zoom);
     $('#map .panel-body').css({'-webkit-transform': 'scale(' + zoom + ')', '-webkit-transform-origin': '0 0'})
-    $("#map").getNiceScroll().resize();
+    //$("#map").getNiceScroll().resize();
     resetdragevent();
 });
+*/
 
-$('.cv').draggable();
 
 
 /*
@@ -46,7 +46,7 @@ $('.cv').draggable();
 
 function resetdragevent(){
 
-    $( "#pending .panel-body" ).droppable({
+    $('#pending .panel-body').droppable({
         drop: function(event, ui) {
             var droppableid = $(this)[0].id;
             var draggable = ui.draggable[0].id;
@@ -65,9 +65,8 @@ function resetdragevent(){
 
         }
     });
-    $( "#map .cv" ).droppable({
+    $('#map .cv').droppable({
         drop: function( event, ui ) {
-
             var droppableid = $(this)[0].id;
             var draggable = ui.draggable[0].id;
 
@@ -81,13 +80,23 @@ function resetdragevent(){
                     'top': $('#' + droppableid).css('top'), 
                     'left': $('#' + droppableid).css('left')}
                 );
-                $('#' + draggable).draggable();
+                if($('#edit-btn').attr('editmode') == 1){
+                    $('#' + draggable).draggable();
+                    console.log('1');
+                }else{
+                    $('#' + draggable).draggable( "disable" );
+                    console.log('0');
+                }
             }, 10);
             
         }
     });
 
-    $( ".entry" ).draggable({ 
+
+    $('.entry').draggable({
+            scroll: true,
+            scrollSensitivity: 50, 
+            scrollSpeed: 50,
             revert: 'invalid',
             revertDuration: 0,
             cursor: 'pointer',
@@ -96,4 +105,42 @@ function resetdragevent(){
             stop: function(event, ui){
             }
     });
+
 }
+
+$('#edit-btn').click(function(){
+    $('#map>div>.entry').draggable('enable');
+    $(this).addClass('hide');
+    $(this).attr('editmode', 1);
+    $('#cancel-btn, #save-btn').removeClass('hide');
+
+    //Alert if the user navigates away after editing. Turn the trapping on.
+    window.onbeforeunload = function(e) {
+      return 'Are you sure you want to leave this page?  You will lose any unsaved data.';
+    };
+
+});
+
+
+$('#save-btn').click(function(){
+    $('#map>div>.entry').draggable('disable');
+    $('#edit-btn').removeClass('hide');
+    $('#edit-btn').attr('editmode', 0);
+    $('#cancel-btn, #save-btn').addClass('hide');
+
+    //Turn the trapping off
+    window.onbeforeunload = null;
+
+    //code to save the edits to the database
+});
+
+$('#cancel-btn').click(function(){
+    $('#map>div>.entry').draggable('disable');
+    $('#edit-btn').removeClass('hide');
+    $('#edit-btn').attr('editmode', 0);
+    $('#cancel-btn, #save-btn').addClass('hide');
+
+    //trap to ask before cancelling
+    //code to revert the changes??
+
+});

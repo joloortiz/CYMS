@@ -13,6 +13,7 @@ class Materials_model extends CI_Model{
 	function get_materials() {
 		$returnVal = NULL;
 		$this->db->from('materials');
+		$this->db->where('m_id <>', '1');
 		$this->db->order_by('m_name ASC, m_type ASC');
 		$query = $this->db->get();
 	

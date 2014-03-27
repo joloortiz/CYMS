@@ -4,8 +4,6 @@
 
 resetdragevent();
 
-
-
 /*
  * EVENT LISTENERS
  */

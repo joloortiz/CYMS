@@ -10,8 +10,6 @@ $(document).ready(function () {
 
 resetdragevent();
 
-<<<<<<< HEAD
-=======
 //Initialize the anti-draggable stacking
 
 $('#map').find('.entry').each(function(){
@@ -23,7 +21,6 @@ $('#map').find('.entry').each(function(){
 //Disable all the T-cards on the CY
 $('#map>div>.entry').draggable('disable');
 
->>>>>>> 5bbdf6cb267bd4bf4c98f8bd243b7fe149e57dd7
 /*
  * EVENT LISTENERS
  */

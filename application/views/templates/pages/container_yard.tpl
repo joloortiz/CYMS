@@ -1,6 +1,5 @@
 {extends file="layouts/"|cat:$layout}
 {block name=body}
-	<div id="wrap">
 		<header>
 			<div class="container-fluid">
 				<div class="col-xs-4">
@@ -40,7 +39,7 @@
 						<div class="panel-body">
 							<div class="absolute-hide cv-model" data-class="entry cv" style="display: none; opacity: 0;"></div>
 
-							<div id="AFP10001" class="entry cv" data-status="1" data-type="1" data-position="" style="">AFP</div>
+							<div id="AFP10001" class="entry cv" data-status="1" data-type="1" style="">AFP</div>
 							<div id="AFP10002" class="entry cv" data-status="2" data-type="2" style="">AFP</div>
 							<div id="AFP10003" class="entry cv" data-status="3" data-type="3" style="">AFP</div>
 							<div id="AFP10004" class="entry cv" data-status="3" data-type="4" style="">AFP</div>

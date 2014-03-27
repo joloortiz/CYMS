@@ -1579,6 +1579,13 @@ hr {
   display: none;
 }
 
+.cy-hr {
+  width: 100%;
+  position: relative;
+  top: 565px;
+  display: none;
+}
+
 /* line 125, ../components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/_scaffolding.scss */
 .sr-only {
   position: absolute;
@@ -7968,4 +7975,8 @@ footer::before {
   top: -5px;
   border-radius: 5px 5px 0px 0;
   background-color: #000000;
+}
+
+#map>div>.entry {
+  cursor: pointer;
 }

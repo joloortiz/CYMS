@@ -16,5 +16,6 @@
 
 	<link href="/cyms/assets/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/cyms/assets/css/global.css" rel="stylesheet">
+	<link href="/cyms/assets/css/spinner.css" rel="stylesheet">
 
 </head>

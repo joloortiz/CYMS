@@ -7958,3 +7958,7 @@ footer::before {
   border-radius: 5px 5px 0px 0;
   background-color: #000000;
 }
+
+#map>div>.entry {
+  cursor: pointer;
+}

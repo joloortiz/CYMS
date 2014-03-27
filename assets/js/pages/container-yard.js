@@ -1,10 +1,25 @@
+$(document).ready(function () {
+
+/* Variables */
+
+
 /*
  * INIT
  */
 
+
 resetdragevent();
 
+//Initialize the anti-draggable stacking
 
+$('#map').find('.entry').each(function(){
+    var draggableid = $(this).attr('id');
+    var droppableid = $('#' + draggableid).attr('data-position');
+
+    $('#' + droppableid).droppable({ accept: '#' + draggableid });
+});
+//Disable all the T-cards on the CY
+$('#map>div>.entry').draggable('disable');
 
 /*
  * EVENT LISTENERS
@@ -45,8 +60,22 @@ $('#zoom-in').click(function(){
  */
 
 function resetdragevent(){
+    /*$('#map').find('.entry').each(function(){
+        var id = $(this).attr('id');
+
+        //console.log($(id).attr('data-position');
+    });
+     */   
+
 
     $('#pending .panel-body').droppable({
+        out: function(event, ui) {
+            var draggable = ui.draggable[0].id;
+
+            if($('#edit-btn').attr('editmode') == 1){
+                $('#' + draggable).attr('data-start-position', 'pending')
+            }
+        },
         drop: function(event, ui) {
             var droppableid = $(this)[0].id;
             var draggable = ui.draggable[0].id;
@@ -65,8 +94,31 @@ function resetdragevent(){
 
         }
     });
-    $('#map .cv').droppable({
+
+    $('#map .dp').droppable({
+        out: function( event, ui ) {
+
+            var droppableid = $(this)[0].id;
+            var draggable = ui.draggable[0].id;
+
+            //Enter edit mode
+            if($('#edit-btn').attr('editmode') == 1){
+                //Check if the tcard has already been moved
+                if(typeof $('#' + draggable).attr('data-start-position') === 'undefined'){
+                    $('#' + draggable).attr('data-start-position', droppableid);
+                    $('#' + draggable).attr('data-start-top', $('#' + droppableid).css('top'));
+                    $('#' + draggable).attr('data-start-left', $('#' + droppableid).css('left'));
+                    console.log('oh hi!');
+                    $(this).droppable({ accept: '.entry' });
+                }
+            }
+
+            $(this).droppable({ accept: '.entry' });
+        },
         drop: function( event, ui ) {
+            //test
+            
+
             var droppableid = $(this)[0].id;
             var draggable = ui.draggable[0].id;
 
@@ -82,16 +134,16 @@ function resetdragevent(){
                 );
                 if($('#edit-btn').attr('editmode') == 1){
                     $('#' + draggable).draggable();
-                    console.log('1');
                 }else{
                     $('#' + draggable).draggable( "disable" );
-                    console.log('0');
                 }
             }, 10);
-            
+
+            $(this).droppable({ accept: '#' + draggable });
         }
     });
 
+    //$('#O52').droppable({ accept: '#AFP10009' });
 
     $('.entry').draggable({
             scroll: true,
@@ -100,12 +152,23 @@ function resetdragevent(){
             revert: 'invalid',
             revertDuration: 0,
             cursor: 'pointer',
+            helper: 'clone',
             start: function(event, ui){
             },
             stop: function(event, ui){
             }
     });
 
+/*
+    $('#map .entry').draggable({
+        stop: function(event, ui) {
+            var draggableid = $(this).attr('id');
+            var droppableid = $('#' + draggableid).attr('data-position');
+
+            $('#' + droppableid).droppable('disable');
+        }
+    });
+*/
 }
 
 $('#edit-btn').click(function(){
@@ -135,12 +198,74 @@ $('#save-btn').click(function(){
 });
 
 $('#cancel-btn').click(function(){
+
+    //trap to ask before cancelling
+    //code to revert the changes??
+
+});
+
+
+$('#cancel-yes').click(function(){
     $('#map>div>.entry').draggable('disable');
     $('#edit-btn').removeClass('hide');
     $('#edit-btn').attr('editmode', 0);
     $('#cancel-btn, #save-btn').addClass('hide');
 
-    //trap to ask before cancelling
-    //code to revert the changes??
+    //loading chuchu
+});
+
+$('#cancel-no').click(function(){
+    $('#map>div>.entry').draggable('disable');
+    $('#edit-btn').removeClass('hide');
+    $('#edit-btn').attr('editmode', 0);
+    $('#cancel-btn, #save-btn').addClass('hide');
+
+    //code to revert
+    revert();
+    //resetdragevent();
+});
+$('#cancel-cancel').click(function(){
+    //as is
+});
+
+
+/*
+function edit_history(id){
+    var id = id;
+    var data_position = data_position;
+}*/
+
+
+function revert() {
+
+    $('#map').find('.entry').each(function(){
+        var id = '#' + $(this).attr('id');
+
+        if(typeof $(id).attr('data-start-position') !== 'undefined' && $(id).attr('data-start-position') != 'pending'){
+            var top = $(id).attr('data-start-top');
+            var left = $(id).attr('data-start-left');
+
+            $(id).css('top', top);
+            $(id).css('left', left);
+            $(id).removeAttr('data-start-position');
+            $(id).removeAttr('data-start-left');
+            $(id).removeAttr('data-position');
+        } else if($(id).attr('data-start-position') == 'pending'){
+            $(id).css('top', '0px');
+            $(id).css('left', '0px');
+            $(id).removeAttr('data-start-position');
+            $(id).removeAttr('data-start-left');
+            $(id).removeAttr('data-position');
+
+            var tempClone = $(id).clone();
+            $(id).remove();
+
+            $('#pending .panel-body').append(tempClone);
+
+            $(id).draggable();
+        }
+
+    });  
+}
 
 });

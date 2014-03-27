@@ -15,6 +15,7 @@ class Container_yard extends MY_Controller {
 		
 		// JS
 		$js = array(
+<<<<<<< HEAD
 				'jquery-ui-1.10.4.smoothness.js',
 				'generic-datepicker.js',
 				'jquery.nicescroll.min.js',	
@@ -22,6 +23,10 @@ class Container_yard extends MY_Controller {
 				'pages/container-yard.js',
 				'pages/cy-tcard.js',
 				'checknumeric.js'
+=======
+				'jquery-ui-1.10.3.js',
+				'pages/container-yard.js'
+>>>>>>> 5bbdf6cb267bd4bf4c98f8bd243b7fe149e57dd7
 		);
 		$this->smarty->assign('page_js', $js);
 		

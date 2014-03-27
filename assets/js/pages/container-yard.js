@@ -1,14 +1,34 @@
+$(document).ready(function () {
+
+/* Variables */
+
+
 /*
  * INIT
  */
 
+
 resetdragevent();
 
+<<<<<<< HEAD
+=======
+//Initialize the anti-draggable stacking
+
+$('#map').find('.entry').each(function(){
+    var draggableid = $(this).attr('id');
+    var droppableid = $('#' + draggableid).attr('data-position');
+
+    $('#' + droppableid).droppable({ accept: '#' + draggableid });
+});
+//Disable all the T-cards on the CY
+$('#map>div>.entry').draggable('disable');
+
+>>>>>>> 5bbdf6cb267bd4bf4c98f8bd243b7fe149e57dd7
 /*
  * EVENT LISTENERS
  */
-
-$("#map").niceScroll({cursorwidth: '8px', cursorcolor: 'rgba(0,0,0,.3)', /*touchbehavior: true*/});
+/*
+$("#map").niceScroll({cursorwidth: '8px', cursorcolor: 'rgba(0,0,0,.3)'});
 
 $('#zoom').click(function(){
     $('#map').data('zoom', 1);
@@ -22,7 +42,7 @@ $('#zoom-out').click(function(){
     zoom -= 0.2;
     $('#map').data('zoom', zoom);
     $('#map .panel-body').css({'-webkit-transform': 'scale(' + zoom + ')', '-webkit-transform-origin': '0 0'})
-    $("#map").getNiceScroll().resize();
+    //$("#map").getNiceScroll().resize();
     resetdragevent();
 });
 
@@ -31,9 +51,11 @@ $('#zoom-in').click(function(){
     zoom += 0.2;
     $('#map').data('zoom', zoom);
     $('#map .panel-body').css({'-webkit-transform': 'scale(' + zoom + ')', '-webkit-transform-origin': '0 0'})
-    $("#map").getNiceScroll().resize();
+    //$("#map").getNiceScroll().resize();
     resetdragevent();
 });
+*/
+
 
 
 /*
@@ -41,8 +63,22 @@ $('#zoom-in').click(function(){
  */
 
 function resetdragevent(){
+    /*$('#map').find('.entry').each(function(){
+        var id = $(this).attr('id');
 
-    $( "#pending .panel-body" ).droppable({
+        //console.log($(id).attr('data-position');
+    });
+     */   
+
+
+    $('#pending .panel-body').droppable({
+        out: function(event, ui) {
+            var draggable = ui.draggable[0].id;
+
+            if($('#edit-btn').attr('editmode') == 1){
+                $('#' + draggable).attr('data-start-position', 'pending')
+            }
+        },
         drop: function(event, ui) {
             var droppableid = $(this)[0].id;
             var draggable = ui.draggable[0].id;
@@ -61,8 +97,30 @@ function resetdragevent(){
 
         }
     });
-    $( "#map .cv" ).droppable({
+
+    $('#map .dp').droppable({
+        out: function( event, ui ) {
+
+            var droppableid = $(this)[0].id;
+            var draggable = ui.draggable[0].id;
+
+            //Enter edit mode
+            if($('#edit-btn').attr('editmode') == 1){
+                //Check if the tcard has already been moved
+                if(typeof $('#' + draggable).attr('data-start-position') === 'undefined'){
+                    $('#' + draggable).attr('data-start-position', droppableid);
+                    $('#' + draggable).attr('data-start-top', $('#' + droppableid).css('top'));
+                    $('#' + draggable).attr('data-start-left', $('#' + droppableid).css('left'));
+                    console.log('oh hi!');
+                    $(this).droppable({ accept: '.entry' });
+                }
+            }
+
+            $(this).droppable({ accept: '.entry' });
+        },
         drop: function( event, ui ) {
+            //test
+            
 
             var droppableid = $(this)[0].id;
             var draggable = ui.draggable[0].id;
@@ -77,19 +135,140 @@ function resetdragevent(){
                     'top': $('#' + droppableid).css('top'), 
                     'left': $('#' + droppableid).css('left')}
                 );
-                $('#' + draggable).draggable();
+                if($('#edit-btn').attr('editmode') == 1){
+                    $('#' + draggable).draggable();
+                }else{
+                    $('#' + draggable).draggable( "disable" );
+                }
             }, 10);
-            
+
+            $(this).droppable({ accept: '#' + draggable });
         }
     });
 
-    $( ".entry" ).draggable({ 
+    //$('#O52').droppable({ accept: '#AFP10009' });
+
+    $('.entry').draggable({
+            scroll: true,
+            scrollSensitivity: 50, 
+            scrollSpeed: 50,
             revert: 'invalid',
             revertDuration: 0,
             cursor: 'pointer',
+            helper: 'clone',
             start: function(event, ui){
             },
             stop: function(event, ui){
             }
     });
+
+/*
+    $('#map .entry').draggable({
+        stop: function(event, ui) {
+            var draggableid = $(this).attr('id');
+            var droppableid = $('#' + draggableid).attr('data-position');
+
+            $('#' + droppableid).droppable('disable');
+        }
+    });
+*/
 }
+
+$('#edit-btn').click(function(){
+    $('#map>div>.entry').draggable('enable');
+    $(this).addClass('hide');
+    $(this).attr('editmode', 1);
+    $('#cancel-btn, #save-btn').removeClass('hide');
+
+    //Alert if the user navigates away after editing. Turn the trapping on.
+    window.onbeforeunload = function(e) {
+      return 'Are you sure you want to leave this page?  You will lose any unsaved data.';
+    };
+
+});
+
+
+$('#save-btn').click(function(){
+    $('#map>div>.entry').draggable('disable');
+    $('#edit-btn').removeClass('hide');
+    $('#edit-btn').attr('editmode', 0);
+    $('#cancel-btn, #save-btn').addClass('hide');
+
+    //Turn the trapping off
+    window.onbeforeunload = null;
+
+    //code to save the edits to the database
+});
+
+$('#cancel-btn').click(function(){
+
+    //trap to ask before cancelling
+    //code to revert the changes??
+
+});
+
+
+$('#cancel-yes').click(function(){
+    $('#map>div>.entry').draggable('disable');
+    $('#edit-btn').removeClass('hide');
+    $('#edit-btn').attr('editmode', 0);
+    $('#cancel-btn, #save-btn').addClass('hide');
+
+    //loading chuchu
+});
+
+$('#cancel-no').click(function(){
+    $('#map>div>.entry').draggable('disable');
+    $('#edit-btn').removeClass('hide');
+    $('#edit-btn').attr('editmode', 0);
+    $('#cancel-btn, #save-btn').addClass('hide');
+
+    //code to revert
+    revert();
+    //resetdragevent();
+});
+$('#cancel-cancel').click(function(){
+    //as is
+});
+
+
+/*
+function edit_history(id){
+    var id = id;
+    var data_position = data_position;
+}*/
+
+
+function revert() {
+
+    $('#map').find('.entry').each(function(){
+        var id = '#' + $(this).attr('id');
+
+        if(typeof $(id).attr('data-start-position') !== 'undefined' && $(id).attr('data-start-position') != 'pending'){
+            var top = $(id).attr('data-start-top');
+            var left = $(id).attr('data-start-left');
+
+            $(id).css('top', top);
+            $(id).css('left', left);
+            $(id).removeAttr('data-start-position');
+            $(id).removeAttr('data-start-left');
+            $(id).removeAttr('data-position');
+        } else if($(id).attr('data-start-position') == 'pending'){
+            $(id).css('top', '0px');
+            $(id).css('left', '0px');
+            $(id).removeAttr('data-start-position');
+            $(id).removeAttr('data-start-left');
+            $(id).removeAttr('data-position');
+
+            var tempClone = $(id).clone();
+            $(id).remove();
+
+            $('#pending .panel-body').append(tempClone);
+
+            $(id).draggable();
+        }
+
+    });  
+}
+
+});

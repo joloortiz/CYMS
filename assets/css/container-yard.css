@@ -1572,6 +1572,13 @@ hr {
   border-top: 1px solid #eeeeee;
 }
 
+.cy-hr {
+  width: 100%;
+  position: relative;
+  top: 565px;
+  display: none;
+}
+
 /* line 125, ../components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/_scaffolding.scss */
 .sr-only {
   position: absolute;

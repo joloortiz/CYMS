@@ -1,6 +1,11 @@
 {extends file="layouts/"|cat:$layout}
 {block name=body}
 	<div class="container">
+		<div class="page-header">
+			<h3>{$page_header}</h3>
+		</div>
+	</div>
+	<div class="container">
 		<div class="row">
 			<div class="col-sm-8">
 				<table id="type-table" class="table">
@@ -39,16 +44,28 @@
 					<input name="active-type-id" class="input-with-value" type="hidden">
 					<div class="row">
 						<div class="col-sm-12">
-							<input name="type-name" class="form-control input-with-value interactive-element" type="text" placeholder="T-card type">
+							<div class="form-group">
+								<input name="type-name" class="form-control input-with-value interactive-element" type="text" placeholder="T-card type">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-7">
+							<div class="form-group">
+								<input name="type-color" class="form-control" type="color">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12 text-warning">
+							<p class="type-name-error error-holder absolute-hide">&bull; <span class="error-text"></span></p>
+							<p class="type-color-error error-holder absolute-hide">&bull; <span class="error-text"></span></p>
 						</div>
 					</div>
 					<div class="row buffer-top">
-						<div class="col-sm-7">
-							<input name="type-color" class="form-control" type="color">
-						</div>
-						<div class="col-sm-5 text-center">
-							<a id="cancel-type" href="#" class="btn interactive-element" title="Cancel"><span class="glyphicon glyphicon-remove"></span></a>
-							<a id="save-type" href="#" class="btn interactive-element" title="Save"><span class="glyphicon glyphicon-floppy-disk"></span></a>
+						<div class="col-sm-12">
+							<a id="cancel-type" href="#" class="btn btn-default interactive-element" title="Cancel"><span class="glyphicon glyphicon-remove"></span> Cancel</a>
+							<a id="save-type" href="#" class="btn btn-default interactive-element" title="Save"><span class="glyphicon glyphicon-floppy-disk"></span></a>
 						</div>
 					</div>
 				</div>

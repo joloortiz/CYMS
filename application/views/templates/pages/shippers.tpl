@@ -1,6 +1,11 @@
 {extends file="layouts/"|cat:$layout}
 {block name=body}
 	<div class="container">
+		<div class="page-header">
+			<h3>{$page_header}</h3>
+		</div>
+	</div>
+	<div class="container">
 		<div class="row">
 			<div class="col-sm-8">
 				<table id="shipper-table" class="table">
@@ -39,16 +44,28 @@
 					<input name="active-shipper-id" class="input-with-value" type="hidden">
 					<div class="row">
 						<div class="col-sm-12">
-							<input name="shipper-name" class="form-control input-with-value interactive-element" type="text" placeholder="Shipper Name">
+							<div class="form-group">
+								<input name="shipper-name" class="form-control input-with-value interactive-element" type="text" placeholder="Shipper Name">
+							</div>
 						</div>
 					</div>
-					<div class="row buffer-top">
+					<div class="row">
 						<div class="col-sm-7">
-							<input name="shipper-color" class="form-control" type="color">
+							<div class="form-group">
+								<input name="shipper-color" class="form-control" type="color">
+							</div>
 						</div>
-						<div class="col-sm-5 text-center">
-							<a id="cancel-shipper" href="#" class="btn interactive-element" title="Cancel"><span class="glyphicon glyphicon-remove"></span></a>
-							<a id="save-shipper" href="#" class="btn interactive-element" title="Save"><span class="glyphicon glyphicon-floppy-disk"></span></a>
+					</div>
+					<div class="row">
+						<div class="col-sm-12 text-warning">
+							<p class="shipper-name-error error-holder absolute-hide">&bull; <span class="error-text"></span></p>
+							<p class="shipper-color-error error-holder absolute-hide">&bull; <span class="error-text"></span></p>
+						</div>
+					</div>
+					<div class="row buffer-top">						
+						<div class="col-sm-12">
+							<a id="cancel-shipper" href="#" class="btn btn-default interactive-element" title="Cancel"><span class="glyphicon glyphicon-remove"></span>  Cancel</a>
+							<a id="save-shipper" href="#" class="btn btn-default interactive-element" title="Save"><span class="glyphicon glyphicon-floppy-disk"></span></a>
 						</div>
 					</div>
 				</div>

@@ -1,6 +1,11 @@
 {extends file="layouts/"|cat:$layout}
 {block name=body}
 	<div class="container">
+		<div class="page-header">
+			<h3>{$page_header}</h3>
+		</div>
+	</div>
+	<div class="container">
 		<div class="row">
 			<div class="col-sm-8">
 				<table id="van-type-table" class="table">
@@ -36,14 +41,20 @@
 					<input name="active-van-type-id" class="input-with-value" type="hidden">
 					<div class="row">
 						<div class="col-sm-12">
-							<input name="van-type-name" class="form-control input-with-value interactive-element" type="text" placeholder="Van Type">
+							<div class="form-group">
+								<input name="van-type-name" class="form-control input-with-value interactive-element" type="text" placeholder="Van Type">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12 text-warning">
+							<p class="van-type-name-error error-holder absolute-hide">&bull; <span class="error-text"></span></p>
 						</div>
 					</div>
 					<div class="row buffer-top">
-						<div class="col-sm-7"></div>
-						<div class="col-sm-5 text-center">
-							<a id="cancel-van-type" href="#" class="btn interactive-element" title="Cancel"><span class="glyphicon glyphicon-remove"></span></a>
-							<a id="save-van-type" href="#" class="btn interactive-element" title="Save"><span class="glyphicon glyphicon-floppy-disk"></span></a>
+						<div class="col-sm-12">
+							<a id="cancel-van-type" href="#" class="btn btn-default interactive-element" title="Cancel"><span class="glyphicon glyphicon-remove"></span> Cancel</a>
+							<a id="save-van-type" href="#" class="btn btn-default interactive-element" title="Save"><span class="glyphicon glyphicon-floppy-disk"></span></a>
 						</div>
 					</div>
 				</div>

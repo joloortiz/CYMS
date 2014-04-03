@@ -12,13 +12,17 @@ class Shippers extends MY_Controller {
 		$shippers = $this->shippers_model->get_shippers();
 		$this->smarty->assign('shippers', $shippers);
 		
+		$data['page_header'] = "Shipper Management";
+		
 		$this->smarty->assign('layout', 'plain_layout.tpl');
-		$this->smarty->view('pages/shippers.tpl');
+		$this->smarty->view('pages/shippers.tpl', $data);
 	}
 	
 	/* FUNCTION */
 	function save() {
 		try {
+			
+			$done = FALSE;
 	
 			$action = $this->input->post('action');
 	
@@ -35,12 +39,13 @@ class Shippers extends MY_Controller {
 	
 			if( $action == 'create' ) {
 				$result = $this->shippers_model->new_shipper($data);
-					
+				$done = TRUE;
 			}elseif( $action == 'update' && $this->_validate_shipper($id) ) {
 				$result = $this->shippers_model->update_shipper($id, $data);
+				$done = TRUE;
 			}
 	
-			$var['done'] = $result ? TRUE : FALSE;
+			$var['done'] = $done;
 	
 		} catch (Exception $e) {
 			$var['done'] = FALSE;
@@ -83,6 +88,30 @@ class Shippers extends MY_Controller {
 		echo json_encode( $var );
 	}
 	
+	function validate_form() {
+	
+		try {
+			$var['success'] = TRUE;
+	
+			$this->_set_form_rules();
+	
+			if( !$this->form_validation->run() ) {
+				$var['success'] = FALSE;
+	
+				$this->form_validation->set_error_delimiters('', '');
+	
+				// form errors
+				$var['form_errors']['name'] = form_error('name') ? form_error('name') : NULL;
+				$var['form_errors']['color'] = form_error('color') ? form_error('color') : NULL;
+			}
+		} catch (Exception $e) {
+			$var['success'] = FALSE;
+			$var['exception'] = $e->getMessage();
+		}
+	
+		echo json_encode( $var );
+	}
+	
 	/* PRIVATES */
 	
 	private function _validate_shipper($id) {
@@ -100,5 +129,17 @@ class Shippers extends MY_Controller {
 		}
 	
 		return $returnVal;
+	}
+	
+	private function _set_form_rules() {
+	
+		$rules = array(
+				'name' => 'required|xss_clean',
+				'color' => 'required|xss_clean'
+		);
+	
+		$this->form_validation->set_rules('name', 'Shipper Name', $rules['name']);
+		$this->form_validation->set_rules('color', 'Shipper Color Indicator', $rules['color']);
+	
 	}
 }

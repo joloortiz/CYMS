@@ -5,37 +5,30 @@
 $('#save-trucker').click(function(event) {
 	event.preventDefault();
 
-	var id = $('[name="active-trucker-id"]').val();
-	var name = $('[name="trucker-name"]').val();
-	var code = $('[name="trucker-code"]').val();
+	var data = get_form_values();
 
-	var method = id == '' ? 'create' : 'update';
+	if( !$('#control-form-container').is('.faded.disabled') && validate_form() ) {
+		$.ajax({
+			url: $('body').attr('base-url') + 'truckers/save',
+			type: 'POST',
+			async: false,
+			data: data,
+			success: function (response) {
+				var result = jQuery.parseJSON(response);
 
-	var data = {
-		trucker_id: id,
-		name: name,
-		code: code,
-		action: method
-	};
-
-	$.ajax({
-		url: $('body').attr('base-url') + 'truckers/save',
-		type: 'POST',
-		async: false,
-		data: data,
-		success: function (response) {
-			var result = jQuery.parseJSON(response);
-
-			if( result.done ) {
-				window.location.reload(true);
+				if( result.done ) {
+					window.location.reload(true);
+				}
 			}
-		}
-	});
+		});
+	}
 });
 
 $('#new-trucker-btn').click(function() {
 	reset_control();
 	enable_control();
+
+	reset_errors();
 
 	$('.trucker').addClass('action');
 	$('[name="trucker-name"]').focus();
@@ -44,11 +37,15 @@ $('#new-trucker-btn').click(function() {
 $('#cancel-trucker').click(function() {
 	$('.trucker').addClass('action');
 	disable_control();
+
+	reset_errors();
 });
 
 $('#trucker-table').on('click', '.trucker.action > .clickable', function() {
 	var row = $(this).closest('.trucker.action');
 	var id = row.find('[name="trucker-id"]').val();
+
+	reset_errors();
 
 	$('.trucker').not('.action').addClass('action');
 	row.removeClass('action');
@@ -172,4 +169,83 @@ function disable_control() {
 	$('.interactive-element').each(function() {
 		$(this).prop('disabled', true);
 	});
+}
+
+function validate_form() {
+
+    var data;
+    var validated = false;
+
+    reset_errors();
+
+    data = get_form_values();
+
+    // validate
+    $.ajax({
+        url:$('body').attr('base-url') + 'truckers/validate_form',
+        type: 'POST',
+        async: false,
+        data: data,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+            var errors;
+            
+            if (decode.success == true) {
+                validated = true;
+            } else {
+
+                // show errors individually
+                if( decode.form_errors ) {
+                    errors = decode.form_errors;
+
+                    display_form_error( 'trucker-name', errors['name'] );
+                    display_form_error( 'trucker-code', errors['code'] );
+                }
+
+                if(decode.exception) {  // show exception
+                    alert('Exception caught:\n\n' + decode.exception);
+                }
+            }
+        }
+    });
+
+    return validated;
+}
+
+function reset_errors() {
+	$('.error-holder').addClass('absolute-hide');
+	$('.error-text').text('');
+
+	$('.form-group.has-error').removeClass('has-error');
+}
+
+function get_form_values() {
+	var id = $('[name="active-trucker-id"]').val();
+	var name = $('[name="trucker-name"]').val();
+	var code = $('[name="trucker-code"]').val();
+
+	var method = id == '' ? 'create' : 'update';
+
+	var values = {
+		trucker_id: id,
+		name: name,
+		code: code,
+		action: method
+	};
+
+    return values;
+}
+
+function display_form_error( formElementName, errorString ) {
+
+    if( errorString && errorString != '' ) {
+        var error_container = $('.'+ formElementName +'-error');
+        var error_text = error_container.find('.error-text');
+
+        $('[name="'+ formElementName +'"]').parents('.form-group').addClass('has-error');
+
+        error_container.removeClass('absolute-hide');
+
+        error_text.text(errorString);
+    }
 }

@@ -71,6 +71,8 @@ $('#type-table').on('click', '.card-type.action > .clickable', function() {
 				$('[name="type-name"]').val(type_details.tt_name);
 				$('[name="type-color"]').val(type_details.tt_color);
 				$('[name="type-color"]').val(type_details.tt_color);
+
+				$('[name="type-name"]').focus();
 			}
 		}
 	});

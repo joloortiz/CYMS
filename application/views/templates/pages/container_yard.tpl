@@ -7,7 +7,9 @@
 						{$company_name}<span>{$company_address}</span>
 					</a>
 				</div>
-				<a class="btn btn-oroport pull-left"><span class="glyphicon glyphicon-plus"></span> New Entry</a>
+				<button id="new-entry-btn" class="btn btn-oroport pull-left">
+					<span class="glyphicon glyphicon-plus"></span> New Entry
+				</button>
 				<div class="form-group col-xs-3">
 					<div class="input-group">
 				    	<input type="email" class="form-control" id="" placeholder="Search Entry">
@@ -35,6 +37,7 @@
 		    				<span class="badge pull-right">7</span>
 		    			</div>
 						<div class="panel-body">
+							<div class="absolute-hide cv-model" data-class="entry cv" style="display: none; opacity: 0;"></div>
 
 							<div id="AFP10001" class="entry cv" data-status="1" data-type="1" data-position="pending" style="">AFP</div>
 							<div id="AFP10002" class="entry cv" data-status="2" data-type="2" data-position="pending" style="">AFP</div>
@@ -43,6 +46,12 @@
 							<div id="AFP10005" class="entry cv" data-status="3" data-type="5" data-position="pending" style="">AFP</div>
 							<div id="AFP10006" class="entry cv" data-status="3" data-type="6" data-position="pending" style="">AFP</div>
 							<div id="AFP10007" class="entry cv" data-status="3" data-type="7" data-position="pending" style="">AFP</div>
+
+							{if isset($tcards.pending)}
+								{foreach $tcards.pending as $card}
+									<div id="{$card->tc_id}" class="entry cv" data-position="pending" style="background-color: {$card->s_color}; border-color: {$card->tt_color};">{$card->display_chars}</div>
+								{/foreach}
+							{/if}
 
 						</div>
 					</div>
@@ -659,6 +668,12 @@
 							<div id="AFP10009" class="entry cv ui-draggable ui-droppable" data-status="3" data-type="7" style="left: 389px; top: 59px;" aria-disabled="false" data-position="A62">AFP</div>
 							<div id="AFP10011" class="entry cv ui-draggable ui-droppable" data-status="3" data-type="7" style="top: 121px; left: 141px;" aria-disabled="false" data-position="O51">AFP</div>							
 
+							{if isset($tcards.positioned)}
+								{foreach $tcards.positioned as $card}
+									<div id="{$card->tc_id}" class="entry cv" data-position="{$card->tp_position}" style="background-color: {$card->s_color}; border-color: {$card->tt_color};{if $card->tp_top}top: {$card->tp_top};{/if}{if $card->tp_left}left: {$card->tp_left}{/if}">{$card->display_chars}</div>
+								{/foreach}
+							{/if}
+
 						</div>
 					</div>
 				</div>
@@ -677,6 +692,240 @@
         <button id="cancel-yes" type="button" class="btn btn-default" data-dismiss="modal">Yes</button>
         <button id="cancel-no" type="button" class="btn btn-default" data-dismiss="modal">No</button>
         <button id="cancel-cancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- New Entry Modal -->
+<div id="newEntryModal" class="modal fade" data-backdrop="static">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+      	<div class="row">
+      		<div class="col-xs-8">
+      			<h4 class="modal-title">New Entry</h4>
+      		</div>
+      		<div class="col-xs-4">
+      			<select name="{$form->card_type}" class="form-control input-sm">
+  					<option value=""></option>
+						{if $tcard_types && !empty($tcard_types)}
+							{foreach $tcard_types as $ttype}
+								<option class="{if $ttype->tt_id == 21}orange-card-selection-type{/if}" value="{$ttype->tt_id}" data-color="{$ttype->tt_color}">{$ttype->tt_name}</option>
+							{/foreach}
+						{/if}
+  				</select>
+					<span class="help-inline"></span>
+      		</div>
+      	</div>		        
+      </div>
+      <div class="modal-body">
+      	<table class="table table-borderless">
+      		<tbody>
+      			<tr class="card-field-row absolute-hide">
+      				<td class="col-xs-3">
+      					<strong>Bin No.</strong>
+      					<input name="{$form->bin_no}" class="form-control input-sm" type="text">
+  						<span class="help-inline"></span>
+      				</td>
+      				<td class="col-xs-6">
+      					<strong>Van No.</strong>
+      					<input name="{$form->van_no}" class="form-control input-sm" type="text">
+      					<!-- <select id="van-selection" class="form-control input-sm absolute-hide">
+      						{if $vans && !empty($vans)}
+      							{foreach $vans as $van}
+      								<option value="{$van->v_id}">{$van->v_no}</option>
+      							{/foreach}
+      						{/if}
+      					</select> -->
+  						<span class="help-inline"></span>
+      				</td>
+      				<td class="col-xs-3">
+      					<strong>Material No.</strong>
+      					<select name="{$form->material_no}" class="form-control input-sm">
+      						<option value=""></option>
+      						{if $materials && !empty($materials)}
+      							{foreach $materials as $material}
+      								<option value="{$material->m_id}">{$material->m_name}{if isset($material->m_type) && $material->m_type != ''}&nbsp;({$material->m_type}){/if}</option>
+      							{/foreach}
+      						{/if}
+	      				</select>
+  						<span class="help-inline"></span>
+      				</td>
+      			</tr>
+      			<tr class="card-field-row absolute-hide">
+      				<td class="col-xs-3">
+      					<strong>Van Type</strong>
+      					<select name="{$form->van_type}" class="form-control input-sm">
+      						<option value=""></option>
+      						{if $van_types && !empty($van_types)}
+      							{foreach $van_types as $type}
+      								<option value="{$type->vt_id}">{$type->vt_name}</option>
+      							{/foreach}
+      						{/if}
+      					</select>
+  						<span class="help-inline"></span>
+      				</td>
+      				<td class="col-xs-6">
+      					<strong>Batch Codes</strong>
+      					<input name="{$form->batch_code}" class="form-control input-sm" type="text">
+      					<span class="help-inline"></span>
+      				</td>
+      				<td class="col-xs-3">
+      					<strong>Status</strong>
+      					<input name="{$form->status}" class="form-control input-sm" type="text">
+  						<span class="help-inline"></span>
+      				</td>
+      			</tr>
+      			<tr class="card-field-row absolute-hide">
+      				<td class="col-xs-3"></td>
+      				<td class="col-xs-6">
+      					<div class="row">
+      						<div class="col-sm-6">
+      							<strong>Shipper</strong>
+      							<select name="{$form->shipper}" class="form-control input-sm">
+      								<option value=""></option>
+		      						{if $shippers && !empty($shippers)}
+		      							{foreach $shippers as $shipper}
+		      								<option value="{$shipper->s_id}">{$shipper->s_name}{if isset($shipper->s_code) && $shipper->s_code != ''}&nbsp;({$shipper->s_code}){/if}</option>
+		      							{/foreach}
+		      						{/if}
+			      				</select>
+  								<span class="help-inline"></span>
+      						</div>
+      						<div class="col-sm-6">
+      							<strong>Trucker</strong>
+		      					<select name="{$form->trucker}" class="form-control input-sm">
+      								<option value=""></option>
+		      						{if $truckers && !empty($truckers)}
+		      							{foreach $truckers as $trucker}
+		      								<option value="{$trucker->t_id}">{$trucker->t_name}{if isset($trucker->t_code) && $trucker->t_code != ''}&nbsp;({$trucker->t_code}){/if}</option>
+		      							{/foreach}
+		      						{/if}
+			      				</select>
+  								<span class="help-inline"></span>
+      						</div>
+      					</div>
+      				</td>
+      				<td class="col-xs-3"></td>
+      			</tr>
+      			<tr class="card-field-row absolute-hide">
+      				<td class="col-xs-3"></td>
+      				<td class="col-xs-6">
+      					<div class="row">
+      						<div class="col-sm-6">
+      							<strong>Quantity (cases)</strong>
+	      						<input name="{$form->qty_cases}" class="form-control input-sm numeric-input" type="text">
+	      						<span class="help-inline"></span>
+      						</div>
+      						<div class="col-sm-6">
+      							<strong>Quantity (bags)</strong>
+	      						<input name="{$form->qty_bags}" class="form-control input-sm numeric-input" type="text">
+  								<span class="help-inline"></span>
+      						</div>
+      					</div>
+      				</td>
+      				<td class="col-xs-3"></td>
+      			</tr>
+      			<tr class="card-field-row absolute-hide">
+      				<td class="col-xs-3"></td>
+      				<td class="col-xs-6">
+  						<div class="row">
+      						<div class="col-sm-6">
+      							<strong>Date Stuffed</strong>
+      							<input name="{$form->date_stuffed}" class="form-control input-sm generic-datepicker" type="text">
+  								<span class="help-inline"></span>
+      						</div>
+      						<div class="col-sm-6">
+      							<strong>Controller</strong>
+      							<input name="{$form->stuff_controller}" class="form-control input-sm" type="text">
+  								<span class="help-inline"></span>
+      						</div>
+      					</div>
+      					<div class="row orange-card-field absolute-hide">
+      						<div class="col-sm-6">
+      							<strong>Date Stripped</strong>
+      							<input name="{$form->date_stripped}" class="form-control input-sm generic-datepicker" type="text">
+  								<span class="help-inline"></span>
+      						</div>
+      						<div class="col-sm-6">
+      							<strong>Controller</strong>
+      							<input name="{$form->strip_controller}" class="form-control input-sm" type="text">
+  								<span class="help-inline"></span>
+      						</div>
+      					</div>
+      				</td>
+      				<td class="col-xs-3"></td>
+      			</tr>
+      			<tr class="card-field-row absolute-hide">
+      				<td class="col-xs-3"></td>
+      				<td class="col-xs-6">
+      					<div class="card-field">
+      						<strong>FG/SFG Checker</strong>
+      						<select name="{$form->checker}" class="form-control input-sm">
+      							<option value=""></option>
+	      						{if $checkers && !empty($checkers)}
+	      							{foreach $checkers as $checker}
+	      								<option value="{$checker->c_id}">{$checker->c_firstname}{if $checker->c_mi}&nbsp;{$checker->c_mi}{/if}{if $checker->c_lastname}{$checker->lastname}{/if}</option>
+	      							{/foreach}
+	      						{/if}
+		      				</select>
+								<span class="help-inline"></span>
+      					</div>
+      				</td>
+      				<td class="col-xs-3"></td>
+      			</tr>
+      			<tr class="card-field-row absolute-hide">
+      				<td class="col-xs-3"></td>
+      				<td class="col-xs-6">
+      					<div class="row">
+      						<div class="col-sm-6">
+      							<strong>Entry Date</strong>
+      							<input name="{$form->entry_date}" class="form-control input-sm generic-datepicker" type="text">
+  								<span class="help-inline"></span>
+      						</div>
+      						<div class="col-sm-6 normal-card-field">
+      							<strong>Exit Date</strong>
+      							<input name="{$form->exit_date}" class="form-control input-sm generic-datepicker" type="text">
+  								<span class="help-inline"></span>
+      						</div>
+	      					<div class="col-sm-6 orange-card-field absolute-hide">
+	      						<strong>Date Blocked</strong>
+	      						<input name="{$form->date_blocked}" class="form-control input-sm generic-datepicker" type="text">
+  								<span class="help-inline"></span>
+	      					</div>
+      					</div>
+      				</td>
+      				<td class="col-xs-3"></td>
+      			</tr>
+      			<tr class="card-field-row absolute-hide">
+      				<td class="col-xs-3"></td>
+      				<td class="col-xs-6">
+      					<div class="card-field">
+      						<strong>Remarks</strong>
+      						<textarea name="{$form->remarks}" class="form-control"></textarea>
+  								<span class="help-inline"></span>
+      					</div>
+      				</td>
+      				<td class="col-xs-3"></td>
+      			</tr>
+      			<tr class="no-tcard-type">
+      				<td colspan="3">
+      					<em>Please select a card type.</em>
+      				</td>
+      			</tr>
+      			<tr class="absolute-hide">
+      				<td colspan="3">
+      					<input name="card-id" type="hidden">
+      				</td>
+      			</tr>
+      		</tbody>
+      	</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button id="save-card" type="button" class="btn btn-primary">Save</button>
       </div>
     </div>
   </div>

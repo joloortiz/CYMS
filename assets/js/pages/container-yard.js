@@ -239,8 +239,6 @@ function init_droppable_top(){
 
         if(dpbottomid && !dpbottomdatacontent){
             $(this).droppable('disable');
-        }else if(dpbottomdatacontent){
-            $(this).droppable({ accept: draggableid })
         }
     });
 }

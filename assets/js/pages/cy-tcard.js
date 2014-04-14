@@ -122,7 +122,7 @@ function setup_van_nos() {
            $('[name="van-no"]').autocomplete({
              source: van_list,
              appendTo: '.modal-body',
-             minLength: 3
+             minLength: 1
            });
        }
    });
@@ -272,11 +272,12 @@ function save() {
     var data = {};
 
     data = get_form_values();
+    $('#loading-overlay').removeClass('hide');
 
     $.ajax({
         url: $('body').attr('base-url') + 'container_yard/save_card',
         type: 'POST',
-        async: false,
+        async: true,
         data: data,
         success: function (response) {
             var result = jQuery.parseJSON(response);
@@ -314,7 +315,10 @@ function save() {
                     $('#pending').find('.panel-body').append(cv);
                 }
 
-                $('#newEntryModal').modal('hide');
+                setTimeout(function() {
+                    $('#newEntryModal').modal('hide');
+                    $('#loading-overlay').addClass('hide');
+                }, 500);
             }
         }
     });

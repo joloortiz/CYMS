@@ -4,15 +4,30 @@ class Truckers extends MY_Controller {
 	
 	/* PAGES */
 	function index() {
+
+		$config['base_url'] = BASE_URL . 'truckers/';
+		$config['total_rows'] = $this->truckers_model->record_count();
+		$config['per_page'] = 5; 
+		$config['uri_segment'] = 2;
+
+
+		$this->pagination->initialize($config); 
+
+		$offset = $this->uri->segment(2);
+
+
+		$truckers = $this->truckers_model->p_truckers($config['per_page'], $offset);
+
+		$pagination = $this->pagination->create_links();
+
 		// page js
 		$js = array(
 				'pages/truckers.js'
 		);
 		$this->smarty->assign('page_js', $js);
 		
-		$trucks = $this->truckers_model->get_truckers();
-		$this->smarty->assign('truckers', $trucks);
-		
+		$this->smarty->assign('truckers', $truckers);
+		$this->smarty->assign('pagination', $pagination);		
 		$this->smarty->assign('layout', 'crud_pages_layout.tpl');
 		$this->smarty->assign('page', 'truckers');
 		$this->smarty->view('pages/truckers.tpl');

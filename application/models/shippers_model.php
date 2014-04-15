@@ -9,6 +9,17 @@ class Shippers_model extends CI_Model{
 	}
 	
 	/* READ */
+
+	function record_count() {
+        return $this->db->count_all("shippers");
+    }
+
+    # Get Shippers for pagination
+    function p_shippers($limit, $offset) {
+        $query = $this->db->get('shippers', $limit, $offset);
+		return $query->result();
+   }
+
 	function get_shippers() {
 		$returnVal = NULL;
 		

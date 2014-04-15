@@ -4,17 +4,31 @@ class Tcard_types extends MY_Controller {
 	
 	/* PAGES */
 	function index() {
+		$config['base_url'] = BASE_URL . 'tcard-types/';
+		$config['total_rows'] = $this->tcard_model->record_count();
+		$config['per_page'] = 5; 
+		$config['uri_segment'] = 2;
+
+
+		$this->pagination->initialize($config); 
+
+		$offset = $this->uri->segment(2);
+
+
+		$types = $this->tcard_model->p_types($config['per_page'], $offset);
+
+		$pagination = $this->pagination->create_links();
+
 		// page js
 		$js = array(
 				'pages/tcard_types.js'
 		);
 		$this->smarty->assign('page_js', $js);
 		
-		$types = $this->tcard_model->get_types();
 		$this->smarty->assign('types', $types);
-		
+		$this->smarty->assign('pagination', $pagination);
 		$this->smarty->assign('layout', 'crud_pages_layout.tpl');
-		$this->smarty->assign('page', 't-card_types');
+		$this->smarty->assign('page', 'tcard_types');
 		$this->smarty->view('pages/tcard_types.tpl');
 	}
 	

@@ -4,15 +4,29 @@ class Van_types extends MY_Controller {
 	
 	/* PAGES */
 	function index() {
+		$config['base_url'] = BASE_URL . 'van-types/';
+		$config['total_rows'] = $this->van_types_model->record_count();
+		$config['per_page'] = 5; 
+		$config['uri_segment'] = 2;
+
+
+		$this->pagination->initialize($config); 
+
+		$offset = $this->uri->segment(2);
+
+
+		$van_types = $this->van_types_model->p_van_types($config['per_page'], $offset);
+
+		$pagination = $this->pagination->create_links();
+
 		// page js
 		$js = array(
 				'pages/van_types.js'
 		);
 		$this->smarty->assign('page_js', $js);
 		
-		$van_types = $this->van_types_model->get_van_types();
 		$this->smarty->assign('van_types', $van_types);
-		
+		$this->smarty->assign('pagination', $pagination);		
 		$this->smarty->assign('layout', 'crud_pages_layout.tpl');
 		$this->smarty->assign('page', 'van_types');
 		$this->smarty->view('pages/van_types.tpl');

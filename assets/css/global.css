@@ -61,3 +61,8 @@ background-image: url(/cyms/assets/images/desc.gif) !important;
 #tablesorter a {
 	cursor: pointer;
 }
+
+.col-pagination {
+	max-width: 365px;
+	margin: 0 auto;
+}

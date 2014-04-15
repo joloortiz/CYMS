@@ -29,11 +29,11 @@
 				     <ul class="nav nav-pills nav-stacked">
 						<li {if $page == 'home'} class="active" {/if}><a href="{if $page == 'home'}#{else}{$base_url}dashboard{/if}">Home</a></li>
 						<li {if $page == 'users'} class="active" {/if}><a href="{if $page == 'users'}#{else}{$base_url}users{/if}">Users</a></li>
-						<li {if $page == 't-card_types'} class="active" {/if}><a href="{if $page == 't-card_types'}#{else}{$base_url}t-card-types{/if}">T-Card Types</a></li>
+						<li {if $page == 'tcard_types'} class="active" {/if}><a href="{if $page == 'tcard-types'}#{else}{$base_url}tcard-types{/if}">T-Card Types</a></li>
 						<li {if $page == 'shippers'} class="active" {/if}><a href="{if $page == 'shippers'}#{else}{$base_url}shippers{/if}">Shippers</a></li>
 						<li {if $page == 'truckers'} class="active" {/if}><a href="{if $page == 'truckers'}#{else}{$base_url}truckers{/if}">Truckers</a></li>
 						<li {if $page == 'materials'} class="active" {/if}><a href="{if $page == 'materials'}#{else}{$base_url}materials{/if}">Materials</a></li>
-						<li {if $page == 'van_types'} class="active" {/if}><a href="{if $page == 'van_types'}#{else}{$base_url}van-types{/if}">Van Types</a></li>
+						<li {if $page == 'van_types'} class="active" {/if}><a href="{if $page == 'van-types'}#{else}{$base_url}van-types{/if}">Van Types</a></li>
 					</ul>
 			    </div>
 			    <div class="col-md-9">

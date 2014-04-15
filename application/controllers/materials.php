@@ -4,15 +4,30 @@ class Materials extends MY_Controller {
 	
 	/* PAGES */
 	function index() {
+
+		$config['base_url'] = BASE_URL . 'materials/';
+		$config['total_rows'] = $this->materials_model->record_count();
+		$config['per_page'] = 5; 
+		$config['uri_segment'] = 2;
+
+
+		$this->pagination->initialize($config); 
+
+		$offset = $this->uri->segment(2);
+
+
+		$materials = $this->materials_model->p_materials($config['per_page'], $offset);
+
+		$pagination = $this->pagination->create_links();
+
 		// page js
 		$js = array(
 				'pages/materials.js'
 		);
 		$this->smarty->assign('page_js', $js);
 		
-		$mats = $this->materials_model->get_materials();
-		$this->smarty->assign('materials', $mats);
-		
+		$this->smarty->assign('materials', $materials);
+		$this->smarty->assign('pagination', $pagination);
 		$this->smarty->assign('layout', 'crud_pages_layout.tpl');
 		$this->smarty->assign('page', 'materials');
 		$this->smarty->view('pages/materials.tpl');

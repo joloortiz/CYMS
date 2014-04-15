@@ -10,6 +10,16 @@ class Tcard_model extends CI_Model{
 	}
 	
 	/* READ */
+	function record_count() {
+        return $this->db->count_all('tcard_types');
+    }
+
+    # Get Tcard Types for pagination
+    function p_types($limit, $offset) {
+        $query = $this->db->get('tcard_types', $limit, $offset);
+		return $query->result();
+   }
+
 	function get_types() {
 		$returnVal = NULL;
 		$this->db->from('tcard_types');

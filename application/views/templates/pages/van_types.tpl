@@ -51,4 +51,10 @@
 			</table>
 		</div>
 
+		<div class="row">
+			<div class="col-pagination">
+				{$pagination}
+			</div>
+		</div>
+
 {/block}

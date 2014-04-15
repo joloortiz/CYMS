@@ -4,7 +4,7 @@
 		<h1>{$page_title}</h1>
 
 		<div class="alert alert-success {if $opt == ''}hide{/if}">{if $opt != ''}{$msg}{/if}</div>
-
+		<div class="row">
 		<table id="tablesorter" class="table">
 			<thead>
 				<tr>
@@ -23,7 +23,11 @@
 			{/foreach}
 			</tbody>
 		</table>
-		<div>
-			{$pagination}
+		</div>
+		
+		<div class="row">
+			<div class="col-pagination">
+				{$pagination}
+			</div>
 		</div>
 {/block}

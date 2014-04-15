@@ -4,14 +4,29 @@ class Shippers extends MY_Controller {
 	/* PAGES */
 	function index() {
 		// page js
+
+		$config['base_url'] = BASE_URL . 'shippers/';
+		$config['total_rows'] = $this->shippers_model->record_count();
+		$config['per_page'] = 5; 
+		$config['uri_segment'] = 2;
+
+
+		$this->pagination->initialize($config); 
+
+		$offset = $this->uri->segment(2);
+
+
+		$shippers = $this->shippers_model->p_shippers($config['per_page'], $offset);
+
+		$pagination = $this->pagination->create_links();
+
 		$js = array(
 				'pages/shippers.js'
 		);
 		$this->smarty->assign('page_js', $js);
 		
-		$shippers = $this->shippers_model->get_shippers();
+		$this->smarty->assign('pagination', $pagination);
 		$this->smarty->assign('shippers', $shippers);
-		
 		$this->smarty->assign('layout', 'crud_pages_layout.tpl');
 		$this->smarty->assign('page', 'shippers');
 		$this->smarty->view('pages/shippers.tpl');

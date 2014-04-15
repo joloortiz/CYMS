@@ -220,8 +220,8 @@ pip-log.txt
 #############
 
 application/views/templates_c/
-#system/
-#index.php
+system/
+index.php
 license.txt
 .gitattributes
-#.htaccess
+.htaccess

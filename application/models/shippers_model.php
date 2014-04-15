@@ -13,7 +13,6 @@ class Shippers_model extends CI_Model{
 		$returnVal = NULL;
 		
 		$this->db->from('shippers');
-		$this->db->where('s_id <>', '1');
 		$this->db->order_by('s_name ASC, s_code ASC');
 		$query = $this->db->get();
 		

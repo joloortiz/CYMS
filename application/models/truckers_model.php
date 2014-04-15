@@ -13,7 +13,6 @@ class Truckers_model extends CI_Model{
 	function get_truckers() {
 		$returnVal = NULL;
 		$this->db->from('truckers');
-		$this->db->where('t_id <>', '1');
 		$this->db->order_by('t_name ASC, t_code ASC');
 		$query = $this->db->get();
 	

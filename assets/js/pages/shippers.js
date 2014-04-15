@@ -6,29 +6,37 @@
 $('#save-shipper').click(function(event) {
 	event.preventDefault();
 
-	var data = get_form_values();
+	var id = $('[name="active-shipper-id"]').val();
+	var name = $('[name="shipper-name"]').val();
+	var color = $('[name="shipper-color"]').val();
 
-	if( !$('#control-form-container').is('.faded.disabled') && validate_form() ) {
-		$.ajax({
-			url: $('body').attr('base-url') + 'shippers/save',
-			type: 'POST',
-			async: false,
-			data: data,
-			success: function (response) {
-				var result = jQuery.parseJSON(response);
+	var method = id == '' ? 'create' : 'update';
 
-				if( result.done ) {
-					window.location.reload(true);
-				}
+	var data = {
+		shipper_id: id,
+		name: name,
+		color: color,
+		action: method
+	};
+
+	$.ajax({
+		url: $('body').attr('base-url') + 'shippers/save',
+		type: 'POST',
+		async: false,
+		data: data,
+		success: function (response) {
+			var result = jQuery.parseJSON(response);
+
+			if( result.done ) {
+				window.location.reload(true);
 			}
-		});
-	}	
+		}
+	});
 });
 
 $('#new-shipper-btn').click(function() {
 	reset_control();
 	enable_control();
-	reset_errors();
 
 	$('.shipper').addClass('action');
 	$('[name="shipper-name"]').focus();
@@ -36,14 +44,10 @@ $('#new-shipper-btn').click(function() {
 
 $('#cancel-shipper').click(function() {
 	disable_control();
-	reset_errors();
-
 	$('.shipper').addClass('action');
 });
 
 $('#shipper-table').on('click', '.shipper.action > .clickable', function() {
-	reset_errors();
-
 	var row = $(this).closest('.shipper.action');
 	var id = row.find('[name="shipper-id"]').val();
 
@@ -172,83 +176,4 @@ function disable_control() {
 	$('.interactive-element').each(function() {
 		$(this).prop('disabled', true);
 	});
-}
-
-function validate_form() {
-
-    var data;
-    var validated = false;
-
-    reset_errors();
-
-    data = get_form_values();
-
-    // validate
-    $.ajax({
-        url:$('body').attr('base-url') + 'shippers/validate_form',
-        type: 'POST',
-        async: false,
-        data: data,
-        success: function (response) {
-            var decode = jQuery.parseJSON(response);
-            var errors;
-            
-            if (decode.success == true) {
-                validated = true;
-            } else {
-
-                // show errors individually
-                if( decode.form_errors ) {
-                    errors = decode.form_errors;
-
-                    display_form_error( 'shipper-name', errors['name'] );
-                    display_form_error( 'shipper-color', errors['color'] );
-                }
-
-                if(decode.exception) {  // show exception
-                    alert('Exception caught:\n\n' + decode.exception);
-                }
-            }
-        }
-    });
-
-    return validated;
-}
-
-function reset_errors() {
-	$('.error-holder').addClass('absolute-hide');
-	$('.error-text').text('');
-
-	$('.form-group.has-error').removeClass('has-error');
-}
-
-function get_form_values() {
-	var id = $('[name="active-shipper-id"]').val();
-	var name = $('[name="shipper-name"]').val();
-	var color = $('[name="shipper-color"]').val();
-
-	var method = id == '' ? 'create' : 'update';
-
-	var values = {
-		shipper_id: id,
-		name: name,
-		color: color,
-		action: method
-	};
-
-	return values;
-}
-
-function display_form_error( formElementName, errorString ) {
-
-    if( errorString && errorString != '' ) {
-        var error_container = $('.'+ formElementName +'-error');
-        var error_text = error_container.find('.error-text');
-
-        $('[name="'+ formElementName +'"]').parents('.form-group').addClass('has-error');
-
-        error_container.removeClass('absolute-hide');
-
-        error_text.text(errorString);
-    }
 }

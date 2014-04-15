@@ -3,12 +3,6 @@
 class Tcard_model extends CI_Model{
 	
 	/* CREATE */
-	function new_card($data) {
-		$this->db->insert('tcards', $data);
-		
-		return $this->db->insert_id();
-	}
-	
 	function new_type($data) {
 		$this->db->insert('tcard_types', $data);
 		
@@ -16,51 +10,6 @@ class Tcard_model extends CI_Model{
 	}
 	
 	/* READ */
-	function get_tcard_by_id( $id ){
-		$returnVal = NULL;
-		
-		$this->db->select('tc.*, v.v_no, SUBSTRING(v.v_no, 1, 3) AS display_chars, s.s_name, s.s_code, s.s_color, tt.tt_name, tt.tt_color, tp.tp_id, tp.tp_position, tp.tp_left, tp.tp_top', FALSE);
-		
-		$this->db->from('tcards tc');
-		$this->db->join('vans v', 'tc.v_id = v.v_id');
-		$this->db->join('shippers s', 'tc.s_id = s.s_id');
-		$this->db->join('tcard_types tt', 'tc.tt_id = tt.tt_id');
-		$this->db->join('tcard_position tp', 'tc.tc_id = tp.tc_id', 'left');
-		$this->db->where('tc.tc_id', $id);
-		$query = $this->db->get();
-		
-		if( $query->num_rows() == 1 ) {
-			$returnVal = $query->result();
-			$returnVal = $returnVal[0];
-		}
-		
-		return $returnVal;
-	}
-	
-	function list_tcards() {
-		$returnVal = NULL;
-		
-		$this->db->select('tc.*, v.v_no, SUBSTRING(v.v_no, 1, 3) AS display_chars, s.s_name, s.s_code, s.s_color, tt.tt_name, tt.tt_color', FALSE);
-		$this->db->select('(SELECT tp_id FROM tcard_position WHERE tc_id = tc.tc_id ORDER BY tp_timestamp DESC LIMIT 1) AS tp_id', FALSE);
-		$this->db->select('(SELECT tp_position FROM tcard_position WHERE tc_id = tc.tc_id ORDER BY tp_timestamp DESC LIMIT 1) AS tp_position', FALSE);
-		$this->db->select('(SELECT tp_left FROM tcard_position WHERE tc_id = tc.tc_id ORDER BY tp_timestamp DESC LIMIT 1) AS tp_left', FALSE);
-		$this->db->select('(SELECT tp_top FROM tcard_position WHERE tc_id = tc.tc_id ORDER BY tp_timestamp DESC LIMIT 1) AS tp_top', FALSE);
-		
-		$this->db->from('tcards tc');
-		$this->db->join('vans v', 'tc.v_id = v.v_id');
-		$this->db->join('shippers s', 'tc.s_id = s.s_id');
-		$this->db->join('tcard_types tt', 'tc.tt_id = tt.tt_id');
-		$this->db->where('tc.tc_exitdate IS NULL OR tc.tc_exitdate = 0');
-		$this->db->order_by('v.v_no');
-		$query = $this->db->get();
-		
-		if( $query->num_rows() > 0 ) {
-			$returnVal = $query->result();
-		}
-		
-		return $returnVal;
-	}
-	
 	function get_types() {
 		$returnVal = NULL;
 		$this->db->from('tcard_types');
@@ -91,11 +40,6 @@ class Tcard_model extends CI_Model{
 	}
 	
 	/* UPDATE */
-	function update_tcard( $id, $data ) {
-		$this->db->where('tc_id', $id);
-		$query = $this->db->update('tcards', $data);
-	}
-	
 	function update_type($id, $data) {
 		$this->db->where('tt_id', $id);
 		$query = $this->db->update('tcard_types', $data);

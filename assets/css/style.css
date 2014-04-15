@@ -1,5 +1,5 @@
 .absolute-hide {
-	display: none !important;
+	opacity: 0 !important;
 }
 
 .row.buffer-top {
@@ -24,62 +24,6 @@
 	width: 5em;
 }
 
-.color-swatch-select {
-    height: 1em;
-    width: 2em;
-    margin-right: 1em;
-    border: 1px solid #DDDDDD;
-
-    display: inline-block;
-}
-
 .check-selection.single-select {
 	opacity: .8;
-}
-
-.help-inline {
-    /*font-size: 12px;*/
-    color: red;
-    font-style: italic;
-}
-
-
-
-/* BOOTSTRAP OVERRIDE */
-table.table.table-borderless th, table.table.table-borderless td {
-	border: 0;
-}
-
-	/* select2 */
-.form-control .select2-choice {
-    border: 0 !important;
-    border-radius: 2px !important;
-}
-
-.form-control .select2-choice .select2-arrow {
-    border-radius: 0 2px 2px 0;   
-}
-
-.form-control.select2-container {
-    height: auto !important;
-    padding: 0px;
-}
-
-.form-control.select2-container.select2-dropdown-open {
-    border-color: #5897FB;
-    border-radius: 3px 3px 0 0;
-}
-
-.form-control .select2-container.select2-dropdown-open .select2-choices {
-    border-radius: 3px 3px 0 0;
-}
-
-.form-control.select2-container .select2-choices {
-    border: 0 !important;
-    border-radius: 3px;
-}
-
-/* jQuery UI OVERRIDE */
-.ui-autocomplete {
-	z-index: 1051 !important;	/* right in front bootstrap modal */
 }

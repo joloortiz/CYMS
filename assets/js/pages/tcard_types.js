@@ -5,31 +5,37 @@
 $('#save-type').click(function(event) {
 	event.preventDefault();
 
-	var data = get_form_values();
+	var id = $('[name="active-type-id"]').val();
+	var name = $('[name="type-name"]').val();
+	var color = $('[name="type-color"]').val();
 
-	if( !$('#control-form-container').is('.faded.disabled') && validate_form() ) {
-		$.ajax({
-			url: $('body').attr('base-url') + 'tcard_types/save',
-			type: 'POST',
-			async: false,
-			data: data,
-			success: function (response) {
-				var result = jQuery.parseJSON(response);
+	var method = id == '' ? 'create' : 'update';
 
-				if( result.done ) {
-					window.location.reload(true);
-				}
+	var data = {
+		type_id: id,
+		name: name,
+		color: color,
+		action: method
+	};
+
+	$.ajax({
+		url: $('body').attr('base-url') + 'tcard_types/save',
+		type: 'POST',
+		async: false,
+		data: data,
+		success: function (response) {
+			var result = jQuery.parseJSON(response);
+
+			if( result.done ) {
+				window.location.reload(true);
 			}
-		});
-	}
-	
+		}
+	});
 });
 
 $('#new-type-btn').click(function() {
 	reset_control();
 	enable_control();
-
-	reset_errors();
 
 	$('.card-type').addClass('action');
 	$('[name="type-name"]').focus();
@@ -37,7 +43,6 @@ $('#new-type-btn').click(function() {
 
 $('#cancel-type').click(function() {
 	disable_control();
-	reset_errors();
 	$('.card-type').addClass('action');
 });
 
@@ -47,8 +52,6 @@ $('#type-table').on('click', '.card-type.action > .clickable', function() {
 
 	$('.card-type').not('.action').addClass('action');
 	row.removeClass('action');
-
-	reset_errors();
 
 	$.ajax({
 		url: $('body').attr('base-url') + 'tcard_types/get_type_details',
@@ -172,83 +175,4 @@ function disable_control() {
 	$('.interactive-element').each(function() {
 		$(this).prop('disabled', true);
 	});
-}
-
-function validate_form() {
-
-    var data;
-    var validated = false;
-
-    reset_errors();
-
-    data = get_form_values();
-
-    // validate
-    $.ajax({
-        url:$('body').attr('base-url') + 'tcard_types/validate_form',
-        type: 'POST',
-        async: false,
-        data: data,
-        success: function (response) {
-            var decode = jQuery.parseJSON(response);
-            var errors;
-            
-            if (decode.success == true) {
-                validated = true;
-            } else {
-
-                // show errors individually
-                if( decode.form_errors ) {
-                    errors = decode.form_errors;
-
-                    display_form_error( 'type-name', errors['name'] );
-                    display_form_error( 'type-color', errors['color'] );
-                }
-
-                if(decode.exception) {  // show exception
-                    alert('Exception caught:\n\n' + decode.exception);
-                }
-            }
-        }
-    });
-
-    return validated;
-}
-
-function reset_errors() {
-	$('.error-holder').addClass('absolute-hide');
-	$('.error-text').text('');
-
-	$('.form-group.has-error').removeClass('has-error');
-}
-
-function get_form_values() {
-	var id = $('[name="active-type-id"]').val();
-	var name = $('[name="type-name"]').val();
-	var color = $('[name="type-color"]').val();
-
-	var method = id == '' ? 'create' : 'update';
-
-    var values = {
-    	type_id: id,
-    	name: name,
-    	color: color,
-    	action: method
-    };
-
-    return values;
-}
-
-function display_form_error( formElementName, errorString ) {
-
-    if( errorString && errorString != '' ) {
-        var error_container = $('.'+ formElementName +'-error');
-        var error_text = error_container.find('.error-text');
-
-        $('[name="'+ formElementName +'"]').parents('.form-group').addClass('has-error');
-
-        error_container.removeClass('absolute-hide');
-
-        error_text.text(errorString);
-    }
 }

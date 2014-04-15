@@ -149,44 +149,18 @@ $('#cancel-cancel').click(function(){
     //as is
 });
 
-
+//Search van number/bin number upon clicking the search button
 $('#search-btn').click(function(){
-    
-    var entry = $('#search-entry').val();
-
-
-    if(entry){
-        var draggableid = search_id(entry);
-
-        if(draggableid){
-            var top = parseInt($('#' + draggableid).css('top').substring(0, $('#' + draggableid).css('top').length - 2));
-            var left = parseInt($('#' + draggableid).css('left').substring(0, $('#' + draggableid).css('left').length - 2));
-            var dataposition = $('#' + draggableid).attr('data-position');
-
-            if(dataposition == 'pending'){
-                $('#' + draggableid).popover('show');
-
-                setTimeout(function(){$('#' + draggableid).popover('hide');},5000);
-            }else{    
-                $('#map').animate({
-                    scrollTop: top - 258,
-                    scrollLeft: left - 480
-                },
-                    1000
-                );
-
-                $('#' + draggableid).popover('show');
-
-                setTimeout(function(){$('#' + draggableid).popover('hide');},5000);
-            }
-        }else{
-            alert('No results found.');
-        }
-    }else{
-        alert('Fill in a search entry.');
-    }
-
+    search_entry();
 });
+
+//Search van number/bin number upon hitting enter
+$('#search-entry').keydown(function(e) {
+    if (e.keyCode == 13) {
+        search_entry();
+    }
+});
+
 
 /* 
 *   Functions
@@ -342,8 +316,8 @@ function unset_occupied_droppable(droppableid){
 }
 
 function popover_placement(draggableid){
-    var binno = $('#' + draggableid).attr('van-no');
-    var vanno = $('#' + draggableid).attr('bin-no');
+    var binno = $('#' + draggableid).attr('van-no') || 'No details found.';
+    var vanno = $('#' + draggableid).attr('bin-no') || 'No details found.';
     var top = parseInt($('#' + draggableid).css('top').substring(0, $('#' + draggableid).css('top').length - 2));
     var left = parseInt($('#' + draggableid).css('left').substring(0, $('#' + draggableid).css('left').length - 2));
 
@@ -397,8 +371,8 @@ function popover_placement(draggableid){
 function init_popover(){
 
     $('#pending').find('.entry').each(function(){
-        var binno = $(this).attr('van-no');
-        var vanno = $(this).attr('bin-no');
+        var binno = $(this).attr('van-no') || 'No details found.';
+        var vanno = $(this).attr('bin-no') || 'No details found.';
 
         $(this).popover({    
             html: true, 
@@ -434,6 +408,49 @@ function search_id(entry){
         return bid;
     }else if(vid){
         return vid;
+    }
+}
+
+function search_entry(){
+
+    var entry = $('#search-entry').val().toUpperCase();
+
+    if(entry){
+        var draggableid = search_id(entry);
+
+        if(draggableid){
+            var top = parseInt($('#' + draggableid).css('top').substring(0, $('#' + draggableid).css('top').length - 2));
+            var left = parseInt($('#' + draggableid).css('left').substring(0, $('#' + draggableid).css('left').length - 2));
+            var dataposition = $('#' + draggableid).attr('data-position');
+
+            if(dataposition == 'pending'){
+                $('#' + draggableid).popover('show');
+
+                setTimeout(function(){$('#' + draggableid).popover('hide');},5000);
+
+                return true;
+            }else{    
+                $('#map').animate({
+                    scrollTop: top - 258,
+                    scrollLeft: left - 480
+                },
+                    1000
+                );
+
+                $('#' + draggableid).popover('show');
+
+                setTimeout(function(){$('#' + draggableid).popover('hide');},5000);
+                return true;
+            }
+        }else{
+            alert('No results found.');
+
+            return false;
+        }
+    }else{
+        alert('Fill in a search entry.');
+
+        return false;
     }
 }
     

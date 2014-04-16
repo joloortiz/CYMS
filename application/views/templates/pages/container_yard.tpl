@@ -37,7 +37,8 @@
 		    				<span class="badge pull-right">7</span>
 		    			</div>
 						<div class="panel-body">
-							<div class="absolute-hide cv-model" data-class="entry cv" style="display: none; opacity: 0;"></div>
+							<div class="absolute-hide cv-model" data-class="entry cv ui-draggable ui-droppable" aria-disabled="false" style="display: none; opacity: 0;"></div>
+							<div van-no="V123" bin-no="B210">AFP</div>
 
 							<div id="AFP10001" class="entry cv" data-status="1" data-type="1" data-position="pending" style="">AFP</div>
 							<div id="AFP10002" class="entry cv" data-status="2" data-type="2" data-position="pending" style="">AFP</div>
@@ -49,7 +50,7 @@
 
 							{if isset($tcards.pending)}
 								{foreach $tcards.pending as $card}
-									<div id="{$card->tc_id}" class="entry cv" data-position="pending" style="background-color: {$card->s_color}; border-color: {$card->tt_color};">{$card->display_chars}</div>
+									<div id="{$card->tc_id}" class="entry cv" van-no="{$card->v_no}" bin-no="{$card->tc_bin}" data-position="pending" style="background-color: {$card->s_color}; border-color: {$card->tt_color};">{$card->display_chars}</div>
 								{/foreach}
 							{/if}
 
@@ -670,7 +671,7 @@
 
 							{if isset($tcards.positioned)}
 								{foreach $tcards.positioned as $card}
-									<div id="{$card->tc_id}" class="entry cv" data-position="{$card->tp_position}" style="background-color: {$card->s_color}; border-color: {$card->tt_color};{if $card->tp_top}top: {$card->tp_top};{/if}{if $card->tp_left}left: {$card->tp_left}{/if}">{$card->display_chars}</div>
+									<div id="{$card->tc_id}" class="entry cv ui-draggable ui-droppable" van-no="{$card->v_no}" bin-no="{$card->tc_bin}" data-position="{$card->tp_position}" style="background-color: {$card->s_color}; border-color: {$card->tt_color};{if $card->tp_top}top: {$card->tp_top};{/if}{if $card->tp_left}left: {$card->tp_left}{/if}">{$card->display_chars}</div>
 								{/foreach}
 							{/if}
 
@@ -705,7 +706,7 @@
       <div class="modal-header">
       	<div class="row">
       		<div class="col-xs-8">
-      			<h4 class="modal-title">New Entry</h4>
+      			<h4 class="modal-title">T-Card Details</h4>
       		</div>
       		<div class="col-xs-4">
       			<select name="{$form->card_type}" class="form-control input-sm">
@@ -723,6 +724,11 @@
       <div class="modal-body">
       	<table class="table table-borderless">
       		<tbody>
+      			<tr>
+      				<td colspan="3">
+      					<span class="pull-right tcard-modal-state-notifier">&nbsp;</span>
+      				</td>
+      			</tr>
       			<tr class="card-field-row absolute-hide">
       				<td class="col-xs-3">
       					<strong>Bin No.</strong>
@@ -924,7 +930,7 @@
       	</table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button id="cancel-card" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         <button id="save-card" type="button" class="btn btn-primary">Save</button>
       </div>
     </div>

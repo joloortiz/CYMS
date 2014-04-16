@@ -155,6 +155,13 @@ class Container_yard extends MY_Controller {
 			
 			if( $action == 'create' ) {
 				$id = $this->tcard_model->new_card($data);
+				
+				$tp_data = array(
+					'tc_id' => $id,
+					'tp_position' => 'pending'
+				);
+				
+				$tp_id = $this->tcard_model->new_card_position($tp_data);
 			}elseif( $action == 'update' ) {
 				$this->tcard_model->update_tcard($id, $data);
 			}
@@ -235,6 +242,21 @@ class Container_yard extends MY_Controller {
 		}
 	
 		return $is_date;
+	}
+	
+	function get_card_details() {
+		$id = trim($this->input->post('id'));
+		
+		try {
+			$details = $this->_get_card_details_by_form_name($id);
+			
+			$var['details'] = $details;
+			$var['success'] = !empty($details) ? TRUE : FALSE;
+		} catch (Exception $e) {
+			$var['success'] = FALSE;
+		}
+		
+		echo json_encode($var);
 	}
 	
 	/* PRIVATES */
@@ -343,6 +365,42 @@ class Container_yard extends MY_Controller {
 		$this->form_validation->set_rules($forms->date_blocked, 'Date Blocked', $rules['date_blocked']);
 		$this->form_validation->set_rules($forms->remarks, 'Remarks', $rules['remarks']);
 	
+	}
+	
+	private function _get_card_details_by_form_name( $id ) {
+		
+		$details = $this->tcard_model->get_tcard_by_id($id);
+		
+		$forms = $this->_form_names();
+		$card = array();
+		
+		if( $details ) {
+			$card[$forms->card_type] = $details->tt_id;
+			$card[$forms->bin_no] = $details->tc_bin;
+			$card[$forms->van_no] = $details->v_no;
+			$card[$forms->material_no] = $details->m_id;
+			$card[$forms->van_type] = $details->vt_id;
+			$card[$forms->batch_code] = $details->tc_batchcode;
+			$card[$forms->status] = $details->tc_status;
+			$card[$forms->shipper] = $details->s_id;
+			$card[$forms->trucker] = $details->t_id;
+			$card[$forms->qty_cases] = $details->tc_qcases;
+			$card[$forms->qty_bags] = $details->tc_qbags;
+			$card[$forms->date_stuffed] = $details->tc_datestuffed;
+			$card[$forms->stuff_controller] = $details->tc_stucontroller;
+			$card[$forms->date_stripped] = $details->tc_datestripped;
+			$card[$forms->strip_controller] = $details->tc_strcontroller;
+			$card[$forms->checker] = $details->tc_checker;
+			$card[$forms->entry_date] = $details->tc_entrydate;
+			$card[$forms->exit_date] = $details->tc_exitdate;
+			$card[$forms->date_blocked] = $details->tc_dateblocked;
+			$card[$forms->remarks] = $details->tc_remarks;
+			
+			// Special Case (not in form names)
+			$card['card-id'] = $details->tc_id;
+		}
+		
+		return $card;
 	}
 	
 }

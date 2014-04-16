@@ -15,6 +15,12 @@ class Tcard_model extends CI_Model{
 		return $this->db->insert_id();
 	}
 	
+	function new_card_position($data) {
+		$this->db->insert('tcard_position', $data);
+	
+		return $this->db->insert_id();
+	}
+	
 	/* READ */
 	function get_tcard_by_id( $id ){
 		$returnVal = NULL;

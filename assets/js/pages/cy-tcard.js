@@ -3,14 +3,9 @@
  */
 
 var van_list = Array();
-var tcard_action;
-var tcard_action_list = {
-    create: 'C_new',
-    modify: 'U_edit'
-}
-setup_van_nos();
 var n = {};
 
+setup_van_nos();
 reset_tcard();
 
 // Select2
@@ -52,14 +47,9 @@ $('[name="checker"]').select2({
 
 $('#new-entry-btn').click(function() {
 
-    // show modal
-    $('#newEntryModal').modal({
-        keyboard: false,
-        backdrop: 'static'
-    });
+    modal_state_preview(false);
 
-    // set action
-    tcard_action = tcard_action_list.create;
+    show_new_entry_modal();
 });
 
 $('#save-card').click(function() {
@@ -97,6 +87,27 @@ $('#newEntryModal').on('hidden.bs.modal', function() {
 
 $('#newEntryModal').on('shown.bs.modal', function() {
     $(this).addClass('modal-active');
+
+    // Trigger change on select boxes to maintain display consistency
+    $('#newEntryModal').find('select').trigger('change');
+});
+
+$('body').on('click', '.entry', function() {
+    var card_id = $(this).attr('id');
+    var details = get_tcard_details(card_id);
+
+    console.log(details);
+
+    $.each(details, function(form_name, val) {
+        $('[name="'+ form_name +'"]').val(val);
+    });
+
+    modal_state_preview();
+    show_new_entry_modal();
+});
+
+$("#newEntryModal").on('click', '#edit-tcard', function() {
+    modal_state_preview(false);
 });
 
 
@@ -129,7 +140,6 @@ function setup_van_nos() {
 }
 
 function reset_tcard(){
-    tcard_action = '';
 
     has_card_type( false );
     reset_errors();
@@ -202,6 +212,9 @@ function get_form_values() {
     $.each(forms, function(key, form_name) {
         values[form_name] = $('[name="'+ form_name +'"]').val();
     });
+
+    // special case (not in form names)
+    values['card_id'] = $('[name="card-id"]').val();
 
     return values;
 }
@@ -292,6 +305,7 @@ function save() {
                 if( result.action == 'create' ) {
                     cv = $('.cv-model').clone();
                     cv.attr('class', cv.data('class'));
+                    cv.removeAttr('data-class');
 
                 }else {
 
@@ -308,6 +322,8 @@ function save() {
                 cv.attr('id', tcard.tc_id);
                 cv.attr('style', 'background-color: ' + tcard.s_color +'; border-color: ' + tcard.tt_color + ';' + styleSegment);
                 cv.attr('data-position', tcard.tp_position);
+                cv.attr('bin-no', tcard.tc_bin);
+                cv.attr('van-no', tcard.v_no);
                 cv.text(tcard.display_chars);
 
                 // append the cloned cv
@@ -323,6 +339,64 @@ function save() {
         }
     });
 }
+
+function modal_state_preview(isPreview) {
+    isPreview = typeof isPreview != 'boolean' ? true : isPreview;
+    var notifier_content;
+    var cancel_button_text;
+
+    $('#newEntryModal').find('input[type="text"], select, textarea').prop('disabled', isPreview);
+
+    notifier_content  = isPreview ? '<button id="edit-tcard" class="btn-link">Click here to edit&nbsp;&nbsp;<span class="glyphicon glyphicon-pencil"></span></button>' : '&nbsp;';
+    cancel_button_text = isPreview ? 'Done' : 'Cancel';
+
+    $('#cancel-card').text(cancel_button_text);
+    $('.tcard-modal-state-notifier').html(notifier_content);
+
+    // Set "save" button display
+    if( isPreview ) {
+        $('#save-card').addClass('absolute-hide');
+    }else {
+        $('#save-card').removeClass('absolute-hide');
+    }
+}
+
+function get_tcard_details(tc_id) {
+    var card_details = {};
+
+    if( typeof tc_id != 'undefined' ) {
+        // validate
+        $.ajax({
+            url:$('body').attr('base-url') + 'container_yard/get_card_details',
+            type: 'POST',
+            async: false,
+            data: {
+                id: tc_id
+            },
+            success: function (response) {
+                var decode = jQuery.parseJSON(response);
+                var errors;
+                
+                if (decode.success == true) {
+                    card_details = decode.details;
+                } else {
+                    alert('Something went wrong. Please try again later.');
+                }
+            }
+        });
+    }
+
+    return card_details;
+}
+
+function show_new_entry_modal() {
+    $('#newEntryModal').modal({
+        keyboard: false,
+        backdrop: 'static'
+    });
+}
+
+
 
 /* FOR SELECT2 */
 function format_tcard_type_select( card_type ) {

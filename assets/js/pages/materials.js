@@ -74,6 +74,8 @@ $('#material-table').on('click', '.material.action > .clickable', function() {
 				$('[name="active-material-id"]').val(material_details.m_id);
 				$('[name="material-name"]').val(material_details.m_name);
 				$('[name="material-type"]').val(material_details.m_type);
+
+				$('[name="material-name"]').focus();
 			}
 		}
 	});

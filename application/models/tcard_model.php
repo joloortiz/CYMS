@@ -9,6 +9,12 @@ class Tcard_model extends CI_Model{
 		return $this->db->insert_id();
 	}
 	
+	function new_card_position($data) {
+		$this->db->insert('tcard_position', $data);
+	
+		return $this->db->insert_id();
+	}
+	
 	/* READ */
 	function record_count() {
         return $this->db->count_all('tcard_types');

@@ -70,6 +70,8 @@ $('#van-type-table').on('click', '.van-type.action > .clickable', function() {
 
 				$('[name="active-van-type-id"]').val(van_type_details.vt_id);
 				$('[name="van-type-name"]').val(van_type_details.vt_name);
+
+				$('[name="van-type-name"]').focus();
 			}
 		}
 	});

@@ -75,6 +75,8 @@ $('#shipper-table').on('click', '.shipper.action > .clickable', function() {
 				$('[name="shipper-name"]').val(shipper_details.s_name);
 				$('[name="shipper-color"]').val(shipper_details.s_color);
 				$('[name="shipper-color"]').val(shipper_details.s_color);
+				
+				$('[name="shipper-name"]').focus();
 			}
 		}
 	});

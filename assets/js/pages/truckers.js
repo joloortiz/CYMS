@@ -73,6 +73,8 @@ $('#trucker-table').on('click', '.trucker.action > .clickable', function() {
 				$('[name="active-trucker-id"]').val(trucker_details.t_id);
 				$('[name="trucker-name"]').val(trucker_details.t_name);
 				$('[name="trucker-code"]').val(trucker_details.t_code);
+
+				$('[name="trucker-name"]').focus();
 			}
 		}
 	});

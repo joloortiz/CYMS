@@ -8,7 +8,11 @@ init_data_content();
 init_draggables_on_map();
 init_droppable_top();
 init_occupied_droppable();
+<<<<<<< HEAD
 init_popover();
+=======
+
+>>>>>>> bd29046f1e5e86b5276dddd173618e16568d17f7
 
 
 function resetdragevent(){
@@ -37,8 +41,11 @@ function resetdragevent(){
                     'left': 0}
                 );
                 $('#' + draggable).draggable();
+<<<<<<< HEAD
                 destroy_popover()
                 init_popover();
+=======
+>>>>>>> bd29046f1e5e86b5276dddd173618e16568d17f7
             }, 10);
 
         }
@@ -65,13 +72,20 @@ function resetdragevent(){
                 init_droppable_top();  
                 if($('#edit-btn').attr('editmode') == 1){
                     init_draggable_bottom();
+<<<<<<< HEAD
                     
+=======
+                    console.log('edit mode');
+>>>>>>> bd29046f1e5e86b5276dddd173618e16568d17f7
                 }else{
                     $('#' + draggable).draggable('disable');
                 }
                 init_occupied_droppable();
+<<<<<<< HEAD
                 destroy_popover();
                 init_popover();
+=======
+>>>>>>> bd29046f1e5e86b5276dddd173618e16568d17f7
                 
             }, 10);
             
@@ -149,6 +163,7 @@ $('#cancel-cancel').click(function(){
     //as is
 });
 
+<<<<<<< HEAD
 //Search van number/bin number upon clicking the search button
 $('#search-btn').click(function(){
     search_entry();
@@ -160,6 +175,9 @@ $('#search-entry').keydown(function(e) {
         search_entry();
     }
 });
+=======
+
+>>>>>>> bd29046f1e5e86b5276dddd173618e16568d17f7
 
 
 /* 
@@ -268,7 +286,11 @@ function init_draggable_bottom(){
 
         if(dptopdatacontent){
             $(this).draggable('disable');
+<<<<<<< HEAD
             
+=======
+            console.log($(this).attr('id'));
+>>>>>>> bd29046f1e5e86b5276dddd173618e16568d17f7
         }
     });
 }
@@ -311,6 +333,7 @@ function set_occupied_droppable(droppableid){
     }
 }
 
+<<<<<<< HEAD
 function unset_occupied_droppable(droppableid){
     $('#' + droppableid).droppable({ accept: '.entry' });
 }
@@ -452,6 +475,12 @@ function search_entry(){
 
         return false;
     }
+=======
+
+
+function unset_occupied_droppable(droppableid){
+    $('#' + droppableid).droppable({ accept: '.entry' });
+>>>>>>> bd29046f1e5e86b5276dddd173618e16568d17f7
 }
     
 });

@@ -655,7 +655,7 @@
 
 							{if isset($tcards.positioned)}
 								{foreach $tcards.positioned as $card}
-									<div id="{$card->tc_id}" class="entry cv ui-draggable ui-droppable" van-no="{$card->v_no}" bin-no="{$card->tc_bin}" data-position="{$card->tp_position}" style="background-color: {$card->s_color}; border-color: {$card->tt_color};{if $card->tp_top}top: {$card->tp_top};{/if}{if $card->tp_left}left: {$card->tp_left}{/if}">{$card->display_chars}</div>
+									<div id="{$card->tc_id}" class="entry cv ui-draggable" van-no="{$card->v_no}" bin-no="{$card->tc_bin}" data-position="{$card->tp_position}" style="background-color: {$card->s_color}; border-color: {$card->tt_color};{if $card->tp_top}top: {$card->tp_top};{/if}{if $card->tp_left}left: {$card->tp_left}{/if}">{$card->display_chars}</div>
 								{/foreach}
 							{/if}
 

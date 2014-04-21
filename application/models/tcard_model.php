@@ -4,9 +4,12 @@ class Tcard_model extends CI_Model{
 	
 	/* CREATE */
 	function new_card($data) {
+		$tcard_id = $this->_insert_id();
+		
+		$this->db->set('tc_id', $tcard_id);
 		$this->db->insert('tcards', $data);
 		
-		return $this->db->insert_id();
+		return $tcard_id;
 	}
 	
 	function new_type($data) {
@@ -68,18 +71,27 @@ class Tcard_model extends CI_Model{
 	}
 	
 	function record_count() {
-        return $this->db->count_all('tcard_types');
+		$this->db->from('tcard_types');
+		$this->db->where('is_deleted <>', '1');
+		
+        return $this->db->count_all_results();
     }
 
     # Get Tcard Types for pagination
     function p_types($limit, $offset) {
-        $query = $this->db->get('tcard_types', $limit, $offset);
+		$this->db->from('tcard_types');
+		$this->db->order_by('tt_name', 'ASC');
+		$this->db->where('is_deleted <>', '1');
+		$this->db->limit($limit, $offset);
+		$query = $this->db->get();
+		
 		return $query->result();
    }
 
 	function get_types() {
 		$returnVal = NULL;
 		$this->db->from('tcard_types');
+		$this->db->where('is_deleted <>', '1');
 		$this->db->order_by('tt_name', 'ASC');
 		$query = $this->db->get();
 		
@@ -123,7 +135,25 @@ class Tcard_model extends CI_Model{
 	
 	/* DELETE */
 	function purge_type( $type_id ) {
+		$data = array(
+			'is_deleted' => TRUE
+		);
+		
 		$this->db->where('tt_id', $type_id);
-		$this->db->delete('tcard_types');
+		$query = $this->db->update('tcard_types', $data);
+	}
+	
+	
+	
+	
+	/* PRIVATE */
+	private function _insert_id() {
+		$this->db->select('(fnTcardID()) AS id', FALSE);
+		
+		$query = $this->db->get();
+		$tcard = $query->result();
+		$tcard = $tcard[0];
+		
+		return $tcard->id;
 	}
 }

@@ -11,12 +11,22 @@ class Shippers_model extends CI_Model{
 	/* READ */
 
 	function record_count() {
-        return $this->db->count_all("shippers");
+		$this->db->from('shippers');
+		$this->db->where('s_id <>', '1');
+		$this->db->where('is_deleted <>', TRUE);
+		
+        return $this->db->count_all_results();
     }
 
     # Get Shippers for pagination
     function p_shippers($limit, $offset) {
-        $query = $this->db->get('shippers', $limit, $offset);
+    	$this->db->from('shippers');
+    	$this->db->where('s_id <>', '1');
+		$this->db->where('is_deleted <>', TRUE);
+    	$this->db->limit($limit, $offset);
+		$this->db->order_by('s_name ASC, s_code ASC');
+		
+        $query = $this->db->get();
 		return $query->result();
    }
 
@@ -25,6 +35,7 @@ class Shippers_model extends CI_Model{
 		
 		$this->db->from('shippers');
 		$this->db->where('s_id <>', '1');
+		$this->db->where('is_deleted <>', TRUE);
 		$this->db->order_by('s_name ASC, s_code ASC');
 		$query = $this->db->get();
 		
@@ -62,7 +73,11 @@ class Shippers_model extends CI_Model{
 	
 	/* DELETE */
 	function purge_shipper( $id ) {
+		$data = array(
+			'is_deleted' => TRUE
+		);
+		
 		$this->db->where('s_id', $id);
-		$this->db->delete('shippers');
+		$this->db->update('shippers', $data);
 	}
 }

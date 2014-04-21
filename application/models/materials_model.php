@@ -11,12 +11,22 @@ class Materials_model extends CI_Model{
 	
 	/* READ */
 	function record_count() {
-        return $this->db->count_all("materials");
+		$this->db->from('materials');
+		$this->db->where('m_id <>', '1');
+    	$this->db->where('is_deleted <>', TRUE);
+    	
+        return $this->db->count_all_results();
     }
 
     # Get Materials for pagination
     function p_materials($limit, $offset) {
-        $query = $this->db->get('materials', $limit, $offset);
+		$this->db->from('materials');
+		$this->db->where('m_id <>', '1');
+    	$this->db->where('is_deleted <>', TRUE);
+		$this->db->order_by('m_name ASC, m_type ASC');
+		$this->db->limit($limit, $offset);
+		
+		$query = $this->db->get();
 		return $query->result();
    }
 
@@ -24,6 +34,7 @@ class Materials_model extends CI_Model{
 		$returnVal = NULL;
 		$this->db->from('materials');
 		$this->db->where('m_id <>', '1');
+    	$this->db->where('is_deleted <>', TRUE);
 		$this->db->order_by('m_name ASC, m_type ASC');
 		$query = $this->db->get();
 	
@@ -62,7 +73,11 @@ class Materials_model extends CI_Model{
 	
 	/* DELETE */
 	function purge_material( $id ) {
+		$data = array(
+			'is_deleted' => TRUE
+		);
+		
 		$this->db->where('m_id', $id);
-		$this->db->delete('materials');
+		$query = $this->db->update('materials', $data);
 	}
 }

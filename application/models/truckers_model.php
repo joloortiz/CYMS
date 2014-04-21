@@ -11,12 +11,22 @@ class Truckers_model extends CI_Model{
 	
 	/* READ */
 	function record_count() {
-        return $this->db->count_all('truckers');
+		$this->db->from('truckers');
+		$this->db->where('t_id <>', '1');
+		$this->db->where('is_deleted <>', TRUE);
+		
+		return $this->db->count_all_results();
     }
 
     # Get Trukers for pagination
     function p_truckers($limit, $offset) {
-        $query = $this->db->get('truckers', $limit, $offset);
+    	$this->db->from('truckers');
+    	$this->db->where('t_id <>', '1');
+    	$this->db->where('is_deleted <>', TRUE);
+    	$this->db->order_by('t_name ASC, t_code ASC');
+    	$this->db->limit($limit, $offset);
+    	$query = $this->db->get();
+    	
 		return $query->result();
    }
 
@@ -24,6 +34,7 @@ class Truckers_model extends CI_Model{
 		$returnVal = NULL;
 		$this->db->from('truckers');
 		$this->db->where('t_id <>', '1');
+    	$this->db->where('is_deleted <>', TRUE);
 		$this->db->order_by('t_name ASC, t_code ASC');
 		$query = $this->db->get();
 	
@@ -62,8 +73,12 @@ class Truckers_model extends CI_Model{
 	
 	/* DELETE */
 	function purge_trucker( $id ) {
+		$data = array(
+			'is_deleted' => TRUE
+		);
+		
 		$this->db->where('t_id', $id);
-		$this->db->delete('truckers');
+		$query = $this->db->update('truckers', $data);
 	}
 	
 }

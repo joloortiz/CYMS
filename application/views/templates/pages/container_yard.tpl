@@ -7,14 +7,12 @@
 						{$company_name}<span>{$company_address}</span>
 					</a>
 				</div>
-				<button id="new-entry-btn" class="btn btn-oroport pull-left">
-					<span class="glyphicon glyphicon-plus"></span> New Entry
-				</button>
+				<a class="btn btn-oroport pull-left"><span class="glyphicon glyphicon-plus"></span> New Entry</a>
 				<div class="form-group col-xs-3">
 					<div class="input-group">
-				    	<input type="email" class="form-control" id="" placeholder="Search Entry">
+				    	<input type="email" class="form-control" id="search-entry" placeholder="Search Entry">
 						<span class="input-group-btn">
-							<button class="btn btn-oroport" type="button"><span class="glyphicon glyphicon-search"></span></button>
+							<button id="search-btn"class="btn btn-oroport" type="button"><span class="glyphicon glyphicon-search"></span></button>
 						</span>
 					</div>
 				</div>
@@ -37,23 +35,11 @@
 		    				<span class="badge pull-right">7</span>
 		    			</div>
 						<div class="panel-body">
-							<div class="absolute-hide cv-model" data-class="entry cv ui-draggable ui-droppable" aria-disabled="false" style="display: none; opacity: 0;"></div>
-							<div van-no="V123" bin-no="B210">AFP</div>
-
-							<div id="AFP10001" class="entry cv" data-status="1" data-type="1" data-position="pending" style="">AFP</div>
-							<div id="AFP10002" class="entry cv" data-status="2" data-type="2" data-position="pending" style="">AFP</div>
-							<div id="AFP10003" class="entry cv" data-status="3" data-type="3" data-position="pending" style="">AFP</div>
-							<div id="AFP10004" class="entry cv" data-status="3" data-type="4" data-position="pending" style="">AFP</div>
-							<div id="AFP10005" class="entry cv" data-status="3" data-type="5" data-position="pending" style="">AFP</div>
-							<div id="AFP10006" class="entry cv" data-status="3" data-type="6" data-position="pending" style="">AFP</div>
-							<div id="AFP10007" class="entry cv" data-status="3" data-type="7" data-position="pending" style="">AFP</div>
-
 							{if isset($tcards.pending)}
 								{foreach $tcards.pending as $card}
 									<div id="{$card->tc_id}" class="entry cv" van-no="{$card->v_no}" bin-no="{$card->tc_bin}" data-position="pending" style="background-color: {$card->s_color}; border-color: {$card->tt_color};">{$card->display_chars}</div>
 								{/foreach}
 							{/if}
-
 						</div>
 					</div>
 					<div id="history" class="panel panel-default">
@@ -663,11 +649,7 @@
 							<div id="RMD" class="cv dp ui-droppable" style="left: 110px; top: 800px;">RMD </div>
 							<div id="RME" class="cv dp ui-droppable" style="left: 79px; top: 800px;">RME </div>
 							<div id="RMF" class="cv dp ui-droppable" style="left: 48px; top: 800px;">RMF </div>
-
-
-							<div id="AFP10008" class="entry cv ui-draggable ui-droppable" data-position="O52" data-status="3" data-type="4" style="left: 141px; top: 152px;" aria-disabled="false">AFP</div>
-							<div id="AFP10009" class="entry cv ui-draggable ui-droppable" data-status="3" data-type="7" style="left: 389px; top: 59px;" aria-disabled="false" data-position="A62">AFP</div>
-							<div id="AFP10011" class="entry cv ui-draggable ui-droppable" data-status="3" data-type="7" style="top: 121px; left: 141px;" aria-disabled="false" data-position="O51">AFP</div>							
+						
 
 							{if isset($tcards.positioned)}
 								{foreach $tcards.positioned as $card}

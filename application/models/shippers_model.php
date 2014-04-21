@@ -9,11 +9,21 @@ class Shippers_model extends CI_Model{
 	}
 	
 	/* READ */
+
+	function record_count() {
+        return $this->db->count_all("shippers");
+    }
+
+    # Get Shippers for pagination
+    function p_shippers($limit, $offset) {
+        $query = $this->db->get('shippers', $limit, $offset);
+		return $query->result();
+   }
+
 	function get_shippers() {
 		$returnVal = NULL;
 		
 		$this->db->from('shippers');
-		$this->db->where('s_id <>', '1');
 		$this->db->order_by('s_name ASC, s_code ASC');
 		$query = $this->db->get();
 		

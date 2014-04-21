@@ -42,6 +42,13 @@ $route['default_controller'] = "home";
 $route['404_override'] = '';
 
 $route['users/(:num)'] = 'users/index/$1';
+$route['shippers/(:num)'] = 'shippers/index/$1';
+$route['tcard-types'] = 'tcard_types';
+$route['tcard-types/(:num)'] = 'tcard_types/index/$1';
+$route['truckers/(:num)'] = 'truckers/index/$1';
+$route['materials/(:num)'] = 'materials/index/$1';
+$route['van-types'] = 'van_types';
+$route['van-types/(:num)'] = 'van_types/index/$1';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

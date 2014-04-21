@@ -4,19 +4,33 @@ class Truckers extends MY_Controller {
 	
 	/* PAGES */
 	function index() {
+
+		$config['base_url'] = BASE_URL . 'truckers/';
+		$config['total_rows'] = $this->truckers_model->record_count();
+		$config['per_page'] = 5; 
+		$config['uri_segment'] = 2;
+
+
+		$this->pagination->initialize($config); 
+
+		$offset = $this->uri->segment(2);
+
+
+		$truckers = $this->truckers_model->p_truckers($config['per_page'], $offset);
+
+		$pagination = $this->pagination->create_links();
+
 		// page js
 		$js = array(
 				'pages/truckers.js'
 		);
 		$this->smarty->assign('page_js', $js);
 		
-		$trucks = $this->truckers_model->get_truckers();
-		$this->smarty->assign('truckers', $trucks);
-		
-		$data['page_header'] = "Trucker Management";
-		
-		$this->smarty->assign('layout', 'plain_layout.tpl');
-		$this->smarty->view('pages/truckers.tpl', $data);
+		$this->smarty->assign('truckers', $truckers);
+		$this->smarty->assign('pagination', $pagination);		
+		$this->smarty->assign('layout', 'crud_pages_layout.tpl');
+		$this->smarty->assign('page', 'truckers');
+		$this->smarty->view('pages/truckers.tpl');
 	}
 	
 	
@@ -24,8 +38,6 @@ class Truckers extends MY_Controller {
 	
 	function save() {
 		try {
-			
-			$done = FALSE;
 	
 			$action = $this->input->post('action');
 	
@@ -42,14 +54,12 @@ class Truckers extends MY_Controller {
 	
 			if( $action == 'create' ) {
 				$result = $this->truckers_model->new_trucker($data);
-				$done = TRUE;
 					
 			}elseif( $action == 'update' && $this->_validate_trucker($id) ) {
 				$result = $this->truckers_model->update_trucker($id, $data);
-				$done = TRUE;
 			}
 	
-			$var['done'] = $done;
+			$var['done'] = $result ? TRUE : FALSE;
 	
 		} catch (Exception $e) {
 			$var['done'] = FALSE;
@@ -92,30 +102,6 @@ class Truckers extends MY_Controller {
 		echo json_encode( $var );
 	}
 	
-	function validate_form() {
-	
-		try {
-			$var['success'] = TRUE;
-	
-			$this->_set_form_rules();
-	
-			if( !$this->form_validation->run() ) {
-				$var['success'] = FALSE;
-	
-				$this->form_validation->set_error_delimiters('', '');
-	
-				// form errors
-				$var['form_errors']['name'] = form_error('name') ? form_error('name') : NULL;
-				$var['form_errors']['code'] = form_error('code') ? form_error('code') : NULL;
-			}
-		} catch (Exception $e) {
-			$var['success'] = FALSE;
-			$var['exception'] = $e->getMessage();
-		}
-	
-		echo json_encode( $var );
-	}
-	
 	/* PRIVATES */
 	
 	private function _validate_trucker($id) {
@@ -133,17 +119,5 @@ class Truckers extends MY_Controller {
 		}
 	
 		return $returnVal;
-	}
-	
-	private function _set_form_rules() {
-	
-		$rules = array(
-				'name' => 'required|xss_clean',
-				'code' => 'required|xss_clean'
-		);
-	
-		$this->form_validation->set_rules('name', 'Trucker Name', $rules['name']);
-		$this->form_validation->set_rules('code', 'Trucker Code', $rules['code']);
-	
 	}
 }

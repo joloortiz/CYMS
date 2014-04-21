@@ -8,7 +8,7 @@ init_data_content();
 init_draggables_on_map();
 init_droppable_top();
 init_occupied_droppable();
-
+init_popover();
 
 
 function resetdragevent(){
@@ -37,6 +37,8 @@ function resetdragevent(){
                     'left': 0}
                 );
                 $('#' + draggable).draggable();
+                destroy_popover()
+                init_popover();
             }, 10);
 
         }
@@ -63,12 +65,12 @@ function resetdragevent(){
                 init_droppable_top();  
                 if($('#edit-btn').attr('editmode') == 1){
                     init_draggable_bottom();
-                    console.log('edit mode');
                 }else{
                     $('#' + draggable).draggable('disable');
                 }
                 init_occupied_droppable();
-                
+                destroy_popover();
+                init_popover();            
             }, 10);
             
         }
@@ -145,7 +147,17 @@ $('#cancel-cancel').click(function(){
     //as is
 });
 
+//Search van number/bin number upon clicking the search button
+$('#search-btn').click(function(){
+    search_entry();
+});
 
+//Search van number/bin number upon hitting enter
+$('#search-entry').keydown(function(e) {
+    if (e.keyCode == 13) {
+        search_entry();
+    }
+});
 
 
 /* 
@@ -254,7 +266,6 @@ function init_draggable_bottom(){
 
         if(dptopdatacontent){
             $(this).draggable('disable');
-            console.log($(this).attr('id'));
         }
     });
 }
@@ -298,9 +309,147 @@ function set_occupied_droppable(droppableid){
 }
 
 
-
 function unset_occupied_droppable(droppableid){
     $('#' + droppableid).droppable({ accept: '.entry' });
+}
+
+function popover_placement(draggableid){
+    var binno = $('#' + draggableid).attr('van-no') || 'No details found.';
+    var vanno = $('#' + draggableid).attr('bin-no') || 'No details found.';
+    var top = parseInt($('#' + draggableid).css('top').substring(0, $('#' + draggableid).css('top').length - 2));
+    var left = parseInt($('#' + draggableid).css('left').substring(0, $('#' + draggableid).css('left').length - 2));
+
+
+    if(top <= 59 && left < 1381){
+        $('#' + draggableid).popover({    
+            html: true, 
+            placement: 'right', 
+            trigger: 'hover',
+            content: "Van No.: " + binno + "</br>BIN No.: " + vanno,
+            delay: {show: 500}
+        })
+    }else if(top <= 59 && left >= 1381){
+        $('#' + draggableid).popover({    
+            html: true, 
+            placement: 'left', 
+            trigger: 'hover',
+            content: "Van No.: " + binno + "</br>BIN No.: " + vanno,
+            delay: {show: 500}
+        })
+    }
+    else if(left <= 141){
+        $('#' + draggableid).popover({    
+            html: true, 
+            placement: 'right', 
+            trigger: 'hover',
+            content: "Van No.: " + binno + "</br>BIN No.: " + vanno,
+            delay: {show: 500}
+        })
+    }else if(left >= 1505){
+        $('#' + draggableid).popover({    
+            html: true, 
+            placement: 'left', 
+            trigger: 'hover',
+            content: "Van No.: " + binno + "</br>BIN No.: " + vanno,
+            delay: {show: 500}
+        })        
+    }else {
+        $('#' + draggableid).popover({    
+            html: true, 
+            placement: 'top', 
+            trigger: 'hover',
+            content: "Van No.: " + binno + "</br>BIN No.: " + vanno,
+            delay: {show: 500}
+        })              
+    }
+    //check if top popover doesn't overlap
+
+}
+
+function init_popover(){
+
+    $('#pending').find('.entry').each(function(){
+        var binno = $(this).attr('van-no') || 'No details found.';
+        var vanno = $(this).attr('bin-no') || 'No details found.';
+
+        $(this).popover({    
+            html: true, 
+            animation: true,
+            placement: 'auto', 
+            trigger: 'hover',
+            content: "Van No.: " + binno + "</br>BIN No.: " + vanno,
+            delay: {show: 500}
+        });
+    });
+
+    $('#map').find('.entry').each(function(){
+        var draggableid = $(this).attr('id');
+
+        popover_placement(draggableid);
+    });
+
+}
+
+function destroy_popover(){
+    $('.entry').each(function(){
+        var draggableid = $(this).attr('id');
+
+        $('#' + draggableid).popover('destroy');
+    });
+}
+
+function search_id(entry){
+    var bid = $('html').find('div[bin-no="' + entry + '"]').attr('id');
+    var vid = $('html').find('div[van-no="' + entry + '"]').attr('id');
+
+    if(bid){
+        return bid;
+    }else if(vid){
+        return vid;
+    }
+}
+
+function search_entry(){
+
+    var entry = $('#search-entry').val().toUpperCase();
+
+    if(entry){
+        var draggableid = search_id(entry);
+
+        if(draggableid){
+            var top = parseInt($('#' + draggableid).css('top').substring(0, $('#' + draggableid).css('top').length - 2));
+            var left = parseInt($('#' + draggableid).css('left').substring(0, $('#' + draggableid).css('left').length - 2));
+            var dataposition = $('#' + draggableid).attr('data-position');
+
+            if(dataposition == 'pending'){
+                $('#' + draggableid).popover('show');
+
+                setTimeout(function(){$('#' + draggableid).popover('hide');},5000);
+
+                return true;
+            }else{    
+                $('#map').animate({
+                    scrollTop: top - 258,
+                    scrollLeft: left - 480
+                },
+                    1000
+                );
+
+                $('#' + draggableid).popover('show');
+
+                setTimeout(function(){$('#' + draggableid).popover('hide');},5000);
+                return true;
+            }
+        }else{
+            alert('No results found.');
+
+            return false;
+        }
+    }else{
+        alert('Fill in a search entry.');
+
+        return false;
+    }
 }
     
 });

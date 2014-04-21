@@ -33,17 +33,16 @@ class Users extends MY_Controller {
 		$config['per_page'] = 5; 
 		$config['uri_segment'] = 2;
 
+
 		$this->pagination->initialize($config); 
 
-		$page = $this->uri->segment(2);
+		$offset = $this->uri->segment(2);
 
-		if(!isset($page)){
-			$users = $this->users_model->p_users($config['per_page'],$page );
-		}else{
-			$users = $this->users_model->p_users($config['per_page'],0 );
-		}
+
+		$users = $this->users_model->p_users($config['per_page'], $offset);
 
 		$pagination = $this->pagination->create_links();
+
 
 		$this->smarty->assign('pagination', $pagination);
 		$this->smarty->assign('opt', $opt);
@@ -51,6 +50,7 @@ class Users extends MY_Controller {
 		$this->smarty->assign('users', $users);
 		$this->smarty->assign('page_title', 'Users');
 		$this->smarty->view('pages/users.tpl');
+
 	}
 
 	public function add() {
@@ -118,8 +118,8 @@ class Users extends MY_Controller {
 		echo json_encode($data);
 	}
 
-	public function test() {
-
+	public function purge(){
+		
 	}
 }
 

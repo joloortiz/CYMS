@@ -10,10 +10,19 @@ class Materials_model extends CI_Model{
 	}
 	
 	/* READ */
+	function record_count() {
+        return $this->db->count_all("materials");
+    }
+
+    # Get Materials for pagination
+    function p_materials($limit, $offset) {
+        $query = $this->db->get('materials', $limit, $offset);
+		return $query->result();
+   }
+
 	function get_materials() {
 		$returnVal = NULL;
 		$this->db->from('materials');
-		$this->db->where('m_id <>', '1');
 		$this->db->order_by('m_name ASC, m_type ASC');
 		$query = $this->db->get();
 	

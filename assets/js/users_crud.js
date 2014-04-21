@@ -1,4 +1,5 @@
 $(document).ready(function () {
+	
 	$('#tablesorter').tablesorter({
 		headers: {
 			2: { 
@@ -135,7 +136,9 @@ $(document).ready(function () {
 	$('#submit').click(function() {
 		$(this).button('loading');
 	    setTimeout(function(){
-			if(add_users_validate() == true) {
+	    	var result = add_users_validate();
+	    	console.log(result);
+			if(result == true) {
 				window.location = $('body').attr('base-url') + 'users/?add=success';
 			}
 		}, 250)

@@ -14,9 +14,8 @@ class Users_model extends CI_Model{
     }
 
     # Get Users for pagination
-    function p_users($limit, $start) {
-        $this->db->limit($limit, $start);
-        $query = $this->db->get("users");
+    function p_users($limit, $offset) {
+        $query = $this->db->get('users', $limit, $offset);
 		return $query->result_array();
    }
 

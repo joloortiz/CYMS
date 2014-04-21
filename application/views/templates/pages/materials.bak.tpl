@@ -1,33 +1,8 @@
 {extends file="layouts/"|cat:$layout}
 {block name=body}
-
+	<div class="container">
 		<div class="row">
-			<div class="col-sm-6 col-sm-offset-3">
-				<div id="control-form-container" class="well faded disabled">
-					<input name="active-material-id" class="input-with-value" type="hidden">
-					<div class="row">
-						<div class="col-sm-12">
-							<input name="material-name" class="form-control input-with-value interactive-element" type="text" placeholder="Material Name">
-						</div>
-					</div>
-					<div class="row buffer-top">
-						<div class="col-sm-12">
-							<input name="material-type" class="form-control input-with-value interactive-element" type="text" placeholder="Type">
-						</div>
-					</div>
-					<div class="row buffer-top">
-						<div class="col-sm-7"></div>
-						<div class="col-sm-5 text-center">
-							<a id="cancel-material" href="#" class="btn interactive-element" title="Cancel"><span class="glyphicon glyphicon-remove"></span></a>
-							<a id="save-material" href="#" class="btn interactive-element" title="Save"><span class="glyphicon glyphicon-floppy-disk"></span></a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-12">
+			<div class="col-sm-8">
 				<table id="material-table" class="table">
 					<thead>
 						<th style="width: 10px;"><input id="select-all-check" class="check-selection" type="checkbox"></th>
@@ -60,12 +35,28 @@
 					</tbody>
 				</table>
 			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-pagination">
-				{$pagination}
+			<div class="col-sm-4">
+				<div id="control-form-container" class="well faded disabled">
+					<input name="active-material-id" class="input-with-value" type="hidden">
+					<div class="row">
+						<div class="col-sm-12">
+							<input name="material-name" class="form-control input-with-value interactive-element" type="text" placeholder="Material Name">
+						</div>
+					</div>
+					<div class="row buffer-top">
+						<div class="col-sm-12">
+							<input name="material-type" class="form-control input-with-value interactive-element" type="text" placeholder="Type">
+						</div>
+					</div>
+					<div class="row buffer-top">
+						<div class="col-sm-7"></div>
+						<div class="col-sm-5 text-center">
+							<a id="cancel-material" href="#" class="btn interactive-element" title="Cancel"><span class="glyphicon glyphicon-remove"></span></a>
+							<a id="save-material" href="#" class="btn interactive-element" title="Save"><span class="glyphicon glyphicon-floppy-disk"></span></a>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-
+	</div>
 {/block}

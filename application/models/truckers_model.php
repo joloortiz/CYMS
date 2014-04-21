@@ -10,10 +10,19 @@ class Truckers_model extends CI_Model{
 	}
 	
 	/* READ */
+	function record_count() {
+        return $this->db->count_all('truckers');
+    }
+
+    # Get Trukers for pagination
+    function p_truckers($limit, $offset) {
+        $query = $this->db->get('truckers', $limit, $offset);
+		return $query->result();
+   }
+
 	function get_truckers() {
 		$returnVal = NULL;
 		$this->db->from('truckers');
-		$this->db->where('t_id <>', '1');
 		$this->db->order_by('t_name ASC, t_code ASC');
 		$query = $this->db->get();
 	

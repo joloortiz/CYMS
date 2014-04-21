@@ -132,7 +132,7 @@ function setup_van_nos() {
 
            $('[name="van-no"]').autocomplete({
              source: van_list,
-             appendTo: '.modal-body',
+             appendTo: '#newEntryModal .modal-body',
              minLength: 1
            });
        }

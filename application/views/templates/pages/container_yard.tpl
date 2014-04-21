@@ -7,7 +7,9 @@
 						{$company_name}<span>{$company_address}</span>
 					</a>
 				</div>
-				<a class="btn btn-oroport pull-left"><span class="glyphicon glyphicon-plus"></span> New Entry</a>
+				<button id="new-entry-btn" class="btn btn-oroport pull-left">
+					<span class="glyphicon glyphicon-plus"></span> New Entry
+				</button>
 				<div class="form-group col-xs-3">
 					<div class="input-group">
 				    	<input type="email" class="form-control" id="search-entry" placeholder="Search Entry">

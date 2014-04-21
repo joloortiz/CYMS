@@ -99,6 +99,30 @@ class Tcard_types extends MY_Controller {
 		echo json_encode( $var );
 	}
 	
+	function validate_form() {
+	
+		try {
+			$var['success'] = TRUE;
+	
+			$this->_set_form_rules();
+	
+			if( !$this->form_validation->run() ) {
+				$var['success'] = FALSE;
+	
+				$this->form_validation->set_error_delimiters('', '');
+	
+				// form errors
+				$var['form_errors']['name'] = form_error('name') ? form_error('name') : NULL;
+				$var['form_errors']['color'] = form_error('color') ? form_error('color') : NULL;
+			}
+		} catch (Exception $e) {
+			$var['success'] = FALSE;
+			$var['exception'] = $e->getMessage();
+		}
+	
+		echo json_encode( $var );
+	}
+	
 	/* PRIVATES */
 	
 	private function _validate_type($id) {
@@ -116,5 +140,17 @@ class Tcard_types extends MY_Controller {
 		}
 		
 		return $returnVal;
+	}
+	
+	private function _set_form_rules() {
+	
+		$rules = array(
+				'name' => 'required|xss_clean',
+				'color' => 'required|xss_clean'
+		);
+	
+		$this->form_validation->set_rules('name', 'T-card Type Name', $rules['name']);
+		$this->form_validation->set_rules('color', 'T-card Type Color Indicator', $rules['color']);
+	
 	}
 }

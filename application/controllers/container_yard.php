@@ -3,14 +3,75 @@
 class Container_yard extends MY_Controller {
 	
 	function index() {
-		$css = array('container-yard.css');
+		
+		// css
+		$css = array(
+				'select2.css',
+				/* 'jquery-ui-1.8.16.bootstrap.css', */
+				'jquery-ui-1.10.4.custom.css',
+				'container-yard.css'
+		);
 		$this->smarty->assign('page_css', $css);
 		
+		// JS
 		$js = array(
-				'jquery-ui-1.10.3.js',
-				'pages/container-yard.js'
+				'jquery-ui-1.10.4.smoothness.js',
+				'generic-datepicker.js',
+				'jquery.nicescroll.min.js',
+				'select2.min.js',
+				'pages/container-yard.js',
+				'pages/cy-tcard.js',
+				'checknumeric.js'
 		);
 		$this->smarty->assign('page_js', $js);
+		
+		// Materials
+		$materials = $this->materials_model->get_materials();
+		$this->smarty->assign('materials', $materials);
+		
+		// Vans
+		$vans = $this->vans_model->get_vans();
+		$this->smarty->assign('vans', $vans);
+		
+		// Van types
+		$van_types = $this->van_types_model->get_van_types();
+		$this->smarty->assign('van_types', $van_types);
+		
+		// T-card types
+		$tcard_types = $this->tcard_model->get_types();
+		$this->smarty->assign('tcard_types', $tcard_types);
+		
+		// Checkers
+		$checkers = $this->checkers_model->get_checkers();
+		$this->smarty->assign('checkers', $checkers);
+		
+		// Shippers
+		$shippers = $this->shippers_model->get_shippers();
+		$this->smarty->assign('shippers', $shippers);
+		
+		// Truckers
+		$truckers = $this->truckers_model->get_truckers();
+		$this->smarty->assign('truckers', $truckers);
+		
+		// Form names
+		$form_names = $this->_form_names();
+		$this->smarty->assign('form', $form_names);
+		
+		// Get cards - segregated
+		$cards = $this->tcard_model->list_tcards();
+		$tcards = array();
+		$index = '';
+		if( $cards ) {
+			foreach($cards as $k => $card) {
+				$row = (array)$card;
+				$index = $row['tp_top'] || $row['tp_left'] ? 'positioned' : 'pending';
+				// 				$row['display_chars'] = substr($row['v_no'], 0, 3);
+		
+				// 				$cards[$k] = (object) $row;
+				$tcards[$index][] = (object) $row;
+			}
+		}
+		$this->smarty->assign('tcards', $tcards);
 		
 		$data['layout_js'] = '';
 		$data['company_name'] = 'Oroport Cargoholding Services Inc.';

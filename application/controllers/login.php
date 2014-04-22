@@ -65,7 +65,7 @@ class Login extends MY_Controller {
 			$this->load->model('users_model');
 
 			$user = $this->users_model->get_by_username($username);
-			$this->session->set_userdata('cyms', $user[0]);
+			$this->session->set_userdata(SESSION_VAR, $user[0]);
 
 			$data['success'] = TRUE;
 			$data['msg'] = '';
@@ -79,7 +79,12 @@ class Login extends MY_Controller {
 	}
 
 	function logout() {
-		$this->session->unset_userdata('cyms');
+		try {
+			$this->session->unset_userdata(SESSION_VAR);			
+		} catch (Exception $e) {
+			unset($e);
+		}
+		
 		redirect(base_url() . 'login');
 	}
 }

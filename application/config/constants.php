@@ -53,5 +53,7 @@ define('IMAGES_DIR', ASSETS_DIR . 'images/');
 define('BASE_URL', 'http://localhost/cyms/');
 
 
+define('SESSION_VAR', 'cyms');
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

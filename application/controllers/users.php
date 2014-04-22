@@ -58,7 +58,8 @@ class Users extends MY_Controller {
 		$this->smarty->view('pages/users_add.tpl');
 	}
 
-	public function save(){
+	public function save() {
+		$id = $this->input->post('id');
 		$firstname = $this->input->post('firstname');
 		$lastname = $this->input->post('lastname');
 		$mi = $this->input->post('mi');
@@ -66,7 +67,7 @@ class Users extends MY_Controller {
 		$password = md5($this->input->post('password'));
 		$contactno = $this->input->post('contactno');
 		$opt = $this->input->post('opt');
-		$added_by_username = $this->session->userdata['cyms']['u_username'];
+		//$added_by_username = $this->session->userdata['cyms']['u_username'];
 
         try {
             // Load Users Model
@@ -79,22 +80,21 @@ class Users extends MY_Controller {
                     'u_mi' => $mi,
                     'u_username' => $username,
                     'u_password' => $password,
-                    'u_contactno' => $contactno,
-                    'u_addedby' => $added_by_username
+                    'u_contactno' => $contactno
+                    //'u_addedby' => $added_by_username
                 );
                 $this->users_model->Insert($insertData);
             } else if($opt == 'edit') {
                 $updateData = array(
-                	'u_id' => $u_id,
-                    'u_fname' => $firstname,
-                    'u_lname' => $lastname,
-                    'u_mname' => $mi,
-                    'u_gender' => $username,
-                    'u_bday' => $password,
-                    'u_contactno' => $contactno,
+                	'u_id' => $id,
+                    'u_firstname' => $firstname,
+                    'u_lastname' => $lastname,
+                    'u_mi' => $mi,
+                    'u_username' => $username,
+                    'u_contactno' => $contactno
                 );
                 if($password != '') $updateData['u_password'] = $password;
-                $this->users_model->Update($updateData, $uId);
+                $this->users_model->Update($updateData, $id);
             } else if($opt == 'delete') {
                 $this->users_model->Delete($uId);
             }
@@ -109,13 +109,36 @@ class Users extends MY_Controller {
 	}
 
 	public function is_username_existing() {
+		$id = $this->input->post('id');
 		$username = $this->input->post('username');
+		$opt = $this->input->post('opt');
 
 		$this->load->model('users_model');
 
-		$data['success'] = $this->users_model->is_username_existing($username);
-		
+		if($opt == 'add'){
+			$data['success'] = $this->users_model->is_username_existing($username);
+		} elseif($opt == 'edit') {
+			$data['success'] = $this->users_model->is_username_existing_edit($username, $id);
+		}
+
 		echo json_encode($data);
+	}
+
+	public function get_user_by_id(){
+		$id = $this->input->post('id');
+
+		$this->load->model('users_model');
+
+		$data = $this->users_model->get_user_by_id($id);
+
+		if($data){
+			$data['success'] = true;
+			echo json_encode($data);
+		}else {
+			$data['success'] = false;
+			echo json_encode($data);
+		}
+
 	}
 
 	public function purge(){

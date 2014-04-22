@@ -13,7 +13,11 @@
             <link type="text/css" rel="stylesheet" href="{$base_url}{$smarty.const.STYLESHEETS_DIR}{$v}">
         {/foreach}
     {/if}
-    <link href="/cyms/assets/css/container-yard.css" rel="stylesheet">
+    {if $page != 'login'}
+   		<link href="/cyms/assets/css/container-yard.css" rel="stylesheet">
+   	{else}
+   		<link href="/cyms/assets/css/bootstrap.min.css" rel="stylesheet">
+   	{/if}
 	<link href="/cyms/assets/css/global.css" rel="stylesheet">
 	<link href="/cyms/assets/css/spinner.css" rel="stylesheet">
 

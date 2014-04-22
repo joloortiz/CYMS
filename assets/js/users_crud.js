@@ -188,7 +188,6 @@ $(document).ready(function () {
 			if(contactno == ''){
 				$('#contactno').parents(':eq(1)').addClass('has-error');
 			}
-
 			msg = "<strong>Oh snap!</strong> Please fill in the required fields.";
 			returnflag = false;
             $('#submit-edit').button('reset');

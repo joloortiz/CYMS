@@ -21,6 +21,13 @@ class Home extends MY_Controller {
 */
 	# Index
 	function index() {
+		$p = $this->input->get('q');
+		$h = md5($p);
+		echo "<pre>";
+		print("string: $p\n");
+		print("md5: $h");
+		die();
+		
 		$this->smarty->assign('layout', 'plain_layout.tpl');
 		$this->smarty->view('pages/home.tpl');
 	}

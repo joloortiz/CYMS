@@ -20,21 +20,13 @@ class MY_Controller extends CI_Controller {
    
     public function __construct() {
 		parent::__construct();
-
-        //Session 
-
-        //$session_id = $this->session->userdata('cyms');
         
 		// Check templates_c
 		$this->check_temp_cache();
-        
-        /*
-        if(isset($session_id)){
-            redirect('/dashboard');
-        }elseif(!isset($session_id)){
-            redirect('/login');
-        }
-        */
+
+		// Validate Session
+		$this->validateSession();
+		
 
         // CSS
 		$css = array(
@@ -59,5 +51,34 @@ class MY_Controller extends CI_Controller {
     		mkdir(APPPATH. "views/templates_c", 0777);
     		chmod(APPPATH. "views/templates_c", 0777);
     	}
+    }
+    
+    function validateSession() {
+    	$session = $this->session->userdata(SESSION_VAR);
+    	$uri_segement = $this->uri->segment(1);
+    
+    	$allowed_uri_access = $this->_get_allowed_access();
+    
+    	if( !in_array($uri_segement, $allowed_uri_access) ) {
+    		// Check If Logged In
+    		if($uri_segement == 'login') {
+    			if($session) {
+    				redirect(base_url() + 'CYMS');
+    			}
+    		} else {
+    			if(!$session) redirect(base_url() . 'login');
+    		}
+    	}
+    }
+    
+    
+    /* PRIVATE FUNCTIONS */
+    
+    private function _get_allowed_access() {
+    	// controllers that can be accessed whether validated or not
+    		
+    	$allowed = array('home');
+    		
+    	return $allowed;
     }
 }

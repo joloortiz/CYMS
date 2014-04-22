@@ -18,7 +18,7 @@
 			<div class="pull-right col-xs-2">
 				<div class="btn-group pull-right">
 					<a class="btn btn-oroport"><span class="glyphicon glyphicon-cog"></span></a>
-					<a class="btn btn-oroport"><span class="glyphicon glyphicon-remove"></span> Logout</a>
+					<a href="{$base_url}logout" class="btn btn-oroport"><span class="glyphicon glyphicon-remove"></span> Logout</a>
 				</div>
 			</div>
 		</div>

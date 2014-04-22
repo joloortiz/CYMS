@@ -141,6 +141,7 @@ class Users extends MY_Controller {
 
 	}
 
+
 	public function change_password(){
 		$id = $this->input->post('id');
 		$updateData = array(
@@ -150,7 +151,6 @@ class Users extends MY_Controller {
 		$this->load->model('users_model');
 
 		$this->users_model->Update($updateData, $id);
-
 
 		$data['success'] = true;
 		echo json_encode($data);

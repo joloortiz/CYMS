@@ -27,7 +27,7 @@ class Dashboard extends MY_Controller {
 	}
 
 	function test() {
-		$data['username'] = $this->session->userdata['cyms']['u_username'];
+		$data['username'] = $this->session->userdata[SESSION_VAR]['u_username'];
 
 		echo json_encode($data);
 	}

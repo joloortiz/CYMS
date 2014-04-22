@@ -109,7 +109,7 @@ class Container_yard extends MY_Controller {
 			$date_blocked = $this->input->post($forms->date_blocked);
 			$remarks = $this->input->post($forms->remarks);
 			
- 			/* $user = $this->session->userdata('cyms'); */
+ 			/* $user = $this->session->userdata(SESSION_VAR); */
 			$user = array('u_id' => 5);
 			
 			/* TRANSFORM DATA */

@@ -71,7 +71,7 @@
 						 </div>
 						<div class="form-group">
 						    <div class="col-sm-offset-2 col-sm-10">
-						    	<a id="submit-edit" type="submit" class="btn btn-primary" id="submit" data-loading-text="Loading...">Submit</a>
+						    	<a id="submit-edit" type="submit" class="btn btn-primary" data-loading-text="Loading...">Submit</a>
 						    	<input type="hidden" id="u-id">
 						    </div>
 					  	</div>
@@ -93,7 +93,7 @@
 						</div>
 						<div class="form-group">
 						    <div class="col-sm-offset-2 col-sm-10">
-						    	<a type="submit" class="btn btn-primary" id="submit" data-loading-text="Loading...">Submit</a>
+						    	<a id="submit-password" type="submit" class="btn btn-primary" data-loading-text="Loading...">Submit</a>
 						    	<input type="hidden" id="u-id">
 						    </div>
 					  	</div>

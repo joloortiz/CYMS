@@ -38,7 +38,7 @@ $(document).ready(function () {
 
 	});
 
-	$('#firstname, #lastname, #mi, #username, #password, #contactno').focusout(function(){
+	$('#firstname, #lastname, #mi, #username, #password, #contactno, #re-password').focusout(function(){
 
 		if($(this).val() == ''){
 			$(this).parents(':eq(1)').addClass('has-error');
@@ -119,7 +119,7 @@ $(document).ready(function () {
 			}
 			if(contactno == ''){
 				$('#contactno').parents(':eq(1)').addClass('has-error');
-			}
+			}		
 
 			err_message = "Please fill in the required fields."
 			$('.alert').empty();
@@ -172,7 +172,8 @@ $(document).ready(function () {
 		var username = $('#username').val();
 		var contactno = $('#contactno').val();
 		var opt = 'edit';
-		var err_message = '';
+		var msg = '';
+		var returnflag = '';
 
 		if(firstname == '' || lastname == '' || mi == '' || username == '' || contactno == '') {
 			if(firstname == '' || lastname == '' || mi == ''){
@@ -188,18 +189,15 @@ $(document).ready(function () {
 				$('#contactno').parents(':eq(1)').addClass('has-error');
 			}
 
-			err_message = "Please fill in the required fields."
-			$('.alert').empty();
-            $('.alert .edit-user').append(err_message).removeClass('hide');
+			msg = "<strong>Oh snap!</strong> Please fill in the required fields.";
+			returnflag = false;
             $('#submit-edit').button('reset');
-			return false;
+			return { 'returnflag': returnflag, 'msg': msg };
 		}else if(is_username_existing(username, id, opt) == true){
-			console.log(is_username_existing(username, id, opt));
-			err_message = "Username is already taken."
-			$('.alert').empty();
-            $('.alert .edit-user').append(err_message).removeClass('hide');
+			msg = "<strong>Oh snap!</strong> Username is already taken.";
+			returnflag = false;
             $('#submit-edit').button('reset');
-			return false;
+			return { 'returnflag': returnflag, 'msg': msg };
 		}else{
 			var err_message = '';
 	        $.ajax({
@@ -220,16 +218,18 @@ $(document).ready(function () {
 
 	                if(decode.success == false) {
 	                    err_message = decode.msg;
-	                    $('#submit-edit').button('reset');
 	                }
 	            }
 	        });
 	        if(err_message != '') {
 	            alert(err_message);
-	            return false;
+	            returnflag = false;
+	            return { 'returnflag': returnflag, 'msg': msg };
 	        }
 	        $('#submit-edit').button('reset');
-			return true;
+	        msg = '<strong>Well done!</strong> You have successfully edited the user details.';
+	        returnflag = true;
+			return { 'returnflag': returnflag, 'msg': msg };
 		}
 	}
 
@@ -249,11 +249,10 @@ $(document).ready(function () {
             }else{
             	$('#u-id').val(decode[0].u_id);
             	$('#lastname').val(decode[0].u_lastname);
-            	$('#firstname').val(decode[0].u_lastname);
+            	$('#firstname').val(decode[0].u_firstname);
             	$('#mi').val(decode[0].u_mi);
             	$('#username').val(decode[0].u_username);
             	$('#contactno').val(decode[0].u_contactno);
-            	$('#password').val(decode[0].u_password);
             }
 
             if($('#u-id').val()){
@@ -263,6 +262,50 @@ $(document).ready(function () {
 			}
         }
     	});
+	}
+
+	function change_password(password, repassword) {
+		var id = $('#u-id').val();
+		var msg = '';
+		var returnflag = false;
+
+		if(password == '' || repassword == ''){
+			msg = '<strong>Oh snap!</strong> Please fill in the required fields.';			
+			returnflag = false;
+			return {'returnflag' : returnflag, 'msg' : msg };
+		}else {
+		 	$.ajax({
+		        url: $('body').attr('base-url') + 'users/change_password',
+		        type: 'POST',
+		        async: false,
+		        data: {
+		        	id: id,
+		        	password: password
+		        },
+		        success: function (response) {
+		            var decode = jQuery.parseJSON(response);
+
+		            if(decode.success == false) {
+		            	msg = '<strong>Oh snap!</strong> Something went wrong. Please reload the page.';
+		                returnflag = false;
+		            }else {
+		            	msg = '<strong>Well done!</strong> You have successfully updated the password.';
+		            	returnflag = true;         	
+		            }
+		        }
+		    });
+
+		    return {'returnflag' : returnflag, 'msg' : msg };
+	    }
+	}
+
+	function password_compare(password, repassword) {
+
+		if(password == repassword){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	$('#submit').click(function() {
@@ -287,21 +330,65 @@ $(document).ready(function () {
 	    setTimeout(function(){
 	    	var result = edit_users_validate();
 	    	console.log(result);
-			if(result == true) {
+			if(result.returnflag == true) {
+				remove_alert_classes('.edit-user');
 				$('.edit-user').empty();
-				$('.edit-user').append('<strong>Well done!</strong> You have successfully edited the user details.').addClass('alert-success').removeClass('hide');
+				$('.edit-user').append(result.msg).addClass('alert-success').removeClass('hide');
+			} else {
+				remove_alert_classes('.edit-user');
+				$('.edit-user').empty();
+				$('.edit-user').append(result.msg).addClass('alert-danger').removeClass('hide');			
 			}
 		}, 250)
 	});
 
 	$('#submit-password').click(function() {
-		
+		var password = $('#password').val();
+		var repassword = $('#re-password').val();
+		$(this).button('loading');
+
+
+		if(password_compare(password, repassword) == true)	{
+
+			var result = change_password(password, repassword);
+			console.log(result.returnflag);
+			
+			if(result.returnflag == true) {
+				setTimeout(function(){
+					remove_alert_classes('.edit-user');
+
+					$('#submit-password').button('reset');
+					$('#password').parents(':eq(1)').removeClass('has-error');
+					$('#re-password').parents(':eq(1)').removeClass('has-error');
+					$('.edit-user').empty();
+					$('.edit-user').append(result.msg).addClass('alert-success').removeClass('hide');
+				}, 250)
+			} else {
+				setTimeout(function(){
+					remove_alert_classes('.edit-user');
+
+					$('#submit-password').button('reset');
+					$('#password').parents(':eq(1)').addClass('has-error');
+					$('#re-password').parents(':eq(1)').addClass('has-error');
+					$('.edit-user').empty();
+					$('.edit-user').append(result.msg).addClass('alert-danger').removeClass('hide');
+				}, 250)
+			}
+		} else {
+			setTimeout(function(){
+				remove_alert_classes('.edit-user');
+
+				$('#submit-password').button('reset');
+				$('#password').parents(':eq(1)').addClass('has-error');
+				$('#re-password').parents(':eq(1)').addClass('has-error');
+				$('.edit-user').empty();
+				$('.edit-user').append('<strong>Oh snap!</strong> Passwords does not match. Please re-enter your password.').addClass('alert-danger').removeClass('hide');
+			}, 250)
+		}
 	});
 
 	$('.user-edit-modal').on('hidden.bs.modal', function (e) {
-  		window.location = $('body').attr('base-url') + 'users';
-	})
-
-
+  		window.location = document.URL;
+	});
 
 });

@@ -141,8 +141,19 @@ class Users extends MY_Controller {
 
 	}
 
-	public function purge(){
-		
+	public function change_password(){
+		$id = $this->input->post('id');
+		$updateData = array(
+				'u_password' => md5($this->input->post('password'))
+		);
+
+		$this->load->model('users_model');
+
+		$this->users_model->Update($updateData, $id);
+
+
+		$data['success'] = true;
+		echo json_encode($data);
 	}
 }
 

@@ -23,6 +23,7 @@ class Login extends MY_Controller {
 		$this->smarty->assign('layout', 'plain_layout.tpl');
 		$this->smarty->assign('page_css', array('login-tpl.css'));
 		$this->smarty->assign('page_js', array('login.js'));
+		$this->smarty->assign('page', 'login');
 		$this->smarty->view('pages/login.tpl');
 	}
 

@@ -14,6 +14,8 @@ class Users extends MY_Controller {
 
 	# Index
 	function index() {
+		$session = $this->session->userdata(SESSION_VAR);
+
 		#Initialize Notification Variables
 		$opt = '';
 		$msg = '';
@@ -29,7 +31,7 @@ class Users extends MY_Controller {
 
 
 		$config['base_url'] = BASE_URL . 'users/';
-		$config['total_rows'] = $this->users_model->record_count();
+		$config['total_rows'] = $this->users_model->p_count($session['u_id'], $session['u_isadmin']);
 		$config['per_page'] = 5; 
 		$config['uri_segment'] = 2;
 
@@ -39,7 +41,7 @@ class Users extends MY_Controller {
 		$offset = $this->uri->segment(2);
 
 
-		$users = $this->users_model->p_users($config['per_page'], $offset);
+		$users = $this->users_model->p_users($session['u_id'], $session['u_isadmin'], $config['per_page'], $offset);
 
 		$pagination = $this->pagination->create_links();
 
@@ -141,8 +143,25 @@ class Users extends MY_Controller {
 
 	}
 
-	public function purge(){
-		
+
+	public function change_password() {
+		$id = $this->input->post('id');
+		$updateData = array(
+				'u_password' => md5($this->input->post('password'))
+		);
+
+		$this->load->model('users_model');
+
+		$this->users_model->Update($updateData, $id);
+
+		$data['success'] = true;
+		echo json_encode($data);
+	}
+
+	public function test() {
+		$session = $this->session->userdata(SESSION_VAR);
+
+		echo $session['u_id'];
 	}
 }
 

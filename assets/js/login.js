@@ -19,7 +19,7 @@ $(document).ready(function () {
         // Check if there empty strings
         if($('#username').val() == '' || $('#password').val() == '') {
             $('.alert').empty();
-            $('.alert').append('Please input the required fields.').removeClass('hide');
+            $('.alert').append('Please fill in the required fields.').removeClass('hide');
             $('#login-btn').button('reset');
             return false;
         }

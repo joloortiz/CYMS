@@ -9,12 +9,19 @@ class Users_model extends CI_Model{
 		return $query->result_array();
 	}
 
-	function record_count() {
-        return $this->db->count_all("users");
+	function p_count($id, $is_admin) {
+    	if($is_admin == FALSE)
+    		$this->db->where('u_isadmin', FALSE);
+    	$this->db->where('u_id !=', $id);		
+        $query = $this->db->get('users');
+        return  $query->num_rows();
     }
 
     # Get Users for pagination
-    function p_users($limit, $offset) {
+    function p_users($id, $is_admin, $limit, $offset) {
+    	if($is_admin == FALSE)
+    		$this->db->where('u_isadmin', FALSE);
+    	$this->db->where('u_id !=', $id);
         $query = $this->db->get('users', $limit, $offset);
 		return $query->result_array();
    }

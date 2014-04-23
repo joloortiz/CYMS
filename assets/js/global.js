@@ -12,3 +12,10 @@ target.addClass('hide');
 });
 });
 */
+
+function remove_alert_classes(id) {
+	$(id).removeClass('alert-danger');
+	$(id).removeClass('alert-success');
+	$(id).removeClass('alert-info');
+	$(id).removeClass('alert-warning');
+}

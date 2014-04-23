@@ -7966,9 +7966,13 @@ footer::before {
 }
 
 #map>div>.entry {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 #pending>div>.popover{ 
   position: absolute !important;
+}
+
+.ui-draggable-disabled {
+  opacity: 1 !important;
 }

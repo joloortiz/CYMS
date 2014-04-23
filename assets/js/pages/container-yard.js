@@ -66,6 +66,19 @@ function resetdragevent(){
                 if($('#edit-btn').attr('editmode') == 1){
                     init_draggable_bottom();
                 }else{
+
+                    show_loader();
+                    var top = $('#' + draggable).css('top');
+                    var left = $('#' + draggable).css('left');
+                    var dataposition = $('#' + draggable).attr('data-position');
+                    var id = $('#' + draggable).attr('id');
+
+                    if(save_position(id, dataposition, top, left)){
+                        setTimeout(function(){
+                            remove_loader();
+                        }, 1000)
+                    }
+
                     $('#' + draggable).draggable('disable');
                 }
                 init_occupied_droppable();
@@ -103,17 +116,49 @@ $('#edit-btn').click(function(){
 });
 
 
-$('#save-btn').click(function(){
-    $('#map>div>.entry').draggable('disable');
-    $('#edit-btn').removeClass('hide');
-    $('#edit-btn').attr('editmode', 0);
-    $('#cancel-btn, #save-btn').addClass('hide');
+$('#save-btn, #cancel-yes').click(function(){
+    var iteration = 0;
+    var save_success_count = 0;
 
 
     //Turn the trapping off
     window.onbeforeunload = null;
+    
+    show_loader();
+    setTimeout(function(){
+        $('#map>div>.entry').draggable('disable');
+        $('#edit-btn').removeClass('hide');
+        $('#edit-btn').attr('editmode', 0);
+        $('#cancel-btn, #save-btn').addClass('hide');
 
-    //code to save the edits to the database
+        //code to save the edits to the database
+
+        $('#main').find('.entry').each(function() {
+            var dataposition = $(this).attr('data-position');
+            var datastartposition = $(this).attr('data-start-position');
+
+            if(dataposition != datastartposition){
+                var id = $(this).attr('id');
+                var dataposition = $(this).attr('data-position');
+                var top = $(this).css('top');
+                var left = $(this).css('left');
+
+                iteration = iteration + 1;
+
+                if(save_position(id, dataposition, top, left)) {
+                    save_success_count = save_success_count + 1;
+                }
+            }
+
+        });
+
+        console.log('iteration: ' + iteration);
+        console.log('success count: ' + save_success_count);
+
+        //if(iteration == save_success_count) {
+            remove_loader();
+        //}
+    }, 1000);
 });
 
 $('#cancel-btn').click(function(){
@@ -123,7 +168,7 @@ $('#cancel-btn').click(function(){
 
 });
 
-
+/*
 $('#cancel-yes').click(function(){
     $('#map>div>.entry').draggable('disable');
     $('#edit-btn').removeClass('hide');
@@ -131,7 +176,7 @@ $('#cancel-yes').click(function(){
     $('#cancel-btn, #save-btn').addClass('hide');
 
     //loading chuchu
-});
+});*/
 
 $('#cancel-no').click(function(){
     $('#map>div>.entry').draggable('disable');
@@ -159,10 +204,36 @@ $('#search-entry').keydown(function(e) {
     }
 });
 
-
 /* 
 *   Functions
 */
+
+function save_position(id, dataposition, top, left) {
+    var returnflag = false;
+
+    $.ajax({
+        url: $('body').attr('base-url') + 'container_yard/save_position',
+        type: 'POST',
+        async: false,
+        data: {
+            id: id,
+            dataposition: dataposition,
+            top: top,
+            left: left
+        },
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+            if(decode.success == false) {
+                returnflag = false;
+            }
+            else{
+                returnflag = true;
+            }
+        }
+    });
+
+    return returnflag;
+}
 
 function revert(){
 

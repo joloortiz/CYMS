@@ -37,13 +37,13 @@ class Tcard_model extends CI_Model{
 							tt.tt_name,
 							tt.tt_color,
 							tp.tp_id,
-							tp.tp_position,
-							tp.tp_left,
-							tp.tp_top',
+							(SELECT tp_position FROM tcard_position WHERE tc_id = tc.tc_id ORDER BY tp_timestamp DESC LIMIT 1) AS tp_position,
+							(SELECT tp_left FROM tcard_position WHERE tc_id = tc.tc_id ORDER BY tp_timestamp DESC LIMIT 1) AS tp_left,
+							(SELECT tp_top FROM tcard_position WHERE tc_id = tc.tc_id ORDER BY tp_timestamp DESC LIMIT 1) AS tp_top',
 				FALSE);
 		
-		$this->db->from(" (SELECT * FROM tcard_position WHERE tc_id = $id ORDER BY tp_timestamp DESC LIMIT 1)tp ");
-		$this->db->join('tcards tc', 'tp.tc_id = tc.tc_id');
+		$this->db->from('tcards tc');
+		$this->db->join('tcard_position tp', 'tp.tc_id = tc.tc_id');
 		$this->db->join('vans v', 'tc.v_id = v.v_id');
 		$this->db->join('shippers s', 'tc.s_id = s.s_id');
 		$this->db->join('tcard_types tt', 'tc.tt_id = tt.tt_id');

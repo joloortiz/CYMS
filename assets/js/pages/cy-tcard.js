@@ -133,7 +133,7 @@ function setup_van_nos() {
            $('[name="van-no"]').autocomplete({
              source: van_list,
              appendTo: '#newEntryModal .modal-body',
-             minLength: 1
+             minLength: 3
            });
        }
    });

@@ -170,4 +170,5 @@ class Tcard_model extends CI_Model{
 		
 		return $tcard->id;
 	}
+
 }

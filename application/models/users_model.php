@@ -26,7 +26,7 @@ class Users_model extends CI_Model{
 		return $query->result_array();
    }
 
-	function get_by_username($username) {
+   	function get_by_username($username) {
 		$this->db->where('u_username', $username);
 		$query = $this->db->get('users');
 		return $query->result_array();

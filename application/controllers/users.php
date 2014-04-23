@@ -2,7 +2,7 @@
 
 class Users extends MY_Controller {
 
-	function __construct(){
+	function __construct() {
 		parent::__construct();
 		$this->smarty->assign('layout', 'crud_pages_layout.tpl');
 		$this->smarty->assign('page', 'users');
@@ -126,7 +126,7 @@ class Users extends MY_Controller {
 		echo json_encode($data);
 	}
 
-	public function get_user_by_id(){
+	public function get_user_by_id() {
 		$id = $this->input->post('id');
 
 		$this->load->model('users_model');

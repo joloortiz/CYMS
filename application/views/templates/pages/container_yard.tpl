@@ -18,7 +18,7 @@
 						</span>
 					</div>
 				</div>
-				<a class="btn btn-oroport pull-left"><span class="glyphicon glyphicon-print"></span> Print Report</a>
+				<a href="{$base_url}dashboard" class="btn btn-oroport pull-left">Dashboard</a>
 				<div class="pull-right col-xs-2">
 					<div class="btn-group pull-right">
 						<a class="btn btn-oroport"><span class="glyphicon glyphicon-cog"></span></a>

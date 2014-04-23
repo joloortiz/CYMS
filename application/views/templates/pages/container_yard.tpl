@@ -37,6 +37,8 @@
 		    				<span class="badge pull-right">7</span>
 		    			</div>
 						<div class="panel-body">
+							<div class="absolute-hide cv-model" data-class="entry cv ui-draggable" aria-disabled="false" style="display: none; opacity: 0;"></div>
+
 							{if isset($tcards.pending)}
 								{foreach $tcards.pending as $card}
 									<div id="{$card->tc_id}" class="entry cv" van-no="{$card->v_no}" bin-no="{$card->tc_bin}" data-position="pending" style="background-color: {$card->s_color}; border-color: {$card->tt_color};">{$card->display_chars}</div>

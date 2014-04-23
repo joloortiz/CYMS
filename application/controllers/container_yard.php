@@ -402,4 +402,27 @@ class Container_yard extends MY_Controller {
 		return $card;
 	}
 	
+	function save_position() {
+		$id = $this->input->post('id');
+		$dataposition = $this->input->post('dataposition');
+		$top = $this->input->post('top');
+		$left = $this->input->post('left');
+
+		$data = array(
+				'tc_id' => $id,
+				'tp_position' => $dataposition,
+				'tp_top' => $top,
+				'tp_left' => $left
+		);
+
+		$tp_id = $this->tcard_model->new_card_position($data);
+
+		if($tp_id){
+			$data['success'] = TRUE;
+		} else {
+			$data['success'] = FALSE;
+		}
+
+		echo json_encode($data);
+	}
 }

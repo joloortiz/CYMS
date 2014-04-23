@@ -19,3 +19,11 @@ function remove_alert_classes(id) {
 	$(id).removeClass('alert-info');
 	$(id).removeClass('alert-warning');
 }
+
+function show_loader() {
+	$('#loading-overlay').removeClass('hide');
+}
+
+function remove_loader() {
+	$('#loading-overlay').addClass('hide');
+}	

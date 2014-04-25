@@ -7,7 +7,7 @@
 		        <h2 class="form-signin-heading">Please sign in</h2>
 		        <input type="text" class="form-control" placeholder="Username" required="" autofocus="" id="username" name="username">
 		        <input type="password" class="form-control" placeholder="Password" required="" id="password" name="password">
-		        <a class="btn btn-lg btn-primary btn-block" data-loading-text="Validating..." id="login-btn">Sign in</a>
+		        <button class="btn btn-lg btn-primary btn-block" data-loading-text="Validating..." id="login-btn" type="submit">Sign in</button>
 	     	</form>
 	     </div>
 	</div>

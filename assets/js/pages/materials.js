@@ -5,37 +5,15 @@
 $('#save-material').click(function(event) {
 	event.preventDefault();
 
-	var id = $('[name="active-material-id"]').val();
-	var name = $('[name="material-name"]').val();
-	var type = $('[name="material-type"]').val();
-
-	var method = id == '' ? 'create' : 'update';
-
-	var data = {
-		material_id: id,
-		name: name,
-		type: type,
-		action: method
-	};
-
-	$.ajax({
-		url: $('body').attr('base-url') + 'materials/save',
-		type: 'POST',
-		async: false,
-		data: data,
-		success: function (response) {
-			var result = jQuery.parseJSON(response);
-
-			if( result.done ) {
-				window.location.reload(true);
-			}
-		}
-	});
+	if( validate() ) {
+		save();
+	}
 });
 
 $('#new-material-btn').click(function() {
 	reset_control();
 	enable_control();
+	reset_errors();
 
 	$('.material').addClass('action');
 	$('[name="material-name"]').focus();
@@ -44,10 +22,13 @@ $('#new-material-btn').click(function() {
 $('#cancel-material').click(function() {
 	$('.material').addClass('action');
 	disable_control();
+	reset_errors();
 });
 
 
 $('#material-table').on('click', '.material.action > .clickable', function() {
+	reset_errors();
+	
 	var row = $(this).closest('.material.action');
 	var id = row.find('[name="material-id"]').val();
 
@@ -174,5 +155,98 @@ function disable_control() {
 
 	$('.interactive-element').each(function() {
 		$(this).prop('disabled', true);
+	});
+}
+
+function get_form_values() {
+	var id = $('[name="active-material-id"]').val();
+	var name = $('[name="material-name"]').val();
+	var type = $('[name="material-type"]').val();
+
+	var method = id == '' ? 'create' : 'update';
+
+	var data = {
+		material_id: id,
+		action: method
+	};
+
+	// hyphenated form names
+	data['material-name'] = name;
+	data['material-type'] = type;
+
+	return data;
+}
+
+function validate() {
+
+	var data;
+    var validated = false;
+
+    reset_errors();
+
+    data = get_form_values();
+
+    // validate
+    $.ajax({
+        url:$('body').attr('base-url') + 'materials/validate_form',
+        type: 'POST',
+        async: false,
+        data: data,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+            var errors;
+            
+            if (decode.success == true) {
+                validated = true;
+            } else {
+
+                // show errors individually
+                if( decode.form_errors ) {
+                    errors = decode.form_errors;
+
+                    $.each(errors, function(key, error) {
+                    	display_form_error(error);
+                    });
+                }
+
+                if(decode.exception) {  // show exception
+                    alert('Exception caught:\n\n' + decode.exception);
+                }
+            }
+        }
+    });
+
+    return validated;
+}
+
+function display_form_error( errorString ) {
+
+    if( errorString && errorString != '' ) {
+        var error_indicator = $('ul.help-inline');
+        var html_string = "<li>&bull;&emsp;"+ errorString +"</li>";
+
+        error_indicator.append(html_string);
+    }
+}
+
+function reset_errors() {
+	$('ul.help-inline').empty();
+}
+
+function save() {
+	var data = get_form_values();
+
+	$.ajax({
+		url: $('body').attr('base-url') + 'materials/save',
+		type: 'POST',
+		async: false,
+		data: data,
+		success: function (response) {
+			var result = jQuery.parseJSON(response);
+
+			if( result.done ) {
+				window.location.reload(true);
+			}
+		}
 	});
 }

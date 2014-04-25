@@ -38,8 +38,8 @@ class Tcard_types extends MY_Controller {
 				
 			$action = $this->input->post('action');
 				
-			$name = $this->input->post('name');
-			$color = $this->input->post('color');
+			$name = $this->input->post('type-name');
+			$color = $this->input->post('type-color');
 			$id = $this->input->post('type_id');
 				
 			$result = NULL;
@@ -112,8 +112,8 @@ class Tcard_types extends MY_Controller {
 				$this->form_validation->set_error_delimiters('', '');
 	
 				// form errors
-				$var['form_errors']['name'] = form_error('name') ? form_error('name') : NULL;
-				$var['form_errors']['color'] = form_error('color') ? form_error('color') : NULL;
+				$var['form_errors']['type-name'] = form_error('type-name') ? form_error('type-name') : NULL;
+				$var['form_errors']['type-color'] = form_error('type-color') ? form_error('type-color') : NULL;
 			}
 		} catch (Exception $e) {
 			$var['success'] = FALSE;
@@ -145,12 +145,12 @@ class Tcard_types extends MY_Controller {
 	private function _set_form_rules() {
 	
 		$rules = array(
-				'name' => 'required|xss_clean',
-				'color' => 'required|xss_clean'
+				'type-name' => 'required|xss_clean',
+				'type-color' => 'required|xss_clean'
 		);
 	
-		$this->form_validation->set_rules('name', 'T-card Type Name', $rules['name']);
-		$this->form_validation->set_rules('color', 'T-card Type Color Indicator', $rules['color']);
+		$this->form_validation->set_rules('type-name', 'T-card Type Name', $rules['type-name']);
+		$this->form_validation->set_rules('type-color', 'T-card Type Color Indicator', $rules['type-color']);
 	
 	}
 }

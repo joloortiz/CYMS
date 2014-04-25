@@ -5,32 +5,11 @@
 $('#save-type').click(function(event) {
 	event.preventDefault();
 
-	var id = $('[name="active-type-id"]').val();
-	var name = $('[name="type-name"]').val();
-	var color = $('[name="type-color"]').val();
+	if( validate() ) {
+		save();
+	}
 
-	var method = id == '' ? 'create' : 'update';
-
-	var data = {
-		type_id: id,
-		name: name,
-		color: color,
-		action: method
-	};
-
-	$.ajax({
-		url: $('body').attr('base-url') + 'tcard_types/save',
-		type: 'POST',
-		async: false,
-		data: data,
-		success: function (response) {
-			var result = jQuery.parseJSON(response);
-
-			if( result.done ) {
-				window.location.reload(true);
-			}
-		}
-	});
+	
 });
 
 $('#new-type-btn').click(function() {
@@ -43,10 +22,13 @@ $('#new-type-btn').click(function() {
 
 $('#cancel-type').click(function() {
 	disable_control();
+	reset_errors();
 	$('.card-type').addClass('action');
 });
 
 $('#type-table').on('click', '.card-type.action > .clickable', function() {
+	reset_errors();
+
 	var row = $(this).closest('.card-type.action');
 	var id = row.find('[name="type-id"]').val();
 
@@ -176,5 +158,98 @@ function disable_control() {
 
 	$('.interactive-element').each(function() {
 		$(this).prop('disabled', true);
+	});
+}
+
+function get_form_values() {
+	var id = $('[name="active-type-id"]').val();
+	var name = $('[name="type-name"]').val();
+	var color = $('[name="type-color"]').val();
+
+	var method = id == '' ? 'create' : 'update';
+
+	var data = {
+		type_id: id,
+		action: method
+	};
+
+	// hyphenated form names
+	data['type-name'] = name;
+	data['type-color'] = color;
+
+	return data;
+}
+
+function validate() {
+
+	var data;
+    var validated = false;
+
+    reset_errors();
+
+    data = get_form_values();
+
+    // validate
+    $.ajax({
+        url:$('body').attr('base-url') + 'tcard_types/validate_form',
+        type: 'POST',
+        async: false,
+        data: data,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+            var errors;
+            
+            if (decode.success == true) {
+                validated = true;
+            } else {
+
+                // show errors individually
+                if( decode.form_errors ) {
+                    errors = decode.form_errors;
+
+                    $.each(errors, function(key, error) {
+                    	display_form_error(error);
+                    });
+                }
+
+                if(decode.exception) {  // show exception
+                    alert('Exception caught:\n\n' + decode.exception);
+                }
+            }
+        }
+    });
+
+    return validated;
+}
+
+function display_form_error( errorString ) {
+
+    if( errorString && errorString != '' ) {
+        var error_indicator = $('ul.help-inline');
+        var html_string = "<li>&bull;&emsp;"+ errorString +"</li>";
+
+        error_indicator.append(html_string);
+    }
+}
+
+function reset_errors() {
+	$('ul.help-inline').empty();
+}
+
+function save() {
+	var data = get_form_values();	
+
+	$.ajax({
+		url: $('body').attr('base-url') + 'tcard_types/save',
+		type: 'POST',
+		async: false,
+		data: data,
+		success: function (response) {
+			var result = jQuery.parseJSON(response);
+
+			if( result.done ) {
+				window.location.reload(true);
+			}
+		}
 	});
 }

@@ -3,7 +3,8 @@
  */
 
 var van_list = Array();
-var n = {};
+var n = {}; // van nos
+var c = {}; // checkers
 
 setup_van_nos();
 reset_tcard();
@@ -133,7 +134,7 @@ function setup_van_nos() {
            $('[name="van-no"]').autocomplete({
              source: van_list,
              appendTo: '#newEntryModal .modal-body',
-             minLength: 3
+             minLength: 0
            });
        }
    });

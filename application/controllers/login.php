@@ -66,7 +66,10 @@ class Login extends MY_Controller {
 			$this->load->model('users_model');
 
 			$user = $this->users_model->get_by_username($username);
-			$this->session->set_userdata(SESSION_VAR, $user[0]);
+			$data = $user[0];
+			unset($data['u_password']);
+			
+			$this->session->set_userdata(SESSION_VAR, $data);
 
 			$data['success'] = TRUE;
 			$data['msg'] = '';

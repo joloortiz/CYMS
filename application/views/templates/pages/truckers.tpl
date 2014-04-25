@@ -7,6 +7,12 @@
 					<input name="active-trucker-id" class="input-with-value" type="hidden">
 					<div class="row">
 						<div class="col-sm-12">
+							<ul class="help-inline">
+							</ul>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
 							<input name="trucker-name" class="form-control input-with-value interactive-element" type="text" placeholder="Trucker Name">
 						</div>
 					</div>

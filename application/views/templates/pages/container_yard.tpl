@@ -859,7 +859,7 @@
       							<option value=""></option>
 	      						{if $checkers && !empty($checkers)}
 	      							{foreach $checkers as $checker}
-	      								<option value="{$checker->c_id}">{$checker->c_firstname}{if $checker->c_mi}&nbsp;{$checker->c_mi}{/if}{if $checker->c_lastname}{$checker->lastname}{/if}</option>
+	      								<option value="{$checker->c_id}">{$checker->c_firstname}{if $checker->c_mi}&nbsp;{$checker->c_mi}{/if}{if $checker->c_lastname}&nbsp;{$checker->c_lastname}{/if}</option>
 	      							{/foreach}
 	      						{/if}
 		      				</select>

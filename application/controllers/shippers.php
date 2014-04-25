@@ -38,8 +38,8 @@ class Shippers extends MY_Controller {
 	
 			$action = $this->input->post('action');
 	
-			$name = $this->input->post('name');
-			$color = $this->input->post('color');
+			$name = $this->input->post('shipper-name');
+			$color = $this->input->post('shipper-color');
 			$id = $this->input->post('shipper_id');
 	
 			$result = NULL;
@@ -112,8 +112,8 @@ class Shippers extends MY_Controller {
 				$this->form_validation->set_error_delimiters('', '');
 	
 				// form errors
-				$var['form_errors']['name'] = form_error('name') ? form_error('name') : NULL;
-				$var['form_errors']['color'] = form_error('color') ? form_error('color') : NULL;
+				$var['form_errors']['shipper-name'] = form_error('shipper-name') ? form_error('shipper-name') : NULL;
+				$var['form_errors']['shipper-color'] = form_error('shipper-color') ? form_error('shipper-color') : NULL;
 			}
 		} catch (Exception $e) {
 			$var['success'] = FALSE;
@@ -145,12 +145,12 @@ class Shippers extends MY_Controller {
 	private function _set_form_rules() {
 	
 		$rules = array(
-				'name' => 'required|xss_clean',
-				'color' => 'required|xss_clean'
+				'shipper-name' => 'required|xss_clean',
+				'shipper-color' => 'required|xss_clean'
 		);
 	
-		$this->form_validation->set_rules('name', 'Shipper Name', $rules['name']);
-		$this->form_validation->set_rules('color', 'Shipper Color Indicator', $rules['color']);
+		$this->form_validation->set_rules('shipper-name', 'Shipper Name', $rules['shipper-name']);
+		$this->form_validation->set_rules('shipper-color', 'Shipper Color Indicator', $rules['shipper-color']);
 	
 	}
 }

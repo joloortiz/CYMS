@@ -5,35 +5,16 @@
 $('#save-van-type').click(function(event) {
 	event.preventDefault();
 
-	var id = $('[name="active-van-type-id"]').val();
-	var name = $('[name="van-type-name"]').val();
-
-	var method = id == '' ? 'create' : 'update';
-
-	var data = {
-		van_type_id: id,
-		name: name,
-		action: method
-	};
-
-	$.ajax({
-		url: $('body').attr('base-url') + 'van_types/save',
-		type: 'POST',
-		async: false,
-		data: data,
-		success: function (response) {
-			var result = jQuery.parseJSON(response);
-
-			if( result.done ) {
-				window.location.reload(true);
-			}
-		}
-	});
+	if( validate() ) {
+		save();
+	}
+	
 });
 
 $('#new-van-type-btn').click(function() {
 	reset_control();
 	enable_control();
+	reset_errors();
 
 	$('.van-type').addClass('action');
 	$('[name="van-type-name"]').focus();
@@ -42,9 +23,12 @@ $('#new-van-type-btn').click(function() {
 $('#cancel-van-type').click(function() {
 	$('.van-type').addClass('action');
 	disable_control();
+	reset_errors();
 });
 
 $('#van-type-table').on('click', '.van-type.action > .clickable', function() {
+	reset_errors();
+	
 	var row = $(this).closest('.van-type.action');
 	var id = row.find('[name="van-type-id"]').val();
 
@@ -170,5 +154,96 @@ function disable_control() {
 
 	$('.interactive-element').each(function() {
 		$(this).prop('disabled', true);
+	});
+}
+
+function get_form_values() {
+	var id = $('[name="active-van-type-id"]').val();
+	var name = $('[name="van-type-name"]').val();
+
+	var method = id == '' ? 'create' : 'update';
+
+	var data = {
+		van_type_id: id,
+		action: method
+	};
+
+	// hyphenated form names
+	data['van-type-name'] = name;
+
+	return data;
+}
+
+function validate() {
+
+	var data;
+    var validated = false;
+
+    reset_errors();
+
+    data = get_form_values();
+
+    // validate
+    $.ajax({
+        url:$('body').attr('base-url') + 'van_types/validate_form',
+        type: 'POST',
+        async: false,
+        data: data,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+            var errors;
+            
+            if (decode.success == true) {
+                validated = true;
+            } else {
+
+                // show errors individually
+                if( decode.form_errors ) {
+                    errors = decode.form_errors;
+
+                    $.each(errors, function(key, error) {
+                    	display_form_error(error);
+                    });
+                }
+
+                if(decode.exception) {  // show exception
+                    alert('Exception caught:\n\n' + decode.exception);
+                }
+            }
+        }
+    });
+
+    return validated;
+}
+
+function display_form_error( errorString ) {
+
+    if( errorString && errorString != '' ) {
+        var error_indicator = $('ul.help-inline');
+        var html_string = "<li>&bull;&emsp;"+ errorString +"</li>";
+
+        error_indicator.append(html_string);
+    }
+}
+
+function reset_errors() {
+	$('ul.help-inline').empty();
+}
+
+function save() {
+	var data = get_form_values();
+
+	$.ajax({
+		url: $('body').attr('base-url') + 'van_types/save',
+		type: 'POST',
+		async: false,
+		data: data,
+		success: function (response) {
+			var result = jQuery.parseJSON(response);
+
+			if( result.done ) {
+				window.location.reload(true);
+			}
+		}
 	});
 }

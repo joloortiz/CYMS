@@ -41,8 +41,8 @@ class Truckers extends MY_Controller {
 	
 			$action = $this->input->post('action');
 	
-			$name = $this->input->post('name');
-			$code = $this->input->post('code');
+			$name = $this->input->post('trucker-name');
+			$code = $this->input->post('trucker-code');
 			$id = $this->input->post('trucker_id');
 	
 			$result = NULL;
@@ -115,8 +115,8 @@ class Truckers extends MY_Controller {
 				$this->form_validation->set_error_delimiters('', '');
 	
 				// form errors
-				$var['form_errors']['name'] = form_error('name') ? form_error('name') : NULL;
-				$var['form_errors']['code'] = form_error('code') ? form_error('code') : NULL;
+				$var['form_errors']['trucker-name'] = form_error('trucker-name') ? form_error('trucker-name') : NULL;
+				$var['form_errors']['trucker-code'] = form_error('trucker-code') ? form_error('trucker-code') : NULL;
 			}
 		} catch (Exception $e) {
 			$var['success'] = FALSE;
@@ -148,12 +148,12 @@ class Truckers extends MY_Controller {
 	private function _set_form_rules() {
 	
 		$rules = array(
-				'name' => 'required|xss_clean',
-				'code' => 'required|xss_clean'
+				'trucker-name' => 'required|xss_clean',
+				'trucker-code' => 'required|xss_clean'
 		);
 	
-		$this->form_validation->set_rules('name', 'Trucker Name', $rules['name']);
-		$this->form_validation->set_rules('code', 'Trucker Code', $rules['code']);
+		$this->form_validation->set_rules('trucker-name', 'Trucker Name', $rules['trucker-name']);
+		$this->form_validation->set_rules('trucker-code', 'Trucker Code', $rules['trucker-code']);
 	
 	}
 }

@@ -7,6 +7,12 @@
 					<input name="active-type-id" class="input-with-value" type="hidden">
 					<div class="row">
 						<div class="col-sm-12">
+							<ul class="help-inline">
+							</ul>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
 							<input name="type-name" class="form-control input-with-value interactive-element" type="text" placeholder="T-card type">
 						</div>
 					</div>

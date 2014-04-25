@@ -1,8 +1,9 @@
 $(document).ready(function () {
 
-    $('#login-btn').click(function() {
+    $('.form-signin').submit(function(event) {
+        event.preventDefault();
 
-        $(this).button('loading');
+        $(this).find('#login-btn').button('loading');
         setTimeout(function(){
             if(validate() == true){
                 if(start_session() == true){

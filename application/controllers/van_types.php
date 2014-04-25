@@ -40,7 +40,7 @@ class Van_types extends MY_Controller {
 	
 			$action = $this->input->post('action');
 	
-			$name = $this->input->post('name');
+			$name = $this->input->post('van-type-name');
 			$id = $this->input->post('van_type_id');
 	
 			$result = NULL;
@@ -112,7 +112,7 @@ class Van_types extends MY_Controller {
 				$this->form_validation->set_error_delimiters('', '');
 	
 				// form errors
-				$var['form_errors']['name'] = form_error('name') ? form_error('name') : NULL;
+				$var['form_errors']['van-type-name'] = form_error('van-type-name') ? form_error('van-type-name') : NULL;
 			}
 		} catch (Exception $e) {
 			$var['success'] = FALSE;
@@ -144,10 +144,10 @@ class Van_types extends MY_Controller {
 	private function _set_form_rules() {
 	
 		$rules = array(
-				'name' => 'required|xss_clean'
+				'van-type-name' => 'required|xss_clean'
 		);
 	
-		$this->form_validation->set_rules('name', 'Van Type Name', $rules['name']);
+		$this->form_validation->set_rules('van-type-name', 'Van Type Name', $rules['van-type-name']);
 	
 	}
 }

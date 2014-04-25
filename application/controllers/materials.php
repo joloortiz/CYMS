@@ -41,8 +41,8 @@ class Materials extends MY_Controller {
 	
 			$action = $this->input->post('action');
 	
-			$name = $this->input->post('name');
-			$type = $this->input->post('type');
+			$name = $this->input->post('material-name');
+			$type = $this->input->post('material-type');
 			$id = $this->input->post('material_id');
 	
 			$result = NULL;
@@ -115,8 +115,8 @@ class Materials extends MY_Controller {
 				$this->form_validation->set_error_delimiters('', '');
 	
 				// form errors
-				$var['form_errors']['name'] = form_error('name') ? form_error('name') : NULL;
-				$var['form_errors']['type'] = form_error('type') ? form_error('type') : NULL;
+				$var['form_errors']['material-name'] = form_error('material-name') ? form_error('material-name') : NULL;
+				$var['form_errors']['material-type'] = form_error('material-type') ? form_error('material-type') : NULL;
 			}
 		} catch (Exception $e) {
 			$var['success'] = FALSE;
@@ -148,12 +148,12 @@ class Materials extends MY_Controller {
 	private function _set_form_rules() {
 	
 		$rules = array(
-				'name' => 'required|xss_clean',
-				'type' => 'required|xss_clean'
+				'material-name' => 'required|xss_clean',
+				'material-type' => 'required|xss_clean'
 		);
 	
-		$this->form_validation->set_rules('name', 'Material Name', $rules['name']);
-		$this->form_validation->set_rules('type', 'Material Type', $rules['type']);
+		$this->form_validation->set_rules('material-name', 'Material Name', $rules['material-name']);
+		$this->form_validation->set_rules('material-type', 'Material Type', $rules['material-type']);
 	
 	}
 }

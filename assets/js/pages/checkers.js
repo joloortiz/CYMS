@@ -2,41 +2,41 @@
  * EVENTS
  */
 
-$('#save-trucker').click(function(event) {
+$('#save-checker').click(function(event) {
 	event.preventDefault();
 
-	if(  validate() ) {
+
+	if( validate() ) {
 		save();
 	}
 	
 });
 
-$('#new-trucker-btn').click(function() {
+$('#new-checker-btn').click(function() {
 	reset_control();
 	enable_control();
-	reset_errors();
 
-	$('.trucker').addClass('action');
-	$('[name="trucker-name"]').focus();
+	$('.checker').addClass('action');
+	$('[name="first-name"]').focus();
 });
 
-$('#cancel-trucker').click(function() {
-	$('.trucker').addClass('action');
+$('#cancel-checker').click(function() {
+	$('.checker').addClass('action');
 	disable_control();
 	reset_errors();
 });
 
-$('#trucker-table').on('click', '.trucker.action > .clickable', function() {
+$('#checker-table').on('click', '.checker.action > .clickable', function() {
 	reset_errors();
-	
-	var row = $(this).closest('.trucker.action');
-	var id = row.find('[name="trucker-id"]').val();
 
-	$('.trucker').not('.action').addClass('action');
+	var row = $(this).closest('.checker.action');
+	var id = row.find('[name="checker-id"]').val();
+
+	$('.checker').not('.action').addClass('action');
 	row.removeClass('action');
 
 	$.ajax({
-		url: $('body').attr('base-url') + 'truckers/get_trucker_details',
+		url: $('body').attr('base-url') + 'checkers/get_checker_details',
 		type: 'POST',
 		async: false,
 		data: {
@@ -44,19 +44,20 @@ $('#trucker-table').on('click', '.trucker.action > .clickable', function() {
 		},
 		success: function (response) {
 			var decode = jQuery.parseJSON(response);
-			var trucker_details;
+			var checker_details;
 
 			if( decode.success && decode.details) {
 				reset_control();
 				enable_control();
 
-				trucker_details = decode.details;
+				checker_details = decode.details;
 
-				$('[name="active-trucker-id"]').val(trucker_details.t_id);
-				$('[name="trucker-name"]').val(trucker_details.t_name);
-				$('[name="trucker-code"]').val(trucker_details.t_code);
+				$('[name="active-checker-id"]').val(checker_details.c_id);
+				$('[name="first-name"]').val(checker_details.c_firstname);
+				$('[name="last-name"]').val(checker_details.c_lastname);
+				$('[name="mi"]').val(checker_details.c_mi);
 
-				$('[name="trucker-name"]').focus();
+				$('[name="first-name"]').focus();
 			}
 		}
 	});
@@ -67,9 +68,9 @@ $('.check-selection').change(function() {
 	var checkboxes = $('.check-selection:checked');
 
 	if( checkboxes.length > 0 ) {
-		$('#delete-trucker-btn').removeClass('absolute-hide');
+		$('#delete-checker-btn').removeClass('absolute-hide');
 	}else {
-		$('#delete-trucker-btn').addClass('absolute-hide');
+		$('#delete-checker-btn').addClass('absolute-hide');
 	}
 });
 
@@ -91,28 +92,28 @@ $('#select-all-check').change(function() {
 	$('.single-select').prop('checked', checked);
 
 	if( checked ) {
-		$('#delete-trucker-btn').removeClass('absolute-hide');
+		$('#delete-checker-btn').removeClass('absolute-hide');
 	}else {
-		$('#delete-trucker-btn').addClass('absolute-hide');
+		$('#delete-checker-btn').addClass('absolute-hide');
 	}
 });
 
-$('#delete-trucker-btn').click(function() {
-	var id_holders = $('.single-select:checked').closest('.trucker').find('[name="trucker-id"]');
+$('#delete-checker-btn').click(function() {
+	var id_holders = $('.single-select:checked').closest('.checker').find('[name="checker-id"]');
 	var ids = new Array();
 
 	if( id_holders.length > 0 ) {
-		if( confirm("Are you sure you want to delete the selected truckers?") ) {
+		if( confirm("Are you sure you want to delete the selected checkers?") ) {
 			id_holders.each(function() {
 				ids.push( $(this).val() );
 			});
 
 			$.ajax({
-				url: $('body').attr('base-url') + 'truckers/delete',
+				url: $('body').attr('base-url') + 'checkers/delete',
 				type: 'POST',
 				async: false,
 				data: {
-					trucker_ids: ids
+					checker_ids: ids
 				},
 				success: function (response) {
 					var result = jQuery.parseJSON(response);
@@ -158,25 +159,6 @@ function disable_control() {
 	});
 }
 
-function get_form_values() {
-	var id = $('[name="active-trucker-id"]').val();
-	var name = $('[name="trucker-name"]').val();
-	var code = $('[name="trucker-code"]').val();
-
-	var method = id == '' ? 'create' : 'update';
-
-	var data = {
-		trucker_id: id,
-		action: method
-	};
-
-	// hyphenated form names
-	data['trucker-name'] = name;
-	data['trucker-code'] = code;
-
-	return data;
-}
-
 function validate() {
 
 	var data;
@@ -188,7 +170,7 @@ function validate() {
 
     // validate
     $.ajax({
-        url:$('body').attr('base-url') + 'truckers/validate_form',
+        url:$('body').attr('base-url') + 'checkers/validate_form',
         type: 'POST',
         async: false,
         data: data,
@@ -219,6 +201,27 @@ function validate() {
     return validated;
 }
 
+function get_form_values() {
+	var id = $('[name="active-checker-id"]').val();
+	var firstname = $('[name="first-name"]').val();
+	var lastname = $('[name="last-name"]').val();
+	var mi = $('[name="mi"]').val();
+
+	var method = id == '' ? 'create' : 'update';
+
+	var data = {
+		checker_id: id,
+		mi: mi,
+		action: method
+	};
+
+	// object names with hyphens
+	data['first-name'] = firstname;
+	data['last-name'] = lastname;
+
+	return data;
+}
+
 function display_form_error( errorString ) {
 
     if( errorString && errorString != '' ) {
@@ -234,11 +237,10 @@ function reset_errors() {
 }
 
 function save() {
-
 	var data = get_form_values();
 
 	$.ajax({
-		url: $('body').attr('base-url') + 'truckers/save',
+		url: $('body').attr('base-url') + 'checkers/save',
 		type: 'POST',
 		async: false,
 		data: data,

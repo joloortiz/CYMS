@@ -2,7 +2,10 @@
 {block name=body}
 
 		<h1>{$page_title}</h1>
+		
+		<div class="pull-right">
 
+		</div>
 		<div class="alert alert-success {if $opt == ''}hide{/if}">{if $opt != ''}{$msg}{/if}</div>
 		<div class="row">
 		<table id="tablesorter" class="table">
@@ -10,18 +13,28 @@
 				<tr>
 					<th>Username</th>
 					<th>Name</th>
-					<th>Actions</th>
+					<th>
+						<a href="{$base_url}users/add" id="new-type-btn" class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus"></span> Add</a>
+					</th>
+
 				</tr>
 			</thead>
 			<tbody>
-			{foreach from=$users item=v}
-				<tr>
-					<td>{$v['u_username']}</td>
-					<td>{$v['u_lastname']}, {$v['u_firstname']} {$v['u_mi']}</td>
-					<td><a data-uid="{$v['u_id']}"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp;&nbsp;<a><span class="glyphicon glyphicon-trash"></a></span></td>
-				</tr>
-			{/foreach}
+			{if $users}
+				{foreach from=$users item=v}
+					<tr>
+						<td>{$v['u_username']}</td>
+						<td>{$v['u_lastname']}, {$v['u_firstname']} {$v['u_mi']}</td>
+						<td><a id="edit-btn" data-uid="{$v['u_id']}"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp;&nbsp;<a id="purge-btn" data-uid="{$v['u_id']}" data-username="{$v['u_username']}"><span class="glyphicon glyphicon-trash"></a></span></td>
+					</tr>
+				{/foreach}
+			{else}
+					<tr>
+						<td colspan="4"><em>No records found.</em></td>
+					</tr>
+			{/if}
 			</tbody>
+
 		</table>
 		</div>
 		
@@ -98,6 +111,24 @@
 						    </div>
 					  	</div>
 					</form>
+		      	</div>
+		    </div>
+		  </div>
+		</div>
+
+		<div class="modal fade user-purge-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		    	<div class="modal-header">
+		         	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		          	<h4 class="modal-title" id="myModalLabel">Deactivate User</h4>
+	        	</div>
+		      	<div class="modal-body">
+		      		<span>Are you sure you want to deactivate '<span id="username-placeholder"></span>'?</span>
+		      	</div>
+		      	<div class="modal-footer">
+		      		<button id="purge-yes" type="button" class="btn btn-default" data-dismiss="modal">Yes</button>
+		      		<button id="purge-no" type="button" class="btn btn-default" data-dismiss="modal">No</button>
 		      	</div>
 		    </div>
 		  </div>

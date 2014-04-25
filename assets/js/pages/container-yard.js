@@ -36,6 +36,7 @@ function resetdragevent(){
                     'top': 0, 
                     'left': 0}
                 );
+                $('#' + draggable).attr('data-position', 'pending');
                 $('#' + draggable).draggable();
                 destroy_popover()
                 init_popover();
@@ -140,9 +141,14 @@ $('#save-btn, #cancel-yes').click(function(){
             if(dataposition != datastartposition){
                 var id = $(this).attr('id');
                 var dataposition = $(this).attr('data-position');
-                var top = $(this).css('top');
-                var left = $(this).css('left');
-
+                if(dataposition != 'pending'){
+                    var top = $(this).css('top');
+                    var left = $(this).css('left');
+                } else {
+                    var top = null;
+                    var left = null;
+                }
+                
                 iteration = iteration + 1;
 
                 if(save_position(id, dataposition, top, left)) {
@@ -155,9 +161,9 @@ $('#save-btn, #cancel-yes').click(function(){
         console.log('iteration: ' + iteration);
         console.log('success count: ' + save_success_count);
 
-        //if(iteration == save_success_count) {
+        if(iteration == save_success_count) {
             remove_loader();
-        //}
+        }
     }, 1000);
 });
 

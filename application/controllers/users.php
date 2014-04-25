@@ -61,6 +61,7 @@ class Users extends MY_Controller {
 	}
 
 	public function save() {
+		$session = $this->session->userdata(SESSION_VAR);
 		$id = $this->input->post('id');
 		$firstname = $this->input->post('firstname');
 		$lastname = $this->input->post('lastname');
@@ -69,7 +70,7 @@ class Users extends MY_Controller {
 		$password = md5($this->input->post('password'));
 		$contactno = $this->input->post('contactno');
 		$opt = $this->input->post('opt');
-		//$added_by_username = $this->session->userdata['cyms']['u_username'];
+		$addedby = $session['u_id'];
 
         try {
             // Load Users Model
@@ -82,8 +83,8 @@ class Users extends MY_Controller {
                     'u_mi' => $mi,
                     'u_username' => $username,
                     'u_password' => $password,
-                    'u_contactno' => $contactno
-                    //'u_addedby' => $added_by_username
+                    'u_contactno' => $contactno,
+                    'u_addedby' => $addedby
                 );
                 $this->users_model->Insert($insertData);
             } else if($opt == 'edit') {
@@ -99,8 +100,12 @@ class Users extends MY_Controller {
                 $this->users_model->Update($updateData, $id);
             } else if($opt == 'delete') {
                 $this->users_model->Delete($uId);
+            } else if($opt == 'purge') {
+            	$updateData = array(
+            		'u_isactive' => FALSE
+            	);
+            	$this->users_model->Purge($updateData, $id);
             }
-            
             $data['success'] = true;
         } catch (Exception $e) {
             $data['success'] = false;

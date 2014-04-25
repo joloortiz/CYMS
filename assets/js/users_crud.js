@@ -182,9 +182,6 @@ $(document).ready(function () {
 			if(username == '') {
 				$('#username').parents(':eq(1)').addClass('has-error');
 			}
-			if(password == '') {
-				$('#password').parents(':eq(1)').addClass('has-error');
-			}
 			if(contactno == ''){
 				$('#contactno').parents(':eq(1)').addClass('has-error');
 			}
@@ -230,6 +227,33 @@ $(document).ready(function () {
 	        returnflag = true;
 			return { 'returnflag': returnflag, 'msg': msg };
 		}
+	}
+
+	function purge_user(id) {
+		var returnflag = false;
+		var opt = 'purge';
+
+		$.ajax({
+            url: $('body').attr('base-url') + 'users/save',
+            type: 'POST',
+            async: false,
+            data: {
+            	id: id,
+                opt: opt
+            },
+            success: function (response) {
+                var decode = jQuery.parseJSON(response);
+
+                if(decode.success == false) {
+                    err_message = decode.msg;
+                   	returnflag = false;
+                } else {
+                	returnflag = true;
+                }
+            }
+	    });
+
+	    return returnflag;
 	}
 
 	function get_user_by_id(id){
@@ -318,10 +342,35 @@ $(document).ready(function () {
 		}, 250)
 	});
 
-	$('#tablesorter a').click(function() {
+	$('#tablesorter #edit-btn').click(function() {
 		var id = $(this).attr('data-uid');
 		edit_mode = 1; 
 		get_user_by_id(id);
+	});
+
+	$('#tablesorter #purge-btn').click(function() {
+		var id = $(this).attr('data-uid');
+		var username = $(this).attr('data-username');
+
+		$('.user-purge-modal').modal({
+			show: true
+		});
+
+		$('#username-placeholder').text(username);
+		$('#purge-yes').attr('placeholder-uid', id);
+	});
+
+	$('#purge-yes').click(function() {
+		var id = $(this).attr('placeholder-uid');
+
+		show_loader();
+
+		setTimeout(function() {
+			if(purge_user(id) == true)	{
+				remove_loader();
+				window.location = document.URL;
+			}
+		}, 1000);
 	});
 
 	$('#submit-edit').click(function() {

@@ -12,7 +12,8 @@
     <header>
 		<div class="container-fluid">
 			<div class="col-xs-4">
-				<a id="companyname" class="" href="#" title="Home">Oroport Cargoholding Services Inc.<span>Port Area, Puntod, Cagayan de Oro</span>	
+				<a href="{$base_url}"><span id="company-logo">Logo Here</span></a>
+				<a id="companyname" class="" href="{$base_url}" title="Home">Oroport Cargoholding Services Inc.<span>Port Area, Puntod, Cagayan de Oro</span>	
 				</a>
 
 			</div>

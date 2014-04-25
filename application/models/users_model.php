@@ -11,8 +11,9 @@ class Users_model extends CI_Model{
 
 	function p_count($id, $is_admin) {
     	if($is_admin == FALSE)
-    		$this->db->where('u_isadmin', FALSE);
-    	$this->db->where('u_id !=', $id);		
+    	$this->db->where('u_isadmin', FALSE);
+        $this->db->where('u_isactive', TRUE);	
+    	$this->db->where('u_id !=', $id);	
         $query = $this->db->get('users');
         return  $query->num_rows();
     }
@@ -22,6 +23,7 @@ class Users_model extends CI_Model{
     	if($is_admin == FALSE)
     		$this->db->where('u_isadmin', FALSE);
     	$this->db->where('u_id !=', $id);
+    	$this->db->where('u_isactive', TRUE);
         $query = $this->db->get('users', $limit, $offset);
 		return $query->result_array();
    }
@@ -106,6 +108,13 @@ class Users_model extends CI_Model{
         $this->db->where('u_id', $id);
         $this->db->update('users', $data);
         return;
+    }
+
+    # Purge
+    function Purge($data, $id) {
+    	$this->db->where('u_id', $id);
+    	$this->db->update('users', $data);
+    	return;
     }
     
     # Delete

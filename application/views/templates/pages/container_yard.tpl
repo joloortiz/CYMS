@@ -3,7 +3,8 @@
 		<header>
 			<div class="container-fluid">
 				<div class="col-xs-4">
-					<a id="companyname" class="" href="#" title="Home">
+					<a href="{$base_url}"><span id="company-logo">Logo Here</span></a>
+					<a id="companyname" class="" href="{$base_url}" title="Home">
 						{$company_name}<span>{$company_address}</span>
 					</a>
 				</div>

@@ -7795,7 +7795,7 @@ header #companyname {
   font-weight: bold;
   font-family: "HelveticaNeueLTStd77BoldCondensed";
   text-transform: uppercase;
-  font-size: 18px;
+  font-size: 11pt;
   line-height: 1;
   padding: 13px 0 12px 0;
   display: inline-block;
@@ -7830,7 +7830,7 @@ header .btn-oroport:hover {
 /* line 84, ../sass/main.scss */
 header input.form-control {
   margin: 10px 0;
-  padding: 19px 13px;
+ /*padding: 19px 13px;*/
   border: 0px;
   height: 39px;
 }

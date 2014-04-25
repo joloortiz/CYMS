@@ -2,6 +2,27 @@
 
 /* Bootstrap Override*/ 
 
+#company-logo {
+	display: block;
+	text-indent: -9999px;
+	width: 60px;
+	height: 62px;
+	margin-top: 3px;
+	background-image: url(/cyms/assets/img/logo.gif);
+	background-size: 50px;
+	background-repeat: no-repeat;
+	background-position: center top;
+	float: left;
+}
+
+.nav a {
+	color: #000;
+}
+
+.nav a:hover, a:focus {
+	color: #000;
+}
+
  .btn-primary  {
  	background-color: #ffbf00;
 	border: 0;

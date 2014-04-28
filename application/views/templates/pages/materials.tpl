@@ -1,5 +1,8 @@
 {extends file="layouts/"|cat:$layout}
 {block name=body}
+	<div class="row">
+		<h1>{$page_title}</h1>
+	</div>
 
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">
@@ -13,12 +16,12 @@
 					</div>
 					<div class="row">
 						<div class="col-sm-12">
-							<input name="material-name" class="form-control input-with-value interactive-element" type="text" placeholder="Material Name">
+							<input name="material-name" class="form-control input-with-value interactive-element" type="text" placeholder="Material Name / No.">
 						</div>
 					</div>
 					<div class="row buffer-top">
 						<div class="col-sm-12">
-							<input name="material-type" class="form-control input-with-value interactive-element" type="text" placeholder="Type">
+							<!-- <input name="material-type" class="form-control input-with-value interactive-element" type="text" placeholder="Type"> -->
 						</div>
 					</div>
 					<div class="row buffer-top">
@@ -40,7 +43,7 @@
 					<thead>
 						<th style="width: 10px;"><input id="select-all-check" class="check-selection" type="checkbox"></th>
 						<th>Materials</th>
-						<th>Type</th>
+						<!-- <th>Type</th> -->
 						<th style="width: 140px">
 							<button id="new-material-btn" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add</button>
 							<button id="delete-material-btn" class="btn absolute-hide"><i class="glyphicon glyphicon-trash" title="Delete Selected"></i></button>
@@ -51,18 +54,18 @@
 							{foreach $materials as $material}
 								<tr class="material action">
 									<td><input class="check-selection single-select" type="checkbox"></td>
-									<td class="clickable">
+									<td class="clickable" colspan="2">
 										{$material->m_name}
 										<input name="material-id" type="hidden" value="{$material->m_id}">
 									</td>
-									<td class="clickable" colspan="2">
+									<!-- <td class="clickable" colspan="2">
 										{$material->m_type}
-									</td>
+									</td> -->
 								</tr>
 							{/foreach}
 						{else}
 							<tr>
-								<td colspan="4"><em>No records found.</em></td>
+								<td colspan="3"><em>No records found.</em></td>
 							</tr>
 						{/if}
 					</tbody>

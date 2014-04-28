@@ -2,6 +2,8 @@
 
 class Checkers extends MY_Controller {
 	
+	public $adminRequired = TRUE;
+		
 	/* PAGES */
 	function index() {
 
@@ -36,11 +38,14 @@ class Checkers extends MY_Controller {
 		);
 		$this->smarty->assign('page_js', $js);
 		
+		// Data
+		$data['page_title'] = "Checkers";
+		
 		$this->smarty->assign('checkers', $checkers);
 		$this->smarty->assign('pagination', $pagination);		
 		$this->smarty->assign('layout', 'crud_pages_layout.tpl');
 		$this->smarty->assign('page', 'checkers');
-		$this->smarty->view('pages/checkers.tpl');
+		$this->smarty->view('pages/checkers.tpl', $data);
 	}
 	
 	
@@ -59,9 +64,9 @@ class Checkers extends MY_Controller {
 			$result = NULL;
 	
 			$data = array(
-					'c_firstname' => $fname,
-					'c_lastname' => $lname,
-					'c_mi' => $mi
+					'c_firstname' => strtoupper( $fname ),
+					'c_lastname' => strtoupper( $lname ),
+					'c_mi' => strtoupper( $mi )
 			);
 	
 			if( $action == 'create' ) {

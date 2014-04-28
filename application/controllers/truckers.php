@@ -2,6 +2,9 @@
 
 class Truckers extends MY_Controller {
 	
+	public $adminRequired = TRUE;
+	
+	
 	/* PAGES */
 	function index() {
 
@@ -26,11 +29,14 @@ class Truckers extends MY_Controller {
 		);
 		$this->smarty->assign('page_js', $js);
 		
+		// Data
+		$data['page_title'] = "Truckers";
+		
 		$this->smarty->assign('truckers', $truckers);
 		$this->smarty->assign('pagination', $pagination);		
 		$this->smarty->assign('layout', 'crud_pages_layout.tpl');
 		$this->smarty->assign('page', 'truckers');
-		$this->smarty->view('pages/truckers.tpl');
+		$this->smarty->view('pages/truckers.tpl', $data);
 	}
 	
 	
@@ -48,8 +54,8 @@ class Truckers extends MY_Controller {
 			$result = NULL;
 	
 			$data = array(
-					't_name' => $name,
-					't_code' => $code
+					't_name' => strtoupper( $name ),
+					't_code' => strtoupper( $code )
 			);
 	
 			if( $action == 'create' ) {
@@ -149,7 +155,7 @@ class Truckers extends MY_Controller {
 	
 		$rules = array(
 				'trucker-name' => 'required|xss_clean',
-				'trucker-code' => 'required|xss_clean'
+				'trucker-code' => 'xss_clean'
 		);
 	
 		$this->form_validation->set_rules('trucker-name', 'Trucker Name', $rules['trucker-name']);

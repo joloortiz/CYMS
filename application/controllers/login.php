@@ -84,7 +84,10 @@ class Login extends MY_Controller {
 
 	function logout() {
 		try {
-			$this->session->unset_userdata(SESSION_VAR);			
+			$this->session->unset_userdata(SESSION_VAR);
+
+			// remove compilted templates (files from templates_c) to layout view
+			$this->smarty->clear_compiled_tpl();
 		} catch (Exception $e) {
 			unset($e);
 		}

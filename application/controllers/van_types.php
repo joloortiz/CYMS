@@ -2,6 +2,8 @@
 
 class Van_types extends MY_Controller {
 	
+	public $adminRequired = TRUE;
+	
 	/* PAGES */
 	function index() {
 		$config['base_url'] = BASE_URL . 'van-types/';
@@ -25,11 +27,14 @@ class Van_types extends MY_Controller {
 		);
 		$this->smarty->assign('page_js', $js);
 		
+		// Data
+		$data['page_title'] = "Van Types";
+		
 		$this->smarty->assign('van_types', $van_types);
 		$this->smarty->assign('pagination', $pagination);		
 		$this->smarty->assign('layout', 'crud_pages_layout.tpl');
 		$this->smarty->assign('page', 'van_types');
-		$this->smarty->view('pages/van_types.tpl');
+		$this->smarty->view('pages/van_types.tpl', $data);
 	}
 	
 	
@@ -46,7 +51,7 @@ class Van_types extends MY_Controller {
 			$result = NULL;
 	
 			$data = array(
-					'vt_name' => $name
+					'vt_name' => strtoupper( $name )
 			);
 	
 			if( $action == 'create' ) {

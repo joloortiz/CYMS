@@ -27,6 +27,9 @@ class MY_Controller extends CI_Controller {
 		// Validate Session
 		$this->validateSession();
 		
+		// Check for Admin Access
+		$this->check_admin_access();
+		
 
         // CSS
 		$css = array(
@@ -68,6 +71,16 @@ class MY_Controller extends CI_Controller {
     		} else {
     			if(!$session) redirect(base_url() . 'login');
     		}
+    	}
+    }
+    
+    function check_admin_access() {
+    	$session = $this->session->userdata(SESSION_VAR);
+    	$userIsAdmin = $session['u_isadmin'];
+    	$pageRequiresAdmin = property_exists($this->router->fetch_class(), 'adminRequired');
+    	
+    	if( $pageRequiresAdmin && !$userIsAdmin ) {
+    		redirect(base_url(). 'dashboard');
     	}
     }
     

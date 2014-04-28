@@ -2,6 +2,8 @@
 
 class Materials extends MY_Controller {
 	
+	public $adminRequired = TRUE;
+		
 	/* PAGES */
 	function index() {
 
@@ -26,11 +28,14 @@ class Materials extends MY_Controller {
 		);
 		$this->smarty->assign('page_js', $js);
 		
+		// Data
+		$data['page_title'] = "Materials";
+		
 		$this->smarty->assign('materials', $materials);
 		$this->smarty->assign('pagination', $pagination);
 		$this->smarty->assign('layout', 'crud_pages_layout.tpl');
 		$this->smarty->assign('page', 'materials');
-		$this->smarty->view('pages/materials.tpl');
+		$this->smarty->view('pages/materials.tpl', $data);
 	}
 	
 	
@@ -48,8 +53,8 @@ class Materials extends MY_Controller {
 			$result = NULL;
 	
 			$data = array(
-					'm_name' => $name,
-					'm_type' => $type
+					'm_name' => strtoupper( $name ),
+					'm_type' => strtoupper( $type )
 			);
 	
 			if( $action == 'create' ) {
@@ -149,7 +154,7 @@ class Materials extends MY_Controller {
 	
 		$rules = array(
 				'material-name' => 'required|xss_clean',
-				'material-type' => 'required|xss_clean'
+				'material-type' => 'xss_clean'
 		);
 	
 		$this->form_validation->set_rules('material-name', 'Material Name', $rules['material-name']);

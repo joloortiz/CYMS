@@ -35,7 +35,7 @@
 					<div id="pending" class="panel panel-default">
 						<div class="panel-heading">
 							Pending Entries
-		    				<span class="badge pull-right">7</span>
+		    				<span class="badge pull-right">{count($tcards.pending)}</span>
 		    			</div>
 						<div class="panel-body">
 							<div class="absolute-hide cv-model" data-class="entry cv ui-draggable" aria-disabled="false" style="display: none; opacity: 0;"></div>

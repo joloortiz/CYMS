@@ -1,5 +1,8 @@
 {extends file="layouts/"|cat:$layout}
 {block name=body}
+	<div class="row">
+		<h1>{$page_title}</h1>
+	</div>
 
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">

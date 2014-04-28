@@ -1,6 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Shippers extends MY_Controller {
+	
+	public $adminRequired = TRUE;
+	
 	/* PAGES */
 	function index() {
 		// page js
@@ -25,11 +28,14 @@ class Shippers extends MY_Controller {
 		);
 		$this->smarty->assign('page_js', $js);
 		
+		// Data
+		$data['page_title'] = "Shippers";
+		
 		$this->smarty->assign('pagination', $pagination);
 		$this->smarty->assign('shippers', $shippers);
 		$this->smarty->assign('layout', 'crud_pages_layout.tpl');
 		$this->smarty->assign('page', 'shippers');
-		$this->smarty->view('pages/shippers.tpl');
+		$this->smarty->view('pages/shippers.tpl', $data);
 	}
 	
 	/* FUNCTION */
@@ -45,8 +51,8 @@ class Shippers extends MY_Controller {
 			$result = NULL;
 	
 			$data = array(
-					's_name' => $name,
-					's_color' => $color
+					's_name' => strtoupper( $name ),
+					's_color' => strtoupper( $color )
 			);
 	
 			if( $action == 'create' ) {

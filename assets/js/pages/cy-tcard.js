@@ -330,6 +330,9 @@ function save() {
                 // append the cloned cv
                 if( result.action == 'create' ) {
                     $('#pending').find('.panel-body').append(cv);
+
+                    // Initialize card as draggable
+                    $('#'+tcard.tc_id).draggable();
                 }
 
                 setTimeout(function() {

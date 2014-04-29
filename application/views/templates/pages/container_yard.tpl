@@ -700,7 +700,7 @@
   					<option value=""></option>
 						{if $tcard_types && !empty($tcard_types)}
 							{foreach $tcard_types as $ttype}
-								<option class="{if $ttype->tt_id == 21}orange-card-selection-type{/if}" value="{$ttype->tt_id}" data-color="{$ttype->tt_color}">{$ttype->tt_name}</option>
+								<option value="{$ttype->tt_id}" class="card-type-{$ttype->tt_id}" data-color="{$ttype->tt_color}" data-blocking="{$ttype->is_blocking}">{$ttype->tt_name}</option>
 							{/foreach}
 						{/if}
   				</select>

@@ -45,13 +45,15 @@ class Tcard_types extends MY_Controller {
 				
 			$name = $this->input->post('type-name');
 			$color = $this->input->post('type-color');
+			$blocking = $this->input->post('blocking');
 			$id = $this->input->post('type_id');
 				
 			$result = NULL;
 				
 			$data = array(
 					'tt_name' => strtoupper( $name ),
-					'tt_color' => strtoupper( $color )
+					'tt_color' => strtoupper( $color ),
+					'is_blocking' => ( $blocking == 'true' ? 1 : 0 )
 			);
 				
 			if( $action == 'create' ) {

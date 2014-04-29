@@ -145,8 +145,6 @@ function reset_tcard(){
     has_card_type( false );
     reset_errors();
 
-    /*$('.orange-card-selection-type').addClass('absolute-hide');*/
-
     $('#newEntryModal').find('.form-control').val('');
     $('#newEntryModal').find('select.form-control').trigger('change');
 }
@@ -165,9 +163,10 @@ function has_card_type( value ) {
 function update_modal_field_state( card_type ) {
     card_type = typeof card_type === 'undefined' ? 'card unspecified' : card_type;
 
-    var blocked_card_type = $('[name="card-type"]').find('.orange-card-selection-type').val();
+    var blocked_card_type = $('[name="card-type"]').find('.card-type-'+card_type);
+    var blocking_card = blocked_card_type.data('blocking') == '1' ? true : false;
 
-    if( card_type == blocked_card_type ) {
+    if( blocking_card ) {
         $('.orange-card-field').removeClass('absolute-hide');
         $('.normal-card-field').addClass('absolute-hide');
     }else {

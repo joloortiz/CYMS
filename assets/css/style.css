@@ -79,6 +79,10 @@ table.table.table-borderless th, table.table.table-borderless td {
     border-radius: 3px;
 }
 
+.text-sub {
+    font-size: 12px;
+}
+
 /* jQuery UI OVERRIDE */
 .ui-autocomplete {
 	z-index: 1051 !important;	/* right in front bootstrap modal */

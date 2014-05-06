@@ -2,9 +2,19 @@
 
 class Shippers extends MY_Controller {
 	
+	/**
+	 * @var boolean
+	 *
+	 * Class property that the function <code>check_admin_access()</code> from MY_Controller will be looking for
+	 * to check if a module requires an administrator access.
+	 */
 	public $adminRequired = TRUE;
 	
 	/* PAGES */
+	
+	/**
+	 * Page Index
+	 */
 	function index() {
 		// page js
 
@@ -39,6 +49,21 @@ class Shippers extends MY_Controller {
 	}
 	
 	/* FUNCTION */
+	
+	/**
+	 * @return json Save status and exceptions if there are any.
+	 * 
+	 * POST data:
+	 * <ul>
+	 *	<li><b>action</b>		<i>required</i>	Determines the save type. The function can only indentify two types (i.e. "create" and "update")</li>
+	 *	<li><b>shipper-name</b>					Shipper name. This data is also required but the form validation will be the one to enforce it. Data will be transformed to upper case.</li> 
+	 *	<li><b>shipper-color</b>				Shipper color indentifier. A hexademical color representation. Data will be transformed to upper case.</li>
+	 *	<li><b>shipper_id</b>					Shipper ID. This data is required when trying to update a record. ID will be validated before updating record.</li>
+	 * </ul>
+	 *
+	 * Accessed through ajax.
+	 * 
+	 */
 	function save() {
 		try {
 	
@@ -72,6 +97,15 @@ class Shippers extends MY_Controller {
 		echo json_encode($var);
 	}
 	
+	/**
+	 * @return json Delete status and exceptions if there are any.
+	 *
+	 * POST data:
+	 * <b>shipper_ids<b>	An array of IDs of the records that will be deleted.
+	 *
+	 * Accessed through ajax.
+	 *
+	 */
 	function delete() {
 		try {
 			$ids = $this->input->post('shipper_ids');
@@ -91,6 +125,15 @@ class Shippers extends MY_Controller {
 		echo json_encode( $var );
 	}
 	
+	/**
+	 * @return json Shipper details or exceptions if unsuccessful.
+	 *
+	 * POST data:
+	 * <b>id<b>		Shipper ID.
+	 *
+	 * Accessed through ajax.
+	 *
+	 */
 	function get_shipper_details() {
 		try {
 			$id = $this->input->post('id');
@@ -105,6 +148,15 @@ class Shippers extends MY_Controller {
 		echo json_encode( $var );
 	}
 	
+	/**
+	 * @return json Form validation result with validation errors if validation failed.
+	 *
+	 * <code>_set_form_rules()</code> will set the form validation rules. Visit function declaration for more info.
+	 * <code>$this->form_validation->run()</code> will evaluate all POST data according to the form rules set by <code>_set_form_rules()</code>.
+	 *
+	 * Accessed through ajax.
+	 *
+	 */
 	function validate_form() {
 	
 		try {
@@ -131,13 +183,21 @@ class Shippers extends MY_Controller {
 	
 	/* PRIVATES */
 	
+	/**
+	 *
+	 * @param int|string $id
+	 * @return boolean
+	 *
+	 * Validates the record existence of the shipper by its ID
+	 *
+	 * */
 	private function _validate_shipper($id) {
 		$returnVal = FALSE;
 	
 		try {
-			$type = $this->shippers_model->get_shipper_by_id($id);
+			$shipper = $this->shippers_model->get_shipper_by_id($id);
 				
-			if( $type ) {
+			if( $shipper ) {
 				$returnVal = TRUE;
 			}
 				
@@ -148,6 +208,14 @@ class Shippers extends MY_Controller {
 		return $returnVal;
 	}
 	
+	/**
+	 *
+	 * Sets the form validation rules.
+	 * The rules are stored in an array with its rule name as the key.
+	 *
+	 * This function is utilizing the built-in form validation helper library of Codeigniter. For more information about the
+	 * library please refer to the official documentation :D
+	 */
 	private function _set_form_rules() {
 	
 		$rules = array(

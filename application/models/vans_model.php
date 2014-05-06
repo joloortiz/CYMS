@@ -2,6 +2,15 @@
 
 class Vans_model extends CI_Model{
 	/* CREATE */
+	
+	/**
+	 *
+	 * Insert new van using column-value array data representation
+	 *
+	 * @param array $data
+	 * @return int|string ID of the newly inserted record
+	 *
+	 */
 	function new_van($data) {
 		$this->db->insert('vans', $data);
 	
@@ -9,6 +18,13 @@ class Vans_model extends CI_Model{
 	}
 	
 	/* READ */
+	
+	/**
+	 * Gets all vans
+	 *
+	 * @return array
+	 *
+	 */
 	function get_vans() {
 		$returnVal = NULL;
 		
@@ -23,6 +39,12 @@ class Vans_model extends CI_Model{
 		return $returnVal;
 	}
 	
+	/**
+	 * Get van details by its number
+	 *
+	 * @param string $str
+	 * @return object
+	 */
 	function get_van_by_no($str) {
 		$returnVal = NULL;
 		

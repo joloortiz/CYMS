@@ -10,6 +10,14 @@
 					<input name="active-type-id" class="input-with-value" type="hidden">
 					<div class="row">
 						<div class="col-sm-12">
+							<label class="has-radio-checkbox">
+								<input name="is-exfac" type="checkbox">
+								<span class="checkbox-radio-label">Exfactory</span>
+							</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
 							<ul class="help-inline">
 							</ul>
 						</div>
@@ -26,11 +34,13 @@
 					</div>
 					<div class="row buffer-top">
 						<div class="col-sm-5">
-							<label>
-								<input name="type-blocking" type="checkbox"> &emsp;
-								<span class="glyphicon glyphicon-ban-circle"></span>
-								<span>Blocking type</span>
-							</label>
+							<select class="form-control" name="type-group">
+								{if $type_groups}
+									{foreach $type_groups as $group}
+										<option value="{$group->ttg_id}">{$group->ttg_name}</option>
+									{/foreach}
+								{/if}
+							</select>
 						</div>
 						<div class="col-sm-7 text-center">
 							<div class="pull-right">
@@ -47,8 +57,8 @@
 			<table id="type-table" class="table">
 				<thead>
 					<th style="width: 10px;"><input id="select-all-check" class="check-selection" type="checkbox"></th>
-					<th>T-card Types</th>
-					<th style="width: 10px"></th>
+					<th><strong>T-card Types</strong></th>
+					<th colspan="2"><strong>Group</strong></th>
 					<th style="width: 140px">
 						<button id="new-type-btn" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add</button>
 						<button id="delete-type-btn" class="btn absolute-hide"><i class="glyphicon glyphicon-trash" title="Delete Selected"></i></button>
@@ -63,9 +73,14 @@
 									{$type->tt_name}
 									<input name="type-id" type="hidden" value="{$type->tt_id}">
 								</td>
-								<td>
-									{if $type->is_blocking}
-										<span class="glyphicon glyphicon-ban-circle"></span>
+								<td class="clickable">
+									{if $type->ttg_id != 1}
+										{$type->ttg_name}
+									{/if}
+								</td>
+								<td class="clickable">
+									{if $type->is_exfactory == 1}
+										<span class="glyphicon glyphicon-bookmark"></span>
 									{/if}
 								</td>
 								<td class="clickable">
@@ -80,7 +95,10 @@
 					{/if}
 				</tbody>
 			</table>
-			<span class="text-sub"><span class="glyphicon glyphicon-ban-circle"></span> Entries with this icon are <strong>Blocking Types</strong>.  Cards of this type cannot have an exit pass.</span>
+			<p>
+				<span class="glyphicon glyphicon-bookmark"></span>
+				<span>Item with this icon is flagged as <strong>Exfactory</strong></span>
+			</p>
 		</div>
 
 		<div class="row">

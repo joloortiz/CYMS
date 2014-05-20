@@ -17,7 +17,7 @@ class Checkers extends MY_Controller {
 	 */
 	function index() {
 
-		$config['base_url'] = BASE_URL . 'checkers/';
+		$config['module_base_url'] = base_url() . 'checkers/';
 		$config['total_rows'] = $this->checkers_model->record_count();
 		$config['per_page'] = 5;
 		$config['uri_segment'] = 2;

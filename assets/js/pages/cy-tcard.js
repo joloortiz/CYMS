@@ -1,3 +1,10 @@
+// Temp
+/*$(document).ready(function() {
+    modal_state_preview(false);
+    show_new_entry_modal();
+
+});*/
+
 /*
  * INIT
  */
@@ -17,6 +24,11 @@ $('[name="card-type"]').select2({
     escapeMarkup: function(m) { return m; }
 });
 
+$('[name="incoming-materials"]').select2({
+    // placeholder: 'Select Materials',
+    allowClear: true
+});
+
 $('[name="mat-no"]').select2({
     placeholder: 'None',
     allowClear: true
@@ -33,13 +45,18 @@ $('[name="trucker"]').select2({
 });
 
 $('[name="van-type"]').select2({
-    placeholder: 'Select Van Type',
+    placeholder: 'Select Van Type'
 });
 
 $('[name="checker"]').select2({
     placeholder: 'None',
     allowClear: true
 });
+
+
+// Timepicker
+
+$('[name="time-out"]').timepicker();
 
 
 /*
@@ -63,22 +80,9 @@ $('#save-card').click(function() {
 
 $('[name="card-type"]').change(function() {
     var card_id = $(this).val();
-    var modal_active = $(this).parents('#newEntryModal').hasClass('modal-active') ? true : false;
-    var card_type_presence = false;
+    var card_group = $(this).find('.card-type-' + card_id).data('group');
 
-    if( !modal_active ) {
-        return false;
-    }
-
-    if( card_id != '' ) {
-        $('.card-field-row').removeClass('absolute-hide');
-        $('.no-tcard-type').addClass('absolute-hide');
-
-        card_type_presence = true;
-    }
-
-    update_modal_field_state( card_id );
-    has_card_type( card_type_presence );
+    update_modal_field_state( card_group );
 });
 
 $('#newEntryModal').on('hidden.bs.modal', function() {
@@ -97,11 +101,27 @@ $('body').on('click', '.entry', function() {
     var card_id = $(this).attr('id');
     var details = get_tcard_details(card_id);
 
-    console.log(details);
-
     $.each(details, function(form_name, val) {
-        $('[name="'+ form_name +'"]').val(val);
+        $('[name="'+ form_name +'"]').not('[type="checkbox"]').val(val);
     });
+
+    $('[name="incoming-materials"]').trigger('change');
+
+    if( details['exitpass-id'] ) {
+        $('.exit-pass-timeout-container').removeClass('absolute-hide');
+        $('.exit-pass-btn-container').addClass('absolute-hide');
+    }
+
+    $('[name="card-id"]').val(card_id);
+
+    $('.update-card-field').removeClass('absolute-hide');
+
+    update_filters();
+
+    // is blocked
+    var is_blocked = details['is-blocked'] == 0 ? false : true;
+    $('[name="is-blocked"]').prop('checked', is_blocked);
+    $('[name="is-blocked"]').trigger('change');
 
     modal_state_preview();
     show_new_entry_modal();
@@ -109,6 +129,113 @@ $('body').on('click', '.entry', function() {
 
 $("#newEntryModal").on('click', '#edit-tcard', function() {
     modal_state_preview(false);
+});
+
+$('#stuff-filter').change(function() {
+    var checked = $(this).prop('checked');
+    var form_group = $('[name="date-stuffed"]').closest('.row');
+
+    if( checked ) {
+        form_group.removeClass('faded');
+        form_group.removeClass('disabled');
+    }else {
+        form_group.addClass('faded');
+        form_group.addClass('disabled');
+
+        $('[name="date-stuffed"]').val('');
+        $('[name="stu-controller"]').val('');
+
+        $('[name="date-stuffed"]').trigger('change');
+    }
+});
+
+$('#dn-filter').change(function() {
+    var checked = $(this).prop('checked');
+    var form_group = $('[name="dn-no"]').closest('.row');
+
+    if( checked ) {
+        form_group.removeClass('faded');
+        form_group.removeClass('disabled');
+    }else {
+        form_group.addClass('faded');
+        form_group.addClass('disabled');
+
+        $('[name="dn-no"]').val('');
+
+        $('[name="dn-no"]').trigger('change');
+    }
+});
+
+$('#seal-filter').change(function() {
+    var checked = $(this).prop('checked');
+    var form_group = $('[name="date-sealed"]').closest('.row');
+
+    if( checked ) {
+        form_group.removeClass('faded');
+        form_group.removeClass('disabled');
+    }else {
+        form_group.addClass('faded');
+        form_group.addClass('disabled');
+
+        $('[name="date-sealed"]').val('');
+        $('[name="seal-no"]').val('');
+    }
+});
+
+$('#strip-filter').change(function() {
+    var checked = $(this).prop('checked');
+    var form_group = $('[name="date-stripped"]').closest('.row');
+
+    if( checked ) {
+        form_group.removeClass('faded');
+        form_group.removeClass('disabled');
+    }else {
+        form_group.addClass('faded');
+        form_group.addClass('disabled');
+
+        $('[name="date-stripped"]').val('');
+        $('[name="str-controller"]').val('');
+
+        $('[name="date-stripped"]').trigger('change');
+    }
+});
+
+$('[name="date-stuffed"]').change(function() {
+    var date_val = $(this).val();   // assuming that the value will always be a date
+
+    if( date_val != '' ) {
+        $('.delivery-note-group').removeClass('disabled');
+        $('.delivery-note-group').removeClass('faded');
+    }else {
+        reset_dn_group();
+    }
+});
+
+$('[name="dn-no"]').change(function() {
+    var dn_no = $(this).val();
+
+    if( dn_no != '' ) {
+        $('.seal-group').removeClass('disabled');
+        $('.seal-group').removeClass('faded');
+    }else {
+        reset_seal_group();
+    }
+});
+
+$('[name="is-blocked"]').change(function() {
+    var checked = $(this).prop('checked');
+
+    tcard_block(checked);
+});
+
+$('#block-tcard').click(function() {
+    $('[name="is-blocked"]').prop('checked', true);
+    $('[name="is-blocked"]').trigger('change');
+});
+
+$('#unblock-tcard').click(function() {
+    $('[name="is-blocked"]').prop('checked', false);
+    $('[name="is-blocked"]').trigger('change');
 });
 
 
@@ -142,36 +269,38 @@ function setup_van_nos() {
 
 function reset_tcard(){
 
-    has_card_type( false );
+    update_modal_field_state();
     reset_errors();
 
     $('#newEntryModal').find('.form-control').val('');
+    $('#newEntryModal').find('[type="checkbox"]').prop('checked', false);
+    $('#newEntryModal').find('[type="checkbox"]').trigger('change');
     $('#newEntryModal').find('select.form-control').trigger('change');
-}
 
-function has_card_type( value ) {
+    $('.exit-pass-btn-container').removeClass('absolute-hide');
+    $('.exit-pass-timeout-container').addClass('absolute-hide');
 
-    if( value ) {
-        $('.card-field-row').removeClass('absolute-hide');
-        $('.no-tcard-type').addClass('absolute-hide');
-    }else {
-        $('.card-field-row').addClass('absolute-hide');
-        $('.no-tcard-type').removeClass('absolute-hide');
-    }
+    $('[name="card-id"]').val('');
 }
 
 function update_modal_field_state( card_type ) {
-    card_type = typeof card_type === 'undefined' ? 'card unspecified' : card_type;
+    card_type = typeof card_type == 'undefined' ? 1 : card_type;
 
-    var blocked_card_type = $('[name="card-type"]').find('.card-type-'+card_type);
-    var blocking_card = blocked_card_type.data('blocking') == '1' ? true : false;
 
-    if( blocking_card ) {
-        $('.orange-card-field').removeClass('absolute-hide');
-        $('.normal-card-field').addClass('absolute-hide');
-    }else {
-        $('.orange-card-field').addClass('absolute-hide');
-        $('.normal-card-field').removeClass('absolute-hide');
+    switch( card_type ) {
+        case 2:   // Stripping
+            $('.stripping-card-field').removeClass('absolute-hide');
+            $('.stuffing-card-field').addClass('absolute-hide');
+            break;
+        case 3:   // Stuffing
+            $('.stripping-card-field').addClass('absolute-hide');
+            $('.stuffing-card-field').removeClass('absolute-hide');
+            break;
+        default:    // none;
+            $('.stripping-card-field').addClass('absolute-hide');
+            $('.stuffing-card-field').addClass('absolute-hide');
+            $('.update-card-field').addClass('absolute-hide');
+            break;
     }
 }
 
@@ -210,11 +339,14 @@ function get_form_values() {
     forms = get_form_names();
 
     $.each(forms, function(key, form_name) {
-        values[form_name] = $('[name="'+ form_name +'"]').val();
+        values[form_name] = $('[name="'+ form_name +'"]').not('[type="checkbox"]').val();
     });
 
     // special case (not in form names)
     values['card_id'] = $('[name="card-id"]').val();
+
+    // is_blocked
+    values['is-blocked'] = $('[name="is-blocked"]').prop('checked') ? 1 : 0;
 
     return values;
 }
@@ -316,7 +448,7 @@ function save() {
 
                 // style segment
                 styleSegment = tcard.tp_top && tcard.tp_top != '' ? 'top: ' + tcard.tp_top + ';' : '';
-                styleSegment = tcard.tp_left && tcard.tp_left != '' ? 'left: ' + tcard.tp_left + ';' : '';
+                styleSegment += tcard.tp_left && tcard.tp_left != '' ? 'left: ' + tcard.tp_left + ';' : '';
 
 
                 cv.attr('id', tcard.tc_id);
@@ -348,7 +480,7 @@ function modal_state_preview(isPreview) {
     var notifier_content;
     var cancel_button_text;
 
-    $('#newEntryModal').find('input[type="text"], select, textarea').prop('disabled', isPreview);
+    $('#newEntryModal').find('input, select, textarea, .in-form-button').prop('disabled', isPreview);
 
     notifier_content  = isPreview ? '<button id="edit-tcard" class="btn-link">Click here to edit&nbsp;&nbsp;<span class="glyphicon glyphicon-pencil"></span></button>' : '&nbsp;';
     cancel_button_text = isPreview ? 'Done' : 'Cancel';
@@ -356,10 +488,12 @@ function modal_state_preview(isPreview) {
     $('#cancel-card').text(cancel_button_text);
     $('.tcard-modal-state-notifier').html(notifier_content);
 
-    // Set "save" button display
+    // Set "save" and "unblock" button display
     if( isPreview ) {
+        $('#unblock-tcard').addClass('absolute-hide');
         $('#save-card').addClass('absolute-hide');
     }else {
+        $('#unblock-tcard').removeClass('absolute-hide');
         $('#save-card').removeClass('absolute-hide');
     }
 }
@@ -397,6 +531,93 @@ function show_new_entry_modal() {
         keyboard: false,
         backdrop: 'static'
     });
+}
+
+function reset_dn_group() {
+    var form = get_form_names();
+
+    $('#dn-filter').prop('checked', false);
+    $('#dn-filter').trigger('change');
+
+    $('.delivery-note-group').addClass('disabled');
+    $('.delivery-note-group').addClass('faded');
+
+    $('.delivery-note-group').find('[name="'+ form.dn_no +'"]').closest('.row').addClass('disabled');
+    $('.delivery-note-group').find('[name="'+ form.dn_no +'"]').closest('.row').addClass('faded');
+
+    $('[name="'+ form.dn_no +'"]').val('');
+}
+
+function reset_seal_group() {
+    var form = get_form_names();
+
+    $('#seal-filter').prop('checked', false);
+    $('#seal-filter').trigger('change');
+
+    $('.seal-group').addClass('disabled');
+    $('.seal-group').addClass('faded');
+
+    $('.seal-group').find('[name="'+ form.date_sealed +'"]').closest('.row').addClass('disabled');
+    $('.seal-group').find('[name="'+ form.date_sealed +'"]').closest('.row').addClass('faded');
+
+    $('[name="'+ form.date_sealed +'"]').val('');
+}
+
+function tcard_block( param ) {
+
+    param = typeof param == 'undefined' ? true : param;
+
+    if( param ) {
+        $('#block-tcard').addClass('absolute-hide');
+        $('.tcard-blocked-status').find('.text-warning').removeClass('absolute-hide');
+
+        $('#block-tcard').closest('tr').addClass('bg-danger');
+    }else {
+        $('#block-tcard').removeClass('absolute-hide');
+        $('.tcard-blocked-status').find('.text-warning').addClass('absolute-hide');
+
+        $('#block-tcard').closest('tr').removeClass('bg-danger');
+    }
+}
+
+function update_filters() {
+    var date_stuffed = $('[name="date-stuffed"]');
+    var dn = $('[name="dn-no"]');
+    var seal_no = $('[name="seal-no"]');
+    var date_stripped = $('[name="date-stripped"]');
+
+    var valid = false;
+
+    // STUFFING
+
+    if( $.trim( date_stuffed.val() ) != '' ) {
+        $('#stuff-filter').prop('checked', true);
+        $('#stuff-filter').trigger('change');
+        date_stuffed.trigger('change');
+
+        valid = true;
+    }
+
+    if( valid && $.trim( dn.val() ) != '' ) {
+        $('#dn-filter').prop('checked', true);
+        $('#dn-filter').trigger('change');
+        dn.trigger('change');
+
+    }else {
+        valid = false;
+    }
+
+    if( valid && $.trim( seal_no.val() ) != '' ) {
+        $('#seal-filter').prop('checked', true);
+        $('#seal-filter').trigger('change');    // nothing happens AOTM when 'change' is triggered
+        seal_no.trigger('change');
+    }
+
+    // STRIPPING
+    if( $.trim( date_stripped.val() ) != '' ) {
+        $('#strip-filter').prop('checked', true);
+        $('#strip-filter').trigger('change');
+    }
 }
 
 

@@ -50,8 +50,6 @@ define('STYLESHEETS_DIR', ASSETS_DIR . 'css/');
 define('SCRIPTS_DIR', ASSETS_DIR . 'js/');
 define('IMAGES_DIR', ASSETS_DIR . 'images/');
 
-define('BASE_URL', 'http://localhost/cyms/');
-
 
 define('SESSION_VAR', 'cyms');
 

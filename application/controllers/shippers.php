@@ -18,7 +18,7 @@ class Shippers extends MY_Controller {
 	function index() {
 		// page js
 
-		$config['base_url'] = BASE_URL . 'shippers/';
+		$config['module_base_url'] = base_url() . 'shippers/';
 		$config['total_rows'] = $this->shippers_model->record_count();
 		$config['per_page'] = 5; 
 		$config['uri_segment'] = 2;

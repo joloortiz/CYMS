@@ -49,6 +49,18 @@ class Tcard_model extends CI_Model{
 		return $this->db->insert_id();
 	}
 	
+	function new_tcard_incoming_material( $data ) {
+		$this->db->insert('tcard_incoming_materials', $data);
+		
+		return $this->db->insert_id();
+	}
+	
+	function new_tcard_exitpass($data) {
+		$this->db->insert('exit_passes', $data);
+		
+		return $this->db->insert_id();
+	}
+	
 	/* READ */
 	
 	/**
@@ -70,6 +82,8 @@ class Tcard_model extends CI_Model{
 							tt.tt_name,
 							tt.tt_color,
 							tp.tp_id,
+							vt.vt_name,
+							e.*,
 							(SELECT tp_position FROM tcard_position WHERE tc_id = tc.tc_id ORDER BY tp_timestamp DESC LIMIT 1) AS tp_position,
 							(SELECT tp_left FROM tcard_position WHERE tc_id = tc.tc_id ORDER BY tp_timestamp DESC LIMIT 1) AS tp_left,
 							(SELECT tp_top FROM tcard_position WHERE tc_id = tc.tc_id ORDER BY tp_timestamp DESC LIMIT 1) AS tp_top',
@@ -77,8 +91,10 @@ class Tcard_model extends CI_Model{
 		
 		$this->db->from('tcards tc');
 		$this->db->join('tcard_position tp', 'tp.tc_id = tc.tc_id');
+		$this->db->join('exit_passes e', 'tc.tc_id = e.tc_id', 'left');
 		$this->db->join('vans v', 'tc.v_id = v.v_id');
 		$this->db->join('shippers s', 'tc.s_id = s.s_id');
+		$this->db->join('van_types vt', 'tc.vt_id = vt.vt_id');
 		$this->db->join('tcard_types tt', 'tc.tt_id = tt.tt_id');
 		$this->db->where('tc.tc_id', $id);
 		$this->db->order_by('tp.tp_timestamp', 'DESC');
@@ -90,6 +106,22 @@ class Tcard_model extends CI_Model{
 			$returnVal = $returnVal[0];
 		}
 	
+		return $returnVal;
+	}
+	
+	function get_tcard_block_status($id) {
+		$returnVal = NULL;
+		
+		$this->db->select('is_blocked');
+		$this->db->from('tcards');
+		$this->db->where('tc_id', $id);
+		$query = $this->db->get();
+		
+		if( $query->num_rows() === 1 ) {
+			$returnVal = $query->result();
+			$returnVal = $returnVal[0];
+		}
+		
 		return $returnVal;
 	}
 	
@@ -111,7 +143,8 @@ class Tcard_model extends CI_Model{
 		$this->db->join('vans v', 'tc.v_id = v.v_id');
 		$this->db->join('shippers s', 'tc.s_id = s.s_id');
 		$this->db->join('tcard_types tt', 'tc.tt_id = tt.tt_id');
-		$this->db->where('tc.tc_exitdate IS NULL OR tc.tc_exitdate = 0');
+		$this->db->join('exit_passes e', 'tc.tc_id = e.tc_id', 'left');
+		$this->db->where('e.e_timeout IS NULL OR e.e_timeout = 0');
 		$this->db->order_by('v.v_no');
 		$query = $this->db->get();
 	
@@ -145,9 +178,10 @@ class Tcard_model extends CI_Model{
      *
      */
     function p_types($limit, $offset) {
-		$this->db->from('tcard_types');
-		$this->db->order_by('tt_name', 'ASC');
-		$this->db->where('is_deleted <>', '1');
+		$this->db->from('tcard_types tt');
+		$this->db->join('tcard_type_group ttg', 'tt.ttg_id = ttg.ttg_id', 'left');
+		$this->db->order_by('tt.tt_name', 'ASC');
+		$this->db->where('tt.is_deleted <>', '1');
 		$this->db->limit($limit, $offset);
 		$query = $this->db->get();
 		
@@ -196,6 +230,64 @@ class Tcard_model extends CI_Model{
 		return $returnVal;
 	}
 	
+	function get_type_groups() {
+		$returnVal = NULL;
+		
+		$this->db->from('tcard_type_group');
+		$query = $this->db->get();
+		
+		if( $query->num_rows() > 0 ) {
+			$returnVal = $query->result();
+		}
+		
+		return $returnVal;
+	}
+	
+	function get_card_incoming_materials( $tc_id ) {
+		$returnVal = NULL;
+		
+		$this->db->from('tcard_incoming_materials');
+		$this->db->where('tc_id', $tc_id);
+		$query = $this->db->get();
+		
+		if( $query->num_rows() > 0 ) {
+			$returnVal = $query->result();
+		}
+		
+		return $returnVal;
+	}
+	
+	function get_card_current_incoming_materials( $tc_id ) {
+		$returnVal = NULL;
+		
+		$this->db->from('tcard_incoming_materials');
+		$this->db->where('tc_id', $tc_id);
+		$this->db->where('is_deleted', FALSE);
+		
+		$query = $this->db->get();
+		
+		if( $query->num_rows() > 0 ) {
+			$returnVal = $query->result();
+		}
+		
+		return $returnVal;
+	}
+	
+	function get_tcard_exit_pass( $id ) {
+		$returnVal = NULL;
+		
+		$this->db->from('exit_passes');
+		$this->db->where('tc_id', $id);
+		$query = $this->db->get();
+		
+		if( $query->num_rows() == 1 ) {
+			$returnVal = $query->result();
+			$returnVal = $returnVal[0];
+		}
+		
+		return $returnVal;
+	}
+	
 	/* UPDATE */
 	
 	/**
@@ -228,6 +320,11 @@ class Tcard_model extends CI_Model{
 		}
 	}
 	
+	function unset_exfac_types() {
+		$this->db->where('is_exfactory', TRUE);
+		$this->db->update('tcard_types', array('is_exfactory' => FALSE));
+	}
+	
 	/* DELETE */
 	
 	/**
@@ -243,7 +340,16 @@ class Tcard_model extends CI_Model{
 		
 		$this->db->where('tt_id', $type_id);
 		$query = $this->db->update('tcard_types', $data);
-	}	
+	}
+
+	function flush_tcard_incoming_materials( $tcard_id ) {
+		$data = array(
+			'is_deleted' => TRUE
+		);
+		
+		$this->db->where('tc_id', $tcard_id);
+		$this->db->update('tcard_incoming_materials', $data);
+	}
 	
 	
 	/* PRIVATE */

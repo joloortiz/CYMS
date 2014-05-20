@@ -45,7 +45,6 @@ $('#type-table').on('click', '.card-type.action > .clickable', function() {
 		success: function (response) {
 			var decode = jQuery.parseJSON(response);
 			var type_details;
-			var is_blocking;
 
 			if( decode.success && decode.details) {
 				reset_control();
@@ -53,12 +52,12 @@ $('#type-table').on('click', '.card-type.action > .clickable', function() {
 
 				type_details = decode.details;
 
-				is_blocking = type_details.is_blocking == '1' ? true : false;
-
 				$('[name="active-type-id"]').val(type_details.tt_id);
 				$('[name="type-name"]').val(type_details.tt_name);
 				$('[name="type-color"]').val(type_details.tt_color);
-				$('[name="type-blocking"]').prop('checked', is_blocking);
+				$('[name="type-group"]').val(type_details.ttg_id);
+
+				$('[name="is-exfac"]').prop('checked', (type_details.is_exfactory == 1 ? true : false) );
 
 				$('[name="type-name"]').focus();
 			}
@@ -142,7 +141,9 @@ function reset_control() {
 	});
 
 	$('[name="type-color"]').val('#FFFFFF');
-	$('[name="type-blocking"]').prop('checked', false);
+	$('[name="type-group"]').val('1');
+
+	$('[name="is-exfac"]').prop('checked', false);
 }
 
 function enable_control() {
@@ -169,13 +170,15 @@ function get_form_values() {
 	var id = $('[name="active-type-id"]').val();
 	var name = $('[name="type-name"]').val();
 	var color = $('[name="type-color"]').val();
-	var blocking = $('[name="type-blocking"]').prop('checked');
+	var group = $('[name="type-group"]').val();
+	var exfac = $('[name="is-exfac"]').prop('checked');
 
 	var method = id == '' ? 'create' : 'update';
 
 	var data = {
 		type_id: id,
-		blocking: blocking,
+		group: group,
+		exfactory: exfac,
 		action: method
 	};
 

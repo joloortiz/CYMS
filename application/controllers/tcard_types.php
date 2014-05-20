@@ -16,7 +16,7 @@ class Tcard_types extends MY_Controller {
 	 * Page Index
 	 */
 	function index() {
-		$config['base_url'] = BASE_URL . 'tcard-types/';
+		$config['module_base_url'] = base_url() . 'tcard-types/';
 		$config['total_rows'] = $this->tcard_model->record_count();
 		$config['per_page'] = 5; 
 		$config['uri_segment'] = 2;
@@ -30,6 +30,10 @@ class Tcard_types extends MY_Controller {
 		$types = $this->tcard_model->p_types($config['per_page'], $offset);
 
 		$pagination = $this->pagination->create_links();
+		
+		// Get type groups
+		$groups = $this->tcard_model->get_type_groups();
+		$this->smarty->assign('type_groups', $groups);
 
 		// page js
 		$js = array(
@@ -56,8 +60,8 @@ class Tcard_types extends MY_Controller {
 	 * <ul>
 	 *	<li><b>action</b>		<i>required</i>	Determines the save type. The function can only indentify two types (i.e. "create" and "update")</li>
 	 *	<li><b>type-name</b>					T-card type name. This data is also required but the form validation will be the one to enforce it. Data will be transformed to upper case.</li> 
-	 *	<li><b>type-color</b>					T-card color indentifier. A hexademical color representation. Data will be transformed to upper case.</li>
-	 *	<li><b>blocking</b>						Determines whether the card type is a blocking type or not.</li>
+	 *	<li><b>type-color</b>					T-card type color indentifier. A hexademical color representation. Data will be transformed to upper case.</li>
+	 *	<li><b>group</b>						T-card type group.</li>
 	 *	<li><b>type_id</b>						T-card type ID. This data is required when trying to update a record. ID will be validated before updating record.</li>
 	 * </ul>
 	 *
@@ -71,15 +75,24 @@ class Tcard_types extends MY_Controller {
 				
 			$name = $this->input->post('type-name');
 			$color = $this->input->post('type-color');
-			$blocking = $this->input->post('blocking');
+			$group = $this->input->post('group');
+			$is_exfac = $this->input->post('exfactory');
 			$id = $this->input->post('type_id');
 				
 			$result = NULL;
-				
+			
+			if( $is_exfac == 'true' ) {
+				$is_exfac = 1;
+				$this->tcard_model->unset_exfac_types();
+			}else {
+				$is_exfac = 0;
+			}
+
 			$data = array(
 					'tt_name' => strtoupper( $name ),
 					'tt_color' => strtoupper( $color ),
-					'is_blocking' => ( $blocking == 'true' ? 1 : 0 )
+					'ttg_id' => $group,
+					'is_exfactory' => $is_exfac
 			);
 				
 			if( $action == 'create' ) {

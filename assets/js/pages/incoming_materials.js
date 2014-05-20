@@ -2,41 +2,41 @@
  * EVENTS
  */
 
-$('#save-material').click(function(event) {
+$('#save-incoming-material').click(function(event) {
 	event.preventDefault();
 
 	if( validate() ) {
 		save();
 	}
+	
 });
 
-$('#new-material-btn').click(function() {
+$('#new-incoming-material-btn').click(function() {
 	reset_control();
 	enable_control();
 	reset_errors();
 
-	$('.material').addClass('action');
-	$('[name="material-name"]').focus();
+	$('.incoming-material').addClass('action');
+	$('[name="incoming-material-name"]').focus();
 });
 
-$('#cancel-material').click(function() {
-	$('.material').addClass('action');
+$('#cancel-incoming-material').click(function() {
+	$('.incoming-material').addClass('action');
 	disable_control();
 	reset_errors();
 });
 
-
-$('#material-table').on('click', '.material.action > .clickable', function() {
+$('#incoming-material-table').on('click', '.incoming-material.action > .clickable', function() {
 	reset_errors();
 	
-	var row = $(this).closest('.material.action');
-	var id = row.find('[name="material-id"]').val();
+	var row = $(this).closest('.incoming-material.action');
+	var id = row.find('[name="incoming-material-id"]').val();
 
-	$('.material').not('.action').addClass('action');
+	$('.incoming-material').not('.action').addClass('action');
 	row.removeClass('action');
 
 	$.ajax({
-		url: $('body').attr('base-url') + 'materials/get_material_details',
+		url: $('body').attr('base-url') + 'incoming_materials/get_incoming_material_details',
 		type: 'POST',
 		async: false,
 		data: {
@@ -44,23 +44,20 @@ $('#material-table').on('click', '.material.action > .clickable', function() {
 		},
 		success: function (response) {
 			var decode = jQuery.parseJSON(response);
-			var material_details;
+			var incoming_material_details;
 
 			if( decode.success && decode.details) {
 				reset_control();
 				enable_control();
 
-				material_details = decode.details;
+				incoming_material_details = decode.details;
 
-				$('[name="active-material-id"]').val(material_details.m_id);
-				$('[name="material-name"]').val(material_details.m_name);
+				$('[name="active-incoming-material-id"]').val(incoming_material_details.im_id);
+				$('[name="incoming-material-name"]').val(incoming_material_details.im_name);
 
-				$('[name="material-type"]:checked').prop('checked', false);
-				$('[name="material-type"][value="'+ material_details.m_type +'"]').prop('checked', true);
+				$('[name="material-category"]').val(incoming_material_details.im_category);
 
-				$('[name="material-category"]').val(material_details.m_category);
-
-				$('[name="material-name"]').focus();
+				$('[name="incoming-material-name"]').focus();
 			}
 		}
 	});
@@ -71,9 +68,9 @@ $('.check-selection').change(function() {
 	var checkboxes = $('.check-selection:checked');
 
 	if( checkboxes.length > 0 ) {
-		$('#delete-material-btn').removeClass('absolute-hide');
+		$('#delete-incoming-material-btn').removeClass('absolute-hide');
 	}else {
-		$('#delete-material-btn').addClass('absolute-hide');
+		$('#delete-incoming-material-btn').addClass('absolute-hide');
 	}
 });
 
@@ -91,32 +88,32 @@ $('.single-select').change(function() {
 
 $('#select-all-check').change(function() {
 	var checked = $(this).prop('checked');
-
+	
 	$('.single-select').prop('checked', checked);
 
 	if( checked ) {
-		$('#delete-material-btn').removeClass('absolute-hide');
+		$('#delete-incoming-material-btn').removeClass('absolute-hide');
 	}else {
-		$('#delete-material-btn').addClass('absolute-hide');
+		$('#delete-incoming-material-btn').addClass('absolute-hide');
 	}
 });
 
-$('#delete-material-btn').click(function() {
-	var id_holders = $('.single-select:checked').closest('.material').find('[name="material-id"]');
+$('#delete-incoming-material-btn').click(function() {
+	var id_holders = $('.single-select:checked').closest('.incoming-material').find('[name="incoming-material-id"]');
 	var ids = new Array();
 
 	if( id_holders.length > 0 ) {
-		if( confirm("Are you sure you want to delete the selected materials?") ) {
+		if( confirm("Are you sure you want to delete the selected van types?") ) {
 			id_holders.each(function() {
 				ids.push( $(this).val() );
 			});
 
 			$.ajax({
-				url: $('body').attr('base-url') + 'materials/delete',
+				url: $('body').attr('base-url') + 'incoming_materials/delete',
 				type: 'POST',
 				async: false,
 				data: {
-					material_ids: ids
+					incoming_material_ids: ids
 				},
 				success: function (response) {
 					var result = jQuery.parseJSON(response);
@@ -141,10 +138,8 @@ function reset_control() {
 		$(this).val('');
 	});
 
-	$('[name="material-type"][value="2"]:checked').prop('checked', false);
-	$('[name="material-type"][value="1"]').not(':checked').prop('checked', true);
-
-	$('[name="material-category"]').val('FG');
+	// material category
+	$('[name="material-category"]').val(1);
 }
 
 function enable_control() {
@@ -168,21 +163,19 @@ function disable_control() {
 }
 
 function get_form_values() {
-	var id = $('[name="active-material-id"]').val();
-	var name = $('[name="material-name"]').val();
-	var type = $('[name="material-type"]:checked').val();
+	var id = $('[name="active-incoming-material-id"]').val();
+	var name = $('[name="incoming-material-name"]').val();
 	var category = $('[name="material-category"]').val();
 
 	var method = id == '' ? 'create' : 'update';
 
 	var data = {
-		material_id: id,
+		incoming_material_id: id,
 		action: method
 	};
 
 	// hyphenated form names
-	data['material-name'] = name;
-	data['material-type'] = type;
+	data['incoming-material-name'] = name;
 	data['material-category'] = category;
 
 	return data;
@@ -199,7 +192,7 @@ function validate() {
 
     // validate
     $.ajax({
-        url:$('body').attr('base-url') + 'materials/validate_form',
+        url:$('body').attr('base-url') + 'incoming_materials/validate_form',
         type: 'POST',
         async: false,
         data: data,
@@ -248,7 +241,7 @@ function save() {
 	var data = get_form_values();
 
 	$.ajax({
-		url: $('body').attr('base-url') + 'materials/save',
+		url: $('body').attr('base-url') + 'incoming_materials/save',
 		type: 'POST',
 		async: false,
 		data: data,

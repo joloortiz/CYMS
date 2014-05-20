@@ -14,11 +14,11 @@
         {/foreach}
     {/if}
     {if $page != 'login'}
-   		<link href="/cyms/assets/css/container-yard.css" rel="stylesheet">
+   		<link href="{$base_url}{$smarty.const.STYLESHEETS_DIR}container-yard.css" rel="stylesheet">
    	{else}
-   		<link href="/cyms/assets/css/bootstrap.min.css" rel="stylesheet">
+   		<link href="{$base_url}{$smarty.const.STYLESHEETS_DIR}bootstrap.min.css" rel="stylesheet">
    	{/if}
-	<link href="/cyms/assets/css/global.css" rel="stylesheet">
-	<link href="/cyms/assets/css/spinner.css" rel="stylesheet">
+	<link href="{$base_url}{$smarty.const.STYLESHEETS_DIR}global.css" rel="stylesheet">
+	<link href="{$base_url}{$smarty.const.STYLESHEETS_DIR}spinner.css" rel="stylesheet">
 
 </head>

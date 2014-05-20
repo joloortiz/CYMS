@@ -41,8 +41,8 @@
 			<table id="trucker-table" class="table">
 				<thead>
 					<th style="width: 10px;"><input id="select-all-check" class="check-selection" type="checkbox"></th>
-					<th>Truckers</th>
-					<th>Code</th>
+					<th><strong>Truckers</strong></th>
+					<th><strong>Code</strong></th>
 					<th style="width: 140px">
 						<button id="new-trucker-btn" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add</button>
 						<button id="delete-trucker-btn" class="btn absolute-hide"><i class="glyphicon glyphicon-trash" title="Delete Selected"></i></button>

@@ -18,7 +18,7 @@ class Truckers extends MY_Controller {
 	 */
 	function index() {
 
-		$config['base_url'] = BASE_URL . 'truckers/';
+		$config['module_base_url'] = base_url() . 'truckers/';
 		$config['total_rows'] = $this->truckers_model->record_count();
 		$config['per_page'] = 5; 
 		$config['uri_segment'] = 2;

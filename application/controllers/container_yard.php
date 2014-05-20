@@ -9,6 +9,7 @@ class Container_yard extends MY_Controller {
 				'select2.css',
 				/* 'jquery-ui-1.8.16.bootstrap.css', */
 				'jquery-ui-1.10.4.custom.css',
+				'timepicker.css',
 				'container-yard.css'
 		);
 		$this->smarty->assign('page_css', $css);
@@ -18,16 +19,22 @@ class Container_yard extends MY_Controller {
 				'jquery-ui-1.10.4.smoothness.js',
 				'generic-datepicker.js',
 				'jquery.nicescroll.min.js',
+				'timepicker.js',
 				'select2.min.js',
 				'pages/container-yard.js',
 				'pages/cy-tcard.js',
+				'pages/cy-exitpass.js',
 				'checknumeric.js'
 		);
 		$this->smarty->assign('page_js', $js);
 		
-		// Materials
+		// Materials (Outgoing)
 		$materials = $this->materials_model->get_materials();
 		$this->smarty->assign('materials', $materials);
+		
+		// Materials (Incoming)
+		$incoming_materials = $this->incoming_materials_model->get_incoming_materials();
+		$this->smarty->assign('incoming_materials', $incoming_materials);
 		
 		// Vans
 		$vans = $this->vans_model->get_vans();
@@ -87,6 +94,7 @@ class Container_yard extends MY_Controller {
 		try {
 			
 			$id = trim( $this->input->post('card_id') );
+			$is_blocked = $this->input->post('is-blocked');
 			
 			$shipper = $this->input->post($forms->shipper);
 			$trucker = $this->input->post($forms->trucker);
@@ -94,6 +102,7 @@ class Container_yard extends MY_Controller {
 			$van = $this->input->post($forms->van_no);
 			$tcard_type = $this->input->post($forms->card_type);
 			$material_no = $this->input->post($forms->material_no);
+			$incoming_materials = $this->input->post('incoming-materials');
 			$van_type = $this->input->post($forms->van_type);
 			$batch_code = $this->input->post($forms->batch_code);
 			$status = $this->input->post($forms->status);
@@ -106,17 +115,23 @@ class Container_yard extends MY_Controller {
 			$checker = $this->input->post($forms->checker);
 			$entry_date = $this->input->post($forms->entry_date);
 			$exit_date = $this->input->post($forms->exit_date);
-			$date_blocked = $this->input->post($forms->date_blocked);
+			$dn = $this->input->post($forms->dn_no);
+			$date_sealed = $this->input->post($forms->date_sealed);
+			$seal_no = $this->input->post($forms->seal_no);
 			$remarks = $this->input->post($forms->remarks);
 			
  			$user = $this->session->userdata(SESSION_VAR);
-			
+ 			
 			/* TRANSFORM DATA */
 			$action = $id && $id != '' && $this->_validate_card_id($id) ? 'update' : 'create';
 			$material_no = isset($material_no) && $material_no != '' ? $material_no : '1';
 			$shipper = isset($shipper) && $shipper != '' ? $shipper : '1';
 			$trucker = isset($trucker) && $trucker != '' ? $trucker : '1';
 			$checker = isset($checker) && $checker != '' ? $checker : '1';
+			
+ 			// Get T-card block status
+ 			$current_block_status = $action == 'update' ? $this->tcard_model->get_tcard_block_status($id)->is_blocked : 0;
+ 			$date_blocked = $is_blocked == 1 && $current_block_status == 0 ? date("Y-m-d H:i:s") : NULL;
 			
 			// Van ID
 			$matching_van = $this->vans_model->get_van_by_no($van);
@@ -126,6 +141,9 @@ class Container_yard extends MY_Controller {
 				$data = array('v_no' => strtoupper($van));
 				$van_id = $this->vans_model->new_van($data);
 			}
+			
+			// Incoming Materials
+			$incoming_materials = $this->_udpate_incoming_materials($id, $incoming_materials);
 			
 			$data = array(
 					's_id' => $shipper,
@@ -143,11 +161,15 @@ class Container_yard extends MY_Controller {
 					'tc_datestuffed' => $date_stuffed != '' ? date("Y-m-d H:i:s", strtotime($date_stuffed)) : NULL,
 					'tc_stucontroller' => $stuffing_controller,
 					'tc_datestripped' => $date_stripped != '' ? date("Y-m-d H:i:s", strtotime($date_stripped)) : NULL,
-					'tc_dateblocked' => $date_blocked != '' ? date("Y-m-d H:i:s", strtotime($date_blocked)) : NULL,
+					'tc_dateblocked' => $date_blocked,
 					'tc_strcontroller' => $stripping_controller,
 					'tc_entrydate' => $entry_date != '' ? date("Y-m-d H:i:s", strtotime($entry_date)) : NULL,
 					'tc_exitdate' => $exit_date != '' ? date("Y-m-d H:i:s", strtotime($exit_date)) : NULL,
+					'tc_dn' => strtoupper($dn),
+					'tc_datesealed' => $date_sealed != '' ? date("Y-m-d", strtotime($date_sealed)) : NULL,
+					'tc_sealno' => strtoupper($seal_no),
 					'tc_remarks' => $remarks,
+					'is_blocked' => $is_blocked,
 					'u_id' => $user['u_id']
 			);
 			
@@ -162,6 +184,18 @@ class Container_yard extends MY_Controller {
 				$tp_id = $this->tcard_model->new_card_position($tp_data);
 			}elseif( $action == 'update' ) {
 				$this->tcard_model->update_tcard($id, $data);
+			}
+			
+			// Insert new incoming materials
+			if( $incoming_materials ) {
+				foreach( $incoming_materials as $k => $mat ) {
+					$mat_data = array(
+						'tc_id' => $id,
+						'im_id' => $mat
+					);
+					
+					$this->tcard_model->new_tcard_incoming_material( $mat_data );
+				}
 			}
 			
 			$var['tcard'] = $this->tcard_model->get_tcard_by_id($id);
@@ -257,6 +291,96 @@ class Container_yard extends MY_Controller {
 		echo json_encode($var);
 	}
 	
+	function save_position() {
+		$id = $this->input->post('id');
+		$dataposition = $this->input->post('dataposition');
+		$top = $this->input->post('top');
+		$left = $this->input->post('left');
+
+		$data = array(
+				'tc_id' => $id,
+				'tp_position' => $dataposition,
+				'tp_top' => $top,
+				'tp_left' => $left
+		);
+
+		$tp_id = $this->tcard_model->new_card_position($data);
+
+		if($tp_id){
+			$data['success'] = TRUE;
+		} else {
+			$data['success'] = FALSE;
+		}
+
+		echo json_encode($data);
+	}
+	
+	function new_exit_pass() {
+		$data['success'] = FALSE;
+		
+		
+		try {
+			$id = $this->input->post('id');
+			
+			$tcard = $this->tcard_model->get_tcard_by_id($id);
+			if( $tcard ) {
+				$details = array(
+					'tc_id' => $tcard->tc_id,
+					'vt_name' => $tcard->vt_name,
+					'v_no' => $tcard->v_no,
+					'tc_sealno' => $tcard->tc_sealno,
+					'tc_dn' => $tcard->tc_dn,
+					's_name' => $tcard->s_name,
+					'date' => date('M d, Y')
+				);
+				
+				$data['details'] = $details;
+				$data['success'] = TRUE;
+			}
+			
+		} catch (Exception $e) {
+			unset($e);
+		}
+		
+		echo json_encode( $data );
+	}
+	
+	function save_exit_pass() {
+		$var['success'] = FALSE;
+			
+		try {
+			$id = $this->input->post('id');
+			$destination = $this->input->post('destination');
+			$plate_no = $this->input->post('plate-no');
+			$particulars = $this->input->post('particulars');
+			$driver = $this->input->post('driver');
+			$van_class = $this->input->post('van-class');
+			
+			if( $this->_validate_card_id( $id ) && !$this->_check_tcard_exitpass( $id ) ) {
+				$data = array(
+						'tc_id' => $id,
+						'e_van_class' => strtoupper( $van_class ),
+						'e_date' => date('Y-m-d'),
+						'e_destination' => strtoupper( $destination ),
+						'e_plateno' => strtoupper( $plate_no ),
+						'e_particulars' => strtoupper( $particulars ),
+						'e_driver' => strtoupper( $driver )
+				);
+				
+				// Save
+				$this->tcard_model->new_tcard_exitpass( $data );
+				
+				
+				$var['success'] = TRUE;
+			}
+			
+		} catch (Exception $e) {
+			unset($e);
+		}
+		
+		echo json_encode( $var );
+	}
+	
 	/* PRIVATES */
 	
 	private function _validate_card_id( $id ) {
@@ -294,6 +418,7 @@ class Container_yard extends MY_Controller {
 				'bin_no' => 'bin-no',
 				'van_no' => 'van-no',
 				'material_no' => 'mat-no',
+				'incoming_materials' => 'incoming-materials',
 				'van_type' => 'van-type',
 				'batch_code' => 'batch-code',
 				'status' => 'status',
@@ -308,7 +433,10 @@ class Container_yard extends MY_Controller {
 				'checker' => 'checker',
 				'entry_date' => 'entry-date',
 				'exit_date' => 'exit-date',
-				'date_blocked' => 'block-date',
+				'dn_no' => 'dn-no',
+				'date_sealed' => 'date-sealed',
+				'seal_no' => 'seal-no',
+				'is_blocked' => 'is-blocked',
 				'remarks' => 'remarks'
 		);
 		
@@ -324,6 +452,7 @@ class Container_yard extends MY_Controller {
 				'bin_no' => 'xss_clean',
 				'van_no' => 'required|xss_clean',
 				'material_no' => 'xss_clean',
+				'incoming_materials' => 'xss_clean',
 				'van_type' => 'required|xss_clean',
 				'batch_code' => 'xss_clean',
 				'status' => 'xss_clean',
@@ -338,7 +467,9 @@ class Container_yard extends MY_Controller {
 				'checker' => 'xss_clean',
 				'entry_date' => 'callback_is_date|xss_clean',
 				'exit_date' => 'callback_is_date|xss_clean',
-				'date_blocked' => 'callback_is_date|xss_clean',
+				'dn_no' => 'xss_clean',
+				'date_sealed' => 'callback_is_date|xss_clean',
+				'seal_no' => 'xss_clean',
 				'remarks' => 'xss_clean'
 		);
 	
@@ -360,7 +491,9 @@ class Container_yard extends MY_Controller {
 		$this->form_validation->set_rules($forms->checker, 'Checker', $rules['checker']);
 		$this->form_validation->set_rules($forms->entry_date, 'Entry Date', $rules['entry_date']);
 		$this->form_validation->set_rules($forms->exit_date, 'Exit Date', $rules['exit_date']);
-		$this->form_validation->set_rules($forms->date_blocked, 'Date Blocked', $rules['date_blocked']);
+		$this->form_validation->set_rules($forms->dn_no, 'DN No.', $rules['dn_no']);
+		$this->form_validation->set_rules($forms->date_sealed, 'Date Sealed', $rules['date_sealed']);
+		$this->form_validation->set_rules($forms->seal_no, 'Seal No.', $rules['seal_no']);
 		$this->form_validation->set_rules($forms->remarks, 'Remarks', $rules['remarks']);
 	
 	}
@@ -391,37 +524,73 @@ class Container_yard extends MY_Controller {
 			$card[$forms->checker] = $details->tc_checker;
 			$card[$forms->entry_date] = $details->tc_entrydate;
 			$card[$forms->exit_date] = $details->tc_exitdate;
-			$card[$forms->date_blocked] = $details->tc_dateblocked;
+			$card[$forms->dn_no] = $details->tc_dn;
+			$card[$forms->date_sealed] = $details->tc_datesealed;
+			$card[$forms->seal_no] = $details->tc_sealno;
+			$card[$forms->is_blocked] = $details->is_blocked;
 			$card[$forms->remarks] = $details->tc_remarks;
 			
-			// Special Case (not in form names)
+			// Special Cases
 			$card['card-id'] = $details->tc_id;
+			$card['incoming-materials'] = $this->_get_card_incoming_materials_id($details->tc_id);
+			$card['exitpass-id'] = $details->e_id;
 		}
 		
 		return $card;
 	}
 	
-	function save_position() {
-		$id = $this->input->post('id');
-		$dataposition = $this->input->post('dataposition');
-		$top = $this->input->post('top');
-		$left = $this->input->post('left');
-
-		$data = array(
-				'tc_id' => $id,
-				'tp_position' => $dataposition,
-				'tp_top' => $top,
-				'tp_left' => $left
-		);
-
-		$tp_id = $this->tcard_model->new_card_position($data);
-
-		if($tp_id){
-			$data['success'] = TRUE;
-		} else {
-			$data['success'] = FALSE;
+	private function _udpate_incoming_materials( $tcard_id, $new_mats ) {
+		
+		if( $this->_validate_card_id($tcard_id) ) {
+			
+			$old_mats = array();
+			
+			$this->tcard_model->flush_tcard_incoming_materials($tcard_id);
+			
+			$previous_material = $this->tcard_model->get_card_incoming_materials($tcard_id);
+			
+			if( $previous_material ) {
+				foreach( $previous_material as $k => $mat ) {
+					$old_mats[$mat->tim_id] = $mat->im_id;
+				}
+			}			
+			
+			foreach( $new_mats as $k => $new_mat ) {
+				if( in_array($new_mat, $old_mats) ) {
+					$this->incoming_materials_model->unpurge_tcard_incoming_material( array_search($new_mat, $old_mats) );
+					unset( $new_mats[$k] );
+				}
+			}
+			
+			$returnVal = $new_mats;
+			
 		}
-
-		echo json_encode($data);
+		
+		$returnVal = $new_mats;
+		
+		return $returnVal;		
+		
+	}
+	
+	private function _get_card_incoming_materials_id( $tcard_id ) {
+		$returnVal = array();
+		
+		$materials = $this->tcard_model->get_card_current_incoming_materials($tcard_id);
+		
+		if( $materials ) {
+			foreach( $materials as $k => $mat ) {
+				$returnVal[] = $mat->im_id;
+			}
+		}
+		
+		return $returnVal;
+	}
+	
+	private function _check_tcard_exitpass( $tcard_id ) {
+		$exit_pass = $this->tcard_model->get_tcard_exit_pass( $tcard_id );
+		
+		$existing = $exit_pass ? TRUE : FALSE;
+		
+		return $existing;
 	}
 }

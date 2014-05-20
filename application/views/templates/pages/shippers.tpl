@@ -38,7 +38,7 @@
 			<table id="shipper-table" class="table">
 				<thead>
 					<th style="width: 10px;"><input id="select-all-check" class="check-selection" type="checkbox"></th>
-					<th>Shippers</th>
+					<th><strong>Shippers</strong></th>
 					<th style="width: 140px">
 						<button id="new-shipper-btn" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add</button>
 						<button id="delete-shipper-btn" class="btn absolute-hide" title="Delete Selected"><i class="glyphicon glyphicon-trash"></i></button>

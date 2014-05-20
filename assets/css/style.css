@@ -2,6 +2,10 @@
 	display: none !important;
 }
 
+.display-block {
+    display: block !important;
+}
+
 .row.buffer-top {
 	margin-top: 10px;
 }
@@ -41,6 +45,14 @@
     /*font-size: 12px;*/
     color: red;
     font-style: italic;
+}
+
+.has-radio-checkbox .checkbox-radio-label {
+    vertical-align: middle;
+}
+
+.has-radio-checkbox [type="checkbox"], .has-radio-checkbox [type="radio"] {
+    vertical-align: top;
 }
 
 

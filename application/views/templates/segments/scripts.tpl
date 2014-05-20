@@ -10,8 +10,8 @@
         {/foreach}
     {/if}
 
-    <script src="/cyms/assets/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/cyms/assets/js/jquery.tablesorter.js"></script> 
-    <script type="text/javascript" src="/cyms/assets/js/loading-overlay.js"></script> 
-    <script type="text/javascript" src="/cyms/assets/js/global.js"></script> 
+    <script src="{$base_url}{$smarty.const.SCRIPTS_DIR}bootstrap.min.js"></script>
+    <script type="text/javascript" src="{$base_url}{$smarty.const.SCRIPTS_DIR}jquery.tablesorter.js"></script> 
+    <script type="text/javascript" src="{$base_url}{$smarty.const.SCRIPTS_DIR}loading-overlay.js"></script> 
+    <script type="text/javascript" src="{$base_url}{$smarty.const.SCRIPTS_DIR}global.js"></script> 
 <div>

@@ -41,7 +41,7 @@
 			<table id="checker-table" class="table">
 				<thead>
 					<th style="width: 10px;"><input id="select-all-check" class="check-selection" type="checkbox"></th>
-					<th>Checkers</th>
+					<th><strong>Checkers</strong></th>
 					<th style="width: 140px">
 						<button id="new-checker-btn" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add</button>
 						<button id="delete-checker-btn" class="btn absolute-hide"><i class="glyphicon glyphicon-trash" title="Delete Selected"></i></button>

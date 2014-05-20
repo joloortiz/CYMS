@@ -36,7 +36,7 @@
 			<table id="van-type-table" class="table">
 				<thead>
 					<th style="width: 10px;"><input id="select-all-check" class="check-selection" type="checkbox"></th>
-					<th>Van Types</th>
+					<th><strong>Van Types</strong></th>
 					<th style="width: 140px">
 						<button id="new-van-type-btn" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add</button>
 						<button id="delete-van-type-btn" class="btn absolute-hide"><i class="glyphicon glyphicon-trash" title="Delete Selected"></i></button>

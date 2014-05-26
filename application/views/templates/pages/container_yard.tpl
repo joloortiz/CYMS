@@ -13,7 +13,7 @@
 				</button>
 				<div class="form-group col-xs-3">
 					<div class="input-group">
-				    	<input type="email" class="form-control" id="search-entry" placeholder="Search Entry">
+				    	<input type="email" class="form-control" id="search-entry" placeholder="Search by Bin / Van No.">
 						<span class="input-group-btn">
 							<button id="search-btn"class="btn btn-oroport" type="button"><span class="glyphicon glyphicon-search"></span></button>
 						</span>
@@ -35,7 +35,7 @@
 					<div id="pending" class="panel panel-default">
 						<div class="panel-heading">
 							Pending Entries
-		    				<span class="badge pull-right">{count($tcards.pending)}</span>
+		    				<span class="badge pull-right pending-counter">{count($tcards.pending)}</span>
 		    			</div>
 						<div class="panel-body">
 							<div class="absolute-hide cv-model" data-class="entry cv ui-draggable" aria-disabled="false" style="display: none; opacity: 0;"></div>
@@ -686,11 +686,17 @@
 </div>
 
 
-<!-- New Entry Modal -->
+<!-- Tcard Modal -->
 {include file="pages/_tcard_modal.tpl"}
+
+<!-- Tcard Block Modal -->
+{include file="pages/_tcard_block_modal.tpl"}
 
 <!-- Exit Pass Modal -->
 {include file="pages/_exit_pass_modal.tpl"}
+
+<!-- Search Filter Modal -->
+{include file="pages/_search_filter_modal.tpl"}
 
 {/block}
 

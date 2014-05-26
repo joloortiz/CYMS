@@ -83,7 +83,15 @@ class Tcard_model extends CI_Model{
 							tt.tt_color,
 							tp.tp_id,
 							vt.vt_name,
-							e.*,
+							e.e_id,
+							e.e_serial,
+							e.e_van_class,
+							e.e_date,
+							e.e_timeout,
+							e.e_destination,
+							e.e_plateno,
+							e.e_particulars,
+							e.e_driver,
 							(SELECT tp_position FROM tcard_position WHERE tc_id = tc.tc_id ORDER BY tp_timestamp DESC LIMIT 1) AS tp_position,
 							(SELECT tp_left FROM tcard_position WHERE tc_id = tc.tc_id ORDER BY tp_timestamp DESC LIMIT 1) AS tp_left,
 							(SELECT tp_top FROM tcard_position WHERE tc_id = tc.tc_id ORDER BY tp_timestamp DESC LIMIT 1) AS tp_top',
@@ -91,11 +99,11 @@ class Tcard_model extends CI_Model{
 		
 		$this->db->from('tcards tc');
 		$this->db->join('tcard_position tp', 'tp.tc_id = tc.tc_id');
-		$this->db->join('exit_passes e', 'tc.tc_id = e.tc_id', 'left');
 		$this->db->join('vans v', 'tc.v_id = v.v_id');
 		$this->db->join('shippers s', 'tc.s_id = s.s_id');
 		$this->db->join('van_types vt', 'tc.vt_id = vt.vt_id');
 		$this->db->join('tcard_types tt', 'tc.tt_id = tt.tt_id');
+		$this->db->join('exit_passes e', 'tc.tc_id = e.tc_id', 'left');
 		$this->db->where('tc.tc_id', $id);
 		$this->db->order_by('tp.tp_timestamp', 'DESC');
 		$this->db->limit(1);
@@ -144,7 +152,7 @@ class Tcard_model extends CI_Model{
 		$this->db->join('shippers s', 'tc.s_id = s.s_id');
 		$this->db->join('tcard_types tt', 'tc.tt_id = tt.tt_id');
 		$this->db->join('exit_passes e', 'tc.tc_id = e.tc_id', 'left');
-		$this->db->where('e.e_timeout IS NULL OR e.e_timeout = 0');
+		$this->db->where('e.e_timeout IS NULL');
 		$this->db->order_by('v.v_no');
 		$query = $this->db->get();
 	
@@ -323,6 +331,11 @@ class Tcard_model extends CI_Model{
 	function unset_exfac_types() {
 		$this->db->where('is_exfactory', TRUE);
 		$this->db->update('tcard_types', array('is_exfactory' => FALSE));
+	}
+	
+	function update_tcard_exitpass( $tcard_id, $data ) {
+		$this->db->where('tc_id', $tcard_id);
+		$this->db->update('exit_passes', $data);
 	}
 	
 	/* DELETE */

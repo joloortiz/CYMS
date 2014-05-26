@@ -24,7 +24,18 @@
       		<tbody>
       			<tr>
       				<td colspan="3">
-                <span class="pull-left tcard-blocked-status"><button id="block-tcard" class="btn btn-warning btn-sm in-form-button">Block Card</button> <span class="text-warning absolute-hide"><span class="glyphicon glyphicon-ban-circle"></span> This card is blocked. <button id="unblock-tcard" class="btn btn-link">Unblock</button></span></span>
+                <div class="pull-left tcard-blocked-status">
+                  <span>
+                    <button id="block-tcard" class="btn btn-warning btn-sm in-form-button">Block Card</button>
+                    <span class="text-warning absolute-hide"><span class="glyphicon glyphicon-ban-circle"></span> This card is blocked <span class="defective-text absolute-hide">(Defective)</span>
+
+                    <button id="unblock-tcard" class="btn btn-link">Unblock</button></span>
+                  </span>
+
+                  <div class="row buffer-top block-reason-container absolute-hide">
+                    <div class="col-md-12"><span class="text-warning"><strong>Reason / Defect: </strong><span class="reason-text"></span></span></div>
+                  </div>
+                </div>
       					<span class="pull-right tcard-modal-state-notifier">&nbsp;</span>
       				</td>
       			</tr>
@@ -252,13 +263,13 @@
       					<div class="row">
       						<div class="col-sm-6">
       							<strong>Entry Date</strong>
-      							<input name="{$form->entry_date}" class="form-control input-sm generic-datepicker" type="text">
+      							<input name="{$form->entry_date}" class="form-control input-sm" type="text">
   								  <span class="help-inline"></span>
       						</div>
       						<div class="col-sm-6 update-card-field">
                     <div class="absolute-hide exit-pass-timeout-container">
                       <strong>Time Out</strong>
-        							<input name="time-out" class="form-control input-sm" type="text">
+        							<input name="{$form->time_out}" class="form-control input-sm" type="text">
     								  <span class="help-inline"></span>
                     </div>
                     <div class="exit-pass-btn-container">
@@ -280,11 +291,6 @@
       					</div>
       				</td>
       				<td class="col-xs-3"></td>
-      			</tr>
-      			<tr class="no-tcard-type">
-      				<td colspan="3">
-      					<em>Please select a card type.</em>
-      				</td>
       			</tr>
       			<tr class="absolute-hide">
       				<td colspan="3">

@@ -4,6 +4,8 @@ class Container_yard extends MY_Controller {
 	
 	function index() {
 		
+		$this->load->helper('date');
+		
 		// css
 		$css = array(
 				'select2.css',
@@ -24,6 +26,7 @@ class Container_yard extends MY_Controller {
 				'pages/container-yard.js',
 				'pages/cy-tcard.js',
 				'pages/cy-exitpass.js',
+				'pages/cy-tcard-filter.js',
 				'checknumeric.js'
 		);
 		$this->smarty->assign('page_js', $js);
@@ -75,10 +78,23 @@ class Container_yard extends MY_Controller {
 				// 				$row['display_chars'] = substr($row['v_no'], 0, 3);
 		
 				// 				$cards[$k] = (object) $row;
+				
+				$timespan = NULL;
+				$dayspan = NULL;
+				
+				if( $row['tc_entrydate'] != '' ) {
+					$timespan = $this->_get_timespan( mysql_to_unix( $row['tc_entrydate'] ), time() );
+					$dayspan = $this->_get_dayspan(new DateTime( $row['tc_entrydate'] ), new DateTime());
+				}
+				
+				$row['entry_timespan'] = $timespan;
+				$row['entry_dayspan'] = $dayspan;
+				
 				$tcards[$index][] = (object) $row;
 			}
 		}
 		$this->smarty->assign('tcards', $tcards);
+		
 		
 		$data['layout_js'] = '';
 		$data['company_name'] = 'Oroport Cargoholding Services Inc.';
@@ -94,7 +110,6 @@ class Container_yard extends MY_Controller {
 		try {
 			
 			$id = trim( $this->input->post('card_id') );
-			$is_blocked = $this->input->post('is-blocked');
 			
 			$shipper = $this->input->post($forms->shipper);
 			$trucker = $this->input->post($forms->trucker);
@@ -114,11 +129,16 @@ class Container_yard extends MY_Controller {
 			$stripping_controller = $this->input->post($forms->strip_controller);
 			$checker = $this->input->post($forms->checker);
 			$entry_date = $this->input->post($forms->entry_date);
-			$exit_date = $this->input->post($forms->exit_date);
+			$time_out = $this->input->post($forms->time_out);
 			$dn = $this->input->post($forms->dn_no);
 			$date_sealed = $this->input->post($forms->date_sealed);
 			$seal_no = $this->input->post($forms->seal_no);
 			$remarks = $this->input->post($forms->remarks);
+			
+
+			$is_blocked = $this->input->post($forms->is_blocked);
+			$is_defective = $this->input->post($forms->is_defective);
+			$block_reason = $this->input->post($forms->block_reason);
 			
  			$user = $this->session->userdata(SESSION_VAR);
  			
@@ -164,12 +184,13 @@ class Container_yard extends MY_Controller {
 					'tc_dateblocked' => $date_blocked,
 					'tc_strcontroller' => $stripping_controller,
 					'tc_entrydate' => $entry_date != '' ? date("Y-m-d H:i:s", strtotime($entry_date)) : NULL,
-					'tc_exitdate' => $exit_date != '' ? date("Y-m-d H:i:s", strtotime($exit_date)) : NULL,
 					'tc_dn' => strtoupper($dn),
 					'tc_datesealed' => $date_sealed != '' ? date("Y-m-d", strtotime($date_sealed)) : NULL,
-					'tc_sealno' => strtoupper($seal_no),
-					'tc_remarks' => $remarks,
+					'tc_sealno' => strtoupper( $seal_no ),
+					'tc_remarks' => strtoupper( $remarks ),
+					'tc_block_reason' => strtoupper( $block_reason ),
 					'is_blocked' => $is_blocked,
+					'is_defective' => $is_defective,
 					'u_id' => $user['u_id']
 			);
 			
@@ -196,6 +217,11 @@ class Container_yard extends MY_Controller {
 					
 					$this->tcard_model->new_tcard_incoming_material( $mat_data );
 				}
+			}
+			
+			// Update time out
+			if( $time_out && trim( $time_out ) != '' ) {
+				$this->tcard_model->update_tcard_exitpass( $id, array( 'e_timeout' => $time_out ) );
 			}
 			
 			$var['tcard'] = $this->tcard_model->get_tcard_by_id($id);
@@ -280,7 +306,7 @@ class Container_yard extends MY_Controller {
 		$id = trim($this->input->post('id'));
 		
 		try {
-			$details = $this->_get_card_details_by_form_name($id);
+			$details = $this->_get_card_details_by_id($id);
 			
 			$var['details'] = $details;
 			$var['success'] = !empty($details) ? TRUE : FALSE;
@@ -432,11 +458,13 @@ class Container_yard extends MY_Controller {
 				'strip_controller' => 'str-controller',
 				'checker' => 'checker',
 				'entry_date' => 'entry-date',
-				'exit_date' => 'exit-date',
+				'time_out' => 'time-out',
 				'dn_no' => 'dn-no',
 				'date_sealed' => 'date-sealed',
 				'seal_no' => 'seal-no',
 				'is_blocked' => 'is-blocked',
+				'is_defective' => 'is-defective',
+				'block_reason' => 'block-reason',
 				'remarks' => 'remarks'
 		);
 		
@@ -466,10 +494,11 @@ class Container_yard extends MY_Controller {
 				'strip_controller' => 'xss_clean',
 				'checker' => 'xss_clean',
 				'entry_date' => 'callback_is_date|xss_clean',
-				'exit_date' => 'callback_is_date|xss_clean',
+				'time_out' => 'xss_clean',
 				'dn_no' => 'xss_clean',
 				'date_sealed' => 'callback_is_date|xss_clean',
 				'seal_no' => 'xss_clean',
+				'block_reason' => 'xss_clean',
 				'remarks' => 'xss_clean'
 		);
 	
@@ -490,15 +519,16 @@ class Container_yard extends MY_Controller {
 		$this->form_validation->set_rules($forms->strip_controller, 'Stripping Controller', $rules['strip_controller']);
 		$this->form_validation->set_rules($forms->checker, 'Checker', $rules['checker']);
 		$this->form_validation->set_rules($forms->entry_date, 'Entry Date', $rules['entry_date']);
-		$this->form_validation->set_rules($forms->exit_date, 'Exit Date', $rules['exit_date']);
+		$this->form_validation->set_rules($forms->time_out, 'Time Out', $rules['time_out']);
 		$this->form_validation->set_rules($forms->dn_no, 'DN No.', $rules['dn_no']);
 		$this->form_validation->set_rules($forms->date_sealed, 'Date Sealed', $rules['date_sealed']);
 		$this->form_validation->set_rules($forms->seal_no, 'Seal No.', $rules['seal_no']);
+		$this->form_validation->set_rules($forms->block_reason, 'Block Reason', $rules['block_reason']);
 		$this->form_validation->set_rules($forms->remarks, 'Remarks', $rules['remarks']);
 	
 	}
 	
-	private function _get_card_details_by_form_name( $id ) {
+	private function _get_card_details_by_id( $id ) {
 		
 		$details = $this->tcard_model->get_tcard_by_id($id);
 		
@@ -523,11 +553,13 @@ class Container_yard extends MY_Controller {
 			$card[$forms->strip_controller] = $details->tc_strcontroller;
 			$card[$forms->checker] = $details->tc_checker;
 			$card[$forms->entry_date] = $details->tc_entrydate;
-			$card[$forms->exit_date] = $details->tc_exitdate;
+			$card[$forms->time_out] = $details->e_timeout;
 			$card[$forms->dn_no] = $details->tc_dn;
 			$card[$forms->date_sealed] = $details->tc_datesealed;
 			$card[$forms->seal_no] = $details->tc_sealno;
+			$card[$forms->block_reason] = $details->tc_block_reason;
 			$card[$forms->is_blocked] = $details->is_blocked;
+			$card[$forms->is_defective] = $details->is_defective;
 			$card[$forms->remarks] = $details->tc_remarks;
 			
 			// Special Cases
@@ -555,12 +587,15 @@ class Container_yard extends MY_Controller {
 				}
 			}			
 			
-			foreach( $new_mats as $k => $new_mat ) {
-				if( in_array($new_mat, $old_mats) ) {
-					$this->incoming_materials_model->unpurge_tcard_incoming_material( array_search($new_mat, $old_mats) );
-					unset( $new_mats[$k] );
+			if( $new_mats && !empty( $new_mats ) ) {
+				foreach( $new_mats as $k => $new_mat ) {
+					if( in_array($new_mat, $old_mats) ) {
+						$this->incoming_materials_model->unpurge_tcard_incoming_material( array_search($new_mat, $old_mats) );
+						unset( $new_mats[$k] );
+					}
 				}
 			}
+			
 			
 			$returnVal = $new_mats;
 			
@@ -592,5 +627,34 @@ class Container_yard extends MY_Controller {
 		$existing = $exit_pass ? TRUE : FALSE;
 		
 		return $existing;
+	}
+	
+	private function _get_timespan( $earlier_date, $later_date ) {
+		
+		// Dates must be in UNIX
+		
+		$timespan = NULL;
+		
+		if( $earlier_date != '' && $later_date != '' ) {
+			$timespan = timespan( $earlier_date, $later_date );
+		}
+		
+		return $timespan;
+		
+	}
+	
+	private function _get_dayspan( $earlier_date, $later_date ) {
+		
+		// Dates must be in DateTime format
+		
+		$dayspan = NULL;
+		
+		if( $earlier_date != '' && $later_date != '' ) {
+			
+			$interval = $earlier_date->diff($later_date);
+			$dayspan = $interval->format('%a days');
+		}
+		
+		return $dayspan;
 	}
 }

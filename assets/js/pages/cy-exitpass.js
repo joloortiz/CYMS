@@ -1,9 +1,3 @@
-// TEMP 
-$(document).ready(function() {
-    show_exit_pass_modal();
-});
-
-
 /*
  * LISTENERS
  */
@@ -73,10 +67,10 @@ function initiate_new_exit_pass( tcard_id ) {
 
            		$('.date-text-container').text(details.date);
            		$('.vantype-text-container').text(details.vt_name);
-           		$('.van-no-text').text(details.v_no);
-           		$('.seal-no-text').text(details.tc_sealno);
-           		$('.dn-no-text').text(details.tc_dn);
-           		$('.shipper-text').text(details.s_name);
+           		$('.van-no-text').text(details.v_no ? details.v_no : '');
+           		$('.seal-no-text').text(details.tc_sealno ? details.tc_sealno : '');
+           		$('.dn-no-text').text(details.tc_dn ? details.tc_dn : '');
+           		$('.shipper-text').text(details.s_name ? details.s_name : '');
            }
        }
    });
@@ -130,12 +124,10 @@ function reset_exit_pass() {
 function show_exit_pass_modal() {
 
   setTimeout(function() {
-    $(document).ready(function() {
       $('#exitPassModal').modal({
           keyboard: false,
           backdrop: 'static'
       });
-    });
   }, 200);
   
 }

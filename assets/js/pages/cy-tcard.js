@@ -1,10 +1,3 @@
-// Temp
-/*$(document).ready(function() {
-    modal_state_preview(false);
-    show_new_entry_modal();
-
-});*/
-
 /*
  * INIT
  */
@@ -54,9 +47,18 @@ $('[name="checker"]').select2({
 });
 
 
-// Timepicker
+// Datepicker and Timepicker
 
 $('[name="time-out"]').timepicker();
+
+$('[name="entry-date"]').datetimepicker({
+    'dateFormat': 'yy-mm-dd',
+    'changeYear': true,
+    'changeMonth': true,
+    'maxDate': '+0D',
+    'minDate': '-70Y',
+    'yearRange': '-100:+0'
+});
 
 
 /*
@@ -97,6 +99,14 @@ $('#newEntryModal').on('shown.bs.modal', function() {
     $('#newEntryModal').find('select').trigger('change');
 });
 
+$('#tcardBlockModal').on('shown.bs.modal', function() {
+    $('#newEntryModal').addClass('absolute-hide');
+});
+
+$('#tcardBlockModal').on('hidden.bs.modal', function() {
+    $('#newEntryModal').removeClass('absolute-hide');
+});
+
 $('body').on('click', '.entry', function() {
     var card_id = $(this).attr('id');
     var details = get_tcard_details(card_id);
@@ -120,7 +130,10 @@ $('body').on('click', '.entry', function() {
 
     // is blocked
     var is_blocked = details['is-blocked'] == 0 ? false : true;
+    var is_defective = details['is-defective'] == 0 ? false : true;
     $('[name="is-blocked"]').prop('checked', is_blocked);
+    $('[name="is-defective"]').prop('checked', is_defective);
+
     $('[name="is-blocked"]').trigger('change');
 
     modal_state_preview();
@@ -229,8 +242,23 @@ $('[name="is-blocked"]').change(function() {
 });
 
 $('#block-tcard').click(function() {
+
+    $('#tcardBlockModal').modal({
+      keyboard: false,
+      backdrop: 'static'
+    });
+
+
+
+    /*$('[name="is-blocked"]').prop('checked', true);
+    $('[name="is-blocked"]').trigger('change');*/
+});
+
+$('#confirm-block-btn').click(function() {
     $('[name="is-blocked"]').prop('checked', true);
     $('[name="is-blocked"]').trigger('change');
+
+    $('#tcardBlockModal').modal('hide');
 });
 
 $('#unblock-tcard').click(function() {
@@ -281,6 +309,13 @@ function reset_tcard(){
     $('.exit-pass-timeout-container').addClass('absolute-hide');
 
     $('[name="card-id"]').val('');
+
+    reset_block_modal();
+}
+
+function reset_block_modal() {
+    $('[name="is-defective"]').prop('checked', false);
+    $('[name="block-reason"]').val('');
 }
 
 function update_modal_field_state( card_type ) {
@@ -335,6 +370,8 @@ function get_form_names() {
 
 function get_form_values() {
     var values = {};
+    var is_defective = 0;
+    var block_reason = null;
 
     forms = get_form_names();
 
@@ -347,6 +384,13 @@ function get_form_values() {
 
     // is_blocked
     values['is-blocked'] = $('[name="is-blocked"]').prop('checked') ? 1 : 0;
+
+    if( values['is-blocked'] == 1 ) {
+        is_defective = $('[name="is-defective"]').prop('checked') ? 1 : 0;
+        block_reason = $.trim( $('[name="block-reason"]').val() );
+    }
+    values['is-defective'] = is_defective;
+    values['block-reason'] = block_reason;
 
     return values;
 }
@@ -400,6 +444,10 @@ function validate_form() {
 
 function reset_errors() {
     $('.help-inline').text('');
+
+    $('.defective-text').addClass('absolute-hide');
+    $('.block-reason-container').addClass('absolute-hide');
+    $('.reason-text').text('');
 }
 
 function display_form_error( formElementName, errorString ) {
@@ -464,6 +512,11 @@ function save() {
 
                     // Initialize card as draggable
                     $('#'+tcard.tc_id).draggable();
+
+                }
+
+                if( tcard.e_timeout && $.trim(tcard.e_timeout) != '' ) {
+                    $('#' + tcard.tc_id).remove();
                 }
 
                 setTimeout(function() {
@@ -568,15 +621,31 @@ function tcard_block( param ) {
     param = typeof param == 'undefined' ? true : param;
 
     if( param ) {
+        var is_defective = $('[name="is-defective"]').prop('checked');
+        var reason = $.trim( $('[name="block-reason"]').val() );
+
         $('#block-tcard').addClass('absolute-hide');
         $('.tcard-blocked-status').find('.text-warning').removeClass('absolute-hide');
 
         $('#block-tcard').closest('tr').addClass('bg-danger');
+
+        if( is_defective ) {
+            $('.defective-text').removeClass('absolute-hide');
+        }
+
+        if( reason != '' ) {
+            $('.block-reason-container').removeClass('absolute-hide');
+            $('.reason-text').text(reason);
+        }
     }else {
         $('#block-tcard').removeClass('absolute-hide');
         $('.tcard-blocked-status').find('.text-warning').addClass('absolute-hide');
 
         $('#block-tcard').closest('tr').removeClass('bg-danger');
+
+        $('.reason-text').text('');
+        $('.block-reason-container').addClass('absolute-hide');
+        $('.defective-text').addClass('absolute-hide');
     }
 }
 

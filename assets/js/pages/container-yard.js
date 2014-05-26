@@ -234,6 +234,7 @@ function save_position(id, dataposition, top, left) {
             }
             else{
                 returnflag = true;
+                update_pending_count();
             }
         }
     });
@@ -530,3 +531,12 @@ function search_entry(){
 }
     
 });
+
+function update_pending_count() {
+    
+    var pending_entries = $('.entry').filter(function() {
+        return $(this).attr('data-position') == 'pending';
+    });
+
+    $('.pending-counter').text(pending_entries.length);
+}

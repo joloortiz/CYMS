@@ -20,6 +20,9 @@ class MY_Controller extends CI_Controller {
    
     public function __construct() {
 		parent::__construct();
+		
+		// Set Default timezone
+		date_default_timezone_set('Asia/Manila');
         
 		// Check templates_c
 		$this->check_temp_cache();

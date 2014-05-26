@@ -32,3 +32,5 @@ class Search extends MY_Controller {
 		$this->smarty->view('pages/search.tpl');
 	}
 }
+
+?>

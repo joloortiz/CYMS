@@ -34,6 +34,7 @@ local.properties
 #############
 
 application/views/templates_c/
+application/config/database.php
 system/
 index.php
 license.txt

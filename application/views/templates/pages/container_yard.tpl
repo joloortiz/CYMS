@@ -13,7 +13,7 @@
 				</button>
 				<div class="form-group col-xs-3">
 					<div class="input-group">
-				    	<input type="email" class="form-control" id="search-entry" placeholder="Search by Bin / Van No.">
+				    	<input type="email" class="form-control" id="search-entry" placeholder="Search Entry">
 						<span class="input-group-btn">
 							<button id="search-btn"class="btn btn-oroport" type="button"><span class="glyphicon glyphicon-search"></span></button>
 						</span>
@@ -35,14 +35,14 @@
 					<div id="pending" class="panel panel-default">
 						<div class="panel-heading">
 							Pending Entries
-		    				<span class="badge pull-right pending-counter">{count($tcards.pending)}</span>
+		    				<span id="pending-count" class="badge pull-right">{count($tcards.pending)}</span>
 		    			</div>
 						<div class="panel-body">
 							<div class="absolute-hide cv-model" data-class="entry cv ui-draggable" aria-disabled="false" style="display: none; opacity: 0;"></div>
 
 							{if isset($tcards.pending)}
 								{foreach $tcards.pending as $card}
-									<div id="{$card->tc_id}" class="entry cv" van-no="{$card->v_no}" bin-no="{$card->tc_bin}" data-position="pending" style="background-color: {$card->s_color}; border-color: {$card->tt_color};">{$card->display_chars}</div>
+									<div id="{$card->tc_id}" class="entry cv" van-no="{$card->v_no}" bin-no="{$card->tc_bin}" data-position="pending" style="background-color: {$card->s_color}; border-color: {$card->tt_color};top:0px;left0px;">{$card->display_chars}</div>
 								{/foreach}
 							{/if}
 						</div>
@@ -238,6 +238,31 @@
 							<div id="A1A" class="cv dp ui-droppable" style="left: 513px; top: 524px;" dp-top="A19">A1A </div>
 							<div id="A1B" class="cv dp ui-droppable" style="left: 544px; top: 493px;" dp-bottom="A2C">A1B </div>
 							<div id="A1C" class="cv dp ui-droppable" style="left: 544px; top: 524px;" dp-top="A1B">A1C </div>
+
+							<div id="X11" class="cv dp ui-droppable temp-bay" style="left: 575px; top: 493px;" dp-bottom="X12">X11 </div>
+							<div id="X12" class="cv dp ui-droppable temp-bay" style="left: 575px; top: 524px;" dp-top="X11">X12 </div>	
+							<div id="X13" class="cv dp ui-droppable temp-bay" style="left: 606px; top: 493px;" dp-bottom="X14">X13 </div>
+							<div id="X14" class="cv dp ui-droppable temp-bay" style="left: 606px; top: 524px;" dp-top="X13">X14 </div>
+							<div id="X15" class="cv dp ui-droppable temp-bay" style="left: 575px; top: 400px;" dp-bottom="X16">X15 </div>
+							<div id="X16" class="cv dp ui-droppable temp-bay" style="left: 575px; top: 431px;" dp-top="X15">X16 </div>
+							<div id="X17" class="cv dp ui-droppable temp-bay" style="left: 606px; top: 400px;" dp-bottom="X18">X17 </div>
+							<div id="X18" class="cv dp ui-droppable temp-bay" style="left: 606px; top: 431px;" dp-top="X17">X18 </div>
+							<div id="X19" class="cv dp ui-droppable temp-bay" style="left: 575px; top: 307px;" dp-bottom="X1A">X19 </div>
+							<div id="X1A" class="cv dp ui-droppable temp-bay" style="left: 575px; top: 338px;" dp-top="X19">X1A </div>
+							<div id="X1B" class="cv dp ui-droppable temp-bay" style="left: 606px; top: 307px;" dp-bottom="X1C">X1B </div>
+							<div id="X1C" class="cv dp ui-droppable temp-bay" style="left: 606px; top: 338px;" dp-top="X1B">X1C </div>
+							<div id="X1D" class="cv dp ui-droppable temp-bay" style="left: 575px; top: 214px;" dp-bottom="X1E">X1D </div>
+							<div id="X1E" class="cv dp ui-droppable temp-bay" style="left: 575px; top: 245px;" dp-top="X1D">X1E </div>
+							<div id="X1F" class="cv dp ui-droppable temp-bay" style="left: 606px; top: 214px;" dp-bottom="X1G">X1F </div>
+							<div id="X1G" class="cv dp ui-droppable temp-bay" style="left: 606px; top: 245px;" dp-top="X1F">X1G </div>
+							<div id="X1H" class="cv dp ui-droppable temp-bay" style="left: 575px; top: 121px;" dp-bottom="X1I">X1H </div>
+							<div id="X1I" class="cv dp ui-droppable temp-bay" style="left: 575px; top: 152px;" dp-top="X1H">X1I </div>
+							<div id="X1J" class="cv dp ui-droppable temp-bay" style="left: 606px; top: 121px;" dp-bottom="X1K">X1J </div>
+							<div id="X1K" class="cv dp ui-droppable temp-bay" style="left: 606px; top: 152px;" dp-top="X1J">X1K </div>
+							<div id="X1L" class="cv dp ui-droppable temp-bay" style="left: 575px; top: 28px;" dp-bottom="X1M">X1L </div>
+							<div id="X1M" class="cv dp ui-droppable temp-bay" style="left: 575px; top: 59px;" dp-top="X1L">X1M </div>
+							<div id="X1N" class="cv dp ui-droppable temp-bay" style="left: 606px; top: 28px;" dp-bottom="X1O">X1N </div>
+							<div id="X1O" class="cv dp ui-droppable temp-bay" style="left: 606px; top: 59px;" dp-top="X1O">X1O </div>										
 							<div id="B61" class="cv dp ui-droppable" style="left: 637px; top: 28px;" dp-bottom="B62">B61 </div>
 							<div id="B62" class="cv dp ui-droppable" style="left: 637px; top: 59px;" dp-top="B61">B62 </div>
 							<div id="B63" class="cv dp ui-droppable" style="left: 668px; top: 28px;" dp-bottom="B64">B63 </div>
@@ -655,6 +680,17 @@
 							<div id="RME" class="cv dp ui-droppable" style="left: 79px; top: 800px;">RME </div>
 							<div id="RMF" class="cv dp ui-droppable" style="left: 48px; top: 800px;">RMF </div>
 						
+							<div class="bay-label overflow-bay">Overflow Bay</div>
+							<div class="bay-label alpha-bay">Alpha Bay</div>
+							<div class="bay-label bravo-bay">Bravo Bay</div>
+							<div class="bay-label charlie-bay">Charlie Bay</div>
+							<div class="bay-label delta-bay">Delta Bay</div>
+							<div class="bay-label carton-bay">Carton Bay</div>
+							<div class="bay-label carton-ext-bay">Carton Ext Bay</div>
+							<div class="bay-label rm-stripping">RM Stripping</div>
+							<div class="bay-label milk-stuffing">Milk Stuffing</div>
+							<div class="bay-label coffee-stuffing">Coffee Stuffing</div>
+							<div class="bay-label gc-stripping">Green Coffee Stripping Area</div>
 
 							{if isset($tcards.positioned)}
 								{foreach $tcards.positioned as $card}

@@ -9,6 +9,7 @@ init_draggables_on_map();
 init_droppable_top();
 init_occupied_droppable();
 init_popover();
+init_pending_counter(pending_count());
 
 
 function resetdragevent(){
@@ -20,8 +21,7 @@ function resetdragevent(){
             if($('#edit-btn').attr('editmode') == 1){
                 $('#' + draggable).attr('data-start-position', 'pending')
             }
-
-            
+            init_pending_counter(pending_count()-2);
         },
         drop: function(event, ui) {
             var droppableid = $(this)[0].id;
@@ -40,6 +40,7 @@ function resetdragevent(){
                 $('#' + draggable).draggable();
                 destroy_popover()
                 init_popover();
+                init_pending_counter(pending_count());
             }, 10);
 
         }
@@ -104,6 +105,14 @@ function resetdragevent(){
 
 }
 
+
+/* 
+*   Event Listeners
+*/
+
+
+
+
 $('#edit-btn').click(function(){
     $('#map>div>.entry').draggable('enable');
     init_draggable_bottom();
@@ -158,10 +167,9 @@ $('#save-btn, #cancel-yes').click(function(){
 
         });
 
-        console.log('iteration: ' + iteration);
-        console.log('success count: ' + save_success_count);
-
         if(iteration == save_success_count) {
+            init_data_content();
+            init_droppable_top();
             remove_loader();
         }
     }, 1000);
@@ -210,9 +218,14 @@ $('#search-entry').keydown(function(e) {
     }
 });
 
+
+
 /* 
 *   Functions
 */
+
+
+
 
 function save_position(id, dataposition, top, left) {
     var returnflag = false;
@@ -233,6 +246,7 @@ function save_position(id, dataposition, top, left) {
                 returnflag = false;
             }
             else{
+                $('#' + dataposition).removeAttr('data-content');
                 returnflag = true;
                 update_pending_count();
             }
@@ -528,6 +542,17 @@ function search_entry(){
 
         return false;
     }
+}
+
+//Function to count all the pending tcards
+function pending_count() {
+    return ($('#pending>.panel-body>div[data-position]').size());
+}
+
+//Function to append to the pending counter
+function init_pending_counter(count) {
+    $('#pending-count').empty();
+    $('#pending-count').append(count);
 }
     
 });

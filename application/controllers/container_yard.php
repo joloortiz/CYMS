@@ -26,7 +26,6 @@ class Container_yard extends MY_Controller {
 				'pages/container-yard.js',
 				'pages/cy-tcard.js',
 				'pages/cy-exitpass.js',
-				'pages/cy-tcard-filter.js',
 				'checknumeric.js'
 		);
 		$this->smarty->assign('page_js', $js);
@@ -68,7 +67,7 @@ class Container_yard extends MY_Controller {
 		$this->smarty->assign('form', $form_names);
 		
 		// Get cards - segregated
-		$cards = $this->tcard_model->list_tcards();
+		$cards = $this->_list_tcards();
 		$tcards = array();
 		$index = '';
 		if( $cards ) {
@@ -224,7 +223,9 @@ class Container_yard extends MY_Controller {
 				$this->tcard_model->update_tcard_exitpass( $id, array( 'e_timeout' => $time_out ) );
 			}
 			
-			$var['tcard'] = $this->tcard_model->get_tcard_by_id($id);
+			$tcard = $this->_get_tcard_by_id($id);
+			
+			$var['tcard'] = $tcard;
 			$var['action'] = $action;
 			$var['success'] = TRUE;
 			
@@ -530,7 +531,7 @@ class Container_yard extends MY_Controller {
 	
 	private function _get_card_details_by_id( $id ) {
 		
-		$details = $this->tcard_model->get_tcard_by_id($id);
+		$details = $this->_get_tcard_by_id($id);
 		
 		$forms = $this->_form_names();
 		$card = array();
@@ -566,6 +567,8 @@ class Container_yard extends MY_Controller {
 			$card['card-id'] = $details->tc_id;
 			$card['incoming-materials'] = $this->_get_card_incoming_materials_id($details->tc_id);
 			$card['exitpass-id'] = $details->e_id;
+			$card['daypsan'] = $details->dayspan;
+			$card['timepsan'] = $details->timespan;
 		}
 		
 		return $card;
@@ -652,9 +655,43 @@ class Container_yard extends MY_Controller {
 		if( $earlier_date != '' && $later_date != '' ) {
 			
 			$interval = $earlier_date->diff($later_date);
-			$dayspan = $interval->format('%a days');
+			$dayspan = $interval->format('%a ' . (intval($interval->format('%a')) == 1 ? 'day' : 'days'));
 		}
 		
 		return $dayspan;
+	}
+	
+	// Function that appends some of the required information but is still using the db columns as keys
+	// NOTE: this function may not always be used 
+	private function _get_tcard_by_id( $id ) {
+		$this->load->helper('date');
+		
+		$card = $this->tcard_model->get_tcard_by_id( $id );
+		
+		if( $card ) {
+			$t = (array)$card;
+			$t['dayspan'] = $this->_get_dayspan(new DateTime( $t['tc_entrydate'] ), new DateTime());
+			$t['timespan'] = $this->_get_timespan( mysql_to_unix( $t['tc_entrydate'] ), time() );
+			
+			$card = (object)$t;
+		}
+		
+		return $card;
+	}
+	
+	private function _list_tcards() {
+		$cards = $this->tcard_model->list_tcards();
+		
+		if( $cards ) {
+			foreach( $cards as $k => $card ) {
+				$t = (array)$card;
+				$t['dayspan'] = $this->_get_dayspan(new DateTime( $t['tc_entrydate'] ), new DateTime());
+				$t['timespan'] = $this->_get_timespan( mysql_to_unix( $t['tc_entrydate'] ), time() );
+					
+				$cards[$k] = (object)$t;				
+			}
+		}
+		
+		return $cards;
 	}
 }

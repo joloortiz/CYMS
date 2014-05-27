@@ -487,11 +487,15 @@ function save() {
                     cv.attr('class', cv.data('class'));
                     cv.removeAttr('data-class');
 
+
+                    cv.attr('id', tcard.tc_id);
                 }else {
 
-                    cv = $('#map').find('.entry').filter(function() {
+                    /*cv = $('#map').find('.entry').filter(function() {
                         return $(this).data('position') == tcard.tp_position;
-                    }); // expected matching row count is 1
+                    }); // expected matching row count is 1*/
+
+                    cv = $('#' + tcard.tc_id);
                 }
 
                 // style segment
@@ -499,11 +503,12 @@ function save() {
                 styleSegment += tcard.tp_left && tcard.tp_left != '' ? 'left: ' + tcard.tp_left + ';' : '';
 
 
-                cv.attr('id', tcard.tc_id);
                 cv.attr('style', 'background-color: ' + tcard.s_color +'; border-color: ' + tcard.tt_color + ';' + styleSegment);
                 cv.attr('data-position', tcard.tp_position);
                 cv.attr('bin-no', tcard.tc_bin);
                 cv.attr('van-no', tcard.v_no);
+                cv.attr('dayspan', tcard.dayspan);
+                cv.attr('timespan', tcard.timespan);
                 cv.text(tcard.display_chars);
 
                 // append the cloned cv
@@ -520,6 +525,11 @@ function save() {
                 }
 
                 setTimeout(function() {
+
+                    // both functions from container-yard.js
+                    destroy_popover();
+                    init_popover();
+
                     $('#newEntryModal').modal('hide');
                     $('#loading-overlay').addClass('hide');
                 }, 500);

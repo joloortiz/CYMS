@@ -217,15 +217,12 @@ $('#search-entry').keydown(function(e) {
         search_entry();
     }
 });
-
-
+    
+});
 
 /* 
-*   Functions
-*/
-
-
-
+ *   Functions
+ */
 
 function save_position(id, dataposition, top, left) {
     var returnflag = false;
@@ -408,6 +405,7 @@ function unset_occupied_droppable(droppableid){
 function popover_placement(draggableid){
     var binno = $('#' + draggableid).attr('van-no') || 'No details found.';
     var vanno = $('#' + draggableid).attr('bin-no') || 'No details found.';
+    var age = $('#' + draggableid).attr('dayspan') || 'No details found.';
     var top = parseInt($('#' + draggableid).css('top').substring(0, $('#' + draggableid).css('top').length - 2));
     var left = parseInt($('#' + draggableid).css('left').substring(0, $('#' + draggableid).css('left').length - 2));
 
@@ -417,7 +415,7 @@ function popover_placement(draggableid){
             html: true, 
             placement: 'right', 
             trigger: 'hover',
-            content: "Van No.: " + binno + "</br>BIN No.: " + vanno,
+            content: "Van No.: " + binno + "</br>BIN No.: " + vanno + "<br />Age*: " + age,
             delay: {show: 500}
         })
     }else if(top <= 59 && left >= 1381){
@@ -425,7 +423,7 @@ function popover_placement(draggableid){
             html: true, 
             placement: 'left', 
             trigger: 'hover',
-            content: "Van No.: " + binno + "</br>BIN No.: " + vanno,
+            content: "Van No.: " + binno + "</br>BIN No.: " + vanno + "<br />Age*: " + age,
             delay: {show: 500}
         })
     }
@@ -434,7 +432,7 @@ function popover_placement(draggableid){
             html: true, 
             placement: 'right', 
             trigger: 'hover',
-            content: "Van No.: " + binno + "</br>BIN No.: " + vanno,
+            content: "Van No.: " + binno + "</br>BIN No.: " + vanno + "<br />Age*: " + age,
             delay: {show: 500}
         })
     }else if(left >= 1505){
@@ -442,7 +440,7 @@ function popover_placement(draggableid){
             html: true, 
             placement: 'left', 
             trigger: 'hover',
-            content: "Van No.: " + binno + "</br>BIN No.: " + vanno,
+            content: "Van No.: " + binno + "</br>BIN No.: " + vanno + "<br />Age*: " + age,
             delay: {show: 500}
         })        
     }else {
@@ -450,7 +448,7 @@ function popover_placement(draggableid){
             html: true, 
             placement: 'top', 
             trigger: 'hover',
-            content: "Van No.: " + binno + "</br>BIN No.: " + vanno,
+            content: "Van No.: " + binno + "</br>BIN No.: " + vanno + "<br />Age*: " + age,
             delay: {show: 500}
         })              
     }
@@ -463,13 +461,14 @@ function init_popover(){
     $('#pending').find('.entry').each(function(){
         var binno = $(this).attr('van-no') || 'No details found.';
         var vanno = $(this).attr('bin-no') || 'No details found.';
+        var age = $(this).attr('dayspan') || 'No details found.';
 
         $(this).popover({    
             html: true, 
             animation: true,
             placement: 'auto', 
             trigger: 'hover',
-            content: "Van No.: " + binno + "</br>BIN No.: " + vanno,
+            content: "Van No.: " + binno + "</br>BIN No.: " + vanno + "<br />Age*: " + age,
             delay: {show: 500}
         });
     });
@@ -554,8 +553,6 @@ function init_pending_counter(count) {
     $('#pending-count').empty();
     $('#pending-count').append(count);
 }
-    
-});
 
 function update_pending_count() {
     

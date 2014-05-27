@@ -1,3 +1,4 @@
+var popover_timeout;
 
 $(document).ready(function(){
 
@@ -10,6 +11,8 @@ init_droppable_top();
 init_occupied_droppable();
 init_popover();
 init_pending_counter(pending_count());
+
+update_empty_van_list();
 
 
 function resetdragevent(){
@@ -216,6 +219,14 @@ $('#search-entry').keydown(function(e) {
     if (e.keyCode == 13) {
         search_entry();
     }
+});
+
+$('#empty-vans').on('click', '.empty-van-no', function(event) {
+    event.preventDefault();
+
+    var card_id = $(this).data('card');
+
+    focus_card_on_layout( card_id );
 });
     
 });
@@ -508,29 +519,7 @@ function search_entry(){
         var draggableid = search_id(entry);
 
         if(draggableid){
-            var top = parseInt($('#' + draggableid).css('top').substring(0, $('#' + draggableid).css('top').length - 2));
-            var left = parseInt($('#' + draggableid).css('left').substring(0, $('#' + draggableid).css('left').length - 2));
-            var dataposition = $('#' + draggableid).attr('data-position');
-
-            if(dataposition == 'pending'){
-                $('#' + draggableid).popover('show');
-
-                setTimeout(function(){$('#' + draggableid).popover('hide');},5000);
-
-                return true;
-            }else{    
-                $('#map').animate({
-                    scrollTop: top - 258,
-                    scrollLeft: left - 480
-                },
-                    1000
-                );
-
-                $('#' + draggableid).popover('show');
-
-                setTimeout(function(){$('#' + draggableid).popover('hide');},5000);
-                return true;
-            }
+            focus_card_on_layout(draggableid);
         }else{
             alert('No results found.');
 
@@ -541,6 +530,34 @@ function search_entry(){
 
         return false;
     }
+}
+
+function focus_card_on_layout( card_id ) {
+
+    clearTimeout(popover_timeout);
+
+    $('.entry').not('#'+ card_id).popover('hide');
+
+    var top = parseInt($('#' + card_id).css('top').substring(0, $('#' + card_id).css('top').length - 2));
+    var left = parseInt($('#' + card_id).css('left').substring(0, $('#' + card_id).css('left').length - 2));
+    var dataposition = $('#' + card_id).attr('data-position');
+
+    if(dataposition == 'pending'){
+        $('#' + card_id).popover('show');
+
+    }else{    
+        $('#map').animate({
+            scrollTop: top - 258,
+            scrollLeft: left - 480
+        },
+            1000
+        );
+
+        $('#' + card_id).popover('show');
+    }
+
+    popover_timeout = setTimeout(function(){$('#' + card_id).popover('hide');},5000);
+    return true;
 }
 
 //Function to count all the pending tcards
@@ -561,4 +578,25 @@ function update_pending_count() {
     });
 
     $('.pending-counter').text(pending_entries.length);
+}
+
+function update_empty_van_list() {
+    $.ajax({
+        url: $('body').attr('base-url') + 'container_yard/get_empty_vans',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+            var list_str = '';
+
+            if(decode.success && decode.list) {
+                $.each(decode.list, function( key, van ) {
+                    list_str = '<li><a href="#" class="empty-van-no" data-card="'+ van.tc_id +'">'+ van.v_no +'</a></li>';
+
+
+                    $('#empty-van-list').append(list_str);
+                });
+            }
+        }
+    });
 }

@@ -284,13 +284,38 @@ class Tcard_model extends CI_Model{
 	function get_tcard_exit_pass( $id ) {
 		$returnVal = NULL;
 		
-		$this->db->from('exit_passes');
-		$this->db->where('tc_id', $id);
+		$this->db->select('e.*, vt.vt_name, v.v_no, tc.tc_sealno, tc.tc_dn, s.s_name');
+		$this->db->from('exit_passes e');
+		$this->db->join('tcards tc', 'e.tc_id = tc.tc_id');
+		$this->db->join('van_types vt', 'tc.vt_id = vt.vt_id');
+		$this->db->join('vans v', 'tc.v_id = v.v_id');
+		$this->db->join('shippers s', 'tc.s_id = s.s_id');
+		$this->db->where('e.tc_id', $id);
 		$query = $this->db->get();
 		
 		if( $query->num_rows() == 1 ) {
 			$returnVal = $query->result();
 			$returnVal = $returnVal[0];
+		}
+		
+		return $returnVal;
+	}
+	
+	function get_empty_vans() {
+		$returnVal = NULL;
+		
+		$this->db->select('tc.*, v.v_no');
+		$this->db->from('tcards tc');
+		$this->db->join('tcard_types tt', 'tc.tt_id = tt.tt_id');
+		$this->db->join('exit_passes e', 'e.tc_id = tc.tc_id', 'left');
+		$this->db->join('vans v', 'tc.v_id = v.v_id');
+		$this->db->where('tt.tt_name', 'EMPTY');
+		$this->db->where('e.e_timeout IS NULL');
+		$this->db->order_by('tc.tc_entrydate', 'ASC');
+		$query = $this->db->get();
+		
+		if( $query->num_rows() > 0 ) {
+			$returnVal = $query->result();
 		}
 		
 		return $returnVal;

@@ -53,12 +53,21 @@
 							
 						</div>
 					</div>
+					<div id="empty-vans" class="panel panel-default">
+						<div class="panel-heading">Empty Vans</div>
+						<div class="panel-body">
+							<ul id="empty-van-list">
+							</ul>
+						</div>
+					</div>
 				</div>
 				<div class="col-xs-9">
 
 					<div id="legend" class="panel panel-default">
 						<div class="panel-body">
-							Legend 
+							<div class="pull-left">
+								<h4>Legend</h4>
+							</div>
 							<div class="pull-right">
 							
 								<a id="edit-btn" class="btn btn-primary" editmode="0"><span class="glyphicon glyphicon-pencil"></span>  Edit</a>

@@ -7,7 +7,10 @@
 			<div class="modal-body">
 				<table class="table table-borderless">
 					<tr>
-						<td class="col-xs-4">
+						<td class="col-xs-4 preview-field absolute-hide">
+							<h4><span class="van-contents-text text-holder"></span></h4>
+						</td>
+						<td class="col-xs-4 entry-field">
 							<div class="row">
 								<label class="col-lg-12">
 									<div class="input-group">
@@ -109,11 +112,17 @@
 							<th><strong>Particulars</strong></th>
 							<th><strong>Driver</strong></th>
 						</thead>
-						<tr>
+						<tr class="entry-field">
 							<td><input type="text" name="destination" class="form-control" placeholder="Destination"></td>
 							<td><input type="text" name="plate-no" class="form-control" placeholder="Plate No."></td>
 							<td><input type="text" name="particulars" class="form-control" placeholder="Particulars"></td>
 							<td><input type="text" name="driver" class="form-control" placeholder="Driver"></td>
+						</tr>
+						<tr class="preview-field">
+							<td><span class="destination-text text-holder"></span></td>
+							<td><span class="plate-no-text text-holder"></span></td>
+							<td><span class="particulars-text text-holder"></span></td>
+							<td><span class="driver-text text-holder"></span></td>
 						</tr>
 					</tbody>
 				</table>
@@ -121,7 +130,7 @@
 			<div class="modal-footer">
 				<input name="exitpass-tcard-id" type="hidden">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button id="save-exitpass-btn" type="button" class="btn btn-primary">Save</button>
+				<button id="save-exitpass-btn" type="button" class="btn btn-primary entry-field">Save</button>
 			</div>
 		</div>
 	</div>

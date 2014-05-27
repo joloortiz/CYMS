@@ -55,6 +55,14 @@
     vertical-align: top;
 }
 
+#history .panel-body {
+    overflow-y: scroll;
+}
+
+#history .panel-body {
+    max-height: 220px;
+}
+
 
 
 /* BOOTSTRAP OVERRIDE */

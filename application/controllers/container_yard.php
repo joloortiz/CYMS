@@ -408,6 +408,46 @@ class Container_yard extends MY_Controller {
 		echo json_encode( $var );
 	}
 	
+	function get_exit_pass() {
+		$data['success'] = FALSE;
+		
+		
+		try {
+			$id = $this->input->post('id');
+				
+			$pass = $this->tcard_model->get_tcard_exit_pass($id);
+			if( $pass ) {
+				$e = (array)$pass;
+				$e['e_date'] = date('M d, Y', strtotime($pass->e_date));
+				$e['e_van_class'] = $this->_get_van_class_name($pass->e_van_class);
+				
+				$data['success'] = TRUE;
+			}
+			
+			$data['exit_pass'] = $e;
+				
+		} catch (Exception $e) {
+			unset($e);
+		}
+		
+		echo json_encode( $data );
+	}
+	
+	function get_empty_vans() {
+		try {
+			$vans = $this->tcard_model->get_empty_vans();
+			
+			if( $vans ) {
+				$var['list'] = $vans;
+				$var['success'] = TRUE;				
+			}
+		} catch (Exception $e) {
+			$var['success'] = FALSE;
+		}
+		
+		echo json_encode( $var );
+	}
+	
 	/* PRIVATES */
 	
 	private function _validate_card_id( $id ) {
@@ -693,5 +733,24 @@ class Container_yard extends MY_Controller {
 		}
 		
 		return $cards;
+	}
+	
+	private function _get_van_class_name( $code ) {
+		
+		$full_name = $code;
+		
+		$names = array(
+			'FG' => 'Finished Goods',
+			'SFG' => 'Semi-finished Goods',
+			'S' => 'Srap',
+			'TPM' => 'Trailer / Prime mover',
+			'E' => 'Empty Vans'
+		);
+		
+		if( isset($names[$code]) ) {
+			$full_name = $names[$code];
+		}
+		
+		return $full_name;
 	}
 }

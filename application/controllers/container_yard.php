@@ -26,6 +26,7 @@ class Container_yard extends MY_Controller {
 				'pages/container-yard.js',
 				'pages/cy-tcard.js',
 				'pages/cy-exitpass.js',
+				'pages/cy-tcard-filter.js',
 				'checknumeric.js'
 		);
 		$this->smarty->assign('page_js', $js);
@@ -441,6 +442,65 @@ class Container_yard extends MY_Controller {
 				$var['list'] = $vans;
 				$var['success'] = TRUE;				
 			}
+		} catch (Exception $e) {
+			$var['success'] = FALSE;
+		}
+		
+		echo json_encode( $var );
+	}
+	
+	function filter_vans() {
+		
+		try {
+			$existing_only = $this->input->post('existing_only');
+			$tcard_type = $this->input->post('tcard_type');
+			$van_type = $this->input->post('van_type');
+			$van_no = $this->input->post('van_no');
+			$bin_no = $this->input->post('bin_no');
+			$shipper = $this->input->post('shipper');
+			$trucker = $this->input->post('trucker');
+			$batch_code = $this->input->post('batch_code');
+			$seal_no = $this->input->post('seal_no');
+			$dn = $this->input->post('dn');
+			$entry_from = $this->input->post('entry_from');
+			$entry_to = $this->input->post('entry_to');
+			$exit_from = $this->input->post('exit_from');
+			$exit_to = $this->input->post('exit_to');
+			$stuff_from = $this->input->post('stuff_from');
+			$stuff_to = $this->input->post('stuff_to');
+			$seal_from = $this->input->post('seal_from');
+			$seal_to = $this->input->post('seal_to');
+			$block_from = $this->input->post('block_from');
+			$block_to = $this->input->post('block_to');
+			
+			$data = array(
+					'existing_only' => ($existing_only == 'true' ? true : false),
+					'tcard_type' => $tcard_type,
+					'van_type' => $van_type,
+					'van_no' => strtoupper($van_no),
+					'bin_no' => strtoupper($bin_no),
+					'shipper' => strtoupper($shipper),
+					'trucker' => strtoupper($trucker),
+					'batch_code' => strtoupper($batch_code),
+					'seal_no' => strtoupper($seal_no),
+					'dn' => strtoupper($dn),
+					'entry_from' => $entry_from,
+					'entry_to' => $entry_to,
+					'exit_from' => $exit_from,
+					'exit_to' => $exit_to,
+					'stuff_from' => $stuff_from,
+					'stuff_to' => $stuff_to,
+					'seal_from' => $seal_from,
+					'seal_to' => $seal_to,
+					'block_from' => $block_from,
+					'block_to' => $block_to
+			);
+			
+			$vans = $this->tcard_model->filter_tcard($data);
+
+			$var['vans'] = $vans;
+			$var['success'] = TRUE;
+			
 		} catch (Exception $e) {
 			$var['success'] = FALSE;
 		}

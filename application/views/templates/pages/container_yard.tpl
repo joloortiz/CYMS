@@ -16,6 +16,7 @@
 				    	<input type="email" class="form-control" id="search-entry" placeholder="Search Entry">
 						<span class="input-group-btn">
 							<button id="search-btn"class="btn btn-oroport" type="button"><span class="glyphicon glyphicon-search"></span></button>
+							<button id="advanced-search-btn" class="btn btn-oroport" title="Advanced Search / Filter"><span class="glyphicon glyphicon-filter"></span></button>
 						</span>
 					</div>
 				</div>
@@ -54,7 +55,10 @@
 						</div>
 					</div>
 					<div id="empty-vans" class="panel panel-default">
-						<div class="panel-heading">Empty Vans</div>
+						<div class="panel-heading">
+							Empty Vans
+							<span id="empty-count" class="badge pull-right"></span>
+						</div>
 						<div class="panel-body">
 							<ul id="empty-van-list">
 							</ul>
@@ -736,6 +740,9 @@
 
 <!-- Tcard Block Modal -->
 {include file="pages/_tcard_block_modal.tpl"}
+
+<!-- Search Filter Modal -->
+{include file="pages/_search_filter_modal.tpl"}
 
 <!-- Exit Pass Modal -->
 {include file="pages/_exit_pass_modal.tpl"}

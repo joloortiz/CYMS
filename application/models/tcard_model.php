@@ -311,7 +311,103 @@ class Tcard_model extends CI_Model{
 		$this->db->join('vans v', 'tc.v_id = v.v_id');
 		$this->db->where('tt.tt_name', 'EMPTY');
 		$this->db->where('e.e_timeout IS NULL');
-		$this->db->order_by('tc.tc_entrydate', 'ASC');
+		$this->db->order_by('tc.tc_entrydate', 'DESC');
+		$query = $this->db->get();
+		
+		if( $query->num_rows() > 0 ) {
+			$returnVal = $query->result();
+		}
+		
+		return $returnVal;
+	}
+	
+	function filter_tcard( $filter_data ) {
+		
+		$returnVal = NULL;
+		
+		$this->db->select('tc.tc_id, v.v_no, e.e_timeout');
+		$this->db->from('tcards tc');
+		$this->db->join('vans v', 'tc.v_id = v.v_id');
+		$this->db->join('exit_passes e', 'e.tc_id = tc.tc_id', 'left');
+		
+		// Tcard Type
+		if( $filter_data['tcard_type'] ) {
+			$this->db->where('tc.tt_id', $filter_data['tcard_type']);
+		}
+		
+		// Van Type
+		if( $filter_data['van_type'] ) {
+			$this->db->where('tc.vt_id', $filter_data['van_type']);
+		}
+				
+		// Van No
+		if( $filter_data['van_no'] ) {
+			$this->db->where('v.v_no LIKE "%'. $filter_data['van_no'] .'%"');
+		}
+		
+		// Bin No
+		if( $filter_data['bin_no'] ) {
+			$this->db->where('tc.tc_bin LIKE "%'. $filter_data['bin_no'] .'%"');
+		}
+		
+		// Shipper
+		if( $filter_data['shipper'] ) {
+			$this->db->where('tc.s_id', $filter_data['shipper']);
+		}
+		
+		// Trucker
+		if( $filter_data['trucker'] ) {
+			$this->db->where('tc.t_id', $filter_data['trucker']);
+		}
+		
+		// Batch Code
+		if( $filter_data['batch_code'] ) {
+			$this->db->where('tc.tc_batchcode LIKE "%'. $filter_data['batch_code'] .'%"');
+		}
+		
+		// Seal No
+		if( $filter_data['seal_no'] ) {
+			$this->db->where('tc.tc_sealno LIKE "%'. $filter_data['seal_no'] .'%"');
+		}
+		
+		// DN No
+		if( $filter_data['dn'] ) {
+			$this->db->where('tc.tc_dn LIKE "%'. $filter_data['dn'] .'%"');
+		}
+		
+		
+		// Entry Date Range
+		if( $filter_data['entry_from'] || $filter_data['entry_to'] ) {
+			$this->db->where( 'tc.tc_entrydate BETWEEN '. ($filter_data['entry_from'] ? " '". $filter_data['entry_from'] ."'" : '0') .' AND '. ($filter_data['entry_to'] ? " DATE_ADD('". $filter_data['entry_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+		}
+		
+		// Exit Date Range
+		if( $filter_data['exit_from'] || $filter_data['exit_to'] ) {
+			$this->db->where( 'e.e_date BETWEEN '. ($filter_data['exit_from'] ? " '". $filter_data['exit_from'] ."'" : '0') .' AND '. ($filter_data['exit_to'] ? " DATE_ADD('". $filter_data['exit_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+		}
+		
+		// Stuff Date Range
+		if( $filter_data['stuff_from'] || $filter_data['stuff_to'] ) {
+			$this->db->where( 'e.tc_datestuffed BETWEEN '. ($filter_data['stuff_from'] ? " '". $filter_data['stuff_from'] ."'" : '0') .' AND '. ($filter_data['stuff_to'] ? " DATE_ADD('". $filter_data['stuff_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+		}
+		
+		// Seal Date Range
+		if( $filter_data['seal_from'] || $filter_data['seal_to'] ) {
+			$this->db->where( 'e.tc_datesealed BETWEEN '. ($filter_data['seal_from'] ? " '". $filter_data['seal_from'] ."'" : '0') .' AND '. ($filter_data['seal_to'] ? " DATE_ADD('". $filter_data['seal_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+		}
+		
+		// Stuff Date Range
+		if( $filter_data['block_from'] || $filter_data['block_to'] ) {
+			$this->db->where( 'e.tc_dateblocked BETWEEN '. ($filter_data['block_from'] ? " '". $filter_data['block_from'] ."'" : '0') .' AND '. ($filter_data['block_to'] ? " DATE_ADD('". $filter_data['block_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+		}
+		
+		// Existing Vans Only
+		if( $filter_data['existing_only'] ) {
+			$this->db->where('e.e_timeout IS NULL');
+		}
+		
+		$this->db->order_by('tc.tc_entrydate', 'DESC');
+		
 		$query = $this->db->get();
 		
 		if( $query->num_rows() > 0 ) {

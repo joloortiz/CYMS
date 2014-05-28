@@ -68,6 +68,7 @@
               <td class="col-xs-6">
                 <strong>Materials</strong>
                   <select name="{$form->incoming_materials}" class="form-control" multiple>
+                    <option value=""></option>
                     {if isset($incoming_materials)}
                       {foreach $incoming_materials as $k => $v}
                         <option value="{$v->im_id}">{$v->im_name}</option>

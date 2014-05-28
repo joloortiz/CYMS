@@ -55,12 +55,26 @@
     vertical-align: top;
 }
 
-#history .panel-body {
+#history .panel-body, #empty-vans .panel-body {
     overflow-y: scroll;
 }
 
 #history .panel-body {
     max-height: 220px;
+}
+
+#empty-vans .panel-body {
+    max-height: 220px;
+}
+
+#filter-list {
+    margin-top: 1em;
+    overflow-y: scroll;
+    height: 525px;
+}
+
+.filter-list-container {
+    height: 616px;
 }
 
 

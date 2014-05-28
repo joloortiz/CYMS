@@ -587,15 +587,30 @@ function update_empty_van_list() {
         async: false,
         success: function (response) {
             var decode = jQuery.parseJSON(response);
+            var count;
             var list_str = '';
 
-            if(decode.success && decode.list) {
-                $.each(decode.list, function( key, van ) {
-                    list_str = '<li><a href="#" class="empty-van-no" data-card="'+ van.tc_id +'">'+ van.v_no +'</a></li>';
+            if(decode.success ) {
+
+                $('#empty-van-list').empty();
+                $('#empty-count').text('');
+
+                if( decode.list ) {
+
+                    count = decode.list.length;
+
+                    $.each(decode.list, function( key, van ) {
+                        list_str = '<li><a href="#" class="empty-van-no" data-card="'+ van.tc_id +'">'+ van.v_no +'</a></li>';
 
 
-                    $('#empty-van-list').append(list_str);
-                });
+                        $('#empty-van-list').append(list_str);
+                    });
+
+                }else {
+                    count = 0;
+                }
+                
+                $('#empty-count').text(count);
             }
         }
     });

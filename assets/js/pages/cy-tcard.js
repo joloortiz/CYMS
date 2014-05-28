@@ -18,7 +18,7 @@ $('[name="card-type"]').select2({
 });
 
 $('[name="incoming-materials"]').select2({
-    // placeholder: 'Select Materials',
+    placeholder: 'Select Materials',
     allowClear: true
 });
 
@@ -300,9 +300,10 @@ function reset_tcard(){
     update_modal_field_state();
     reset_errors();
 
-    $('#newEntryModal').find('.form-control').val('');
+    $('#newEntryModal').find('input.form-control').val('');
     $('#newEntryModal').find('[type="checkbox"]').prop('checked', false);
     $('#newEntryModal').find('[type="checkbox"]').trigger('change');
+    $('#newEntryModal').find('select.form-control').find(':selected').prop('selected', false);
     $('#newEntryModal').find('select.form-control').trigger('change');
 
     $('.exit-pass-btn-container').removeClass('absolute-hide');

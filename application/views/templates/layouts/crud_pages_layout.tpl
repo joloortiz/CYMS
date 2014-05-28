@@ -7,6 +7,7 @@
           <div class="bounce1"></div>
           <div class="bounce2"></div>
           <div class="bounce3"></div>
+          <h3>Working...</h3>
         </div>
     </div>
     {include file="segments/body_header.tpl"}

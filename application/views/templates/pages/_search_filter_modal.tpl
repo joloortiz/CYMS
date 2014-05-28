@@ -184,7 +184,6 @@
 
 									<div class="row">
 										<ul id="filter-list">
-											<li>huehue</li>
 										</ul>
 									</div>
 								</div>

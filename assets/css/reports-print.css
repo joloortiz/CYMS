@@ -3,6 +3,10 @@
 	margin: 0 auto;
 }
 
+.print-container textarea {
+	font-size: 10px;
+}
+
 .report-title {
 	text-align: center;
 }
@@ -12,12 +16,12 @@
 	font-style: italic;
 }
 
-.issues-display {
+.other-issues {
 	border: 1px solid #6f6f6f;
 	padding: 2px;
 }
 
-.issues-display p {
+.other-issues p {
 	font-size: 10px;
 	font-style: italic;
 }
@@ -40,33 +44,66 @@
 	border-top: 1px solid #000000;
 }
 
-.reports-table {
+/* FSC OUTBOUND REPORT CSS */
+
+.fsc-outbound-report table {
 	margin: 10px;
 	font-size: 10px;
 	float: left;
 }
 
-.reports-table td, .reports-table th {
+.fsc-outbound-report table td, .fsc-outbound-report table th {
 	text-align: center;
 }
 
-.reports-table, .reports-table th, .reports-table td {
+.fsc-outbound-report table, .fsc-outbound-report table th, .fsc-outbound-report table td {
 	border: 1px solid #acacac;
 }
 
-.reports-table thead td {
+.fsc-outbound-report table thead td {
 	border: 1px solid #6f6f6f;
 	background-color: #e9e9e9;
 }
 
-.reports-table thead td, .reports-table th {
+.fsc-outbound-report table thead td, .fsc-outbound-report table th {
+	font-weight: bold;
+}
+
+.fsc-outbound-report .pending { 
+	width: 270px;
+}
+
+/*DEFECTIVE VANS REPORT */
+
+.defective-vans-report table {
+	width: 100%;
+	margin: 10px 0;
+	font-size: 12px;
+	float: left;
+}
+
+.defective-vans-report table td, .defective-vans-report table th {
+	text-align: center;
+	padding: 4px;
+}
+
+.defective-vans-report table, .defective-vans-report table th, .defective-vans-report table td {
+	border: 1px solid #acacac;
+}
+
+.defective-vans-report table thead td {
+	border: 1px solid #6f6f6f;
+	background-color: #e9e9e9;
+}
+
+.defective-vans-report table thead td, .defective-vans-report table th {
 	font-weight: bold;
 }
 
 /* Per Table */
 
 .pending {
-	width: 250px;
+	width: 400px;
 }
 
 /* Pre defines */
@@ -75,67 +112,3 @@
 	font-style: italic;
 	font-size: 9px;
 }
-
-
-
-/*
-@media print { 
-	.print-container {
-		width: 8.5in !important;
-		margin: 0 auto;
-	}
-
-	.report-title {
-	text-align: center;
-	}
-
-	.timestamp {
-		text-align: right;
-		font-style: italic;
-	}
-
-	.other-issues {
-		border: 1px solid #6f6f6f;
-		padding: 2px;
-	}
-
-	.other-issues p {
-		font-size: 10px;
-		font-style: italic;
-	}
-	.reports-table {
-		margin: 10px;
-		font-size: 10px;
-		float: left;
-	}
-
-	.reports-table td, .reports-table th {
-		text-align: center;
-	}
-
-	.reports-table, .reports-table th, .reports-table td {
-		border: 1px solid #acacac;
-	}
-
-	.reports-table thead td {
-		border: 1px solid #6f6f6f;
-		background-color: #e9e9e9;
-	}
-
-	.reports-table thead td, .reports-table th {
-		font-weight: bold;
-	}
-
-
-	.pending {
-		width: 400px;
-	}
-
-
-
-	.i-9 {
-		font-style: italic;
-		font-size: 9px;
-	}
-}
-*/

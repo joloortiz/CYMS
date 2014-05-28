@@ -1,9 +1,16 @@
+/* 
+* 
+* FSC OUTBOUND REPORT 
+*
+*/
+
 //when the user chooses the fsc-outbound-report
 $('#fsc-outbound-report').click(function() {
 
 	show_loader();
 
-	empty_fsc_outbound_report();
+	$('.issues-text').val('');
+    $('.timestamp').empty();
 
 	var data = fsc_outbound_report();
 	var dsf = data.dispatch_standings_fulls;
@@ -15,7 +22,7 @@ $('#fsc-outbound-report').click(function() {
 	var evrb =data.empty_vans_running_balance
 
 
-	if(dsf){
+	if(dsf.length > 0){
 
 		for(var i = 0; i < dsf.length; i++) {
 
@@ -25,7 +32,7 @@ $('#fsc-outbound-report').click(function() {
 
 	}
 
-	if(dse){
+	if(dse.length > 0){
 
 		for(var i = 0; i < dse.length; i++) {
 
@@ -35,7 +42,7 @@ $('#fsc-outbound-report').click(function() {
 
 	}
 
-	if(pfs) {
+	if(pfs.length > 0) {
 
 		for(var i = 0; i < pfs.length; i++) {
 
@@ -45,7 +52,7 @@ $('#fsc-outbound-report').click(function() {
 
 	}
 
-	if(pfu) {
+	if(pfu.length > 0) {
 
 		for(var i = 0; i < pfu.length; i++) {
 
@@ -55,7 +62,7 @@ $('#fsc-outbound-report').click(function() {
 
 	}
 
-	if(pes) {
+	if(pes.length > 0) {
 
 		for(var i = 0; i < pes.length; i++) {
 
@@ -65,7 +72,7 @@ $('#fsc-outbound-report').click(function() {
 
 	}
 
-	if(peu) {
+	if(peu.length > 0) {
 
 		for(var i = 0; i < peu.length; i++) {
 
@@ -75,7 +82,7 @@ $('#fsc-outbound-report').click(function() {
 
 	}
 
-	if(evrb) {
+	if(evrb.length > 0) {
 
 		for(var i = 0; i < evrb.length; i++) {
 
@@ -88,7 +95,7 @@ $('#fsc-outbound-report').click(function() {
 
 
 
-		$('.timestamp').append('Generated at ' + now().time + ' on ' + now().date);
+		$('.fsc-outbound-report .timestamp').append('Generated at ' + now().time + ' on ' + now().date);
 
 		remove_loader();
 
@@ -100,55 +107,105 @@ $('#fsc-outbound-report').click(function() {
 
 //when the modal is closed
 $('.fsc-outbound-report-modal').on('hidden.bs.modal', function () {
-    $('.timestamp').empty();
-})
+	
+	//empty all the data on the tables
+    empty_fsc_outbound_report();
 
+})
 
 //user prints the preview
 $('#report-print').click(function() {
-	//get all the elements of the print-section
-	var content = document.getElementById("print-section");
-	var pri = document.getElementById("reports-placeholder").contentWindow;
 
-	//get values of the issues textarea
 	var issues = $('.issues-text').val();
-	pri.document.open();
-	pri.document.write(content.innerHTML);
 
-	//if issue text area is empty hide the issues div/row
-	if(issues == ''){
+	append = { 	'reportname' : 'fsc_outbound_report',
+				'selector' : '.issues-display p', 
+				'content' : issues 
+				};	
 
-		$('#reports-placeholder').contents().find('.issues').addClass('hide');
+	print_element('print-section-fsc', 'reports-print.css', append);
 
-	}else{
-
-		//add values to issues box and remove the class hide
-		$('#reports-placeholder').contents().find('.issues-display p').append(issues).removeClass('hide');
-		$('#reports-placeholder').contents().find('.issues-text').addClass('hide');
-		$('#reports-placeholder').contents().find('.issues-display').removeClass('hide');
-
-	}
-
-	//append the required css for the report
-	$('#reports-placeholder').contents().find("head")
-    .append($('<link type="text/css" rel="stylesheet" href="/cyms/assets/css/bootstrap.min.css"><link type="text/css" rel="stylesheet" href="/cyms/assets/css/reports-print.css">'));
-	
-	pri.document.close();
-	pri.focus();
-	pri.print();
 });	
+
+
+/*
+*
+* DEFECTIVE VANS REPORT
+*
+*/
+
+//when the user chooses the defective-vans-report
+$('#defective-vans-report').click(function() {
+
+	show_loader();
+
+    $('.timestamp').empty();
+
+    var data = defective_vans_report();
+    console.log(data);
+
+    if(data.length > 0) {
+
+    	for(var i = 0; i < data.length; i++) {
+
+    		$('.defective-vans').find('tbody').append('<tr><td>' + data[i].v_id + '</td><td>' + data[i].tc_entrydate + '</td><td>' + data[i].s_name + '</td><td>' + data[i].vt_name + '</td><td>' + data[i].tc_block_reason + '</td></tr>');
+
+    	}
+
+    } else {
+
+    	console.log('hi');
+    	$('.defective-vans').find('tbody').append('<tr><td colspan="5">Sorry there are currently no defective vans in the Container Yard</td></tr>');
+    
+    }
+
+    remove_loader();
+
+    $('.defective-vans-report .timestamp').append('Generated at ' + now().time + ' on ' + now().date);
+
+	$('.defective-vans-report-modal').modal({
+			show: true
+	})
+
+});
+
+//when the modal is closed
+$('.defective-vans-report-modal').on('hidden.bs.modal', function () {
+	
+	//empty all the data on the tables
+    empty_defective_vans_report();
+
+});
+
+//user prints the preview
+$('.defective-vans-report-modal #report-print').click(function() {
+	
+	print_element('print-section-defective-vans', 'reports-print.css');
+
+});	
+
 
 /* Front End Functions */
 
+
 function empty_fsc_outbound_report() {
+
 	$('.dispatch>tbody').find('tr td:nth-child(3)').empty();
 	$('.pending>tbody').find('tr td:nth-child(3)').empty();
 	$('.pending>tbody').find('tr td:nth-child(4)').empty();
 	$('.empty-vans>tbody').find('tr td:nth-child(3)').empty();
+
+}
+
+function empty_defective_vans_report() {
+
+	$('.defective-vans').find('tbody').empty();
+
 }
 
 
 /* AJAX Functions */
+
 
 function fsc_outbound_report() {
 	var data = [];
@@ -167,4 +224,19 @@ function fsc_outbound_report() {
     return data;
 }
 
-console.log(fsc_outbound_report());
+function defective_vans_report() {
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/defective_vans_report',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+}

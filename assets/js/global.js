@@ -15,6 +15,42 @@ function remove_loader() {
 	$('#loading-overlay').addClass('hide');
 }	
 
+//directly prints specific contents using window.print
+function print_element(id, css, append) {
+
+	//get all the elements of the print-section
+	var content = document.getElementById(id);
+	var pri = document.getElementById('reports-placeholder').contentWindow;
+	pri.document.open();
+	pri.document.write(content.innerHTML);
+
+	if(append) {
+		//add the contents that you want to append
+		$('#reports-placeholder').contents().find(append.selector).append(append.content)
+
+		if(append.content != '' && append.reportname == 'fsc_outbound_report') {
+
+			$('#reports-placeholder').contents().find('.issues-display p').removeClass('hide');
+			$('#reports-placeholder').contents().find('.issues-text').addClass('hide');
+			$('#reports-placeholder').contents().find('.issues-display').removeClass('hide');
+
+		} else if (append.content == '' && append.reportname == 'fsc_outbound_report') {
+			$('#reports-placeholder').contents().find('.issues').addClass('hide');
+		}
+
+	}	 
+
+	if(css) {
+		//add the print version css
+		$('#reports-placeholder').contents().find('head')
+		.append('<link type="text/css" rel="stylesheet" href="/cyms/assets/css/bootstrap.min.css"><link type="text/css" rel="stylesheet" href="/cyms/assets/css/' + css + '">');
+	}
+
+	pri.document.close();
+	pri.focus();
+	pri.print();
+
+}
 
 //utilizes the Date() function; returns an object of date and time 
 function now() {

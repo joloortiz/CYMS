@@ -51,7 +51,7 @@
 
 		<div class="row">
 			<div class="col-sm-12">
-				<table id="material-table" class="table table-bordered">
+				<table id="material-table" class="table">
 					<thead>
 						<th style="width: 10px;"><input id="select-all-check" class="check-selection" type="checkbox"></th>
 						<th><strong>Materials</strong></th>

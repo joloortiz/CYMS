@@ -37,9 +37,6 @@ class Materials extends MY_Controller {
 				$materials[$k] = (object)$row;
 			}
 		}
-		
-		/* echo "<pre>";
-		print_r($materialsd;die(); */
 
 		$pagination = $this->pagination->create_links();
 
@@ -82,6 +79,7 @@ class Materials extends MY_Controller {
 			$action = $this->input->post('action');
 	
 			$name = $this->input->post('material-name');
+			$description = $this->input->post('material-description');
 			$type = $this->input->post('material-type');
 			$category = $this->input->post('material-category');
 			$id = $this->input->post('material_id');
@@ -92,6 +90,7 @@ class Materials extends MY_Controller {
 	
 			$data = array(
 					'm_name' => strtoupper( $name ),
+					'm_description' => strtoupper( $description ),
 					'm_type' => strtoupper( $type ),
 					'm_category' => strtoupper( $category )
 			);
@@ -190,6 +189,7 @@ class Materials extends MY_Controller {
 	
 				// form errors
 				$var['form_errors']['material-name'] = form_error('material-name') ? form_error('material-name') : NULL;
+				$var['form_errors']['material-description'] = form_error('material-description') ? form_error('material-description') : NULL;
 				$var['form_errors']['material-type'] = form_error('material-type') ? form_error('material-type') : NULL;
 			}
 		} catch (Exception $e) {
@@ -239,11 +239,13 @@ class Materials extends MY_Controller {
 	
 		$rules = array(
 				'material-name' => 'required|xss_clean',
+				'material-description' => 'xss_clean',
 				'material-category' => 'required|xss_clean',
 				'material-type' => 'xss_clean'
 		);
 	
 		$this->form_validation->set_rules('material-name', 'Material Name', $rules['material-name']);
+		$this->form_validation->set_rules('material-description', 'Material Description', $rules['material-description']);
 		$this->form_validation->set_rules('material-category', 'Material Category', $rules['material-category']);
 		$this->form_validation->set_rules('material-type', 'Material Type', $rules['material-type']);
 	

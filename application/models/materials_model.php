@@ -42,7 +42,7 @@ class Materials_model extends CI_Model{
 	 *
 	 */
     function p_materials($limit, $offset) {
-    	$this->db->select('m_id, UPPER(m_name) AS m_name, UPPER(m_type) AS m_type, UPPER(m_category) AS m_category');
+    	$this->db->select('m_id, UPPER(m_name) AS m_name, UPPER(m_type) AS m_type, UPPER(m_description) AS m_description, UPPER(m_category) AS m_category');
 		$this->db->from('materials');
 		$this->db->where('m_id <>', '1');
     	$this->db->where('is_deleted <>', TRUE);

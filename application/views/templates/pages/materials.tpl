@@ -20,6 +20,11 @@
 						</div>
 					</div>
 					<div class="row buffer-top">
+						<div class="col-sm-12">
+							<textarea name="material-description" class="form-control input-with-value" placeholder="Description"></textarea>
+						</div>
+					</div>
+					<div class="row buffer-top">
 						<div class="col-sm-5">
 							<select class="form-control" name="material-category">
 								<option value="FG">Finished Goods</option>
@@ -46,11 +51,12 @@
 
 		<div class="row">
 			<div class="col-sm-12">
-				<table id="material-table" class="table">
+				<table id="material-table" class="table table-bordered">
 					<thead>
 						<th style="width: 10px;"><input id="select-all-check" class="check-selection" type="checkbox"></th>
 						<th><strong>Materials</strong></th>
 						<th><strong>Type</strong></th>
+						<th></th>
 						<th></th>
 						<th style="width: 140px">
 							<button id="new-material-btn" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add</button>
@@ -72,12 +78,14 @@
 									<td class="clickable">
 										{$material->m_category_fullname}
 									</td>
-									<td></td>
+									<td class="clickable" colspan="2">
+										{$material->m_description}
+									</td>
 								</tr>
 							{/foreach}
 						{else}
 							<tr>
-								<td colspan="5"><em>No records found.</em></td>
+								<td colspan="6"><em>No records found.</em></td>
 							</tr>
 						{/if}
 					</tbody>

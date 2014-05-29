@@ -54,6 +54,7 @@ $('#material-table').on('click', '.material.action > .clickable', function() {
 
 				$('[name="active-material-id"]').val(material_details.m_id);
 				$('[name="material-name"]').val(material_details.m_name);
+				$('[name="material-description"]').val(material_details.m_description);
 
 				$('[name="material-type"]:checked').prop('checked', false);
 				$('[name="material-type"][value="'+ material_details.m_type +'"]').prop('checked', true);
@@ -170,6 +171,7 @@ function disable_control() {
 function get_form_values() {
 	var id = $('[name="active-material-id"]').val();
 	var name = $('[name="material-name"]').val();
+	var description = $('[name="material-description"]').val();
 	var type = $('[name="material-type"]:checked').val();
 	var category = $('[name="material-category"]').val();
 
@@ -183,6 +185,7 @@ function get_form_values() {
 	// hyphenated form names
 	data['material-name'] = name;
 	data['material-type'] = type;
+	data['material-description'] = description;
 	data['material-category'] = category;
 
 	return data;

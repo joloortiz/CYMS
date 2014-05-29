@@ -451,6 +451,8 @@ class Container_yard extends MY_Controller {
 	
 	function filter_vans() {
 		
+		die();
+		
 		try {
 			$existing_only = $this->input->post('existing_only');
 			$tcard_type = $this->input->post('tcard_type');

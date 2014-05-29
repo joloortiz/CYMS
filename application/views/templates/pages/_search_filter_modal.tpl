@@ -163,14 +163,6 @@
 								</div>
 							</div>
 						</div>
-						<div class="row buffer-top">
-							<div class="col-md-12">
-								<div class="pull-right">
-									<button id="clear-filter-btn" class="btn btn-sm btn-default">Clear Fields</button>
-									<button id="filter-btn" class="btn btn-sm btn-primary">Filter</button>
-								</div>
-							</div>
-						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="row">
@@ -188,6 +180,19 @@
 									</div>
 								</div>
 							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row buffer-top">
+					<div class="col-md-6">
+						<div class="pull-right">
+							<button id="clear-filter-btn" class="btn btn-sm btn-default">Clear Fields</button>
+							<button id="filter-btn" class="btn btn-sm btn-primary">Filter</button>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="pull-right">
+							<button id="clear-list-btn" class="btn btn-sm btn-default">Clear List</button>
 						</div>
 					</div>
 				</div>

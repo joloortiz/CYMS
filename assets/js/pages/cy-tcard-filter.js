@@ -25,6 +25,10 @@ $('[name="tcard-type-filter"]').select2({
     allowClear: true
 });
 
+$('#clear-list-btn').click(function() {
+	reset_filter_list();
+});
+
 
 
 /*

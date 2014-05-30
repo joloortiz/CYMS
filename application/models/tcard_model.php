@@ -56,6 +56,9 @@ class Tcard_model extends CI_Model{
 	}
 	
 	function new_tcard_exitpass($data) {
+		$serial = $this->_exitpass_serial();
+		
+		$this->db->set('e_serial', $serial);
 		$this->db->insert('exit_passes', $data);
 		
 		return $this->db->insert_id();
@@ -415,6 +418,16 @@ class Tcard_model extends CI_Model{
 		}
 		
 		return $returnVal;
+	}
+	
+	function exitpass_serial() {
+		$this->db->select('(fnExitPassNo()) AS serial', FALSE);
+	
+		$query = $this->db->get();
+		$tcard = $query->result();
+		$tcard = $tcard[0];
+	
+		return $tcard->serial;
 	}
 	
 	/* UPDATE */

@@ -2,7 +2,13 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Exit Pass</h4>
+				<div class="pull-left">
+					<h4 class="modal-title">Exit Pass</h4>
+				</div>
+				<div class="pull-right">
+					<h4 class="text-danger epass-serial-text text-holder"></h4>
+				</div>
+				<div class="clearfix"></div>
 			</div>
 			<div class="modal-body">
 				<table class="table table-borderless">

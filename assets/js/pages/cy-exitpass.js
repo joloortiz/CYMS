@@ -79,6 +79,7 @@ function initiate_new_exit_pass( tcard_id ) {
            		$('.seal-no-text').text(details.tc_sealno ? details.tc_sealno : '');
            		$('.dn-no-text').text(details.tc_dn ? details.tc_dn : '');
            		$('.shipper-text').text(details.s_name ? details.s_name : '');
+              $('.epass-serial-text').text(details.e_serial ? details.e_serial : '');
            }
        }
    });
@@ -105,6 +106,7 @@ function initiate_exit_pass_preview( tcard_id ) {
               $('.seal-no-text').text(details.tc_sealno ? details.tc_sealno : '');
               $('.dn-no-text').text(details.tc_dn ? details.tc_dn : '');
               $('.shipper-text').text(details.s_name ? details.s_name : '');
+              $('.epass-serial-text').text(details.e_serial ? details.e_serial : '');
 
               $('.van-contents-text').text(details.e_van_class ? details.e_van_class : '');
               $('.destination-text').text(details.e_destination ? details.e_destination : '');

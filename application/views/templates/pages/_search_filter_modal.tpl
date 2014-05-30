@@ -174,8 +174,16 @@
 										</div>
 									</div>
 
-									<div class="row">
-										<ul id="filter-list">
+									<div id="filter-list" class="row">
+										<div class="col-sm-12 present-van-list-grp absolute-hide">
+											<strong id="text-found">Present Vans</strong> <span id="filter-count" class="badge"></span>
+										</div>
+										<ul id="present-van-list" class="van-filter-list present-van-list-grp absolute-hide">
+										</ul>
+										<div class="col-sm-12 previous-van-list-grp absolute-hide">
+											<strong id="text-found">Previous Vans</strong> <span id="filter-count" class="badge"></span>
+										</div>
+										<ul id="previous-van-list" class="van-filter-list previous-van-list-grp absolute-hide">
 										</ul>
 									</div>
 								</div>

@@ -34,7 +34,7 @@ $('#clear-list-btn').click(function() {
 /*
  * EVENT LISTENERS
  */
-$('#filter-list').on('click', '.filtered-van', function(event) {
+$('#present-van-list').on('click', '.filtered-van', function(event) {
 	event.preventDefault();
 
 	var card_id = $(this).data('card-id');
@@ -73,6 +73,7 @@ function iniate_filter() {
 			data: filter_data,
 			success: function (response) {
 				var decode = jQuery.parseJSON(response);
+				var append_list_id = '';
 				var text_found = '';
 				var count = 0;
 				var list_str = '';
@@ -95,9 +96,17 @@ function iniate_filter() {
 
 						$.each(decode.vans, function(key, van) {
 							list_str = '<li><a href="#" class="'+ (van.e_timeout ? 'disabled' : 'filtered-van') +'" data-card-id="'+ van.tc_id +'" style="margin-left: 1em;">' + van.tc_id + ' - '+ van.v_no +'</a></li>';
+							append_list_id = van.e_timeout ? 'previous-van-list' : 'present-van-list';
 
-							$('#filter-list').append(list_str);
+							$('#' + append_list_id).append(list_str);
 						});
+
+						if( $('#present-van-list').children().length > 0 ) {
+							$('.present-van-list-grp').removeClass('absolute-hide');
+						}
+						if( $('#previous-van-list').children().length > 0 ) {
+							$('.previous-van-list-grp').removeClass('absolute-hide');
+						}
 
 					}else {
 						text_found = 'No records found';
@@ -229,7 +238,9 @@ function reset_filter_list() {
 	$('#filter-count').text('');
 	$('#text-found').text('');
 
-	$('#filter-list').empty();
+	$('.van-filter-list').empty();
+	$('.present-van-list-grp').addClass('absolute-hide');
+	$('.previous-van-list-grp').addClass('absolute-hide');
 }
 
 function reset_fields() {

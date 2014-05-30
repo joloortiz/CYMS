@@ -61,6 +61,24 @@ class Vans_model extends CI_Model{
 		return $returnVal;
 	}
 	
+	function get_unsed_vans() {
+		$returnVal = NULL;
+	
+		$this->db->select('v.*');
+		$this->db->from('vans v');
+		$this->db->join('tcards tc', 'v.v_id = tc.v_id', 'left');
+		$this->db->join('exit_passes e', 'tc.tc_id = e.tc_id', 'left');
+		$this->db->where('tc.tc_id IS NULL OR e.e_timeout IS NOT NULL');
+		$this->db->order_by('v.v_no', 'ASC');
+		$query = $this->db->get();
+	
+		if( $query->num_rows() > 0 ) {
+			$returnVal = $query->result();
+		}
+	
+		return $returnVal;
+	}
+	
 	/* UPDATE */
 	/* DELETE */
 }

@@ -359,6 +359,7 @@ class Container_yard extends MY_Controller {
 					'tc_sealno' => $tcard->tc_sealno,
 					'tc_dn' => $tcard->tc_dn,
 					's_name' => $tcard->s_name,
+					'e_serial' => $this->tcard_model->exitpass_serial(),
 					'date' => date('M d, Y')
 				);
 				
@@ -403,7 +404,8 @@ class Container_yard extends MY_Controller {
 			}
 			
 		} catch (Exception $e) {
-			unset($e);
+// 			unset($e);
+			$var['error'] = $e;
 		}
 		
 		echo json_encode( $var );
@@ -450,8 +452,6 @@ class Container_yard extends MY_Controller {
 	}
 	
 	function filter_vans() {
-		
-		die();
 		
 		try {
 			$existing_only = $this->input->post('existing_only');
@@ -532,7 +532,8 @@ class Container_yard extends MY_Controller {
 		
 		try {
 		
-			$returnVal = $this->vans_model->get_vans();
+// 			$returnVal = $this->vans_model->get_vans();
+			$returnVal = $this->vans_model->get_unsed_vans();
 			
 		} catch (Exception $e) {
 			unset($e);

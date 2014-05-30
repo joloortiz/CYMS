@@ -3,7 +3,7 @@
  */
 
 var van_list = Array();
-var n = {}; // van nos
+var n = {}; // form names
 var c = {}; // checkers
 
 setup_van_nos();
@@ -534,6 +534,8 @@ function save() {
                     $('#newEntryModal').modal('hide');
                     $('#loading-overlay').addClass('hide');
                 }, 500);
+
+                setup_van_nos();
             }
         }
     });

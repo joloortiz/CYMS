@@ -56,7 +56,7 @@ class Tcard_model extends CI_Model{
 	}
 	
 	function new_tcard_exitpass($data) {
-		$serial = $this->_exitpass_serial();
+		$serial = $this->exitpass_serial();
 		
 		$this->db->set('e_serial', $serial);
 		$this->db->insert('exit_passes', $data);
@@ -381,27 +381,32 @@ class Tcard_model extends CI_Model{
 		
 		// Entry Date Range
 		if( $filter_data['entry_from'] || $filter_data['entry_to'] ) {
-			$this->db->where( 'tc.tc_entrydate BETWEEN '. ($filter_data['entry_from'] ? " '". $filter_data['entry_from'] ."'" : '0') .' AND '. ($filter_data['entry_to'] ? " DATE_ADD('". $filter_data['entry_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+// 			$this->db->where( 'tc.tc_entrydate BETWEEN '. ($filter_data['entry_from'] ? " '". $filter_data['entry_from'] ."'" : '0') .' AND '. ($filter_data['entry_to'] ? " DATE_ADD('". $filter_data['entry_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+			$this->db->where('DATE(tc.tc_entrydate) >= ' .  ($filter_data['entry_from'] ? " '". $filter_data['entry_from'] ."'" : '0') . ' AND DATE(tc.tc_entrydate) < '. ($filter_data['entry_to'] ? " DATE_ADD('". $filter_data['entry_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
 		}
 		
 		// Exit Date Range
 		if( $filter_data['exit_from'] || $filter_data['exit_to'] ) {
-			$this->db->where( 'e.e_date BETWEEN '. ($filter_data['exit_from'] ? " '". $filter_data['exit_from'] ."'" : '0') .' AND '. ($filter_data['exit_to'] ? " DATE_ADD('". $filter_data['exit_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+// 			$this->db->where( 'e.e_date BETWEEN '. ($filter_data['exit_from'] ? " '". $filter_data['exit_from'] ."'" : '0') .' AND '. ($filter_data['exit_to'] ? " DATE_ADD('". $filter_data['exit_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+			$this->db->where('DATE(e.e_date) >= ' .  ($filter_data['exit_from'] ? " '". $filter_data['exit_from'] ."'" : '0') . ' AND DATE(e.e_date) < '. ($filter_data['exit_to'] ? " DATE_ADD('". $filter_data['exit_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
 		}
 		
 		// Stuff Date Range
 		if( $filter_data['stuff_from'] || $filter_data['stuff_to'] ) {
-			$this->db->where( 'e.tc_datestuffed BETWEEN '. ($filter_data['stuff_from'] ? " '". $filter_data['stuff_from'] ."'" : '0') .' AND '. ($filter_data['stuff_to'] ? " DATE_ADD('". $filter_data['stuff_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+// 			$this->db->where( 'tc.tc_datestuffed BETWEEN '. ($filter_data['stuff_from'] ? " '". $filter_data['stuff_from'] ."'" : '0') .' AND '. ($filter_data['stuff_to'] ? " DATE_ADD('". $filter_data['stuff_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+			$this->db->where('DATE(tc.tc_datestuffed) >= ' .  ($filter_data['stuff_from'] ? " '". $filter_data['stuff_from'] ."'" : '0') . ' AND DATE(tc.tc_datestuffed) < '. ($filter_data['stuff_to'] ? " DATE_ADD('". $filter_data['stuff_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
 		}
 		
 		// Seal Date Range
 		if( $filter_data['seal_from'] || $filter_data['seal_to'] ) {
-			$this->db->where( 'e.tc_datesealed BETWEEN '. ($filter_data['seal_from'] ? " '". $filter_data['seal_from'] ."'" : '0') .' AND '. ($filter_data['seal_to'] ? " DATE_ADD('". $filter_data['seal_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+// 			$this->db->where( 'tc.tc_datesealed BETWEEN '. ($filter_data['seal_from'] ? " '". $filter_data['seal_from'] ."'" : '0') .' AND '. ($filter_data['seal_to'] ? " DATE_ADD('". $filter_data['seal_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+			$this->db->where('DATE(tc.tc_datesealed) >= ' .  ($filter_data['seal_from'] ? " '". $filter_data['seal_from'] ."'" : '0') . ' AND DATE(tc.tc_datesealed) < '. ($filter_data['seal_to'] ? " DATE_ADD('". $filter_data['seal_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
 		}
 		
 		// Stuff Date Range
 		if( $filter_data['block_from'] || $filter_data['block_to'] ) {
-			$this->db->where( 'e.tc_dateblocked BETWEEN '. ($filter_data['block_from'] ? " '". $filter_data['block_from'] ."'" : '0') .' AND '. ($filter_data['block_to'] ? " DATE_ADD('". $filter_data['block_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+// 			$this->db->where( 'tc.tc_dateblocked BETWEEN '. ($filter_data['block_from'] ? " '". $filter_data['block_from'] ."'" : '0') .' AND '. ($filter_data['block_to'] ? " DATE_ADD('". $filter_data['block_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+			$this->db->where('DATE(tc.tc_dateblocked) >= ' .  ($filter_data['block_from'] ? " '". $filter_data['block_from'] ."'" : '0') . ' AND DATE(tc.tc_dateblocked) < '. ($filter_data['block_to'] ? " DATE_ADD('". $filter_data['block_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
 		}
 		
 		// Existing Vans Only

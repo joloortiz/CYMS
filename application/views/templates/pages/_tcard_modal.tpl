@@ -1,4 +1,4 @@
-<div id="newEntryModal" class="modal fade" data-backdrop="static" tabindex="-1">
+<div id="newEntryModal" class="modal fade" data-backdrop="static">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -168,7 +168,8 @@
                   </div>
                   <div class="col-sm-6">
                     <strong>Controller</strong>
-                    <input name="{$form->stuff_controller}" class="form-control input-sm" type="text">
+                    <h5 class="controller-text stuff-controller" data-active-controller="{$active_controller}">{$active_controller}</h5>
+                    <!-- <input name="{$form->stuff_controller}" class="form-control input-sm" type="text"> -->
                   <span class="help-inline"></span>
                   </div>
                 </div>
@@ -191,7 +192,8 @@
                   </div>
                   <div class="col-sm-6">
                     <strong>Controller</strong>
-                    <input name="{$form->strip_controller}" class="form-control input-sm" type="text">
+                    <h5 class="controller-text strip-controller" data-active-controller="{$active_controller}">{$active_controller}</h5>
+                    <!-- <input name="{$form->strip_controller}" class="form-control input-sm" type="text"> -->
                   <span class="help-inline"></span>
                   </div>
       					</div>

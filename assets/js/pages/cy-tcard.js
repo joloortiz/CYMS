@@ -136,6 +136,10 @@ $('body').on('click', '.entry', function() {
 
     $('[name="is-blocked"]').trigger('change');
 
+    // Controller display
+    $('.stuff-controller').text(details['stu-controller']);
+    $('.strip-controller').text(details['str-controller']);
+
     modal_state_preview();
     show_new_entry_modal();
 });
@@ -308,6 +312,10 @@ function reset_tcard(){
 
     $('.exit-pass-btn-container').removeClass('absolute-hide');
     $('.exit-pass-timeout-container').addClass('absolute-hide');
+
+    $('.controller-text').each(function() {
+        $(this).text( $(this).data('active-controller') );
+    });
 
     $('[name="card-id"]').val('');
 

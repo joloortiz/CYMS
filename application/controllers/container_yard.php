@@ -31,6 +31,12 @@ class Container_yard extends MY_Controller {
 		);
 		$this->smarty->assign('page_js', $js);
 		
+		// Active Controller
+		$c = $this->session->userdata(SESSION_VAR);
+		$c_data = $this->users_model->get_user_by_id( $c['u_id'] );
+		$controller = $c_data[0]['u_firstname'] . ' ' . $c_data[0]['u_lastname'];
+		$this->smarty->assign('active_controller', $controller);
+		
 		// Materials (Outgoing)
 		$materials = $this->materials_model->get_materials();
 		$this->smarty->assign('materials', $materials);
@@ -124,9 +130,7 @@ class Container_yard extends MY_Controller {
 			$qty_cases = $this->input->post($forms->qty_cases);
 			$qty_bags = $this->input->post($forms->qty_bags);
 			$date_stuffed = $this->input->post($forms->date_stuffed);
-			$stuffing_controller = $this->input->post($forms->stuff_controller);
 			$date_stripped = $this->input->post($forms->date_stripped);
-			$stripping_controller = $this->input->post($forms->strip_controller);
 			$checker = $this->input->post($forms->checker);
 			$entry_date = $this->input->post($forms->entry_date);
 			$time_out = $this->input->post($forms->time_out);
@@ -165,6 +169,24 @@ class Container_yard extends MY_Controller {
 			// Incoming Materials
 			$incoming_materials = $this->_udpate_incoming_materials($id, $incoming_materials);
 			
+			// Stuffing Controller
+			$stu_data = array();
+			if( $this->_card_value_changed($id, 'tc_datestuffed', $date_stuffed) ) {
+				$stu_data = array(
+					'tc_datestuffed' => $date_stuffed != '' ? date("Y-m-d", strtotime($date_stuffed)) : NULL,
+					'tc_stucontroller' => $user['u_id']
+				);
+			}
+			
+			// Stripping Controller
+			$str_data = array();
+			if( $this->_card_value_changed($id, 'tc_datestripped', $date_stripped) ) {
+				$str_data = array(
+					'tc_datestripped' => $date_stripped != '' ? date("Y-m-d", strtotime($date_stripped)) : NULL,
+					'tc_strcontroller' => $user['u_id']
+				);
+			}
+			
 			$data = array(
 					's_id' => $shipper,
 					't_id' => $trucker,
@@ -178,11 +200,7 @@ class Container_yard extends MY_Controller {
 					'tc_status' => strtoupper( $status ),
 					'tc_qcases' => $qty_cases,
 					'tc_qbags' => $qty_bags,
-					'tc_datestuffed' => $date_stuffed != '' ? date("Y-m-d H:i:s", strtotime($date_stuffed)) : NULL,
-					'tc_stucontroller' => $stuffing_controller,
-					'tc_datestripped' => $date_stripped != '' ? date("Y-m-d H:i:s", strtotime($date_stripped)) : NULL,
 					'tc_dateblocked' => $date_blocked,
-					'tc_strcontroller' => $stripping_controller,
 					'tc_entrydate' => $entry_date != '' ? date("Y-m-d H:i:s", strtotime($entry_date)) : NULL,
 					'tc_dn' => strtoupper($dn),
 					'tc_datesealed' => $date_sealed != '' ? date("Y-m-d", strtotime($date_sealed)) : NULL,
@@ -193,6 +211,8 @@ class Container_yard extends MY_Controller {
 					'is_defective' => $is_defective,
 					'u_id' => $user['u_id']
 			);
+			
+			$data = array_merge($data, $stu_data, $str_data);
 			
 			if( $action == 'create' ) {
 				$id = $this->tcard_model->new_card($data);
@@ -773,6 +793,17 @@ class Container_yard extends MY_Controller {
 		
 		if( $card ) {
 			$t = (array)$card;
+			
+			$session = $this->session->userdata(SESSION_VAR);
+			
+			$stu_id = $t['tc_stucontroller'] ? $t['tc_stucontroller'] : $session['u_id'];
+			$str_id = $t['tc_strcontroller'] ? $t['tc_strcontroller'] : $session['u_id'];
+			
+			$stu_record = $this->users_model->get_user_by_id($stu_id);
+			$str_record = $this->users_model->get_user_by_id($str_id);
+			
+			$t['tc_stucontroller'] = $stu_record[0]['u_firstname'] . ' ' . $stu_record[0]['u_lastname'];
+			$t['tc_strcontroller'] = $str_record[0]['u_firstname'] . ' ' . $str_record[0]['u_lastname'];
 			$t['dayspan'] = $this->_get_dayspan(new DateTime( $t['tc_entrydate'] ), new DateTime());
 			$t['timespan'] = $this->_get_timespan( mysql_to_unix( $t['tc_entrydate'] ), time() );
 			
@@ -815,5 +846,22 @@ class Container_yard extends MY_Controller {
 		}
 		
 		return $full_name;
+	}
+	
+	private function _card_value_changed($card_id, $card_column, $value) {
+		$changed = FALSE;
+		
+		$card_details = $this->tcard_model->get_tcard_by_id($card_id);
+		
+		if( $card_details ) {
+			// cast as array for easier dynamic comparison
+			$card_details = (array)$card_details;
+			
+			if( $card_details[$card_column] && $card_details[$card_column] != $value ) {
+				$changed = TRUE;
+			}
+		}
+		
+		return $changed;
 	}
 }

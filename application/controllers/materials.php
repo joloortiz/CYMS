@@ -19,8 +19,9 @@ class Materials extends MY_Controller {
 
 		$config['module_base_url'] = base_url() . 'materials/';
 		$config['total_rows'] = $this->materials_model->record_count();
-		$config['per_page'] = 5; 
+		$config['per_page'] = CRUD_PAGE_DISPLAY_LIMIT; 
 		$config['uri_segment'] = 2;
+		$config['base_url'] = base_url() . 'materials';
 
 
 		$this->pagination->initialize($config); 

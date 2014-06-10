@@ -75,6 +75,12 @@
 						    	<span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
 						    	<span class="glyphicon glyphicon-remove form-control-feedback hide"></span>
 						    </div>
+						    <div class="col-xs-4">
+						    	<label class="has-radio-checkbox">
+							    	<input id="admin" type="checkbox">
+							    	<strong class="checkbox-radio-label">Admin</strong>
+							    </label>
+						    </div>
 					  	</div>
 						<div class="form-group">
 						    <label for="inputPassword3" class="col-sm-2 control-label">Contact No</label>

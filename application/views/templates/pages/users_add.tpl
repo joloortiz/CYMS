@@ -5,7 +5,7 @@
 		<div class="alert alert-danger hide"></div>
 		<form class="form-horizontal" role="form">
 			<div class="form-group">
-			    <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+			    <label for="lastname" class="col-sm-2 control-label">Name</label>
 			    <div class="col-xs-4">
 			    	<input type="text" class="form-control" id="lastname" placeholder="Last Name">
 			    </div>
@@ -17,21 +17,27 @@
 			    </div>			    	
 		  	</div>
 			<div class="form-group has-feedback">
-			    <label for="inputEmail3" class="col-sm-2 control-label">Username</label>
+			    <label for="username" class="col-sm-2 control-label">Username</label>
 			    <div class="col-xs-4">
 			    	<input type="text" class="form-control" id="username">
 			    	<span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
 			    	<span class="glyphicon glyphicon-remove form-control-feedback hide"></span>
 			    </div>
+			    <div class="col-xs-4">
+			    	<label class="has-radio-checkbox">
+				    	<input id="admin" type="checkbox">
+				    	<strong class="checkbox-radio-label">Admin</strong>
+				    </label>
+			    </div>
 		  	</div>
 			<div class="form-group">
-			    <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+			    <label for="password" class="col-sm-2 control-label">Password</label>
 			    <div class="col-xs-4">
 			    	<input type="password" class="form-control" id="password">
 			    </div>
 			</div>
 			<div class="form-group">
-			    <label for="inputPassword3" class="col-sm-2 control-label">Contact No</label>
+			    <label for="contactno" class="col-sm-2 control-label">Contact No</label>
 			    <div class="col-xs-4">
 			    	<input type="text" class="form-control" id="contactno">
 			    </div>

@@ -68,6 +68,7 @@ class Login extends MY_Controller {
 			$user = $this->users_model->get_by_username($username);
 			$data = $user[0];
 			unset($data['u_password']);
+			$data['u_isadmin'] = $data['u_isadmin'] == 1 ? TRUE : FALSE;
 			
 			$this->session->set_userdata(SESSION_VAR, $data);
 

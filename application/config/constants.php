@@ -52,6 +52,7 @@ define('IMAGES_DIR', ASSETS_DIR . 'images/');
 
 
 define('SESSION_VAR', 'cyms');
+define('CRUD_PAGE_DISPLAY_LIMIT', 10);
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

@@ -43,7 +43,13 @@
 
 							{if isset($tcards.pending)}
 								{foreach $tcards.pending as $card}
-									<div id="{$card->tc_id}" class="entry cv" van-no="{$card->v_no}" bin-no="{$card->tc_bin}" dayspan="{$card->dayspan}" timespan="{$card->timespan}" data-position="pending" style="background-color: {$card->s_color}; border-color: {$card->tt_color};top:0px;left0px;">{$card->display_chars}</div>
+									<div id="{$card->tc_id}" class="entry cv" van-no="{$card->v_no}" bin-no="{$card->tc_bin}" dayspan="{$card->dayspan}" timespan="{$card->timespan}" data-position="pending" data-dispatch="{$card->for_dispatch}" style="background-color: {$card->s_color}; border-color: {$card->tt_color};top:0px;left0px;">
+										{if $card->for_dispatch == 'true'}
+											<span class="glyphicon glyphicon-ok"></span>
+										{else}
+											{$card->display_chars}
+										{/if}
+									</div>
 								{/foreach}
 							{/if}
 						</div>
@@ -707,7 +713,7 @@
 
 							{if isset($tcards.positioned)}
 								{foreach $tcards.positioned as $card}
-									<div id="{$card->tc_id}" class="entry cv ui-draggable" van-no="{$card->v_no}" bin-no="{$card->tc_bin}" dayspan="{$card->dayspan}" timespan="{$card->timespan}" data-position="{$card->tp_position}" style="background-color: {$card->s_color}; border-color: {$card->tt_color};{if $card->tp_top}top: {$card->tp_top};{/if}{if $card->tp_left}left: {$card->tp_left}{/if}">{$card->display_chars}</div>
+									<div id="{$card->tc_id}" class="entry cv ui-draggable" van-no="{$card->v_no}" bin-no="{$card->tc_bin}" dayspan="{$card->dayspan}" timespan="{$card->timespan}" data-position="{$card->tp_position}" data-dispatch="{$card->for_dispatch}" style="background-color: {$card->s_color}; border-color: {$card->tt_color};{if $card->tp_top}top: {$card->tp_top};{/if}{if $card->tp_left}left: {$card->tp_left}{/if}">{$card->display_chars}</div>
 								{/foreach}
 							{/if}
 

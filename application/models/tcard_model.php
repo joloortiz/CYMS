@@ -84,6 +84,7 @@ class Tcard_model extends CI_Model{
 							s.s_color,
 							tt.tt_name,
 							tt.tt_color,
+							tt.ttg_id,
 							tp.tp_id,
 							vt.vt_name,
 							e.e_id,

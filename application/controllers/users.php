@@ -37,6 +37,7 @@ class Users extends MY_Controller {
 		$config['total_rows'] = $this->users_model->p_count($session['u_id'], $session['u_isadmin']);
 		$config['per_page'] = 5; 
 		$config['uri_segment'] = 2;
+		$config['base_url'] = base_url() . 'users';
 
 
 		$this->pagination->initialize($config); 
@@ -72,6 +73,7 @@ class Users extends MY_Controller {
 		$username = $this->input->post('username');
 		$password = md5($this->input->post('password'));
 		$contactno = $this->input->post('contactno');
+		$is_admin = $this->input->post('is_admin');
 		$opt = $this->input->post('opt');
 		$addedby = $session['u_id'];
 
@@ -87,6 +89,7 @@ class Users extends MY_Controller {
                     'u_username' => $username,
                     'u_password' => $password,
                     'u_contactno' => $contactno,
+                	'u_isadmin' => $is_admin,
                     'u_addedby' => $addedby
                 );
                 $this->users_model->Insert($insertData);
@@ -97,7 +100,8 @@ class Users extends MY_Controller {
                     'u_lastname' => $lastname,
                     'u_mi' => $mi,
                     'u_username' => $username,
-                    'u_contactno' => $contactno
+                    'u_contactno' => $contactno,
+                	'u_isadmin' => $is_admin
                 );
                 if($password != '') $updateData['u_password'] = $password;
                 $this->users_model->Update($updateData, $id);

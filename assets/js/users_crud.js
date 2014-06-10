@@ -104,6 +104,7 @@ $(document).ready(function () {
 		var username = $('#username').val();
 		var password = $('#password').val();
 		var contactno = $('#contactno').val();
+		var is_admin = $('#admin').prop('checked') ? 1 : 0;
 		var opt = 'add';
 		var err_message = '';
 
@@ -145,6 +146,7 @@ $(document).ready(function () {
 	                username: username,  
 	                password: password,
 	                contactno: contactno,
+	                is_admin: is_admin,
 	                opt: opt
 	            },
 	            success: function (response) {
@@ -171,6 +173,7 @@ $(document).ready(function () {
 		var mi = $('#mi').val();
 		var username = $('#username').val();
 		var contactno = $('#contactno').val();
+		var is_admin = $('#admin').prop('checked') ? 1 : 0;
 		var opt = 'edit';
 		var msg = '';
 		var returnflag = '';
@@ -207,6 +210,7 @@ $(document).ready(function () {
 	            	mi: mi,
 	                username: username,  
 	                contactno: contactno,
+	                is_admin: is_admin,
 	                opt: opt
 	            },
 	            success: function (response) {
@@ -276,6 +280,7 @@ $(document).ready(function () {
             	$('#mi').val(decode[0].u_mi);
             	$('#username').val(decode[0].u_username);
             	$('#contactno').val(decode[0].u_contactno);
+            	$('#admin').prop('checked', decode[0].u_isadmin == 1 ? true : false);
             }
 
             if($('#u-id').val()){

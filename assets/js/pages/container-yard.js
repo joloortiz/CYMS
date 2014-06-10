@@ -417,11 +417,15 @@ function popover_placement(draggableid){
     var binno = $('#' + draggableid).attr('van-no') || 'No details found.';
     var vanno = $('#' + draggableid).attr('bin-no') || 'No details found.';
     var dwell_time = $('#' + draggableid).attr('dayspan') || 'No details found.';
-    var position = $('#' + draggableid).data('position') || 'pending';
+    var position = $('#' + draggableid).attr('data-position') || 'pending';
+    var dispatch = $('#' + draggableid).attr('data-dispatch');
     var top = parseInt($('#' + draggableid).css('top').substring(0, $('#' + draggableid).css('top').length - 2));
     var left = parseInt($('#' + draggableid).css('left').substring(0, $('#' + draggableid).css('left').length - 2));
 
     var position_str = position != 'pending' ? '<br />Position: ' + position : '';
+    var dispatch_str = dispatch == 'true' ? '<strong>Ready for dispatch</strong><br /><br />' : '';
+
+    var content_str = dispatch_str + "Van No.: " + binno + "</br>BIN No.: " + vanno + position_str + "<br />Dwell Time: " + dwell_time;
 
 
     if(top <= 59 && left < 1381){
@@ -429,7 +433,7 @@ function popover_placement(draggableid){
             html: true, 
             placement: 'right', 
             trigger: 'hover',
-            content: "Van No.: " + binno + "</br>BIN No.: " + vanno + position_str + "<br />Dwell Time: " + dwell_time,
+            content: content_str,
             delay: {show: 500}
         })
     }else if(top <= 59 && left >= 1381){
@@ -437,7 +441,7 @@ function popover_placement(draggableid){
             html: true, 
             placement: 'left', 
             trigger: 'hover',
-            content: "Van No.: " + binno + "</br>BIN No.: " + vanno + position_str + "<br />Dwell Time: " + dwell_time,
+            content: content_str,
             delay: {show: 500}
         })
     }
@@ -446,7 +450,7 @@ function popover_placement(draggableid){
             html: true, 
             placement: 'right', 
             trigger: 'hover',
-            content: "Van No.: " + binno + "</br>BIN No.: " + vanno + position_str + "<br />Dwell Time: " + dwell_time,
+            content: content_str,
             delay: {show: 500}
         })
     }else if(left >= 1505){
@@ -454,7 +458,7 @@ function popover_placement(draggableid){
             html: true, 
             placement: 'left', 
             trigger: 'hover',
-            content: "Van No.: " + binno + "</br>BIN No.: " + vanno + position_str + "<br />Dwell Time: " + dwell_time,
+            content: content_str,
             delay: {show: 500}
         })        
     }else {
@@ -462,7 +466,7 @@ function popover_placement(draggableid){
             html: true, 
             placement: 'top', 
             trigger: 'hover',
-            content: "Van No.: " + binno + "</br>BIN No.: " + vanno + position_str + "<br />Dwell Time: " + dwell_time,
+            content: content_str,
             delay: {show: 500}
         })              
     }
@@ -476,16 +480,18 @@ function init_popover(){
         var binno = $(this).attr('van-no') || 'No details found.';
         var vanno = $(this).attr('bin-no') || 'No details found.';
         var dwell_time = $(this).attr('dayspan') || 'No details found.';
-        var position = $(this).data('position') || 'pending';
+        var position = $(this).attr('data-position') || 'pending';
+        var dispatch = $(this).attr('data-dispatch');
 
         var position_str = position != 'pending' ? '<br />Position: ' + position : '';
+        var dispatch_str = dispatch == 'true' ? '<strong>Ready for dispatch</strong><br /><br />' : '';
 
         $(this).popover({    
             html: true, 
             animation: true,
             placement: 'auto', 
             trigger: 'hover',
-            content: "Van No.: " + binno + "</br>BIN No.: " + vanno + position_str + "<br />Dwell Time: " + dwell_time,
+            content: dispatch_str + "Van No.: " + binno + "</br>BIN No.: " + vanno + position_str + "<br />Dwell Time: " + dwell_time,
             delay: {show: 500}
         });
     });

@@ -7,14 +7,7 @@
       			<h4 class="modal-title">T-Card Details</h4>
       		</div>
       		<div class="col-xs-4">
-      			<select name="{$form->card_type}" class="form-control input-sm">
-  					<option value=""></option>
-						{if $tcard_types && !empty($tcard_types)}
-							{foreach $tcard_types as $ttype}
-								<option value="{$ttype->tt_id}" class="card-type-{$ttype->tt_id}" data-color="{$ttype->tt_color}" data-group="{$ttype->ttg_id}">{$ttype->tt_name}</option>
-							{/foreach}
-						{/if}
-  				</select>
+            <input name="{$form->card_type}" class="form-control input-sm semi-real-time" type="hidden">
 					<span class="help-inline"></span>
       		</div>
       	</div>		        
@@ -42,14 +35,7 @@
       			<tr class="card-field-row">
       				<td class="col-xs-3">
                 <strong>Van Type</strong>
-                <select name="{$form->van_type}" class="form-control input-sm">
-                  <option value=""></option>
-                  {if $van_types && !empty($van_types)}
-                    {foreach $van_types as $type}
-                      <option value="{$type->vt_id}">{$type->vt_name}</option>
-                    {/foreach}
-                  {/if}
-                </select>
+                <input name="{$form->van_type}" class="form-control input-sm semi-real-time">
                 <span class="help-inline"></span>                
       				</td>
       				<td class="col-xs-6">
@@ -67,14 +53,10 @@
               <td class="col-xs-3"></td>
               <td class="col-xs-6">
                 <strong>Materials</strong>
-                  <select name="{$form->incoming_materials}" class="form-control" multiple>
-                    <option value=""></option>
-                    {if isset($incoming_materials)}
-                      {foreach $incoming_materials as $k => $v}
-                        <option value="{$v->im_id}">{$v->im_name}</option>
-                      {/foreach}
-                    {/if}
-                  </select>
+                <input class="form-control input-sm semi-real-time" type="hidden">
+                <select name="{$form->incoming_materials}" class="form-control" multiple>
+                  <option value=""></option>
+                </select>
               </td>
               <td class="col-xs-3"></td>
             </tr>
@@ -91,14 +73,7 @@
       				</td>
       				<td class="col-xs-3">
                 <strong>Material No.</strong>
-                <select name="{$form->material_no}" class="form-control input-sm">
-                  <option value=""></option>
-                  {if $materials && !empty($materials)}
-                    {foreach $materials as $material}
-                      <option value="{$material->m_id}">{$material->m_name}{if isset($material->m_type) && $material->m_type != ''}&nbsp;({$material->m_type}){/if}</option>
-                    {/foreach}
-                  {/if}
-                </select>
+                <input name="{$form->material_no}" class="form-control input-sm semi-real-time">
                 <span class="help-inline"></span>
       				</td>
       			</tr>
@@ -108,26 +83,12 @@
       					<div class="row">
       						<div class="col-sm-6">
       							<strong>Shipper</strong>
-      							<select name="{$form->shipper}" class="form-control input-sm">
-      								<option value=""></option>
-		      						{if $shippers && !empty($shippers)}
-		      							{foreach $shippers as $shipper}
-		      								<option value="{$shipper->s_id}">{$shipper->s_name}{if isset($shipper->s_code) && $shipper->s_code != ''}&nbsp;({$shipper->s_code}){/if}</option>
-		      							{/foreach}
-		      						{/if}
-			      				</select>
+                    <input name="{$form->shipper}" class="form-control input-sm semi-real-time">
   								<span class="help-inline"></span>
       						</div>
       						<div class="col-sm-6">
       							<strong>Trucker</strong>
-		      					<select name="{$form->trucker}" class="form-control input-sm">
-      								<option value=""></option>
-		      						{if $truckers && !empty($truckers)}
-		      							{foreach $truckers as $trucker}
-		      								<option value="{$trucker->t_id}">{$trucker->t_name}{if isset($trucker->t_code) && $trucker->t_code != ''}&nbsp;({$trucker->t_code}){/if}</option>
-		      							{/foreach}
-		      						{/if}
-			      				</select>
+                    <input name="{$form->trucker}" class="form-control input-sm semi-real-time">
   								<span class="help-inline"></span>
       						</div>
       					</div>
@@ -247,14 +208,7 @@
       				<td class="col-xs-6">
       					<div class="card-field">
       						<strong>FG/SFG Checker</strong>
-      						<select name="{$form->checker}" class="form-control input-sm">
-      							<option value=""></option>
-	      						{if $checkers && !empty($checkers)}
-	      							{foreach $checkers as $checker}
-	      								<option value="{$checker->c_id}">{$checker->c_firstname}{if $checker->c_mi}&nbsp;{$checker->c_mi}{/if}{if $checker->c_lastname}&nbsp;{$checker->c_lastname}{/if}</option>
-	      							{/foreach}
-	      						{/if}
-		      				</select>
+                  <input name="{$form->checker}" class="form-control input-sm semi-real-time">
 								<span class="help-inline"></span>
       					</div>
       				</td>

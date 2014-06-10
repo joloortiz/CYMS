@@ -9,43 +9,6 @@ var c = {}; // checkers
 setup_van_nos();
 reset_tcard();
 
-// Select2
-$('[name="card-type"]').select2({
-    placeholder: 'Select Card Type',
-    formatResult: format_tcard_type_select,
-    formatSelection: format_tcard_type_select,
-    escapeMarkup: function(m) { return m; }
-});
-
-$('[name="incoming-materials"]').select2({
-    placeholder: 'Select Materials',
-    allowClear: true
-});
-
-$('[name="mat-no"]').select2({
-    placeholder: 'None',
-    allowClear: true
-});
-
-$('[name="shipper"]').select2({
-    placeholder: 'None',
-    allowClear: true
-});
-
-$('[name="trucker"]').select2({
-    placeholder: 'None',
-    allowClear: true
-});
-
-$('[name="van-type"]').select2({
-    placeholder: 'Select Van Type'
-});
-
-$('[name="checker"]').select2({
-    placeholder: 'None',
-    allowClear: true
-});
-
 
 // Datepicker and Timepicker
 
@@ -82,7 +45,7 @@ $('#save-card').click(function() {
 
 $('[name="card-type"]').change(function() {
     var card_id = $(this).val();
-    var card_group = $(this).find('.card-type-' + card_id).data('group');
+    var card_group = $('#card-type-select-group-' + card_id).val();
 
     update_modal_field_state( card_group );
 });
@@ -139,6 +102,8 @@ $('body').on('click', '.entry', function() {
     // Controller display
     $('.stuff-controller').text(details['stu-controller']);
     $('.strip-controller').text(details['str-controller']);
+
+    $('#newEntryModal').find('.semi-real-time').trigger('change').trigger('change');
 
     modal_state_preview();
     show_new_entry_modal();
@@ -304,6 +269,16 @@ function reset_tcard(){
     update_modal_field_state();
     reset_errors();
 
+    // Select2
+    setup_tcard_types();
+    setup_shippers();
+    setup_truckers();
+    setup_van_types();
+    setup_checkers();
+    setup_outgoing_mats();
+    setup_incoming_mats();
+
+
     $('#newEntryModal').find('input.form-control').val('');
     $('#newEntryModal').find('[type="checkbox"]').prop('checked', false);
     $('#newEntryModal').find('[type="checkbox"]').trigger('change');
@@ -328,7 +303,7 @@ function reset_block_modal() {
 }
 
 function update_modal_field_state( card_type ) {
-    card_type = typeof card_type == 'undefined' ? 1 : card_type;
+    card_type = typeof card_type == 'undefined' ? 1 : parseInt(card_type);
 
 
     switch( card_type ) {
@@ -518,7 +493,15 @@ function save() {
                 cv.attr('van-no', tcard.v_no);
                 cv.attr('dayspan', tcard.dayspan);
                 cv.attr('timespan', tcard.timespan);
-                cv.text(tcard.display_chars);
+                cv.attr('data-dispatch', tcard.for_dispatch);
+
+                cv.empty();
+                cv.text('');
+                if( tcard.for_dispatch == 'true' ) {
+                    cv.append('<span class="glyphicon glyphicon-ok"></span>');
+                }else {
+                    cv.text(tcard.display_chars);   
+                }
 
                 // append the cloned cv
                 if( result.action == 'create' ) {
@@ -532,6 +515,8 @@ function save() {
                 if( tcard.e_timeout && $.trim(tcard.e_timeout) != '' ) {
                     $('#' + tcard.tc_id).remove();
                 }
+
+                update_empty_van_list(); // from container-yard.js
 
                 setTimeout(function() {
 
@@ -710,12 +695,189 @@ function update_filters() {
     }
 }
 
+function setup_tcard_types() {
+
+    var types = Array();
+
+    $.ajax({
+       url: $('body').attr('base-url') + 'container_yard/tcard_types_for_select',
+       type: 'POST',
+       async: true,
+       success: function (response) {
+           var result = jQuery.parseJSON(response);
+
+           if( result.success ) {
+                types = result.list;
+
+                $('[name="card-type"]').removeClass('select2-offscreen').select2({
+                    placeholder: 'Select Card Type',
+                    data: types,
+                    formatResult: format_tcard_type_select,
+                    formatSelection: format_tcard_type_select,
+                    escapeMarkup: function(m) { return m; }
+                }).val('').trigger('change');
+           }
+       }
+   });
+    
+}
+
+function setup_shippers() {
+    var shippers = Array();
+
+    $.ajax({
+       url: $('body').attr('base-url') + 'container_yard/shippers_for_select',
+       type: 'POST',
+       async: true,
+       success: function (response) {
+           var result = jQuery.parseJSON(response);
+
+           if( result.success ) {
+                shippers = result.list;
+
+                $('[name="shipper"]').removeClass('select2-offscreen').select2({
+                    placeholder: 'None',
+                    allowClear: true,
+                    data: shippers
+                }).val('').trigger('change');
+           }
+       }
+   });
+
+}
+
+function setup_truckers() {
+    var truckers = Array();
+
+    $.ajax({
+       url: $('body').attr('base-url') + 'container_yard/truckers_for_select',
+       type: 'POST',
+       async: true,
+       success: function (response) {
+           var result = jQuery.parseJSON(response);
+
+           if( result.success ) {
+                truckers = result.list;
+
+                $('[name="trucker"]').removeClass('select2-offscreen').select2({
+                    placeholder: 'None',
+                    allowClear: true,
+                    data: truckers
+                }).val('').trigger('change');
+           }
+       }
+   });
+
+}
+
+function setup_van_types() {
+    var van_types = Array();
+
+    $.ajax({
+       url: $('body').attr('base-url') + 'container_yard/van_types_for_select',
+       type: 'POST',
+       async: true,
+       success: function (response) {
+           var result = jQuery.parseJSON(response);
+
+           if( result.success ) {
+                van_types = result.list;
+
+                $('[name="van-type"]').removeClass('select2-offscreen').select2({
+                    placeholder: 'Select Van Type',
+                    data: van_types
+                }).val('').trigger('change');
+           }
+       }
+   });
+
+}
+
+function setup_checkers() {
+    var checkers = Array();
+
+    $.ajax({
+       url: $('body').attr('base-url') + 'container_yard/checkers_for_select',
+       type: 'POST',
+       async: true,
+       success: function (response) {
+           var result = jQuery.parseJSON(response);
+
+           if( result.success ) {
+                checkers = result.list;
+
+                $('[name="checker"]').removeClass('select2-offscreen').select2({
+                    placeholder: 'None',
+                    allowClear: true,
+                    data: checkers
+                }).val('').trigger('change');
+           }
+       }
+   });
+
+}
+
+function setup_outgoing_mats() {
+    var outgoing_mats = Array();
+
+    $.ajax({
+       url: $('body').attr('base-url') + 'container_yard/mat_nos_for_select',
+       type: 'POST',
+       async: true,
+       success: function (response) {
+           var result = jQuery.parseJSON(response);
+
+           if( result.success ) {
+                outgoing_mats = result.list;
+
+                $('[name="mat-no"]').removeClass('select2-offscreen').select2({
+                    placeholder: 'None',
+                    allowClear: true,
+                    data: outgoing_mats
+                }).val('').trigger('change');
+           }
+       }
+   });
+
+}
+
+function setup_incoming_mats() {
+    var incoming_mats = Array();
+    var option_str = '';
+
+    $.ajax({
+       url: $('body').attr('base-url') + 'container_yard/incoming_mats_for_select',
+       type: 'POST',
+       async: true,
+       success: function (response) {
+           var result = jQuery.parseJSON(response);
+
+           if( result.success ) {
+                incoming_mats = result.list;
+                $('[name="incoming-materials"]').empty();
+
+                option_str = '<option value=""></option>';
+                $('[name="incoming-materials"]').append(option_str);
+
+                $.each(incoming_mats, function( key, material ) {
+                    option_str = '<option value="' + material.im_id + '">' + material.im_name + '</option>';
+
+                    $('[name="incoming-materials"]').append(option_str);
+                });
+
+                $('[name="incoming-materials"]').removeClass('select2-offscreen').select2({
+                    placeholder: 'Select Materials',
+                    allowClear: true
+                });
+           }
+       }
+   });
+
+}
 
 
 /* FOR SELECT2 */
 function format_tcard_type_select( card_type ) {
-    var cardOption = card_type.element;
 
-    if (!card_type.id) return card_type.text; // optgroup
-    return "<div class='color-swatch-select' style='background: " + $(cardOption).data('color') + "'></div> " + card_type.text;
+    return "<input id='card-type-select-group-"+ card_type['id'] +"' type='hidden' value='"+ card_type['group'] +"'><div class='color-swatch-select' style='background: " + card_type['color'] + "'></div> " + card_type['text'];
 }

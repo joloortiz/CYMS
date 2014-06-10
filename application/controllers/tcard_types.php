@@ -18,8 +18,9 @@ class Tcard_types extends MY_Controller {
 	function index() {
 		$config['module_base_url'] = base_url() . 'tcard-types/';
 		$config['total_rows'] = $this->tcard_model->record_count();
-		$config['per_page'] = 5; 
+		$config['per_page'] = CRUD_PAGE_DISPLAY_LIMIT;
 		$config['uri_segment'] = 2;
+		$config['base_url'] = base_url() . 'tcard-types';
 
 
 		$this->pagination->initialize($config); 

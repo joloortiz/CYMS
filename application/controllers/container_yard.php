@@ -31,43 +31,11 @@ class Container_yard extends MY_Controller {
 		);
 		$this->smarty->assign('page_js', $js);
 		
-		// Active Controller
+		// Active CY Controller
 		$c = $this->session->userdata(SESSION_VAR);
 		$c_data = $this->users_model->get_user_by_id( $c['u_id'] );
 		$controller = $c_data[0]['u_firstname'] . ' ' . $c_data[0]['u_lastname'];
 		$this->smarty->assign('active_controller', $controller);
-		
-		// Materials (Outgoing)
-		$materials = $this->materials_model->get_materials();
-		$this->smarty->assign('materials', $materials);
-		
-		// Materials (Incoming)
-		$incoming_materials = $this->incoming_materials_model->get_incoming_materials();
-		$this->smarty->assign('incoming_materials', $incoming_materials);
-		
-		// Vans
-		$vans = $this->vans_model->get_vans();
-		$this->smarty->assign('vans', $vans);
-		
-		// Van types
-		$van_types = $this->van_types_model->get_van_types();
-		$this->smarty->assign('van_types', $van_types);
-		
-		// T-card types
-		$tcard_types = $this->tcard_model->get_types();
-		$this->smarty->assign('tcard_types', $tcard_types);
-		
-		// Checkers
-		$checkers = $this->checkers_model->get_checkers();
-		$this->smarty->assign('checkers', $checkers);
-		
-		// Shippers
-		$shippers = $this->shippers_model->get_shippers();
-		$this->smarty->assign('shippers', $shippers);
-		
-		// Truckers
-		$truckers = $this->truckers_model->get_truckers();
-		$this->smarty->assign('truckers', $truckers);
 		
 		// Form names
 		$form_names = $this->_form_names();
@@ -93,6 +61,7 @@ class Container_yard extends MY_Controller {
 					$dayspan = $this->_get_dayspan(new DateTime( $row['tc_entrydate'] ), new DateTime());
 				}
 				
+				$row['for_dispatch'] = $this->_is_ready_for_dispatch( $card->tc_id ) ? 'true' : 'false';
 				$row['entry_timespan'] = $timespan;
 				$row['entry_dayspan'] = $dayspan;
 				
@@ -530,6 +499,183 @@ class Container_yard extends MY_Controller {
 		echo json_encode( $var );
 	}
 	
+	function tcard_types_for_select() {
+		try {
+			
+			$type_mod = array();
+			
+			$types = $this->tcard_model->get_types();
+			if( $types ) {
+				foreach( $types as $k => $type ) {
+					$type_mod[] = array(
+						'id' => $type->tt_id,
+						'text' => $type->tt_name,
+						'color' => $type->tt_color,
+						'group' => $type->ttg_id
+					);
+				}
+			}
+			
+			
+			$var['list'] = $type_mod;
+			$var['success'] = $types ? TRUE : FALSE;
+		} catch (Exception $e) {
+			$var['success'] = FALSE;
+		}
+		
+		echo json_encode( $var );
+	}
+	
+	function shippers_for_select() {
+		try {
+				
+			$shippers_mod = array();
+				
+			$shippers = $this->shippers_model->get_shippers();
+			if( $shippers ) {
+				foreach( $shippers as $k => $v ) {
+					$shippers_mod[] = array(
+							'id' => $v->s_id,
+							'text' => $v->s_name . ($v->s_code && $v->s_code != '' ? ' ('. $v->s_code .')' : '')
+					);
+				}
+			}
+				
+				
+			$var['list'] = $shippers_mod;
+			$var['success'] = $shippers ? TRUE : FALSE;
+		} catch (Exception $e) {
+			$var['success'] = FALSE;
+		}
+		
+		echo json_encode( $var );
+	}
+	
+	function truckers_for_select() {
+		try {
+	
+			$truckers_mod = array();
+	
+			$truckers = $this->truckers_model->get_truckers();
+			if( $truckers ) {
+				foreach( $truckers as $k => $v ) {
+					$truckers_mod[] = array(
+							'id' => $v->t_id,
+							'text' => $v->t_name . ($v->t_code && $v->t_code != '' ? ' ('. $v->t_code .')' : '')
+					);
+				}
+			}
+	
+	
+			$var['list'] = $truckers_mod;
+			$var['success'] = $truckers ? TRUE : FALSE;
+		} catch (Exception $e) {
+			$var['success'] = FALSE;
+		}
+	
+		echo json_encode( $var );
+	}
+	
+	function van_types_for_select() {
+		try {
+	
+			$vt_mod = array();
+	
+			$van_types = $this->van_types_model->get_van_types();
+			if( $van_types ) {
+				foreach( $van_types as $k => $v ) {
+					$vt_mod[] = array(
+							'id' => $v->vt_id,
+							'text' => $v->vt_name
+					);
+				}
+			}
+	
+	
+			$var['list'] = $vt_mod;
+			$var['success'] = $van_types ? TRUE : FALSE;
+		} catch (Exception $e) {
+			$var['success'] = FALSE;
+		}
+	
+		echo json_encode( $var );
+	}
+	
+	function checkers_for_select() {
+		try {
+	
+			$checkers_mod = array();
+	
+			$checkers = $this->checkers_model->get_checkers();
+			if( $checkers ) {
+				foreach( $checkers as $k => $v ) {
+					$checkers_mod[] = array(
+							'id' => $v->c_id,
+							'text' => $v->c_firstname . ($v->c_mi && $v->c_mi != '' ? ' '. $v->c_mi : '') . ($v->c_lastname && $v->c_lastname != '' ? ' '. $v->c_lastname : '')
+					);
+				}
+			}
+	
+	
+			$var['list'] = $checkers_mod;
+			$var['success'] = $checkers ? TRUE : FALSE;
+		} catch (Exception $e) {
+			$var['success'] = FALSE;
+		}
+	
+		echo json_encode( $var );
+	}
+	
+	function mat_nos_for_select() {
+		try {
+	
+			$mat_nos = array();
+	
+			$materials = $this->materials_model->get_materials();
+			if( $materials ) {
+				foreach( $materials as $k => $v ) {
+					$mat_nos[] = array(
+							'id' => $v->m_id,
+							'text' => $v->m_name . ($v->m_type && $v->m_type != '' ? ' ('. $v->m_type .')' : '')
+					);
+				}
+			}
+	
+	
+			$var['list'] = $mat_nos;
+			$var['success'] = $materials ? TRUE : FALSE;
+		} catch (Exception $e) {
+			$var['success'] = FALSE;
+		}
+	
+		echo json_encode( $var );
+	}
+	
+	function incoming_mats_for_select() {
+		try {
+	
+			$mats_mod = array();
+	
+			$materials = $this->incoming_materials_model->get_incoming_materials();
+			if( $materials ) {
+				foreach( $materials as $k => $v ) {
+					$mats_mod[] = array(
+							'id' => $v->im_id,
+							'text' => $v->im_name
+					);
+				}
+			}
+	
+	
+			$var['list'] = $materials;
+			$var['success'] = $materials ? TRUE : FALSE;
+		} catch (Exception $e) {
+			$var['success'] = FALSE;
+		}
+	
+		echo json_encode( $var );
+	}
+	
 	/* PRIVATES */
 	
 	private function _validate_card_id( $id ) {
@@ -675,7 +821,7 @@ class Container_yard extends MY_Controller {
 			$card[$forms->stuff_controller] = $details->tc_stucontroller;
 			$card[$forms->date_stripped] = $details->tc_datestripped;
 			$card[$forms->strip_controller] = $details->tc_strcontroller;
-			$card[$forms->checker] = $details->tc_checker;
+			$card[$forms->checker] = $details->c_id;
 			$card[$forms->entry_date] = $details->tc_entrydate;
 			$card[$forms->time_out] = $details->e_timeout;
 			$card[$forms->dn_no] = $details->tc_dn;
@@ -804,6 +950,7 @@ class Container_yard extends MY_Controller {
 			
 			$t['tc_stucontroller'] = $stu_record[0]['u_firstname'] . ' ' . $stu_record[0]['u_lastname'];
 			$t['tc_strcontroller'] = $str_record[0]['u_firstname'] . ' ' . $str_record[0]['u_lastname'];
+			$t['for_dispatch'] = $this->_is_ready_for_dispatch( $id ) ? 'true' : 'false';
 			$t['dayspan'] = $this->_get_dayspan(new DateTime( $t['tc_entrydate'] ), new DateTime());
 			$t['timespan'] = $this->_get_timespan( mysql_to_unix( $t['tc_entrydate'] ), time() );
 			
@@ -811,6 +958,17 @@ class Container_yard extends MY_Controller {
 		}
 		
 		return $card;
+	}
+	
+	private function _is_ready_for_dispatch( $card_id ) {
+		$returnVal = FALSE;
+		
+		$card = $this->tcard_model->get_tcard_by_id($card_id);
+		if( $card && $card->ttg_id == 3 && $card->tc_dn != null && $card->tc_dn != '' && $card->tc_sealno != null && $card->tc_sealno != '' ) {
+			$returnVal = TRUE;
+		}
+		
+		return $returnVal;
 	}
 	
 	private function _list_tcards() {

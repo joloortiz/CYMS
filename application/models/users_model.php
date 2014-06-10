@@ -4,25 +4,20 @@ class Users_model extends CI_Model{
 	
 	# Get Users
 	function get_users() {
-		$this->db->where('u_isadmin', FALSE);
 		$query = $this->db->get('users');
 		return $query->result_array();
 	}
 
-	function p_count($id, $is_admin) {
-    	if($is_admin == FALSE)
-    	$this->db->where('u_isadmin', FALSE);
+	function p_count($id, $is_admin) {    	
         $this->db->where('u_isactive', TRUE);	
-    	$this->db->where('u_id !=', $id);	
+//     	$this->db->where('u_id !=', $id);	
         $query = $this->db->get('users');
         return  $query->num_rows();
     }
 
     # Get Users for pagination
-    function p_users($id, $is_admin, $limit, $offset) {
-    	if($is_admin == FALSE)
-    		$this->db->where('u_isadmin', FALSE);
-    	$this->db->where('u_id !=', $id);
+    function p_users($id, $is_admin, $limit, $offset) {    	
+//     	$this->db->where('u_id !=', $id);
     	$this->db->where('u_isactive', TRUE);
         $query = $this->db->get('users', $limit, $offset);
 		return $query->result_array();

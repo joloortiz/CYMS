@@ -9,83 +9,90 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="row">
-							<div class="col-md-3"><h5><strong>Van Type</strong></h5></div>
 							<div class="col-md-4">
-								<select name="van-type-filter" class="form-control input-sm">
-									<option value=""></option>
-									{if $van_types && !empty($van_types)}
-					                    {foreach $van_types as $type}
-					                      <option value="{$type->vt_id}">{$type->vt_name}</option>
-					                    {/foreach}
-					                {/if}
-								</select>
+								<label class="has-radio-checkbox"><input name="van-presence" type="radio" value="0" checked> <span class="checkbox-radio-label">All</span></label>
 							</div>
-							<div class="col-md-5">
-								<label class="has-radio-checkbox"><input name="existing-van-filter" type="checkbox"> <span class="checkbox-radio-label">Present Vans Only</span></label>
+							<div class="col-md-4">
+								<label class="has-radio-checkbox"><input name="van-presence" type="radio" value="1"> <span class="checkbox-radio-label">Present</span></label>
+							</div>
+							<div class="col-md-4">
+								<label class="has-radio-checkbox"><input name="van-presence" type="radio" value="2"> <span class="checkbox-radio-label">Previous</span></label>
 							</div>
 						</div>
 						<div class="row buffer-top">
-							<div class="col-md-3"><h5><strong>Tcard Type</strong></h5></div>
-							<div class="col-md-9">
+							<div class="col-md-4"><h5><strong>Van Type</strong></h5></div>
+							<div class="col-md-8">
+								<select name="van-type-filter" class="form-control input-sm">
+									<option value=""></option>
+								</select>
+							</div>
+							<!-- <div class="col-md-5">
+								<label class="has-radio-checkbox"><input name="existing-van-filter" type="checkbox"> <span class="checkbox-radio-label">Present Vans Only</span></label>
+							</div> -->
+						</div>
+						<div class="row buffer-top">
+							<div class="col-md-4"><h5><strong>Tcard Type</strong></h5></div>
+							<div class="col-md-8">
 								<select name="tcard-type-filter" class="form-control input-sm">
 				  					<option value=""></option>
-										{if $tcard_types && !empty($tcard_types)}
-											{foreach $tcard_types as $ttype}
-												<option value="{$ttype->tt_id}" class="card-type-{$ttype->tt_id}" data-color="{$ttype->tt_color}" data-group="{$ttype->ttg_id}">{$ttype->tt_name}</option>
-											{/foreach}
-										{/if}
 				  				</select>
 				  			</div>
 						</div>
 						<div class="row buffer-top">
-							<div class="col-md-3"><h5><strong>Van No.</strong></h5></div>
-							<div class="col-md-9"><input name="van-no-filter" class="form-control input-sm" type="text" placeholder="Van No."></div>
+							<div class="col-md-4"><h5><strong>Van No.</strong></h5></div>
+							<div class="col-md-8"><input name="van-no-filter" class="form-control input-sm" type="text" placeholder="Van No."></div>
 						</div>
 						<div class="row buffer-top">
-							<div class="col-md-3"><h5><strong>Bin No.</strong></h5></div>
-							<div class="col-md-9"><input name="bin-no-filter" class="form-control input-sm" type="text" placeholder="Bin No."></div>
+							<div class="col-md-4"><h5><strong>Bin No.</strong></h5></div>
+							<div class="col-md-8"><input name="bin-no-filter" class="form-control input-sm" type="text" placeholder="Bin No."></div>
 						</div>
 						<div class="row buffer-top">
-							<div class="col-md-3"><h5><strong>Shipper</strong></h5></div>
-							<div class="col-md-9">
-								<select name="shipper-filter" class="form-control input-sm">
+							<div class="col-md-4"><h5><strong>Incoming Mat.</strong></h5></div>
+							<div class="col-md-8">
+								<select name="incoming-mat-filter" class="form-control input-sm" multiple>
 									<option value=""></option>
-									{if $shippers && !empty($shippers)}
-		      							{foreach $shippers as $shipper}
-		      								<option value="{$shipper->s_id}">{$shipper->s_name}{if isset($shipper->s_code) && $shipper->s_code != ''}&nbsp;({$shipper->s_code}){/if}</option>
-		      							{/foreach}
-		      						{/if}
 	      						</select>
 							</div>
 						</div>
 						<div class="row buffer-top">
-							<div class="col-md-3"><h5><strong>Trucker</strong></h5></div>
-							<div class="col-md-9">
-								<select name="trucker-filter" class="form-control input-sm">
-      								<option value=""></option>
-		      						{if $truckers && !empty($truckers)}
-		      							{foreach $truckers as $trucker}
-		      								<option value="{$trucker->t_id}">{$trucker->t_name}{if isset($trucker->t_code) && $trucker->t_code != ''}&nbsp;({$trucker->t_code}){/if}</option>
-		      							{/foreach}
-		      						{/if}
-			      				</select>
+							<div class="col-md-4"><h5><strong>Shipper</strong></h5></div>
+							<div class="col-md-8">
+								<select name="shipper-filter" class="form-control input-sm">
+									<option value=""></option>
+	      						</select>
 							</div>
 						</div>
 						<div class="row buffer-top">
-							<div class="col-md-3"><h5><strong>Batch Code</strong></h5></div>
-							<div class="col-md-9"><input name="batch-code-filter" class="form-control input-sm" type="text" placeholder="Batch Code"></div>
+							<div class="col-md-4"><h5><strong>Trucker</strong></h5></div>
+							<div class="col-md-8">
+								<select name="trucker-filter" class="form-control input-sm">
+      								<option value=""></option>
+			      				</select>
+							</div>
+						</div>						
+						<div class="row buffer-top">
+							<div class="col-md-4"><h5><strong>Material No.</strong></h5></div>
+							<div class="col-md-8">
+								<select name="outgoing-mat-filter" class="form-control input-sm">
+									<option value=""></option>
+	      						</select>
+							</div>
 						</div>
 						<div class="row buffer-top">
-							<div class="col-md-3"><h5><strong>Seal No.</strong></h5></div>
-							<div class="col-md-9"><input name="seal-no-filter" class="form-control input-sm" type="text" placeholder="Seal No."></div>
+							<div class="col-md-4"><h5><strong>Batch Code</strong></h5></div>
+							<div class="col-md-8"><input name="batch-code-filter" class="form-control input-sm" type="text" placeholder="Batch Code"></div>
 						</div>
 						<div class="row buffer-top">
-							<div class="col-md-3"><h5><strong>DN No.</strong></h5></div>
-							<div class="col-md-9"><input name="dn-filter" class="form-control input-sm" type="text" placeholder="DN No."></div>
+							<div class="col-md-4"><h5><strong>Seal No.</strong></h5></div>
+							<div class="col-md-8"><input name="seal-no-filter" class="form-control input-sm" type="text" placeholder="Seal No."></div>
 						</div>
 						<div class="row buffer-top">
-							<div class="col-md-3"><h5><strong>Entry</strong></h5></div>
-							<div class="col-md-9">
+							<div class="col-md-4"><h5><strong>DN No.</strong></h5></div>
+							<div class="col-md-8"><input name="dn-filter" class="form-control input-sm" type="text" placeholder="DN No."></div>
+						</div>
+						<div class="row buffer-top">
+							<div class="col-md-4"><h5><strong>Entry</strong></h5></div>
+							<div class="col-md-8">
 								<div class="row">
 									<div class="col-md-5">
 										<input name="entry-from-filter" class="form-control input-sm generic-datepicker" type="text" placeholder="Date Start">
@@ -100,8 +107,8 @@
 							</div>
 						</div>
 						<div class="row buffer-top">
-							<div class="col-md-3"><h5><strong>Exit</strong></h5></div>
-							<div class="col-md-9">
+							<div class="col-md-4"><h5><strong>Exit</strong></h5></div>
+							<div class="col-md-8">
 								<div class="row">
 									<div class="col-md-5">
 										<input name="exit-from-filter" class="form-control input-sm generic-datepicker" type="text" placeholder="Date Start">
@@ -116,8 +123,8 @@
 							</div>
 						</div>
 						<div class="row buffer-top">
-							<div class="col-md-3"><h5><strong>Stuff</strong></h5></div>
-							<div class="col-md-9">
+							<div class="col-md-4"><h5><strong>Stuff</strong></h5></div>
+							<div class="col-md-8">
 								<div class="row">
 									<div class="col-md-5">
 										<input name="stuffed-from-filter" class="form-control input-sm generic-datepicker" type="text" placeholder="Date Start">
@@ -132,8 +139,8 @@
 							</div>
 						</div>
 						<div class="row buffer-top">
-							<div class="col-md-3"><h5><strong>Seal</strong></h5></div>
-							<div class="col-md-9">
+							<div class="col-md-4"><h5><strong>Seal</strong></h5></div>
+							<div class="col-md-8">
 								<div class="row">
 									<div class="col-md-5">
 										<input name="seal-from-filter" class="form-control input-sm generic-datepicker" type="text" placeholder="Date Start">
@@ -148,8 +155,8 @@
 							</div>
 						</div>
 						<div class="row buffer-top">
-							<div class="col-md-3"><h5><strong>Block</strong></h5></div>
-							<div class="col-md-9">
+							<div class="col-md-4"><h5><strong>Block</strong></h5></div>
+							<div class="col-md-8">
 								<div class="row">
 									<div class="col-md-5">
 										<input name="block-from-filter" class="form-control input-sm generic-datepicker" type="text" placeholder="Date Start">
@@ -162,7 +169,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						</div>					
 					</div>
 					<div class="col-md-6">
 						<div class="row">

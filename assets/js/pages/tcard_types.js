@@ -57,8 +57,6 @@ $('#type-table').on('click', '.card-type.action > .clickable', function() {
 				$('[name="type-color"]').val(type_details.tt_color);
 				$('[name="type-group"]').val(type_details.ttg_id);
 
-				$('[name="is-exfac"]').prop('checked', (type_details.is_exfactory == 1 ? true : false) );
-
 				$('[name="type-name"]').focus();
 			}
 		}
@@ -178,7 +176,6 @@ function get_form_values() {
 	var data = {
 		type_id: id,
 		group: group,
-		exfactory: exfac,
 		action: method
 	};
 

@@ -14,6 +14,24 @@ init_pending_counter(pending_count());
 
 update_empty_van_list();
 
+$('.modal').on('shown.bs.modal', function() {
+    $('.modal.active').addClass('hide');
+    $('.current-active').removeClass('current-active');
+
+    $(this).addClass('current-active');
+    $(this).addClass('active');
+});
+
+$('.modal').on('hidden.bs.modal', function() {
+
+    if( $(this).hasClass('current-active') ) {
+        $(this).removeClass('current-active');
+        $('.modal.active').removeClass('hide');
+    }
+
+    $(this).removeClass('active');
+});
+
 
 function resetdragevent(){
 

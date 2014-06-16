@@ -1,29 +1,12 @@
+$(document).ready(function() {
+	reset_fields();
+});
+
+
 /*
  * GLOBALS
  */
 var searchTimeout;
-
-
-// Select2
-$('[name="van-type-filter"]').select2({
-    placeholder: 'Van Type',
-    allowClear: true
-});
-
-$('[name="shipper-filter"]').select2({
-    placeholder: 'Shippers',
-    allowClear: true
-});
-
-$('[name="trucker-filter"]').select2({
-    placeholder: 'Trucker',
-    allowClear: true
-});
-
-$('[name="tcard-type-filter"]').select2({
-    placeholder: 'Tcard Type',
-    allowClear: true
-});
 
 $('#clear-list-btn').click(function() {
 	reset_filter_list();
@@ -45,7 +28,7 @@ $('#present-van-list').on('click', '.filtered-van', function(event) {
 });
 
 $('#filter-btn').click(function() {
-	iniate_filter();
+	filter();
 });
 
 $('#clear-filter-btn').click(function() {
@@ -56,12 +39,22 @@ $('#advanced-search-btn').click(function() {
 	show_filter_modal();
 });
 
+// AUTO FILTER EVENTS
+$('input[type="text"], [name="van-presence"], select').change(function() {
+	initiate_auto_filter();
+});
+
+$('input[type="text"]').keyup(function() {
+	initiate_auto_filter();
+});
+
+
 
 /*
  * FUNCTIONS
  */
 
-function iniate_filter() {
+function filter() {
 	var filter_data = get_filter_data();
 
 	if( filter_data ) {
@@ -69,7 +62,7 @@ function iniate_filter() {
 		$.ajax({
 			url: $('body').attr('base-url') + 'container_yard/filter_vans',
 			type: 'POST',
-			async: false,
+			async: true,
 			data: filter_data,
 			success: function (response) {
 				var decode = jQuery.parseJSON(response);
@@ -95,7 +88,7 @@ function iniate_filter() {
 						}
 
 						$.each(decode.vans, function(key, van) {
-							list_str = '<li><a href="#" class="'+ (van.e_timeout ? 'disabled' : 'filtered-van') +'" data-card-id="'+ van.tc_id +'" style="margin-left: 1em;">' + van.tc_id + ' - '+ van.v_no +'</a></li>';
+							list_str = '<li><a href="#" class="'+ (van.e_timeout ? 'entry old-van' : 'filtered-van') +'" data-card-id="'+ van.tc_id +'" style="margin-left: 1em;">' + van.tc_id + ' - '+ van.v_no +'</a></li>';
 							append_list_id = van.e_timeout ? 'previous-van-list' : 'present-van-list';
 
 							$('#' + append_list_id).append(list_str);
@@ -126,7 +119,7 @@ function get_filter_data() {
 	var filter_active = false;
 	var data = {};
 
-	var existing_only = $('[name="existing-van-filter"]').prop('checked');
+	var van_presence = $('[name="van-presence"]:checked').val();
 	var tcard_type = $.trim( $('[name="tcard-type-filter"]').val() );
 	var van_type = $.trim( $('[name="van-type-filter"]').val() );
 	var van_no = $.trim( $('[name="van-no-filter"]').val() );
@@ -146,6 +139,8 @@ function get_filter_data() {
 	var seal_to = $.trim( $('[name="seal-to-filter"]').val() );
 	var block_from = $.trim( $('[name="block-from-filter"]').val() );
 	var block_to = $.trim( $('[name="block-to-filter"]').val() );
+	var incoming_mat = $('[name="incoming-mat-filter"]').val();
+	var outgoing_mat = $('[name="outgoing-mat-filter"]').val();
 
 	if( tcard_type != '') {
 		data['tcard_type'] = tcard_type;
@@ -223,8 +218,16 @@ function get_filter_data() {
 		data['block_to'] = block_to;
 		filter_active = true;
 	}
+	if( incoming_mat ) {
+		data['incoming_mat'] = incoming_mat;
+		filter_active = true;
+	}
+	if( outgoing_mat != '' ) {
+		data['outgoing_mat'] = outgoing_mat;
+		filter_active = true;
+	}
 	if( filter_active ) {
-		data['existing_only'] = existing_only;
+		data['van_presence'] = van_presence;
 
 		returnVal = data;
 	}
@@ -245,8 +248,15 @@ function reset_filter_list() {
 
 function reset_fields() {
 	$('#searchFilterModal').find('[type="text"]').val('');
-	$('#searchFilterModal').find('[type="checkbox"]').prop('checked', false);
-	$('#searchFilterModal').find('select').val('').trigger('change');
+	$('#searchFilterModal').find('[name="van-presence"][value="0"]').prop('checked', true).trigger('change');
+	
+
+	setup_tcard_type_filter();
+	setup_trucker_filter();
+	setup_shipper_filter();
+	setup_van_type_filter();
+	setup_outgoing_material_filter();
+	setup_incoming_material_filter();
 }
 
 function show_filter_modal() {
@@ -254,4 +264,191 @@ function show_filter_modal() {
 		keyboard: false,
 		backdrop: 'static'
 	});
+}
+
+function append_select_options(select_name, data) {
+	// data - an array of objects with id and text as contents
+
+	// Remove all options except the empty one
+    $('[name="'+ select_name +'"]').children().filter(function() {
+    	return $(this).val() != '';
+    }).remove();
+
+    $.each(data, function( key, object ) {
+        option_str = '<option value="' + object.id + '">' + object.text + '</option>';
+
+        $('[name="'+ select_name +'"]').append(option_str);
+    });
+
+
+    return true;
+}
+
+function setup_van_type_filter() {
+    var list = Array();
+
+    $.ajax({
+       url: $('body').attr('base-url') + 'container_yard/van_types_for_select',
+       type: 'POST',
+       async: true,
+       success: function (response) {
+           var result = jQuery.parseJSON(response);
+
+           if( result.success ) {
+                list = result.list;
+
+                if( append_select_options('van-type-filter', list) ) {
+                	$('[name="van-type-filter"]').removeClass('select2-offscreen').select2({
+	                    placeholder: 'Van Type',
+    					allowClear: true
+	                });
+                }
+
+               
+           }
+       }
+   });
+
+}
+
+function setup_shipper_filter() {
+    var list = Array();
+
+    $.ajax({
+       url: $('body').attr('base-url') + 'container_yard/shippers_for_select',
+       type: 'POST',
+       async: true,
+       success: function (response) {
+           var result = jQuery.parseJSON(response);
+
+           if( result.success ) {
+                list = result.list;
+
+                if( append_select_options('shipper-filter', list) ) {
+                	$('[name="shipper-filter"]').removeClass('select2-offscreen').select2({
+	                    placeholder: 'Shippers',
+    					allowClear: true
+	                });
+                }
+
+               
+           }
+       }
+   });
+
+}
+
+function setup_trucker_filter() {
+    var list = Array();
+
+    $.ajax({
+       url: $('body').attr('base-url') + 'container_yard/truckers_for_select',
+       type: 'POST',
+       async: true,
+       success: function (response) {
+           var result = jQuery.parseJSON(response);
+
+           if( result.success ) {
+                list = result.list;
+
+                if( append_select_options('trucker-filter', list) ) {
+                	$('[name="trucker-filter"]').removeClass('select2-offscreen').select2({
+	                    placeholder: 'Trucker',
+    					allowClear: true
+	                });
+                }
+
+               
+           }
+       }
+   });
+
+}
+
+function setup_tcard_type_filter() {
+    var list = Array();
+
+    $.ajax({
+       url: $('body').attr('base-url') + 'container_yard/tcard_types_for_select',
+       type: 'POST',
+       async: true,
+       success: function (response) {
+           var result = jQuery.parseJSON(response);
+
+           if( result.success ) {
+                list = result.list;
+
+                if( append_select_options('tcard-type-filter', list) ) {
+                	$('[name="tcard-type-filter"]').removeClass('select2-offscreen').select2({
+	                    placeholder: 'Tcard Type',
+    					allowClear: true
+	                });
+                }
+
+               
+           }
+       }
+   });
+
+}
+
+function setup_incoming_material_filter() {
+    var list = Array();
+
+    $.ajax({
+       url: $('body').attr('base-url') + 'container_yard/incoming_mats_for_select',
+       type: 'POST',
+       async: true,
+       success: function (response) {
+           var result = jQuery.parseJSON(response);
+
+           if( result.success ) {
+                list = result.list;
+
+                if( append_select_options('incoming-mat-filter', list) ) {
+                	$('[name="incoming-mat-filter"]').removeClass('select2-offscreen').select2({
+	                    placeholder: 'Incoming Materials'
+	                });
+                }
+
+               
+           }
+       }
+   });
+
+}
+
+function setup_outgoing_material_filter() {
+    var list = Array();
+
+    $.ajax({
+       url: $('body').attr('base-url') + 'container_yard/mat_nos_for_select',
+       type: 'POST',
+       async: true,
+       success: function (response) {
+           var result = jQuery.parseJSON(response);
+
+           if( result.success ) {
+                list = result.list;
+
+                if( append_select_options('outgoing-mat-filter', list) ) {
+                	$('[name="outgoing-mat-filter"]').removeClass('select2-offscreen').select2({
+	                    placeholder: 'Material No.',
+    					allowClear: true
+	                });
+                }
+
+               
+           }
+       }
+   });
+
+}
+
+function initiate_auto_filter() {
+	clearTimeout( searchTimeout );
+
+	searchTimeout = setTimeout(function() {
+		filter();
+	}, 500);
 }

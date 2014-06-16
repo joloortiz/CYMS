@@ -10,14 +10,6 @@
 					<input name="active-type-id" class="input-with-value" type="hidden">
 					<div class="row">
 						<div class="col-sm-12">
-							<label class="has-radio-checkbox">
-								<input name="is-exfac" type="checkbox">
-								<span class="checkbox-radio-label">Exfactory</span>
-							</label>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-12">
 							<ul class="help-inline">
 							</ul>
 						</div>
@@ -58,7 +50,7 @@
 				<thead>
 					<th style="width: 10px;"><input id="select-all-check" class="check-selection" type="checkbox"></th>
 					<th><strong>T-card Types</strong></th>
-					<th colspan="2"><strong>Group</strong></th>
+					<th><strong>Group</strong></th>
 					<th style="width: 140px">
 						<button id="new-type-btn" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Add</button>
 						<button id="delete-type-btn" class="btn absolute-hide"><i class="glyphicon glyphicon-trash" title="Delete Selected"></i></button>
@@ -79,26 +71,17 @@
 									{/if}
 								</td>
 								<td class="clickable">
-									{if $type->is_exfactory == 1}
-										<span class="glyphicon glyphicon-bookmark"></span>
-									{/if}
-								</td>
-								<td class="clickable">
 									<div class="color-swatch" style="background: {$type->tt_color};"></div>
 								</td>
 							</tr>
 						{/foreach}
 					{else}
 						<tr>
-							<td colspan="3"><em>No records found.</em></td>
+							<td colspan="4"><em>No records found.</em></td>
 						</tr>
 					{/if}
 				</tbody>
 			</table>
-			<p>
-				<span class="glyphicon glyphicon-bookmark"></span>
-				<span>Item with this icon is flagged as <strong>Exfactory</strong></span>
-			</p>
 		</div>
 
 		<div class="row">

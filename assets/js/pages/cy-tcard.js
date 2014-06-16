@@ -30,7 +30,7 @@ $('[name="entry-date"]').datetimepicker({
 
 $('#new-entry-btn').click(function() {
 
-    modal_state_preview(false);
+    set_modal_state(false, true);
 
     show_new_entry_modal();
 });
@@ -71,7 +71,8 @@ $('#tcardBlockModal').on('hidden.bs.modal', function() {
 });
 
 $('body').on('click', '.entry', function() {
-    var card_id = $(this).attr('id');
+    var old_van = $(this).hasClass('old-van');
+    var card_id = old_van ? $(this).attr('data-card-id') : $(this).attr('id');
     var details = get_tcard_details(card_id);
 
     $.each(details, function(form_name, val) {
@@ -105,12 +106,12 @@ $('body').on('click', '.entry', function() {
 
     $('#newEntryModal').find('.semi-real-time').trigger('change').trigger('change');
 
-    modal_state_preview();
+    set_modal_state(true, !old_van);    // if it is an old van then it must not be editable. therefore, !old_van = editable
     show_new_entry_modal();
 });
 
 $("#newEntryModal").on('click', '#edit-tcard', function() {
-    modal_state_preview(false);
+    set_modal_state(false, true);
 });
 
 $('#stuff-filter').change(function() {
@@ -304,6 +305,8 @@ function reset_block_modal() {
 
 function update_modal_field_state( card_type ) {
     card_type = typeof card_type == 'undefined' ? 1 : parseInt(card_type);
+
+    $('.update-card-field').removeClass('absolute-hide');
 
 
     switch( card_type ) {
@@ -534,21 +537,24 @@ function save() {
     });
 }
 
-function modal_state_preview(isPreview) {
-    isPreview = typeof isPreview != 'boolean' ? true : isPreview;
+function set_modal_state(preview, editable) {
+
+    editable = typeof editable != 'boolean' ? false : editable;
+    preview = typeof preview != 'boolean' || !editable ? true : preview;
+
     var notifier_content;
     var cancel_button_text;
 
-    $('#newEntryModal').find('input, select, textarea, .in-form-button').prop('disabled', isPreview);
+    $('#newEntryModal').find('input, select, textarea, .in-form-button').prop('disabled', preview);
 
-    notifier_content  = isPreview ? '<button id="edit-tcard" class="btn-link">Click here to edit&nbsp;&nbsp;<span class="glyphicon glyphicon-pencil"></span></button>' : '&nbsp;';
-    cancel_button_text = isPreview ? 'Done' : 'Cancel';
+    notifier_content  = preview && editable ? '<button id="edit-tcard" class="btn-link">Click here to edit&nbsp;&nbsp;<span class="glyphicon glyphicon-pencil"></span></button>' : '&nbsp;';
+    cancel_button_text = preview ? 'Done' : 'Cancel';
 
     $('#cancel-card').text(cancel_button_text);
     $('.tcard-modal-state-notifier').html(notifier_content);
 
     // Set "save" and "unblock" button display
-    if( isPreview ) {
+    if( preview ) {
         $('#unblock-tcard').addClass('absolute-hide');
         $('#save-card').addClass('absolute-hide');
     }else {
@@ -860,7 +866,7 @@ function setup_incoming_mats() {
                 $('[name="incoming-materials"]').append(option_str);
 
                 $.each(incoming_mats, function( key, material ) {
-                    option_str = '<option value="' + material.im_id + '">' + material.im_name + '</option>';
+                    option_str = '<option value="' + material.id + '">' + material.text + '</option>';
 
                     $('[name="incoming-materials"]').append(option_str);
                 });

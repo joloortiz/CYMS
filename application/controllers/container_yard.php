@@ -443,7 +443,7 @@ class Container_yard extends MY_Controller {
 	function filter_vans() {
 		
 		try {
-			$existing_only = $this->input->post('existing_only');
+			$van_presence = $this->input->post('van_presence');
 			$tcard_type = $this->input->post('tcard_type');
 			$van_type = $this->input->post('van_type');
 			$van_no = $this->input->post('van_no');
@@ -463,9 +463,12 @@ class Container_yard extends MY_Controller {
 			$seal_to = $this->input->post('seal_to');
 			$block_from = $this->input->post('block_from');
 			$block_to = $this->input->post('block_to');
+			$incoming_mat = $this->input->post('incoming_mat');
+			$outgoing_mat = $this->input->post('outgoing_mat');
 			
 			$data = array(
-					'existing_only' => ($existing_only == 'true' ? true : false),
+					'existing_only' => ($van_presence == '1' ? true : false),
+					'previous_only' => ($van_presence == '2' ? true : false),
 					'tcard_type' => $tcard_type,
 					'van_type' => $van_type,
 					'van_no' => strtoupper($van_no),
@@ -484,7 +487,9 @@ class Container_yard extends MY_Controller {
 					'seal_from' => $seal_from,
 					'seal_to' => $seal_to,
 					'block_from' => $block_from,
-					'block_to' => $block_to
+					'block_to' => $block_to,
+					'incoming_mat' => $incoming_mat,
+					'outgoing_mat' => $outgoing_mat
 			);
 			
 			$vans = $this->tcard_model->filter_tcard($data);
@@ -667,7 +672,7 @@ class Container_yard extends MY_Controller {
 			}
 	
 	
-			$var['list'] = $materials;
+			$var['list'] = $mats_mod;
 			$var['success'] = $materials ? TRUE : FALSE;
 		} catch (Exception $e) {
 			$var['success'] = FALSE;

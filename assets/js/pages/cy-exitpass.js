@@ -37,18 +37,13 @@ $('#save-exitpass-btn').click(function() {
 // Modal Events
 $('#exitPassModal').on('hidden.bs.modal', function() {
   reset_exit_pass();
-  $('#newEntryModal').removeClass('absolute-hide');
-});
-
-$('#exitPassModal').on('shown.bs.modal', function() {
-  $('#newEntryModal').addClass('absolute-hide');
 });
 
 $('#exitPassModal').on('show.bs.modal', function(event) {
   var current_card_id = $('[name="card-id"]').val();
 
   if( $.trim(current_card_id) == '' ) {
-      // event.preventDefault();
+      event.preventDefault();
   }
 });
 

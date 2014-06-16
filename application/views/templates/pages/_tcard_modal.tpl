@@ -35,7 +35,7 @@
       			<tr class="card-field-row">
       				<td class="col-xs-3">
                 <strong>Van Type</strong>
-                <input name="{$form->van_type}" class="form-control input-sm semi-real-time">
+                <input name="{$form->van_type}" class="form-control input-sm semi-real-time" type="hidden">
                 <span class="help-inline"></span>                
       				</td>
       				<td class="col-xs-6">
@@ -53,7 +53,6 @@
               <td class="col-xs-3"></td>
               <td class="col-xs-6">
                 <strong>Materials</strong>
-                <input class="form-control input-sm semi-real-time" type="hidden">
                 <select name="{$form->incoming_materials}" class="form-control" multiple>
                   <option value=""></option>
                 </select>
@@ -73,7 +72,7 @@
       				</td>
       				<td class="col-xs-3">
                 <strong>Material No.</strong>
-                <input name="{$form->material_no}" class="form-control input-sm semi-real-time">
+                <input name="{$form->material_no}" class="form-control input-sm semi-real-time" type="hidden">
                 <span class="help-inline"></span>
       				</td>
       			</tr>
@@ -83,12 +82,12 @@
       					<div class="row">
       						<div class="col-sm-6">
       							<strong>Shipper</strong>
-                    <input name="{$form->shipper}" class="form-control input-sm semi-real-time">
+                    <input name="{$form->shipper}" class="form-control input-sm semi-real-time" type="hidden">
   								<span class="help-inline"></span>
       						</div>
       						<div class="col-sm-6">
       							<strong>Trucker</strong>
-                    <input name="{$form->trucker}" class="form-control input-sm semi-real-time">
+                    <input name="{$form->trucker}" class="form-control input-sm semi-real-time" type="hidden">
   								<span class="help-inline"></span>
       						</div>
       					</div>
@@ -208,7 +207,7 @@
       				<td class="col-xs-6">
       					<div class="card-field">
       						<strong>FG/SFG Checker</strong>
-                  <input name="{$form->checker}" class="form-control input-sm semi-real-time">
+                  <input name="{$form->checker}" class="form-control input-sm semi-real-time" type="hidden">
 								<span class="help-inline"></span>
       					</div>
       				</td>

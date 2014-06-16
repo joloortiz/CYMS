@@ -333,6 +333,7 @@ class Tcard_model extends CI_Model{
 		$this->db->from('tcards tc');
 		$this->db->join('vans v', 'tc.v_id = v.v_id');
 		$this->db->join('exit_passes e', 'e.tc_id = tc.tc_id', 'left');
+		$this->db->join('tcard_incoming_materials tim', 'tc.tc_id = tim.tc_id', 'left');
 		
 		// Tcard Type
 		if( $filter_data['tcard_type'] ) {
@@ -379,6 +380,18 @@ class Tcard_model extends CI_Model{
 			$this->db->where('tc.tc_dn LIKE "%'. $filter_data['dn'] .'%"');
 		}
 		
+		// Incoming Materials
+		if( $filter_data['incoming_mat'] ) {
+			$this->db->where_in('tim.im_id', $filter_data['incoming_mat']);
+			$this->db->where('tim.is_deleted <>', TRUE);
+			$this->db->group_by('tim.tc_id');
+			$this->db->having('COUNT(tim.im_id) = '. count($filter_data['incoming_mat']), FALSE);
+		}
+		
+		// Outgoing Materials
+		if( $filter_data['outgoing_mat'] ) {
+			$this->db->where('tc.m_id', $filter_data['outgoing_mat']);
+		}
 		
 		// Entry Date Range
 		if( $filter_data['entry_from'] || $filter_data['entry_to'] ) {
@@ -413,6 +426,11 @@ class Tcard_model extends CI_Model{
 		// Existing Vans Only
 		if( $filter_data['existing_only'] ) {
 			$this->db->where('e.e_timeout IS NULL');
+		}
+		
+		// Previous Vans Only
+		if( $filter_data['previous_only'] ) {
+			$this->db->where('e.e_timeout IS NOt NULL');
 		}
 		
 		$this->db->order_by('tc.tc_entrydate', 'DESC');
@@ -466,11 +484,6 @@ class Tcard_model extends CI_Model{
 		if( $this->db->affected_rows() == 1 ){
 			return $query;
 		}
-	}
-	
-	function unset_exfac_types() {
-		$this->db->where('is_exfactory', TRUE);
-		$this->db->update('tcard_types', array('is_exfactory' => FALSE));
 	}
 	
 	function update_tcard_exitpass( $tcard_id, $data ) {

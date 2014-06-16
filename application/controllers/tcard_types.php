@@ -77,23 +77,14 @@ class Tcard_types extends MY_Controller {
 			$name = $this->input->post('type-name');
 			$color = $this->input->post('type-color');
 			$group = $this->input->post('group');
-			$is_exfac = $this->input->post('exfactory');
 			$id = $this->input->post('type_id');
 				
 			$result = NULL;
-			
-			if( $is_exfac == 'true' ) {
-				$is_exfac = 1;
-				$this->tcard_model->unset_exfac_types();
-			}else {
-				$is_exfac = 0;
-			}
 
 			$data = array(
 					'tt_name' => strtoupper( $name ),
 					'tt_color' => strtoupper( $color ),
-					'ttg_id' => $group,
-					'is_exfactory' => $is_exfac
+					'ttg_id' => $group
 			);
 				
 			if( $action == 'create' ) {

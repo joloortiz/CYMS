@@ -403,6 +403,7 @@ class Tcard_model extends CI_Model{
 		if( $filter_data['exit_from'] || $filter_data['exit_to'] ) {
 // 			$this->db->where( 'e.e_date BETWEEN '. ($filter_data['exit_from'] ? " '". $filter_data['exit_from'] ."'" : '0') .' AND '. ($filter_data['exit_to'] ? " DATE_ADD('". $filter_data['exit_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
 			$this->db->where('DATE(e.e_date) >= ' .  ($filter_data['exit_from'] ? " '". $filter_data['exit_from'] ."'" : '0') . ' AND DATE(e.e_date) < '. ($filter_data['exit_to'] ? " DATE_ADD('". $filter_data['exit_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+			$this->db->where('e.e_timeout IS NOT NULL');
 		}
 		
 		// Stuff Date Range

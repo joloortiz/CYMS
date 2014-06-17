@@ -15,6 +15,24 @@ init_pending_counter(pending_count());
 update_empty_van_list();
 
 $('.modal').on('shown.bs.modal', function() {
+    var prevDisplayModal = Array();
+    var prevOrder = 0;
+    var order = 0;
+    var nextOrder;
+
+    $('.modal.active').each(function() {
+        order = parseInt( $(this).data('order') );
+        if( order > prevOrder ){
+            prevDisplayModal = $(this);
+        }
+
+        prevOrder = order;
+    });
+
+    nextOrder = prevDisplayModal.length == 1 ? parseInt( prevDisplayModal.data('order') ) + 1 : 1;
+
+    $(this).data('order', nextOrder);
+
     $('.modal.active').addClass('hide');
     $('.current-active').removeClass('current-active');
 
@@ -23,10 +41,25 @@ $('.modal').on('shown.bs.modal', function() {
 });
 
 $('.modal').on('hidden.bs.modal', function() {
+    var currentOrder = parseInt( $(this).data('order') );
+    var nextDisplayModal = Array();
 
     if( $(this).hasClass('current-active') ) {
+
+        currentOrder = currentOrder ? currentOrder : 1;
+
+        if( currentOrder != 1 ) {
+            nextDisplayModal = $('.modal.active').filter( function() {
+                return $(this).data('order') == (currentOrder - 1);
+            });
+        }
+
+        if( nextDisplayModal.length == 1 ) {
+            nextDisplayModal.removeClass('hide');
+            nextDisplayModal.addClass('current-active');
+        }
+
         $(this).removeClass('current-active');
-        $('.modal.active').removeClass('hide');
     }
 
     $(this).removeClass('active');

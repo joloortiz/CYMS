@@ -25,7 +25,7 @@
 						</div>
 					</div>
 					<div class="row buffer-top">
-						<div class="col-sm-5">
+						<div class="col-sm-12">
 							<select class="form-control" name="material-category">
 								<option value="FG">Finished Goods</option>
 								<option value="SFG">Semi-finished Goods</option>

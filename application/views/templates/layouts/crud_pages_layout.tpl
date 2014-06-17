@@ -20,8 +20,8 @@
 					<li {if $page == 'tcard_types'} class="active" {/if}><a href="{if $page == 'tcard-types'}#{else}{$base_url}tcard-types{/if}">T-Card Types</a></li>
 					<li {if $page == 'shippers'} class="active" {/if}><a href="{if $page == 'shippers'}#{else}{$base_url}shippers{/if}">Shippers</a></li>
 					<li {if $page == 'truckers'} class="active" {/if}><a href="{if $page == 'truckers'}#{else}{$base_url}truckers{/if}">Truckers</a></li>
-					<li {if $page == 'materials'} class="active" {/if}><a href="{if $page == 'materials'}#{else}{$base_url}materials{/if}">Materials (Outgoing)</a></li>
-					<li {if $page == 'incoming_materials'} class="active" {/if}><a href="{if $page == 'incoming_materials'}#{else}{$base_url}materials-incoming{/if}">Materials (Incoming)</a></li>
+					<li {if $page == 'materials'} class="active" {/if}><a href="{if $page == 'materials'}#{else}{$base_url}materials{/if}">Materials (Products)</a></li>
+					<li {if $page == 'incoming_materials'} class="active" {/if}><a href="{if $page == 'incoming_materials'}#{else}{$base_url}materials-incoming{/if}">Incoming Materials</a></li>
 					<li {if $page == 'van_types'} class="active" {/if}><a href="{if $page == 'van-types'}#{else}{$base_url}van-types{/if}">Van Types</a></li>
 					<li {if $page == 'checkers'} class="active" {/if}><a href="{if $page == 'checkers'}#{else}{$base_url}checkers{/if}">Checkers</a></li>
 					<!-- <li {if $page == 'search'} class="active" {/if}><a href="{if $page == 'checkers'}#{else}{$base_url}search{/if}">Search</a></li> -->

@@ -148,7 +148,7 @@ $('#defective-vans-report').click(function() {
 
     	for(var i = 0; i < data.length; i++) {
 
-    		$('.defective-vans').find('tbody').append('<tr><td>' + data[i].v_id + '</td><td>' + data[i].tc_entrydate + '</td><td>' + data[i].s_name + '</td><td>' + data[i].vt_name + '</td><td>' + data[i].tc_block_reason + '</td></tr>');
+    		$('.defective-vans').find('tbody').append('<tr><td>' + data[i].v_no + '</td><td>' + data[i].tc_entrydate + '</td><td>' + data[i].s_name + '</td><td>' + data[i].vt_name + '</td><td>' + data[i].tc_block_reason + '</td></tr>');
 
     	}
 
@@ -184,16 +184,67 @@ $('.defective-vans-report-modal #report-print').click(function() {
 
 });	
 
+/*
+*
+* EMPTY VANS REPORT
+*
+*/
+
+//when the user chooses the empty-vans-report
+$('#empty-vans-report').click(function() {
+	
+	show_loader();
+
+    $('.timestamp').empty();
+
+    var data = empty_vans_report();
+    console.log(data);
+
+    if(data.length > 0) {
+
+    	for(var i = 0; i < data.length; i++) {
+
+    		$('.empty-vans').find('.' + data[i].s_name + data[i].vt_name + ' td:nth-child(3)').append(data[i].vans);
+
+    	}
+
+    }
+
+    remove_loader();
+
+    $('.empty-vans-report .timestamp').append('Generated at ' + now().time + ' on ' + now().date);
+	
+	$('.empty-vans-report-modal').modal({
+			show: true
+	})
+
+});
+
+//when the modal is closed
+$('.empty-vans-report-modal').on('hidden.bs.modal', function () {
+	
+	//empty all the data on the tables
+    empty_empty_vans_report();
+
+});
+
+//user prints the preview
+$('.empty-vans-report-modal #report-print').click(function() {
+	
+	print_element('print-section-empty-vans', 'reports-print.css');
+
+});	
+
 
 /* Front End Functions */
 
 
 function empty_fsc_outbound_report() {
 
-	$('.dispatch>tbody').find('tr td:nth-child(3)').empty();
-	$('.pending>tbody').find('tr td:nth-child(3)').empty();
-	$('.pending>tbody').find('tr td:nth-child(4)').empty();
-	$('.empty-vans>tbody').find('tr td:nth-child(3)').empty();
+	$('.fsc-outbound-report-modal .dispatch>tbody').find('tr td:nth-child(3)').empty();
+	$('.fsc-outbound-report-modal .pending>tbody').find('tr td:nth-child(3)').empty();
+	$('.fsc-outbound-report-modal .pending>tbody').find('tr td:nth-child(4)').empty();
+	$('.fsc-outbound-report-modal .empty-vans>tbody').find('tr td:nth-child(3)').empty();
 
 }
 
@@ -203,6 +254,11 @@ function empty_defective_vans_report() {
 
 }
 
+function empty_empty_vans_report() {
+
+	$('.empty-vans-report-modal .empty-vans>tbody').find('tr td:nth-child(3)').empty();
+
+}
 
 /* AJAX Functions */
 
@@ -229,6 +285,23 @@ function defective_vans_report() {
 
   	$.ajax({
         url: $('body').attr('base-url') + 'reports/defective_vans_report',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+}
+
+function empty_vans_report() {
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/empty_vans_report',
         type: 'POST',
         async: false,
         success: function (response) {

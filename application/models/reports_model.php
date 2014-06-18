@@ -214,7 +214,7 @@ class Reports_model extends CI_Model{
 					(s.s_name = 'SOLID' && vt.vt_name = '20') || 
 					(s.s_name = '2GO' && vt.vt_name = '20') || 
 					(s.s_name = 'SSR' && vt.vt_name = '20') || 
-					(s.s_name = 'SSR' && vt.vt_name = '420') || 
+					(s.s_name = 'SSR' && vt.vt_name = '40') || 
 					(s.s_name = 'GOTHONG' && vt.vt_name = '20') || 
 					(s.s_name = 'TST' && vt.vt_name = '20') || 
 					(s.s_name = 'MSKU' && vt.vt_name = 'FCTC') || 
@@ -231,7 +231,7 @@ class Reports_model extends CI_Model{
 	function defective_vans() {
 
 		$sql = "
-			SELECT v.v_id, tc.tc_entrydate, s.s_name, vt_name, tc.tc_block_reason
+			SELECT v.v_no, tc.tc_entrydate, s.s_name, vt_name, tc.tc_block_reason
 			FROM tcards tc
 			INNER JOIN shippers s
 			ON tc.s_id = s.s_id

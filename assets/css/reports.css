@@ -100,6 +100,33 @@
 	font-weight: bold;
 }
 
+/*EMPTY VANS REPORT */
+
+.empty-vans-report table {
+	width: 100%;
+	margin: 10px 0;
+	font-size: 12px;
+	float: left;
+}
+
+.empty-vans-report table td, .empty-vans-report table th {
+	text-align: center;
+	padding: 4px;
+}
+
+.empty-vans-report table, .empty-vans-report table th, .empty-vans-report table td {
+	border: 1px solid #acacac;
+}
+
+.empty-vans-report table thead td {
+	border: 1px solid #6f6f6f;
+	background-color: #e9e9e9;
+}
+
+.empty-vans-report table thead td, .empty-vans-report table th {
+	font-weight: bold;
+}
+
 /* Per Table */
 
 .pending {

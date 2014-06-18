@@ -53,4 +53,14 @@ class Reports extends MY_Controller {
 
 	}
 
+	function empty_vans_report() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->empty_vans_running_balance();
+
+		echo json_encode($data);
+
+	}
+
 }

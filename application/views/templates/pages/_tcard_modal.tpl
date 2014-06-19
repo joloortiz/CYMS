@@ -224,9 +224,10 @@
       						</div>
       						<div class="col-sm-6 update-card-field">
                     <div class="absolute-hide exit-pass-timeout-container">
-                      <strong>Time Out &emsp;<button id="view-exitpass" class="btn btn-link" title="View Exit Pass" style="padding: 0 0;"><span class="glyphicon glyphicon-list-alt"></span></button></strong>
-        							<input name="{$form->time_out}" class="form-control input-sm" type="text">
-    								  <span class="help-inline"></span>
+                      <strong>Exit Pass</strong>
+                      <div>
+        							   <button id="view-exitpass" class="btn btn-link" title="View Exit Pass"></button>
+                     </div>
                     </div>
                     <div class="exit-pass-btn-container">
                       <br>

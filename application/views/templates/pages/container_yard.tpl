@@ -13,7 +13,7 @@
 				</button>
 				<div class="form-group col-xs-3">
 					<div class="input-group">
-				    	<input type="email" class="form-control" id="search-entry" placeholder="Search Entry">
+				    	<input type="email" class="form-control" id="search-entry" placeholder="Search by BIN / Van No">
 						<span class="input-group-btn">
 							<button id="search-btn"class="btn btn-oroport" type="button"><span class="glyphicon glyphicon-search"></span></button>
 							<button id="advanced-search-btn" class="btn btn-oroport" title="Advanced Search / Filter"><span class="glyphicon glyphicon-filter"></span></button>

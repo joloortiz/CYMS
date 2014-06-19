@@ -102,7 +102,6 @@ class Container_yard extends MY_Controller {
 			$date_stripped = $this->input->post($forms->date_stripped);
 			$checker = $this->input->post($forms->checker);
 			$entry_date = $this->input->post($forms->entry_date);
-			$time_out = $this->input->post($forms->time_out);
 			$dn = $this->input->post($forms->dn_no);
 			$date_sealed = $this->input->post($forms->date_sealed);
 			$seal_no = $this->input->post($forms->seal_no);
@@ -206,11 +205,6 @@ class Container_yard extends MY_Controller {
 					
 					$this->tcard_model->new_tcard_incoming_material( $mat_data );
 				}
-			}
-			
-			// Update time out
-			if( $time_out && trim( $time_out ) != '' ) {
-				$this->tcard_model->update_tcard_exitpass( $id, array( 'e_timeout' => $time_out ) );
 			}
 			
 			$tcard = $this->_get_tcard_by_id($id);
@@ -349,6 +343,7 @@ class Container_yard extends MY_Controller {
 					'tc_dn' => $tcard->tc_dn,
 					's_name' => $tcard->s_name,
 					'e_serial' => $this->tcard_model->exitpass_serial(),
+					'm_description' => $tcard->m_description,
 					'date' => date('M d, Y')
 				);
 				
@@ -374,9 +369,8 @@ class Container_yard extends MY_Controller {
 			$driver = $this->input->post('driver');
 			$van_class = $this->input->post('van-class');
 			
-			if( $this->_validate_card_id( $id ) && !$this->_check_tcard_exitpass( $id ) ) {
+			if( $this->_validate_card_id( $id ) ) {
 				$data = array(
-						'tc_id' => $id,
 						'e_van_class' => strtoupper( $van_class ),
 						'e_date' => date('Y-m-d'),
 						'e_destination' => strtoupper( $destination ),
@@ -386,9 +380,20 @@ class Container_yard extends MY_Controller {
 				);
 				
 				// Save
-				$this->tcard_model->new_tcard_exitpass( $data );
+				if( $this->_check_tcard_exitpass( $id ) ) {
+					
+					if( $plate_no != '' && $driver != '' ) {
+						$timeout = date('H:i:s');
+						$data['e_timeout'] = $timeout;
+					}
+					
+					$this->tcard_model->update_tcard_exitpass( $id, $data );
+				}else {
+					$data['tc_id'] = $id;
+					$this->tcard_model->new_tcard_exitpass( $data );
+				}
 				
-				
+				$var['timeout'] = isset($timeout) ? true : false;
 				$var['success'] = TRUE;
 			}
 			
@@ -408,10 +413,14 @@ class Container_yard extends MY_Controller {
 			$id = $this->input->post('id');
 				
 			$pass = $this->tcard_model->get_tcard_exit_pass($id);
+			$tcard = $this->tcard_model->get_tcard_by_id($id);
+			
 			if( $pass ) {
 				$e = (array)$pass;
 				$e['e_date'] = date('M d, Y', strtotime($pass->e_date));
 				$e['e_van_class'] = $this->_get_van_class_name($pass->e_van_class);
+				$e['e_van_class_code'] = $pass->e_van_class;
+				$e['m_description'] = $tcard->m_description;
 				
 				$data['success'] = TRUE;
 			}
@@ -839,6 +848,7 @@ class Container_yard extends MY_Controller {
 			
 			// Special Cases
 			$card['card-id'] = $details->tc_id;
+			$card['exitpass-serial'] = $details->e_serial;
 			$card['incoming-materials'] = $this->_get_card_incoming_materials_id($details->tc_id);
 			$card['exitpass-id'] = $details->e_id;
 			$card['daypsan'] = $details->dayspan;
@@ -1012,7 +1022,7 @@ class Container_yard extends MY_Controller {
 	}
 	
 	private function _card_value_changed($card_id, $card_column, $value) {
-		$changed = FALSE;
+		$changed = TRUE;
 		
 		$card_details = $this->tcard_model->get_tcard_by_id($card_id);
 		
@@ -1020,8 +1030,8 @@ class Container_yard extends MY_Controller {
 			// cast as array for easier dynamic comparison
 			$card_details = (array)$card_details;
 			
-			if( $card_details[$card_column] && $card_details[$card_column] != $value ) {
-				$changed = TRUE;
+			if( $card_details[$card_column] && $card_details[$card_column] == $value ) {
+				$changed = FALSE;
 			}
 		}
 		

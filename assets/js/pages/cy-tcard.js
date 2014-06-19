@@ -12,8 +12,6 @@ reset_tcard();
 
 // Datepicker and Timepicker
 
-$('[name="time-out"]').timepicker();
-
 $('[name="entry-date"]').datetimepicker({
     'dateFormat': 'yy-mm-dd',
     'changeYear': true,
@@ -82,6 +80,8 @@ $('body').on('click', '.entry', function() {
     $('[name="incoming-materials"]').trigger('change');
 
     if( details['exitpass-id'] ) {
+        $('#view-exitpass').text(details['exitpass-serial']);
+
         $('.exit-pass-timeout-container').removeClass('absolute-hide');
         $('.exit-pass-btn-container').addClass('absolute-hide');
     }
@@ -288,6 +288,8 @@ function reset_tcard(){
 
     $('.exit-pass-btn-container').removeClass('absolute-hide');
     $('.exit-pass-timeout-container').addClass('absolute-hide');
+
+    $('#view-exitpass').text('');
 
     $('.controller-text').each(function() {
         $(this).text( $(this).data('active-controller') );
@@ -513,10 +515,6 @@ function save() {
                     // Initialize card as draggable
                     $('#'+tcard.tc_id).draggable();
 
-                }
-
-                if( tcard.e_timeout && $.trim(tcard.e_timeout) != '' ) {
-                    $('#' + tcard.tc_id).remove();
                 }
 
                 update_empty_van_list(); // from container-yard.js

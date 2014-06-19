@@ -75,6 +75,8 @@ function initiate_new_exit_pass( tcard_id ) {
            		$('.dn-no-text').text(details.tc_dn ? details.tc_dn : '');
            		$('.shipper-text').text(details.s_name ? details.s_name : '');
               $('.epass-serial-text').text(details.e_serial ? details.e_serial : '');
+
+              $('[name="particulars"]').val(details.m_description);
            }
        }
    });
@@ -91,6 +93,9 @@ function initiate_exit_pass_preview( tcard_id ) {
        success: function (response) {
            var result = jQuery.parseJSON(response);
            var details;
+           var van_classes = Array();
+           var class_value;
+           var is_preview = true;
 
            if( result.success && result.exit_pass ) {
               details = result.exit_pass;
@@ -107,13 +112,42 @@ function initiate_exit_pass_preview( tcard_id ) {
               $('.destination-text').text(details.e_destination ? details.e_destination : '');
               $('.plate-no-text').text(details.e_plateno ? details.e_plateno : '');
               $('.particulars-text').text(details.e_particulars ? details.e_particulars : '');
-              $('.driver').text(details.e_driver ? details.e_driver : '');
+              $('.driver-text').text(details.e_driver ? details.e_driver : '');
+
+              if( !$.trim( details.e_plateno ) || !$.trim( details.e_driver ) ) {
+                  is_preview = false;
+
+                  $('[name="destination"]').val(details.e_destination);
+                  $('[name="plate-no"]').val(details.e_plateno);
+                  $('[name="particulars"]').val(details.e_particulars ? details.e_particulars : details.m_description);
+                  $('[name="driver"]').val(details.e_driver);
+
+                  // Van Class
+                  $('[name="van-contents"]').each(function() {
+                      if( $(this).val() != 'others' ) {
+                          van_classes.push( $(this).val() );
+                      }
+                  });
+
+                  class_value = $.inArray(details.e_van_class_code, van_classes) > -1 ? details.e_van_class_code : 'others';
+
+                  $('[name="van-contents"]').filter(function() {
+                      return $(this).val() == class_value;
+                  }).prop('checked', true).trigger('change');
+
+                  if( class_value === 'others' ) {
+                      $('[name="van-contents-others"]').val( details.e_van_class );
+                  }
+              }
+
+              $('#exitPassModal').data('preview', is_preview);
            }
        }
    });
 }
 
 function get_exitpass_values() {
+
 	var data = {};
 	var van_class;
 
@@ -147,6 +181,13 @@ function save_exitpass() {
               $('.exit-pass-timeout-container').removeClass('absolute-hide');
 
               $('#exitPassModal').modal('hide');
+
+              // remove tcard on van exit
+              if( result.timeout ) {
+                var tcard_id = $('[name="card-id"]').val();
+
+                $('#' + tcard.tc_id).remove();
+              }
            }
        }
    });
@@ -155,19 +196,23 @@ function save_exitpass() {
 function reset_exit_pass() {
   $('#exitPassModal').find('[type="text"], [type="hidden"]').val('');
   $('#exitPassModal').find('[type="radio"][value="FG"]').prop('checked', true).trigger('change');
+  $('#exitPassModal').data('preview', false);
   $('.text-holder').text('');
 
   $('.preview-field').addClass('absolute-hide');
   $('.entry-field').removeClass('absolute-hide');
 }
 
-function show_exit_pass_modal( preview ) {
+function show_exit_pass_modal( ) {
 
-  preview = typeof preview == 'undefined' ? false : true;
+  preview = $('#exitPassModal').data('preview');
 
   if( preview ) {
     $('.preview-field').removeClass('absolute-hide');
     $('.entry-field').addClass('absolute-hide');
+  }else {
+    $('.preview-field').addClass('absolute-hide');
+    $('.entry-field').removeClass('absolute-hide');
   }
 
   setTimeout(function() {

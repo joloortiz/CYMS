@@ -79,6 +79,10 @@ class Tcard_model extends CI_Model{
 		$this->db->select(' tc.*,
 							v.v_no,
 							SUBSTRING(v.v_no, 1, 3) AS display_chars,
+							m.m_name,
+							m.m_description,
+							m.m_type,
+							m.m_category,
 							s.s_name,
 							s.s_code,
 							s.s_color,
@@ -107,6 +111,7 @@ class Tcard_model extends CI_Model{
 		$this->db->join('shippers s', 'tc.s_id = s.s_id');
 		$this->db->join('van_types vt', 'tc.vt_id = vt.vt_id');
 		$this->db->join('tcard_types tt', 'tc.tt_id = tt.tt_id');
+		$this->db->join('materials m', 'tc.m_id = m.m_id', 'left');
 		$this->db->join('exit_passes e', 'tc.tc_id = e.tc_id', 'left');
 		$this->db->where('tc.tc_id', $id);
 		$this->db->order_by('tp.tp_timestamp', 'DESC');

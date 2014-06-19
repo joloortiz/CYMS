@@ -39,6 +39,13 @@ $('#advanced-search-btn').click(function() {
 	show_filter_modal();
 });
 
+$('#print-filter-btn').click(function() {
+	
+	$('#searchFilterModal').modal('hide')
+	$('#selectFieldsModal').modal('show');
+
+});
+
 // AUTO FILTER EVENTS
 $('input[type="text"], [name="van-presence"], select').change(function() {
 	initiate_auto_filter();

@@ -208,6 +208,7 @@
 					<div class="col-md-6">
 						<div class="pull-right">
 							<button id="clear-list-btn" class="btn btn-sm btn-default">Clear List</button>
+							<button id="print-filter-btn" class="btn btn-sm btn-primary">Print</button>
 						</div>
 					</div>
 				</div>

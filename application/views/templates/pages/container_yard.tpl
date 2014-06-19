@@ -753,5 +753,13 @@
 <!-- Exit Pass Modal -->
 {include file="pages/_exit_pass_modal.tpl"}
 
+<!-- Select Fields Modal -->
+{include file="pages/_select_fields_modal.tpl"}
+
+<!-- Print Preview Modal -->
+{include file="pages/_sf_preview_modal.tpl"}
+
+<iframe id="reports-placeholder" style="width: 1000px;visibility: hidden;"></iframe> 
+
 {/block}
 

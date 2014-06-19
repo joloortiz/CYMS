@@ -127,6 +127,33 @@
 	font-weight: bold;
 }
 
+/* SF PRINT REPORT */
+
+.sf-preview-report-modal table {
+	width: 100%;
+	margin: 10px 0;
+	font-size: 10px;
+	float: left;
+}
+
+.sf-preview-report-modal table td, .sf-preview-report-modal table th {
+	text-align: center;
+	padding: 4px;
+}
+
+.sf-preview-report-modal table, .sf-preview-report-modal table th, .sf-preview-report-modal table td {
+	border: 1px solid #acacac;
+}
+
+.sf-preview-report-modal table thead td {
+	border: 1px solid #6f6f6f;
+	background-color: #e9e9e9;
+}
+
+.sf-preview-report-modal table thead td, .sf-preview-report-modal table th {
+	font-weight: bold;
+}
+
 /* Per Table */
 
 .pending {

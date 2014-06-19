@@ -450,6 +450,47 @@ class Tcard_model extends CI_Model{
 		return $returnVal;
 	}
 	
+	function print_filter($id) {
+	
+		//concatinates all the IDs from the search filter
+		$concatid = '';
+	
+		for($i = 0; $i<count($id); $i++) {
+			if($i<(count($id) - 1)){
+				$concatid .= "'" . $id[$i] . "',";
+			} else {
+				$concatid .= "'" . $id[$i] . "'";
+			}
+		}
+	
+		$sql = "
+			SELECT tc.tc_id as 'tcid', v.v_no as 'Van #', s.s_name as 'Shipper', t.t_name as 'Trucker', vt.vt_name as 'Van Type', tt.tt_name as 'Tcard Type', tc.tc_bin as 'BIN Tag', tc.tc_batchcode as 'Batch Code', tc.tc_sealno as 'Seal #', tc.tc_dn as 'DN #', tc.tc_entrydate as 'Entry Date', CONCAT(e.e_date,' ', e.e_timeout) as 'Exit Date', tc.tc_datesealed as 'Date Sealed', tc.tc_dateblocked as 'Date Blocked', m.m_description as 'Material Desc(Outgoing)', m.m_name as 'Material(Outgoing)', CONCAT(u.u_lastname, u.u_firstname, u.u_mi) as 'CY Controller', e.e_driver as 'Driver', e.e_destination as 'Destination', e.e_plateno as 'Plate #', tc.tc_block_reason as 'Reason/Defect'
+			FROM tcards tc
+            INNER JOIN vans v
+            ON tc.v_id = v.v_id
+            INNER JOIN truckers t
+            ON tc.t_id = t.t_id
+			INNER JOIN shippers s
+			ON tc.s_id = s.s_id
+			INNER JOIN van_types vt
+			ON tc.vt_id = vt.vt_id
+			INNER JOIN tcard_types tt
+			ON tc.tt_id = tt.tt_id
+            INNER JOIN materials m
+            ON tc.m_id = m.m_id
+            INNER JOIN users u
+            ON tc.u_id = u.u_id
+			LEFT JOIN exit_passes e
+			ON e.tc_id = tc.tc_id
+			WHERE tc.tc_id in (" . $concatid . ");
+		";
+	
+		$query = $this->db->query($sql);
+	
+		return $query->result();
+	
+	}
+	
 	function exitpass_serial() {
 		$this->db->select('(fnExitPassNo()) AS serial', FALSE);
 	

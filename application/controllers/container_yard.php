@@ -12,7 +12,9 @@ class Container_yard extends MY_Controller {
 				/* 'jquery-ui-1.8.16.bootstrap.css', */
 				'jquery-ui-1.10.4.custom.css',
 				'timepicker.css',
-				'container-yard.css'
+				'container-yard.css', 
+				'reports.css',
+				'reports-print.css'
 		);
 		$this->smarty->assign('page_css', $css);
 		
@@ -27,6 +29,7 @@ class Container_yard extends MY_Controller {
 				'pages/cy-tcard.js',
 				'pages/cy-exitpass.js',
 				'pages/cy-tcard-filter.js',
+				'pages/cy-print-filter.js',
 				'checknumeric.js'
 		);
 		$this->smarty->assign('page_js', $js);
@@ -688,6 +691,22 @@ class Container_yard extends MY_Controller {
 		}
 	
 		echo json_encode( $var );
+	}
+	
+	function print_filter() {
+		/*
+			$val1 = "SOLID-G4592J";
+		$val2 = "SOLID 5730";
+	
+		$foo = array();
+	
+		array_push($foo, $val1, $val2);
+		*/
+		$id = $this->input->post('id');
+	
+		$results = $this->tcard_model->print_filter($id);
+		echo json_encode($results);
+	
 	}
 	
 	/* PRIVATES */

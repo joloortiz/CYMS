@@ -1,3 +1,9 @@
+/*
+*
+* Event Listeners
+*
+*/
+
 /* 
 * 
 * FSC OUTBOUND REPORT 
@@ -236,7 +242,11 @@ $('.empty-vans-report-modal #report-print').click(function() {
 });	
 
 
-/* Front End Functions */
+/* 
+*
+* Front End Functions 
+*
+*/
 
 
 function empty_fsc_outbound_report() {
@@ -260,7 +270,11 @@ function empty_empty_vans_report() {
 
 }
 
-/* AJAX Functions */
+/* 
+* 
+* AJAX Functions 
+*
+*/
 
 
 function fsc_outbound_report() {

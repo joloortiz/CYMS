@@ -60,14 +60,6 @@ $('#newEntryModal').on('shown.bs.modal', function() {
     $('#newEntryModal').find('select').trigger('change');
 });
 
-$('#tcardBlockModal').on('shown.bs.modal', function() {
-    $('#newEntryModal').addClass('absolute-hide');
-});
-
-$('#tcardBlockModal').on('hidden.bs.modal', function() {
-    $('#newEntryModal').removeClass('absolute-hide');
-});
-
 $('body').on('click', '.entry', function() {
     var old_van = $(this).hasClass('old-van');
     var card_id = old_van ? $(this).attr('data-card-id') : $(this).attr('id');

@@ -105,6 +105,7 @@ class Container_yard extends MY_Controller {
 			$date_stripped = $this->input->post($forms->date_stripped);
 			$checker = $this->input->post($forms->checker);
 			$entry_date = $this->input->post($forms->entry_date);
+			$rdd = $this->input->post($forms->rdd);
 			$dn = $this->input->post($forms->dn_no);
 			$date_sealed = $this->input->post($forms->date_sealed);
 			$seal_no = $this->input->post($forms->seal_no);
@@ -173,6 +174,7 @@ class Container_yard extends MY_Controller {
 					'tc_qbags' => $qty_bags,
 					'tc_dateblocked' => $date_blocked,
 					'tc_entrydate' => $entry_date != '' ? date("Y-m-d H:i:s", strtotime($entry_date)) : NULL,
+					'tc_rdd' => $rdd != '' ? date("Y-m-d", strtotime($rdd)) : NULL,
 					'tc_dn' => strtoupper($dn),
 					'tc_datesealed' => $date_sealed != '' ? date("Y-m-d", strtotime($date_sealed)) : NULL,
 					'tc_sealno' => strtoupper( $seal_no ),
@@ -761,6 +763,7 @@ class Container_yard extends MY_Controller {
 				'strip_controller' => 'str-controller',
 				'checker' => 'checker',
 				'entry_date' => 'entry-date',
+				'rdd' => 'rdd',
 				'time_out' => 'time-out',
 				'dn_no' => 'dn-no',
 				'date_sealed' => 'date-sealed',
@@ -797,6 +800,7 @@ class Container_yard extends MY_Controller {
 				'strip_controller' => 'xss_clean',
 				'checker' => 'xss_clean',
 				'entry_date' => 'callback_is_date|xss_clean',
+				'rdd' => 'callback_is_date|xss_clean',
 				'time_out' => 'xss_clean',
 				'dn_no' => 'xss_clean',
 				'date_sealed' => 'callback_is_date|xss_clean',
@@ -822,6 +826,7 @@ class Container_yard extends MY_Controller {
 		$this->form_validation->set_rules($forms->strip_controller, 'Stripping Controller', $rules['strip_controller']);
 		$this->form_validation->set_rules($forms->checker, 'Checker', $rules['checker']);
 		$this->form_validation->set_rules($forms->entry_date, 'Entry Date', $rules['entry_date']);
+		$this->form_validation->set_rules($forms->rdd, 'RDD', $rules['rdd']);
 		$this->form_validation->set_rules($forms->time_out, 'Time Out', $rules['time_out']);
 		$this->form_validation->set_rules($forms->dn_no, 'DN No.', $rules['dn_no']);
 		$this->form_validation->set_rules($forms->date_sealed, 'Date Sealed', $rules['date_sealed']);
@@ -856,6 +861,7 @@ class Container_yard extends MY_Controller {
 			$card[$forms->strip_controller] = $details->tc_strcontroller;
 			$card[$forms->checker] = $details->c_id;
 			$card[$forms->entry_date] = $details->tc_entrydate;
+			$card[$forms->rdd] = $details->tc_rdd;
 			$card[$forms->time_out] = $details->e_timeout;
 			$card[$forms->dn_no] = $details->tc_dn;
 			$card[$forms->date_sealed] = $details->tc_datesealed;

@@ -440,6 +440,8 @@ class Container_yard extends MY_Controller {
 	}
 	
 	function get_empty_vans() {
+		$var['success'] = FALSE;
+		
 		try {
 			$vans = $this->tcard_model->get_empty_vans();
 			
@@ -448,7 +450,7 @@ class Container_yard extends MY_Controller {
 				$var['success'] = TRUE;				
 			}
 		} catch (Exception $e) {
-			$var['success'] = FALSE;
+			unset( $e );
 		}
 		
 		echo json_encode( $var );

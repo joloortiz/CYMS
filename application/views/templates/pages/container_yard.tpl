@@ -113,6 +113,31 @@
 							<div id="TH" class="cv dp ui-droppable" style="left: 48px; top: 512px;" dp-bottom="TI">TH </div>
 							<div id="TI" class="cv dp ui-droppable" style="left: 48px; top: 543px;" dp-top="TH">TI </div>
 
+							<div id="X0L" class="cv dp ui-droppable temp-bay" style="left: 327px; top: 28px;" dp-bottom="X0M">X0L </div>
+							<div id="X0M" class="cv dp ui-droppable temp-bay" style="left: 327px; top: 59px;" dp-top="X0L">X0M </div>
+							<div id="X0N" class="cv dp ui-droppable temp-bay" style="left: 358px; top: 28px;" dp-bottom="X0O">X0N </div>
+							<div id="X0O" class="cv dp ui-droppable temp-bay" style="left: 358px; top: 59px;" dp-top="X0N	">X0O </div>
+							<div id="X0H" class="cv dp ui-droppable temp-bay" style="left: 327px; top: 121px;" dp-bottom="X0I">X0H </div>
+							<div id="X0I" class="cv dp ui-droppable temp-bay" style="left: 327px; top: 152px;" dp-top="X0H">X0I </div>
+							<div id="X0J" class="cv dp ui-droppable temp-bay" style="left: 358px; top: 121px;" dp-bottom="X0K">X0J </div>
+							<div id="X0K" class="cv dp ui-droppable temp-bay" style="left: 358px; top: 152px;" dp-top="X0J">X0K </div>
+							<div id="X0D" class="cv dp ui-droppable temp-bay" style="left: 327px; top: 214px;" dp-bottom="X0E">X0D </div>
+							<div id="X0E" class="cv dp ui-droppable temp-bay" style="left: 327px; top: 245px;" dp-top="X0D">X0E </div>
+							<div id="X0F" class="cv dp ui-droppable temp-bay" style="left: 358px; top: 214px;" dp-bottom="X0G">X0F </div>
+							<div id="X0G" class="cv dp ui-droppable temp-bay" style="left: 358px; top: 245px;" dp-top="X0F">X0G </div>
+							<div id="X09" class="cv dp ui-droppable temp-bay" style="left: 327px; top: 307px;" dp-bottom="X0A">X09 </div>
+							<div id="X0A" class="cv dp ui-droppable temp-bay" style="left: 327px; top: 338px;" dp-top="X09">X0A </div>
+							<div id="X0B" class="cv dp ui-droppable temp-bay" style="left: 358px; top: 307px;" dp-bottom="X0C">X0B </div>
+							<div id="X0C" class="cv dp ui-droppable temp-bay" style="left: 358px; top: 338px;" dp-top="X0B">X0C </div>
+							<div id="X05" class="cv dp ui-droppable temp-bay" style="left: 327px; top: 400px;" dp-bottom="X06">X05 </div>
+							<div id="X06" class="cv dp ui-droppable temp-bay" style="left: 327px; top: 431px;" dp-top="X05">X06 </div>
+							<div id="X07" class="cv dp ui-droppable temp-bay" style="left: 358px; top: 400px;" dp-bottom="X08">X07 </div>
+							<div id="X08" class="cv dp ui-droppable temp-bay" style="left: 358px; top: 431px;" dp-top="X07">X08 </div>
+							<div id="X01" class="cv dp ui-droppable temp-bay" style="left: 327px; top: 493px;" dp-bottom="X02">X01 </div>
+							<div id="X02" class="cv dp ui-droppable temp-bay" style="left: 327px; top: 524px;" dp-top="X01">X02 </div>
+							<div id="X03" class="cv dp ui-droppable temp-bay" style="left: 358px; top: 493px;" dp-bottom="X04">X03 </div>
+							<div id="X04" class="cv dp ui-droppable temp-bay" style="left: 358px; top: 524px;" dp-top="X03">X04 </div>
+
 							<div id="O61" class="cv dp ui-droppable" style="left: 141px; top: 28px;" dp-bottom="O62">O61 </div>
 							<div id="O62" class="cv dp ui-droppable" style="left: 141px; top: 59px;" dp-top="O61">O62 </div>
 							<div id="O63" class="cv dp ui-droppable" style="left: 172px; top: 28px;" dp-bottom="O64">O63 </div>
@@ -354,6 +379,32 @@
 							<div id="B1A" class="cv dp ui-droppable" style="left: 761px; top: 524px;" dp-top="B19">B1A </div>
 							<div id="B1B" class="cv dp ui-droppable" style="left: 792px; top: 493px;" dp-bottom="B1C">B1B </div>
 							<div id="B1C" class="cv dp ui-droppable" style="left: 792px; top: 524px;" dp-top="B1B">B1C </div>
+
+							<div id="X2L" class="cv dp ui-droppable temp-bay" style="left: 823px; top: 28px;" dp-bottom="X2M">X2L </div>
+							<div id="X2M" class="cv dp ui-droppable temp-bay" style="left: 823px; top: 59px;" dp-top="X2L">X2M </div>
+							<div id="X2N" class="cv dp ui-droppable temp-bay" style="left: 854px; top: 28px;" dp-bottom="X2O">X2N </div>
+							<div id="X2O" class="cv dp ui-droppable temp-bay" style="left: 854px; top: 59px;" dp-top="X2N	">X2O </div>
+							<div id="X2H" class="cv dp ui-droppable temp-bay" style="left: 823px; top: 121px;" dp-bottom="X2I">X2H </div>
+							<div id="X2I" class="cv dp ui-droppable temp-bay" style="left: 823px; top: 152px;" dp-top="X2H">X2I </div>
+							<div id="X2J" class="cv dp ui-droppable temp-bay" style="left: 854px; top: 121px;" dp-bottom="X2K">X2J </div>
+							<div id="X2K" class="cv dp ui-droppable temp-bay" style="left: 854px; top: 152px;" dp-top="X2J">X2K </div>
+							<div id="X2D" class="cv dp ui-droppable temp-bay" style="left: 823px; top: 214px;" dp-bottom="X2E">X2D </div>
+							<div id="X2E" class="cv dp ui-droppable temp-bay" style="left: 823px; top: 245px;" dp-top="X2D">X2E </div>
+							<div id="X2F" class="cv dp ui-droppable temp-bay" style="left: 854px; top: 214px;" dp-bottom="X2G">X2F </div>
+							<div id="X2G" class="cv dp ui-droppable temp-bay" style="left: 854px; top: 245px;" dp-top="X2F">X2G </div>
+							<div id="X29" class="cv dp ui-droppable temp-bay" style="left: 823px; top: 307px;" dp-bottom="X2A">X29 </div>
+							<div id="X2A" class="cv dp ui-droppable temp-bay" style="left: 823px; top: 338px;" dp-top="X29">X2A </div>
+							<div id="X2B" class="cv dp ui-droppable temp-bay" style="left: 854px; top: 307px;" dp-bottom="X2C">X2B </div>
+							<div id="X2C" class="cv dp ui-droppable temp-bay" style="left: 854px; top: 338px;" dp-top="X2B">X2C </div>
+							<div id="X25" class="cv dp ui-droppable temp-bay" style="left: 823px; top: 400px;" dp-bottom="X26">X25 </div>
+							<div id="X26" class="cv dp ui-droppable temp-bay" style="left: 823px; top: 431px;" dp-top="X25">X26 </div>
+							<div id="X27" class="cv dp ui-droppable temp-bay" style="left: 854px; top: 400px;" dp-bottom="X28">X27 </div>
+							<div id="X28" class="cv dp ui-droppable temp-bay" style="left: 854px; top: 431px;" dp-top="X27">X28 </div>
+							<div id="X21" class="cv dp ui-droppable temp-bay" style="left: 823px; top: 493px;" dp-bottom="X22">X21 </div>
+							<div id="X22" class="cv dp ui-droppable temp-bay" style="left: 823px; top: 524px;" dp-top="X21">X22 </div>
+							<div id="X23" class="cv dp ui-droppable temp-bay" style="left: 854px; top: 493px;" dp-bottom="X24">X23 </div>
+							<div id="X24" class="cv dp ui-droppable temp-bay" style="left: 854px; top: 524px;" dp-top="X23">X24 </div>
+
 							<div id="C61" class="cv dp ui-droppable" style="left: 885px; top: 28px;" dp-bottom="C62">C61 </div>
 							<div id="C62" class="cv dp ui-droppable" style="left: 885px; top: 59px;" dp-top="C61">C62 </div>
 							<div id="C63" class="cv dp ui-droppable" style="left: 916px; top: 28px;" dp-bottom="C64">C63 </div>
@@ -426,6 +477,32 @@
 							<div id="C1A" class="cv dp ui-droppable" style="left: 1009px; top: 524px;" dp-top="C19">C1A </div>
 							<div id="C1B" class="cv dp ui-droppable" style="left: 1040px; top: 493px;" dp-bottom="C1C">C1B </div>
 							<div id="C1C" class="cv dp ui-droppable" style="left: 1040px; top: 524px;" dp-top="C1B">C1C </div>
+
+							<div id="X3L" class="cv dp ui-droppable temp-bay" style="left: 1071px; top: 28px;" dp-bottom="X3M">X3L </div>
+							<div id="X3M" class="cv dp ui-droppable temp-bay" style="left: 1071px; top: 59px;" dp-top="X3L">X3M </div>
+							<div id="X3N" class="cv dp ui-droppable temp-bay" style="left: 1102px; top: 28px;" dp-bottom="X3O">X3N </div>
+							<div id="X3O" class="cv dp ui-droppable temp-bay" style="left: 1102px; top: 59px;" dp-top="X3N	">X3O </div>
+							<div id="X3H" class="cv dp ui-droppable temp-bay" style="left: 1071px; top: 121px;" dp-bottom="X3I">X3H </div>
+							<div id="X3I" class="cv dp ui-droppable temp-bay" style="left: 1071px; top: 152px;" dp-top="X3H">X3I </div>
+							<div id="X3J" class="cv dp ui-droppable temp-bay" style="left: 1102px; top: 121px;" dp-bottom="X3K">X3J </div>
+							<div id="X3K" class="cv dp ui-droppable temp-bay" style="left: 1102px; top: 152px;" dp-top="X3J">X3K </div>
+							<div id="X3D" class="cv dp ui-droppable temp-bay" style="left: 1071px; top: 214px;" dp-bottom="X3E">X3D </div>
+							<div id="X3E" class="cv dp ui-droppable temp-bay" style="left: 1071px; top: 245px;" dp-top="X3D">X3E </div>
+							<div id="X3F" class="cv dp ui-droppable temp-bay" style="left: 1102px; top: 214px;" dp-bottom="X3G">X3F </div>
+							<div id="X3G" class="cv dp ui-droppable temp-bay" style="left: 1102px; top: 245px;" dp-top="X3F">X3G </div>
+							<div id="X39" class="cv dp ui-droppable temp-bay" style="left: 1071px; top: 307px;" dp-bottom="X3A">X39 </div>
+							<div id="X3A" class="cv dp ui-droppable temp-bay" style="left: 1071px; top: 338px;" dp-top="X39">X3A </div>
+							<div id="X3B" class="cv dp ui-droppable temp-bay" style="left: 1102px; top: 307px;" dp-bottom="X3C">X3B </div>
+							<div id="X3C" class="cv dp ui-droppable temp-bay" style="left: 1102px; top: 338px;" dp-top="X3B">X3C </div>
+							<div id="X35" class="cv dp ui-droppable temp-bay" style="left: 1071px; top: 400px;" dp-bottom="X36">X35 </div>
+							<div id="X36" class="cv dp ui-droppable temp-bay" style="left: 1071px; top: 431px;" dp-top="X35">X36 </div>
+							<div id="X37" class="cv dp ui-droppable temp-bay" style="left: 1102px; top: 400px;" dp-bottom="X38">X37 </div>
+							<div id="X38" class="cv dp ui-droppable temp-bay" style="left: 1102px; top: 431px;" dp-top="X37">X38 </div>
+							<div id="X31" class="cv dp ui-droppable temp-bay" style="left: 1071px; top: 493px;" dp-bottom="X32">X31 </div>
+							<div id="X32" class="cv dp ui-droppable temp-bay" style="left: 1071px; top: 524px;" dp-top="X31">X32 </div>
+							<div id="X33" class="cv dp ui-droppable temp-bay" style="left: 1102px; top: 493px;" dp-bottom="X34">X33 </div>
+							<div id="X34" class="cv dp ui-droppable temp-bay" style="left: 1102px; top: 524px;" dp-top="X33">X34 </div>
+
 							<div id="D61" class="cv dp ui-droppable" style="left: 1133px; top: 28px;" dp-bottom="D62">D61 </div>
 							<div id="D62" class="cv dp ui-droppable" style="left: 1133px; top: 59px;" dp-top="D61">D62 </div>
 							<div id="D63" class="cv dp ui-droppable" style="left: 1164px; top: 28px;" dp-bottom="D64">D63 </div>
@@ -498,6 +575,31 @@
 							<div id="D1A" class="cv dp ui-droppable" style="left: 1257px; top: 524px;" dp-top="D19">D1A </div>
 							<div id="D1B" class="cv dp ui-droppable" style="left: 1288px; top: 493px;" dp-bottom="D1C">D1B </div>
 							<div id="D1C" class="cv dp ui-droppable" style="left: 1288px; top: 524px;" dp-top="D1B">D1C </div>
+
+							<div id="X4L" class="cv dp ui-droppable temp-bay" style="left: 1319px; top: 28px;" dp-bottom="X4M">X4L </div>
+							<div id="X4M" class="cv dp ui-droppable temp-bay" style="left: 1319px; top: 59px;" dp-top="X4L">X4M </div>
+							<div id="X4N" class="cv dp ui-droppable temp-bay" style="left: 1350px; top: 28px;" dp-bottom="X4O">X4N </div>
+							<div id="X4O" class="cv dp ui-droppable temp-bay" style="left: 1350px; top: 59px;" dp-top="X4N	">X4O </div>
+							<div id="X4H" class="cv dp ui-droppable temp-bay" style="left: 1319px; top: 121px;" dp-bottom="X4I">X4H </div>
+							<div id="X4I" class="cv dp ui-droppable temp-bay" style="left: 1319px; top: 152px;" dp-top="X4H">X4I </div>
+							<div id="X4J" class="cv dp ui-droppable temp-bay" style="left: 1350px; top: 121px;" dp-bottom="X4K">X4J </div>
+							<div id="X4K" class="cv dp ui-droppable temp-bay" style="left: 1350px; top: 152px;" dp-top="X4J">X4K </div>
+							<div id="X4D" class="cv dp ui-droppable temp-bay" style="left: 1319px; top: 214px;" dp-bottom="X4E">X4D </div>
+							<div id="X4E" class="cv dp ui-droppable temp-bay" style="left: 1319px; top: 245px;" dp-top="X4D">X4E </div>
+							<div id="X4F" class="cv dp ui-droppable temp-bay" style="left: 1350px; top: 214px;" dp-bottom="X4G">X4F </div>
+							<div id="X4G" class="cv dp ui-droppable temp-bay" style="left: 1350px; top: 245px;" dp-top="X4F">X4G </div>
+							<div id="X49" class="cv dp ui-droppable temp-bay" style="left: 1319px; top: 307px;" dp-bottom="X4A">X49 </div>
+							<div id="X4A" class="cv dp ui-droppable temp-bay" style="left: 1319px; top: 338px;" dp-top="X49">X4A </div>
+							<div id="X4B" class="cv dp ui-droppable temp-bay" style="left: 1350px; top: 307px;" dp-bottom="X4C">X4B </div>
+							<div id="X4C" class="cv dp ui-droppable temp-bay" style="left: 1350px; top: 338px;" dp-top="X4B">X4C </div>
+							<div id="X45" class="cv dp ui-droppable temp-bay" style="left: 1319px; top: 400px;" dp-bottom="X46">X45 </div>
+							<div id="X46" class="cv dp ui-droppable temp-bay" style="left: 1319px; top: 431px;" dp-top="X45">X46 </div>
+							<div id="X47" class="cv dp ui-droppable temp-bay" style="left: 1350px; top: 400px;" dp-bottom="X48">X47 </div>
+							<div id="X48" class="cv dp ui-droppable temp-bay" style="left: 1350px; top: 431px;" dp-top="X47">X48 </div>
+							<div id="X41" class="cv dp ui-droppable temp-bay" style="left: 1319px; top: 493px;" dp-bottom="X42">X41 </div>
+							<div id="X42" class="cv dp ui-droppable temp-bay" style="left: 1319px; top: 524px;" dp-top="X41">X42 </div>
+							<div id="X43" class="cv dp ui-droppable temp-bay" style="left: 1350px; top: 493px;" dp-bottom="X44">X43 </div>
+							<div id="X44" class="cv dp ui-droppable temp-bay" style="left: 1350px; top: 524px;" dp-top="X43">X44 </div>
 
 							<div id="c61" class="cv dp ui-droppable" style="left: 1381px; top: 28px;" dp-bottom="c62">c61 </div>
 							<div id="c62" class="cv dp ui-droppable" style="left: 1381px; top: 59px;" dp-top="c61">c62 </div>
@@ -574,18 +676,18 @@
 							
 							<hr class="cy-hr">
 							
-							<div id="R1" class="cv dp ui-droppable" style="left: 1629px; top: 600px;">R1 </div>
-							<div id="R2" class="cv dp ui-droppable" style="left: 1598px; top: 600px;">R2 </div>
-							<div id="R3" class="cv dp ui-droppable" style="left: 1567px; top: 600px;">R3 </div>
-							<div id="R4" class="cv dp ui-droppable" style="left: 1536px; top: 600px;">R4 </div>
-							<div id="R5" class="cv dp ui-droppable" style="left: 1505px; top: 600px;">R5 </div>
-							<div id="R6" class="cv dp ui-droppable" style="left: 1474px; top: 600px;">R6 </div>
-							<div id="R7" class="cv dp ui-droppable" style="left: 1443px; top: 600px;">R7 </div>
-							<div id="R8" class="cv dp ui-droppable" style="left: 1412px; top: 600px;">R8 </div>
-							<div id="R9" class="cv dp ui-droppable" style="left: 1381px; top: 600px;">R9 </div>
-							<div id="R1A" class="cv dp ui-droppable" style="left: 1350px; top: 600px;">R10 </div>
-							<div id="R1B" class="cv dp ui-droppable" style="left: 1319px; top: 600px;">R11 </div>
-							<div id="R1C" class="cv dp ui-droppable" style="left: 1288px; top: 600px;">R12 </div>
+							<div id="R1" class="cv dp ui-droppable" style="left: 1629px; top: 631px;">R1 </div>
+							<div id="R2" class="cv dp ui-droppable" style="left: 1598px; top: 631px;">R2 </div>
+							<div id="R3" class="cv dp ui-droppable" style="left: 1567px; top: 631px;">R3 </div>
+							<div id="R4" class="cv dp ui-droppable" style="left: 1536px; top: 631px;">R4 </div>
+							<div id="R5" class="cv dp ui-droppable" style="left: 1505px; top: 631px;">R5 </div>
+							<div id="R6" class="cv dp ui-droppable" style="left: 1474px; top: 631px;">R6 </div>
+							<div id="R7" class="cv dp ui-droppable" style="left: 1443px; top: 631px;">R7 </div>
+							<div id="R8" class="cv dp ui-droppable" style="left: 1412px; top: 631px;">R8 </div>
+							<div id="R9" class="cv dp ui-droppable" style="left: 1381px; top: 631px;">R9 </div>
+							<div id="R1A" class="cv dp ui-droppable" style="left: 1350px; top: 631px;">R10 </div>
+							<div id="R1B" class="cv dp ui-droppable" style="left: 1319px; top: 631px;">R11 </div>
+							<div id="R1C" class="cv dp ui-droppable" style="left: 1288px; top: 631px;">R12 </div>
 							
 							<div id="G1" class="cv dp ui-droppable" style="left: 1629px; top: 831px;">G1 </div>
 							<div id="G2" class="cv dp ui-droppable" style="left: 1598px; top: 831px;">G2 </div>
@@ -663,41 +765,154 @@
 							<div id="CSA" class="cv dp ui-droppable" style="left: 730px; top: 800px;">CSA </div>
 							<div id="CSB" class="cv dp ui-droppable" style="left: 699px; top: 800px;">CSB </div>
 							<div id="CSC" class="cv dp ui-droppable" style="left: 668px; top: 800px;">CSC </div>
+							<div id="CSD" class="cv dp ui-droppable" style="left: 668px; top: 769px;">CSD </div>
+							<div id="CSE" class="cv dp ui-droppable" style="left: 699px; top: 769px;">CSE </div>
+							<div id="CSF" class="cv dp ui-droppable" style="left: 730px; top: 769px;">CSF </div>
+							<div id="CSG" class="cv dp ui-droppable" style="left: 761px; top: 769px;">CSG </div>
+							<div id="CSH" class="cv dp ui-droppable" style="left: 792px; top: 769px;">CSH </div>
+							<div id="CSI" class="cv dp ui-droppable" style="left: 668px; top: 738px;">CSI </div>
+							<div id="CSJ" class="cv dp ui-droppable" style="left: 699px; top: 738px;">CSJ </div>
+							<div id="CSK" class="cv dp ui-droppable" style="left: 730px; top: 738px;">CSK </div>
+							<div id="CSL" class="cv dp ui-droppable" style="left: 761px; top: 738px;">CSL </div>
+							<div id="CSM" class="cv dp ui-droppable" style="left: 792px; top: 738px;">CSM </div>
+							<div id="CSN" class="cv dp ui-droppable" style="left: 668px; top: 707px;">CSN </div>
+							<div id="CSO" class="cv dp ui-droppable" style="left: 699px; top: 707px;">CSO </div>
+							<div id="CSP" class="cv dp ui-droppable" style="left: 730px; top: 707px;">CSP </div>
+							<div id="CSQ" class="cv dp ui-droppable" style="left: 761px; top: 707px;">CSQ </div>
+							<div id="CSR" class="cv dp ui-droppable" style="left: 792px; top: 707px;">CSR </div>
+							<div id="CSS" class="cv dp ui-droppable" style="left: 668px; top: 676px;">CSS </div>
+							<div id="CST" class="cv dp ui-droppable" style="left: 699px; top: 676px;">CST </div>
+							<div id="CSU" class="cv dp ui-droppable" style="left: 730px; top: 676px;">CSU </div>
+							<div id="CSV" class="cv dp ui-droppable" style="left: 761px; top: 676px;">CSV </div>
+							<div id="CSW" class="cv dp ui-droppable" style="left: 792px; top: 676px;">CSW </div>
 							
-							<div id="MS1" class="cv dp ui-droppable" style="left: 606px; top: 800px;">MS1 </div>
-							<div id="MS2" class="cv dp ui-droppable" style="left: 606px; top: 769px;">MS2 </div>
-							<div id="MS3" class="cv dp ui-droppable" style="left: 606px; top: 738px;">MS3 </div>							
-							<div id="MS4" class="cv dp ui-droppable" style="left: 575px; top: 707px;">MS4 </div>
-							<div id="MS5" class="cv dp ui-droppable" style="left: 544px; top: 707px;">MS5 </div>
-							<div id="MS6" class="cv dp ui-droppable" style="left: 513px; top: 707px;">MS6 </div>
-							<div id="MS7" class="cv dp ui-droppable" style="left: 482px; top: 707px;">MS7 </div>
-							<div id="MS8" class="cv dp ui-droppable" style="left: 451px; top: 707px;">MS8 </div>
-							<div id="MS9" class="cv dp ui-droppable" style="left: 420px; top: 707px;">MS9 </div>
-							<div id="MSA" class="cv dp ui-droppable" style="left: 389px; top: 707px;">MSA </div>
-							<div id="MSB" class="cv dp ui-droppable" style="left: 358px; top: 707px;">MSB </div>
-							<div id="MSC" class="cv dp ui-droppable" style="left: 327px; top: 707px;">MSC </div>
-							<div id="MSD" class="cv dp ui-droppable" style="left: 296px; top: 707px;">MSD </div>
-							<div id="MSE" class="cv dp ui-droppable" style="left: 265px; top: 707px;">MSE </div>
-							<div id="MSF" class="cv dp ui-droppable" style="left: 234px; top: 707px;">MSF </div>
-							<div id="MSG" class="cv dp ui-droppable" style="left: 203px; top: 707px;">MSG </div>
-							<div id="MSH" class="cv dp ui-droppable" style="left: 172px; top: 707px;">MSH </div>
-							<div id="MSI" class="cv dp ui-droppable" style="left: 141px; top: 707px;">MSI </div>
+							<div id="MS1" class="cv dp ui-droppable" style="left: 606px; top: 769px;">MS1 </div>
+							<div id="MS2" class="cv dp ui-droppable" style="left: 606px; top: 738px;">MS2 </div>
+							<div id="MS3" class="cv dp ui-droppable" style="left: 606px; top: 707px;">MS3 </div>							
+							<div id="MS4" class="cv dp ui-droppable" style="left: 575px; top: 676px;">MS4 </div>
+							<div id="MS5" class="cv dp ui-droppable" style="left: 544px; top: 676px;">MS5 </div>
+							<div id="MS6" class="cv dp ui-droppable" style="left: 513px; top: 676px;">MS6 </div>
+							<div id="MS7" class="cv dp ui-droppable" style="left: 482px; top: 676px;">MS7 </div>
+							<div id="MS8" class="cv dp ui-droppable" style="left: 451px; top: 676px;">MS8 </div>
+							<div id="MS9" class="cv dp ui-droppable" style="left: 420px; top: 676px;">MS9 </div>
+							<div id="MSA" class="cv dp ui-droppable" style="left: 389px; top: 676px;">MSA </div>
+							<div id="MSB" class="cv dp ui-droppable" style="left: 358px; top: 676px;">MSB </div>
+							<div id="MSC" class="cv dp ui-droppable" style="left: 327px; top: 676px;">MSC </div>
+							<div id="MSD" class="cv dp ui-droppable" style="left: 296px; top: 676px;">MSD </div>
+							<div id="MSE" class="cv dp ui-droppable" style="left: 265px; top: 676px;">MSE </div>
+							<div id="MSF" class="cv dp ui-droppable" style="left: 234px; top: 676px;">MSF </div>
+							<div id="MSG" class="cv dp ui-droppable" style="left: 203px; top: 676px;">MSG </div>
+							<div id="MSH" class="cv dp ui-droppable" style="left: 172px; top: 676px;">MSH </div>
+							<div id="MSI" class="cv dp ui-droppable" style="left: 141px; top: 676px;">MSI </div>
 							
-							<div id="RM1" class="cv dp ui-droppable" style="left: 482px; top: 800px;">RM1 </div>
-							<div id="RM2" class="cv dp ui-droppable" style="left: 451px; top: 800px;">RM2 </div>
-							<div id="RM3" class="cv dp ui-droppable" style="left: 420px; top: 800px;">RM3 </div>
-							<div id="RM4" class="cv dp ui-droppable" style="left: 389px; top: 800px;">RM4 </div>
-							<div id="RM5" class="cv dp ui-droppable" style="left: 358px; top: 800px;">RM5 </div>
-							<div id="RM6" class="cv dp ui-droppable" style="left: 327px; top: 800px;">RM6 </div>
-							<div id="RM7" class="cv dp ui-droppable" style="left: 296px; top: 800px;">RM7 </div>
-							<div id="RM8" class="cv dp ui-droppable" style="left: 265px; top: 800px;">RM8 </div>
-							<div id="RM9" class="cv dp ui-droppable" style="left: 234px; top: 800px;">RM9 </div>
-							<div id="RMA" class="cv dp ui-droppable" style="left: 203px; top: 800px;">RMA </div>
-							<div id="RMB" class="cv dp ui-droppable" style="left: 172px; top: 800px;">RMB </div>
-							<div id="RMC" class="cv dp ui-droppable" style="left: 141px; top: 800px;">RMC </div>
-							<div id="RMD" class="cv dp ui-droppable" style="left: 110px; top: 800px;">RMD </div>
-							<div id="RME" class="cv dp ui-droppable" style="left: 79px; top: 800px;">RME </div>
-							<div id="RMF" class="cv dp ui-droppable" style="left: 48px; top: 800px;">RMF </div>
+							<div id="RM1" class="cv dp ui-droppable" style="left: 482px; top: 862px;">RM1 </div>
+							<div id="RM2" class="cv dp ui-droppable" style="left: 451px; top: 862px;">RM2 </div>
+							<div id="RM3" class="cv dp ui-droppable" style="left: 420px; top: 862px;">RM3 </div>
+							<div id="RM4" class="cv dp ui-droppable" style="left: 389px; top: 862px;">RM4 </div>
+							<div id="RM5" class="cv dp ui-droppable" style="left: 358px; top: 862px;">RM5 </div>
+							<div id="RM6" class="cv dp ui-droppable" style="left: 327px; top: 862px;">RM6 </div>
+							<div id="RM7" class="cv dp ui-droppable" style="left: 296px; top: 862px;">RM7 </div>
+							<div id="RM8" class="cv dp ui-droppable" style="left: 265px; top: 862px;">RM8 </div>
+							<div id="RM9" class="cv dp ui-droppable" style="left: 234px; top: 862px;">RM9 </div>
+							<div id="RMA" class="cv dp ui-droppable" style="left: 203px; top: 862px;">RMA </div>
+							<div id="RMB" class="cv dp ui-droppable" style="left: 172px; top: 862px;">RMB </div>
+							<div id="RMC" class="cv dp ui-droppable" style="left: 141px; top: 862px;">RMC </div>
+							<div id="RMD" class="cv dp ui-droppable" style="left: 110px; top: 862px;">RMD </div>
+							<div id="RME" class="cv dp ui-droppable" style="left: 79px; top: 862px;">RME </div>
+							<div id="RMF" class="cv dp ui-droppable" style="left: 48px; top: 862px;">RMF </div>
+							<div id="RMG" class="cv dp ui-droppable" style="left: 327px; top: 831px;">RMG </div>
+							<div id="RMH" class="cv dp ui-droppable" style="left: 296px; top: 831px;">RMH </div>
+							<div id="RMI" class="cv dp ui-droppable" style="left: 265px; top: 831px;">RMI </div>
+							<div id="RMJ" class="cv dp ui-droppable" style="left: 234px; top: 831px;">RMJ </div>
+							<div id="RMK" class="cv dp ui-droppable" style="left: 203px; top: 831px;">RMK </div>
+							<div id="RML" class="cv dp ui-droppable" style="left: 172px; top: 831px;">RML </div>
+							<div id="RMM" class="cv dp ui-droppable" style="left: 141px; top: 831px;">RMM </div>
+							<div id="RMN" class="cv dp ui-droppable" style="left: 110px; top: 831px;">RMN </div>
+							<div id="RMO" class="cv dp ui-droppable" style="left: 79px; top: 831px;">RMO </div>
+							<div id="RMP" class="cv dp ui-droppable" style="left: 48px; top: 831px;">RMP </div>
+
+							<div id="RMQ" class="cv dp ui-droppable" style="left: 327px; top: 800px;">RMQ </div>
+							<div id="RMR" class="cv dp ui-droppable" style="left: 296px; top: 800px;">RMR </div>
+							<div id="RMS" class="cv dp ui-droppable" style="left: 265px; top: 800px;">RMS </div>
+							<div id="RMT" class="cv dp ui-droppable" style="left: 234px; top: 800px;">RMT </div>
+							<div id="RMU" class="cv dp ui-droppable" style="left: 203px; top: 800px;">RMU </div>
+							<div id="RMV" class="cv dp ui-droppable" style="left: 172px; top: 800px;">RMV </div>
+							<div id="RMW" class="cv dp ui-droppable" style="left: 141px; top: 800px;">RMW </div>
+							<div id="RMX" class="cv dp ui-droppable" style="left: 110px; top: 800px;">RMX </div>
+							<div id="RMY" class="cv dp ui-droppable" style="left: 79px; top: 800px;">RMY </div>
+							<div id="RMZ" class="cv dp ui-droppable" style="left: 48px; top: 800px;">RMZ </div>
+
+							<div id="XO1" class="cv dp ui-droppable temp-bay" style="left: 172px; top: 555px;">XO1 </div>
+							<div id="XO2" class="cv dp ui-droppable temp-bay" style="left: 203px; top: 555px;">XO2 </div>
+							<div id="XO3" class="cv dp ui-droppable temp-bay" style="left: 234px; top: 555px;">XO3 </div>
+							<div id="XO4" class="cv dp ui-droppable temp-bay" style="left: 265px; top: 555px;">XO4 </div>
+
+							<div id="XA1" class="cv dp ui-droppable temp-bay" style="left: 420px; top: 555px;">XA1 </div>
+							<div id="XA2" class="cv dp ui-droppable temp-bay" style="left: 451px; top: 555px;">XA2 </div>
+							<div id="XA3" class="cv dp ui-droppable temp-bay" style="left: 482px; top: 555px;">XA3 </div>
+							<div id="XA4" class="cv dp ui-droppable temp-bay" style="left: 513px; top: 555px;">XA4 </div>
+
+							<div id="XB1" class="cv dp ui-droppable temp-bay" style="left: 668px; top: 555px;">XB1 </div>
+							<div id="XB2" class="cv dp ui-droppable temp-bay" style="left: 699px; top: 555px;">XB2 </div>
+							<div id="XB3" class="cv dp ui-droppable temp-bay" style="left: 730px; top: 555px;">XB3 </div>
+							<div id="XB4" class="cv dp ui-droppable temp-bay" style="left: 761px; top: 555px;">XB4 </div>
+
+							<div id="XC1" class="cv dp ui-droppable temp-bay" style="left: 916px; top: 555px;">XC1 </div>
+							<div id="XC2" class="cv dp ui-droppable temp-bay" style="left: 947px; top: 555px;">XC2 </div>
+							<div id="XC3" class="cv dp ui-droppable temp-bay" style="left: 978px; top: 555px;">XC3 </div>
+							<div id="XC4" class="cv dp ui-droppable temp-bay" style="left: 1009px; top: 555px;">XC4 </div>
+
+							<div id="XD1" class="cv dp ui-droppable temp-bay" style="left: 1164px; top: 555px;">XD1 </div>
+							<div id="XD2" class="cv dp ui-droppable temp-bay" style="left: 1195px; top: 555px;">XD2 </div>
+							<div id="XD3" class="cv dp ui-droppable temp-bay" style="left: 1226px; top: 555px;">XD3 </div>
+							<div id="XD4" class="cv dp ui-droppable temp-bay" style="left: 1257px; top: 555px;">XD4 </div>
+
+							<div id="Xc1" class="cv dp ui-droppable temp-bay" style="left: 1412px; top: 555px;">Xc1 </div>
+							<div id="Xc2" class="cv dp ui-droppable temp-bay" style="left: 1443px; top: 555px;">Xc2 </div>
+							<div id="Xc3" class="cv dp ui-droppable temp-bay" style="left: 1474px; top: 555px;">Xc3 </div>
+							<div id="Xc4" class="cv dp ui-droppable temp-bay" style="left: 1505px; top: 555px;">Xc4 </div>
+
+							<div class="bay-label overflow-6 faded" style="left: 179px; top: 8px;">Overflow Bay 6</div>
+							<div class="bay-label overflow-5 faded" style="left: 179px; top: 101px;">Overflow Bay 5</div>
+							<div class="bay-label overflow-4 faded" style="left: 179px; top: 194px;">Overflow Bay 4</div>
+							<div class="bay-label overflow-3 faded" style="left: 179px; top: 287px;">Overflow Bay 3</div>
+							<div class="bay-label overflow-2 faded" style="left: 179px; top: 380px;">Overflow Bay 2</div>
+							<div class="bay-label overflow-1 faded" style="left: 179px; top: 473px;">Overflow Bay 1</div>
+
+							<div class="bay-label alpha-6 faded" style="left: 440px; top: 8px;">Alpha Bay 6</div>
+							<div class="bay-label alpha-5 faded" style="left: 440px; top: 101px;">Alpha Bay 5</div>
+							<div class="bay-label alpha-4 faded" style="left: 440px; top: 194px;">Alpha Bay 4</div>
+							<div class="bay-label alpha-3 faded" style="left: 440px; top: 287px;">Alpha Bay 3</div>
+							<div class="bay-label alpha-2 faded" style="left: 440px; top: 380px;">Alpha Bay 2</div>
+							<div class="bay-label alpha-1 faded" style="left: 440px; top: 473px;">Alpha Bay 1</div>
+
+							<div class="bay-label bravo-6 faded" style="left: 687px; top: 8px;">Bravo Bay 6</div>
+							<div class="bay-label bravo-5 faded" style="left: 687px; top: 101px;">Bravo Bay 5</div>
+							<div class="bay-label bravo-4 faded" style="left: 687px; top: 194px;">Bravo Bay 4</div>
+							<div class="bay-label bravo-3 faded" style="left: 687px; top: 287px;">Bravo Bay 3</div>
+							<div class="bay-label bravo-2 faded" style="left: 687px; top: 380px;">Bravo Bay 2</div>
+							<div class="bay-label bravo-1 faded" style="left: 687px; top: 473px;">Bravo Bay 1</div>
+
+							<div class="bay-label charlie-6 faded" style="left: 934px; top: 8px;">Charlie Bay 6</div>
+							<div class="bay-label charlie-5 faded" style="left: 934px; top: 101px;">Charlie Bay 5</div>
+							<div class="bay-label charlie-4 faded" style="left: 934px; top: 194px;">Charlie Bay 4</div>
+							<div class="bay-label charlie-3 faded" style="left: 934px; top: 287px;">Charlie Bay 3</div>
+							<div class="bay-label charlie-2 faded" style="left: 934px; top: 380px;">Charlie Bay 2</div>
+							<div class="bay-label charlie-1 faded" style="left: 934px; top: 473px;">Charlie Bay 1</div>
+
+							<div class="bay-label delta-6 faded" style="left: 1187px; top: 8px;">Delta Bay 6</div>
+							<div class="bay-label delta-5 faded" style="left: 1187px; top: 101px;">Delta Bay 5</div>
+							<div class="bay-label delta-4 faded" style="left: 1187px; top: 194px;">Delta Bay 4</div>
+							<div class="bay-label delta-3 faded" style="left: 1187px; top: 287px;">Delta Bay 3</div>
+							<div class="bay-label delta-2 faded" style="left: 1187px; top: 380px;">Delta Bay 2</div>
+							<div class="bay-label delta-1 faded" style="left: 1187px; top: 473px;">Delta Bay 1</div>
+
+							<div class="bay-label carton-6 faded" style="left: 1432px; top: 8px;">Carton Bay 6</div>
+							<div class="bay-label carton-5 faded" style="left: 1432px; top: 101px;">Carton Bay 5</div>
+							<div class="bay-label carton-4 faded" style="left: 1432px; top: 194px;">Carton Bay 4</div>
+							<div class="bay-label carton-3 faded" style="left: 1432px; top: 287px;">Carton Bay 3</div>
+							<div class="bay-label carton-2 faded" style="left: 1432px; top: 380px;">Carton Bay 2</div>
+							<div class="bay-label carton-1 faded" style="left: 1432px; top: 473px;">Carton Bay 1</div>
 						
 							<div class="bay-label overflow-bay">Overflow Bay</div>
 							<div class="bay-label alpha-bay">Alpha Bay</div>

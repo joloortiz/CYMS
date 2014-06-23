@@ -398,6 +398,7 @@ class Container_yard extends MY_Controller {
 					$this->tcard_model->new_tcard_exitpass( $data );
 				}
 				
+				$var['serial'] = $this->tcard_model->get_tcard_exit_pass($id)->e_serial;
 				$var['timeout'] = isset($timeout) ? true : false;
 				$var['success'] = TRUE;
 			}

@@ -182,11 +182,13 @@ function save_exitpass() {
 
               $('#exitPassModal').modal('hide');
 
+              $('#view-exitpass').text(result.serial);
+
               // remove tcard on van exit
               if( result.timeout ) {
                 var tcard_id = $('[name="card-id"]').val();
 
-                $('#' + tcard.tc_id).remove();
+                $('#' + tcard_id).remove();
               }
            }
        }

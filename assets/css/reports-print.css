@@ -154,6 +154,12 @@
 	font-weight: bold;
 }
 
+.sf-preview-report .signature-name {
+	text-align: center;
+	font-size: 10px;
+	margin: 0;
+}
+
 /* Per Table */
 
 .pending {

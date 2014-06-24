@@ -1,4 +1,4 @@
-<div class="modal fade sf-preview-report-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade sf-preview-report-modal">
 	 <div class="modal-dialog modal-lg">
 	 	<div class="modal-content">
 	 		<div class="modal-header">
@@ -29,19 +29,27 @@
 					      	<div class="col-md-1"></div>
 					    </div>
 
-		      			<div class="row signature-title hide">
+		      			<div class="row signature-title">
+		      				<div class="col-md-2"></div>
+		      				<div class="col-md-3"></div>
 		      				<div class="col-md-2"></div>
 		      				<div class="col-md-3"><p>Prepared by:</p></div>
 		      				<div class="col-md-2"></div>
-		      				<div class="col-md-3"><p>Noted by:</p></div>
+		      			</div>
+
+		      			<div class="row">
+		      				<div class="col-md-2"></div>
+		      				<div class="col-md-3"></div>
+		      				<div class="col-md-2"></div>
+		      				<div class="col-md-3 border-top"><p class="signature-name"></p></div>
 		      				<div class="col-md-2"></div>
 		      			</div>
 
-		      			<div class="row signature hide">
+		      			<div class="row signature">
+		      				<div class="col-md-2"></div>
+		      				<div class="col-md-3"></div>
 		      				<div class="col-md-2"></div>
 		      				<div class="col-md-3 border-top"><p>CY Controller</p></div>
-		      				<div class="col-md-2"></div>
-		      				<div class="col-md-3 border-top"><p>OROPORT Supervisor</p></div>
 		      				<div class="col-md-2"></div>
 		      			</div>
 		      		</div>

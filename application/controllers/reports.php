@@ -20,7 +20,10 @@ class Reports extends MY_Controller {
 
 		$data['page_title'] = "Reports";
 
-		$this->smarty->assign('layout', 'crud_pages_layout.tpl');
+		$current_user = $this->session->userdata(SESSION_VAR);
+		$layout = $current_user['u_isadmin'] ? 'crud_pages_layout.tpl' : 'normal_user_layout.tpl'; 
+
+		$this->smarty->assign('layout', $layout);
 		$this->smarty->assign('page', 'reports');
 		$this->smarty->view('pages/reports.tpl', $data);
 	}
@@ -61,6 +64,15 @@ class Reports extends MY_Controller {
 
 		echo json_encode($data);
 
+	}
+
+	function di_stripping_packmats() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_stripping_packmats();
+
+		echo json_encode($data);
 	}
 
 }

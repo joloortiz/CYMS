@@ -4,10 +4,10 @@
 *
 */
 
-$('#cancel-select-fields-btn').click(function() {
+$('#back-select-fields-btn').click(function() {
 
-	$('#searchFilterModal').modal('show')
-	$('#selectFieldsModal').modal('hide');	
+	$('#selectFieldsModal').modal('hide');
+	$('#searchFilterModal').modal('show')	
 
 });
 
@@ -24,9 +24,11 @@ $('#confirm-select-fields-btn').click(function() {
 	$('#selectFieldsModal').modal('hide');
 	show_loader();
 
+	console.log('wee');
 	append_to_print_preview_header(columns);
 	set_rows(tcid, columns);
 	sf_preview(rows);
+	set_signature_name(rows);
 
 	remove_loader();
 
@@ -34,14 +36,11 @@ $('#confirm-select-fields-btn').click(function() {
 
 });
 
-
-$('#sf-preview-print').click(function() {
-
-});
-
 $('#sf-preview-back').click(function() {
+
 	$('.sf-preview-report-modal').modal('hide');
 	$('#selectFieldsModal').modal('show');
+	
 });
 
 
@@ -100,26 +99,33 @@ function set_rows(id, columns) {
 	});
 
 	$('.sf-preview').find('tr[data-tcid]').each(function() { 
-		for( i = 0; i < columns.length; i++ ){
+
+		for( i = 0; i < (columns.length); i++ ){
 			$(this).append('<td data-column="' + columns[i] + '"></td>')
 		}
 	});
 
 }
 
+function set_signature_name(rows) {
+
+	var name_index = rows.length - 1;
+
+
+	$('.sf-preview-report-modal .signature-name').append(rows[name_index]);
+
+}
+
 function empty_sf_preview() {
 
-	show_loader();
-
 	$('.sf-preview-report-modal .sf-preview tbody').empty();
-
-	remove_loader();
+	$('.sf-preview-report-modal .signature-name').empty();
 
 }
 
 function sf_preview(rows) {
 
-	for(i = 0; i < rows.length; i++) {
+	for(i = 0; i < (rows.length - 1); i++) {
 
 		console.log(rows[i]);
 			$.each(rows[i], function(key, value) {

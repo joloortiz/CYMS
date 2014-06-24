@@ -13,8 +13,7 @@ class Container_yard extends MY_Controller {
 				'jquery-ui-1.10.4.custom.css',
 				'timepicker.css',
 				'container-yard.css', 
-				'reports.css',
-				'reports-print.css'
+				'reports.css'
 		);
 		$this->smarty->assign('page_css', $css);
 		

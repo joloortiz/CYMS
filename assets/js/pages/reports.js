@@ -241,6 +241,49 @@ $('.empty-vans-report-modal #report-print').click(function() {
 
 });	
 
+/*
+*
+* DAILY INVENTORY REPORT
+*
+*/
+
+//when the user chooses the empty-vans-report
+$('#daily-inventory-report').click(function() {
+	
+	show_loader();
+
+    $('.timestamp').empty();
+
+    var data = di_stripping_packmats();
+
+    console.log(data);
+    set_di_stripping_packmats(data);
+
+    remove_loader();
+
+    $('.daily-inventory-report .timestamp').append('Generated at ' + now().time + ' on ' + now().date);
+	
+	$('.daily-inventory-report-modal').modal({
+			show: true
+	})
+
+});
+/*
+//when the modal is closed
+$('.empty-vans-report-modal').on('hidden.bs.modal', function () {
+	
+	//empty all the data on the tables
+    empty_empty_vans_report();
+
+});
+
+//user prints the preview
+$('.empty-vans-report-modal #report-print').click(function() {
+	
+	print_element('print-section-empty-vans', 'reports-print.css');
+
+});	
+*/
 
 /* 
 *
@@ -248,6 +291,20 @@ $('.empty-vans-report-modal #report-print').click(function() {
 *
 */
 
+function set_di_stripping_packmats(rows) {
+
+	var total = 0;
+
+	for(var i = 0; i < rows.length; i++) {
+
+		$('.daily-inventory-report-modal .di-pack-mats .' + rows[i].im_category.toLowerCase() + ' tr[data-mid="' + rows[i].im_id + '"][data-vtid="' + rows[i].vt_id + '"][data-tid="' + rows[i].t_id +'"]').find('td:nth-child(4)').append(rows[i].vans);
+		
+		total++;
+	}
+
+	$('.daily-inventory-report-modal .di-pack-mats .total').find('th:nth-child(2)').append(total);
+
+}
 
 function empty_fsc_outbound_report() {
 
@@ -267,6 +324,13 @@ function empty_defective_vans_report() {
 function empty_empty_vans_report() {
 
 	$('.empty-vans-report-modal .empty-vans>tbody').find('tr td:nth-child(3)').empty();
+
+}
+
+function empty_daily_inventory_report() {
+
+	$('.daily-inventory-report .di-pack-mats .imported tr td').empty();
+	$('.daily-inventory-report .di-pack-mats .local tr td').empty();
 
 }
 
@@ -316,6 +380,40 @@ function empty_vans_report() {
 
   	$.ajax({
         url: $('body').attr('base-url') + 'reports/empty_vans_report',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+}
+
+function empty_vans_report() {
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/empty_vans_report',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+}
+
+function di_stripping_packmats() {
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/di_stripping_packmats',
         type: 'POST',
         async: false,
         success: function (response) {

@@ -17,21 +17,15 @@ class Dashboard extends MY_Controller {
 	}
 */
 	# Index
-	function index() {
+function index() {
 
 		$current_user = $this->session->userdata(SESSION_VAR);
-		$layout = $current_user['u_isadmin'] ? 'crud_pages_layout.tpl' : 'non_crud_pages_layout.tpl';
+		$layout = $current_user['u_isadmin'] ? 'crud_pages_layout.tpl' : 'normal_user_layout.tpl';
 		
 		$this->smarty->assign('layout', $layout);
 		$this->smarty->assign('page_css', 'admin.css');
 		$this->smarty->assign('page', 'home');
 		$this->smarty->view('pages/dashboard.tpl');
-	}
-
-	function test() {
-		$data['username'] = $this->session->userdata[SESSION_VAR]['u_username'];
-
-		echo json_encode($data);
 	}
 
 }

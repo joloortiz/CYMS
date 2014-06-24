@@ -251,6 +251,113 @@ class Reports_model extends CI_Model{
 
 	}
 
+	/*
+	*
+	* Daily Inventory Report
+	* 
+	*/
+
+	function di_stripping_packmats() {
+
+		$sql = "
+			SELECT im.im_id, 
+					vt.vt_id, 
+					t.t_id, 
+					im.im_name, 
+					vt.vt_name,  
+					t.t_name, 
+					t.t_code, 
+					count(tc.tc_id) as vans, 
+					ttg.ttg_name, 
+					im.im_category
+			FROM tcards tc
+			INNER JOIN vans v
+			ON tc.v_id = v.v_id
+			INNER JOIN van_types vt
+			ON tc.vt_id = vt.vt_id
+			INNER JOIN truckers t
+			ON tc.t_id = t.t_id
+			INNER JOIN tcard_types tt
+			ON tc.tt_id = tt.tt_id
+			INNER JOIN tcard_type_group ttg
+			ON tt.ttg_id = ttg.ttg_id
+			LEFT JOIN tcard_incoming_materials tim
+			ON tc.tc_id = tim.tc_id
+			LEFT JOIN incoming_materials im
+			ON im.im_id = tim.im_id
+			WHERE 
+				((im.im_id = 1 && vt.vt_id = 2 && t.t_id = 3) || 
+			     
+			     (im.im_id = 2 && vt.vt_id = 2 && t.t_id = 8) ||
+			     
+			     (im.im_id = 3 && vt.vt_id = 1 && t.t_id = 3) ||
+			     
+			     (im.im_id = 3 && vt.vt_id = 2 && t.t_id = 3) ||
+			     
+			     (im.im_id = 3 && vt.vt_id = 1 && t.t_id = 8) ||
+			     
+			     (im.im_id = 3 && vt.vt_id = 2 && t.t_id = 8) || 
+			     
+			     (im.im_id = 1 && vt.vt_id = 1 && t.t_id = 3) ||
+			     
+			     (im.im_id = 1 && vt.vt_id = 1 && t.t_id = 8) || 
+			     
+			     (im.im_id = 4 && vt.vt_id = 1 && t.t_id = 2) || 
+			     
+			     (im.im_id = 5 && vt.vt_id = 1 && t.t_id = 2) || 
+			     
+			     (im.im_id = 6 && vt.vt_id = 1 && t.t_id = 2) ||
+			     
+			     (im.im_id = 7 && vt.vt_id = 1 && t.t_id = 2) ||
+			     
+			     (im.im_id = 8 && vt.vt_id = 1 && t.t_id = 2) ||
+			     
+			     (im.im_id = 9 && vt.vt_id = 1 && t.t_id = 2) ||
+			     
+			     (im.im_id = 10 && vt.vt_id = 1 && t.t_id = 7) ||
+			     
+			     (im.im_id = 11 && vt.vt_id = 1 && t.t_id = 2) ||
+			     
+			     (im.im_id = 12 && vt.vt_id = 1 && t.t_id = 2) ||
+			     
+			     (im.im_id = 13 && vt.vt_id = 1 && t.t_id = 2) ||
+			     
+			     (im.im_id = 14 && vt.vt_id = 1 && t.t_id = 2) ||
+			     
+			     (im.im_id = 14 && vt.vt_id = 2 && t.t_id = 2) ||
+			     
+			     (im.im_id = 15 && vt.vt_id = 1 && t.t_id = 8) ||
+			     
+			     (im.im_id = 16 && vt.vt_id = 2 && t.t_id = 2) ||
+			     
+			     (im.im_id = 17 && vt.vt_id = 1 && t.t_id = 2) ||
+			     
+			     (im.im_id = 18 && vt.vt_id = 1 && t.t_id = 2) ||
+			     
+			     (im.im_id = 19 && vt.vt_id = 1 && t.t_id = 7) ||
+			     
+			     (im.im_id = 20 && vt.vt_id = 1 && t.t_id = 2) ||
+			     
+			     (im.im_id = 21 && vt.vt_id = 1 && t.t_id = 2) ||
+			     
+			     (im.im_id = 21 && vt.vt_id = 2 && t.t_id = 2) ||     
+			     
+			     (im.im_id = 22 && vt.vt_id = 1 && t.t_id = 2) ||
+			     
+			     (im.im_id = 23 && vt.vt_id = 4 && t.t_id = 2)     
+			     
+				)
+			    &&
+				(ttg.ttg_name = 'STRIPPING' && tt.tt_name = 'PACK MATS')
+			GROUP BY im.im_name, vt.vt_name, t.t_name
+		";
+
+		$query = $this->db->query($sql);
+
+		return $query->result();
+
+	}
+
 }
 
 ?>

@@ -7842,11 +7842,9 @@ header .form-group {
 
 /* line 105, ../sass/main.scss */
 #main {
-  margin: -65px auto -80px auto;
-  padding-top: 85px;
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
+  margin: 20px 0;
+  padding-bottom: 80px;
+  min-height: 700px;
 }
 /* line 110, ../sass/main.scss */
 #main .panel-heading {
@@ -7862,7 +7860,6 @@ header .form-group {
   width: 100%;
   border: 0px;
   min-height: 500px;
-  height: 690px;
   overflow: scroll;
 }
 /* line 126, ../sass/main.scss */
@@ -7952,8 +7949,10 @@ header .form-group {
 /* line 177, ../sass/main.scss */
 footer {
   background-color: #ffbf00;
+  position: relative;
+  margin-top: -80px;
+  /* negative value of footer height */
   height: 80px;
-  margin: 0 auto;
   clear: both;
 }
 /* line 184, ../sass/main.scss */

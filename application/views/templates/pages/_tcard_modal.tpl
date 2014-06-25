@@ -76,13 +76,13 @@
                 <span class="help-inline"></span>
       				</td>
       			</tr>
-            <tr class="card-field-row">
+            <tr class="stuffing-card-field absolute-hide">
               <td class="col-xs-3"></td>
               <td class="col-xs-6">
                 <div class="row">
                   <div class="col-sm-6">
                     <strong>RDD</strong>
-                    <input name="{$form->rdd}" class="form-control input-sm generic-datepicker" type="text">
+                    <input name="{$form->rdd}" class="form-control input-sm unrestricted-datepicker" type="text">
                   <span class="help-inline"></span>
                   </div>
                 </div>

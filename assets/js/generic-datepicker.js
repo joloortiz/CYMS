@@ -10,3 +10,13 @@ $( "body" ).on('focus', '.generic-datepicker' ,function(){
 	} );
 	
 });
+
+$( "body" ).on('focus', '.unrestricted-datepicker' ,function(){
+	
+	$(this).datepicker( {
+		'dateFormat': 'yy-mm-dd',
+		'changeYear': true,
+		'changeMonth': true
+	} );
+	
+});

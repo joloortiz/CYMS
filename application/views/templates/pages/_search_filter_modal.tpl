@@ -139,6 +139,22 @@
 							</div>
 						</div>
 						<div class="row buffer-top">
+							<div class="col-md-4"><h5><strong>Strip</strong></h5></div>
+							<div class="col-md-8">
+								<div class="row">
+									<div class="col-md-5">
+										<input name="stripped-from-filter" class="form-control input-sm generic-datepicker" type="text" placeholder="Date Start">
+									</div>
+									<div class="col-md-2">
+										<h5>to</h5>
+									</div>
+									<div class="col-md-5">
+										<input name="stripped-to-filter" class="form-control input-sm generic-datepicker" type="text" placeholder="Date End">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row buffer-top">
 							<div class="col-md-4"><h5><strong>Seal</strong></h5></div>
 							<div class="col-md-8">
 								<div class="row">
@@ -150,6 +166,22 @@
 									</div>
 									<div class="col-md-5">
 										<input name="seal-to-filter" class="form-control input-sm generic-datepicker" type="text" placeholder="Date End">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row buffer-top">
+							<div class="col-md-4"><h5><strong>RDD</strong></h5></div>
+							<div class="col-md-8">
+								<div class="row">
+									<div class="col-md-5">
+										<input name="rdd-from-filter" class="form-control input-sm unrestricted-datepicker" type="text" placeholder="Date Start">
+									</div>
+									<div class="col-md-2">
+										<h5>to</h5>
+									</div>
+									<div class="col-md-5">
+										<input name="rdd-to-filter" class="form-control input-sm unrestricted-datepicker" type="text" placeholder="Date End">
 									</div>
 								</div>
 							</div>

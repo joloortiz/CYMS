@@ -76,10 +76,10 @@
 										{$material->m_type}
 									</td>
 									<td class="clickable">
-										{$material->m_category_fullname}
+										{$material->m_description}
 									</td>
 									<td class="clickable" colspan="2">
-										{$material->m_description}
+										{$material->m_category_fullname}
 									</td>
 								</tr>
 							{/foreach}

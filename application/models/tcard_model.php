@@ -90,6 +90,7 @@ class Tcard_model extends CI_Model{
 							tt.tt_color,
 							tt.ttg_id,
 							tp.tp_id,
+							tp.tp_position,
 							vt.vt_name,
 							e.e_id,
 							e.e_serial,
@@ -330,6 +331,21 @@ class Tcard_model extends CI_Model{
 		return $returnVal;
 	}
 	
+	function get_type_by_name( $str ) {
+		$returnVal = NULL;
+		
+		$this->db->from('tcard_types');
+		$this->db->where('tt_name', strtoupper( $str ));
+		$query = $this->db->get();
+		
+		if( $query->num_rows() == 1 ) {
+			$returnVal = $query->result();
+			$returnVal = $returnVal[0];
+		}
+		
+		return $returnVal;
+	}
+	
 	function filter_tcard( $filter_data ) {
 		
 		$returnVal = NULL;
@@ -417,13 +433,25 @@ class Tcard_model extends CI_Model{
 			$this->db->where('DATE(tc.tc_datestuffed) >= ' .  ($filter_data['stuff_from'] ? " '". $filter_data['stuff_from'] ."'" : '0') . ' AND DATE(tc.tc_datestuffed) < '. ($filter_data['stuff_to'] ? " DATE_ADD('". $filter_data['stuff_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
 		}
 		
+		// Strip Date Range
+		if( $filter_data['strip_from'] || $filter_data['strip_to'] ) {
+// 			$this->db->where( 'tc.tc_datestripped BETWEEN '. ($filter_data['strip_from'] ? " '". $filter_data['strip_from'] ."'" : '0') .' AND '. ($filter_data['strip_to'] ? " DATE_ADD('". $filter_data['strip_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+			$this->db->where('DATE(tc.tc_datestripped) >= ' .  ($filter_data['strip_from'] ? " '". $filter_data['strip_from'] ."'" : '0') . ' AND DATE(tc.tc_datestripped) < '. ($filter_data['strip_to'] ? " DATE_ADD('". $filter_data['strip_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+		}
+		
 		// Seal Date Range
 		if( $filter_data['seal_from'] || $filter_data['seal_to'] ) {
 // 			$this->db->where( 'tc.tc_datesealed BETWEEN '. ($filter_data['seal_from'] ? " '". $filter_data['seal_from'] ."'" : '0') .' AND '. ($filter_data['seal_to'] ? " DATE_ADD('". $filter_data['seal_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
 			$this->db->where('DATE(tc.tc_datesealed) >= ' .  ($filter_data['seal_from'] ? " '". $filter_data['seal_from'] ."'" : '0') . ' AND DATE(tc.tc_datesealed) < '. ($filter_data['seal_to'] ? " DATE_ADD('". $filter_data['seal_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
 		}
 		
-		// Stuff Date Range
+		// RDD Range
+		if( $filter_data['rdd_from'] || $filter_data['rdd_to'] ) {
+// 			$this->db->where( 'tc.tc_rdd BETWEEN '. ($filter_data['rdd_from'] ? " '". $filter_data['rdd_from'] ."'" : '0') .' AND '. ($filter_data['rdd_to'] ? " DATE_ADD('". $filter_data['rdd_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+			$this->db->where('DATE(tc.tc_rdd) >= ' .  ($filter_data['rdd_from'] ? " '". $filter_data['rdd_from'] ."'" : '0') . ' AND DATE(tc.tc_rdd) < '. ($filter_data['rdd_to'] ? " DATE_ADD('". $filter_data['rdd_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
+		}
+		
+		// Block Date Range
 		if( $filter_data['block_from'] || $filter_data['block_to'] ) {
 // 			$this->db->where( 'tc.tc_dateblocked BETWEEN '. ($filter_data['block_from'] ? " '". $filter_data['block_from'] ."'" : '0') .' AND '. ($filter_data['block_to'] ? " DATE_ADD('". $filter_data['block_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
 			$this->db->where('DATE(tc.tc_dateblocked) >= ' .  ($filter_data['block_from'] ? " '". $filter_data['block_from'] ."'" : '0') . ' AND DATE(tc.tc_dateblocked) < '. ($filter_data['block_to'] ? " DATE_ADD('". $filter_data['block_to'] ."', INTERVAL 1 DAY)" : 'NOW()') );
@@ -439,6 +467,7 @@ class Tcard_model extends CI_Model{
 			$this->db->where('e.e_timeout IS NOt NULL');
 		}
 		
+		$this->db->group_by('tc.tc_id');
 		$this->db->order_by('tc.tc_entrydate', 'DESC');
 		
 		$query = $this->db->get();

@@ -70,6 +70,7 @@ function initiate_new_exit_pass( tcard_id ) {
 
            		$('.date-text-container').text(details.date);
            		$('.vantype-text-container').text(details.vt_name);
+              $('.position-text-container').text(details.tp_position);
            		$('.van-no-text').text(details.v_no ? details.v_no : '');
            		$('.seal-no-text').text(details.tc_sealno ? details.tc_sealno : '');
            		$('.dn-no-text').text(details.tc_dn ? details.tc_dn : '');
@@ -102,6 +103,7 @@ function initiate_exit_pass_preview( tcard_id ) {
 
               $('.date-text-container').text(details.e_date);
               $('.vantype-text-container').text(details.vt_name);
+              $('.position-text-container').text(details.tp_position);
               $('.van-no-text').text(details.v_no ? details.v_no : '');
               $('.seal-no-text').text(details.tc_sealno ? details.tc_sealno : '');
               $('.dn-no-text').text(details.tc_dn ? details.tc_dn : '');

@@ -92,6 +92,12 @@
 									<span class="pull-right vantype-text-container text-holder"></span>
 								</div>
 							</div>
+							<div class="row buffer-top">
+								<div class="col-xs-12">
+									<strong>Position:</strong>
+									<span class="pull-right position-text-container text-holder"></span>
+								</div>
+							</div>
 						</td>
 					</tr>
 				</table>

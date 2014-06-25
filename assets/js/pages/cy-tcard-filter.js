@@ -140,10 +140,14 @@ function get_filter_data() {
 	var entry_to = $.trim( $('[name="entry-to-filter"]').val() );
 	var exit_from = $.trim( $('[name="exit-from-filter"]').val() );
 	var exit_to = $.trim( $('[name="exit-to-filter"]').val() );
-	var stuff_from = $.trim( $('[name="stuff-from-filter"]').val() );
-	var stuff_to = $.trim( $('[name="stuff-to-filter"]').val() );
+	var stuff_from = $.trim( $('[name="stuffed-from-filter"]').val() );
+	var stuff_to = $.trim( $('[name="stuffed-to-filter"]').val() );
+	var strip_from = $.trim( $('[name="stripped-from-filter"]').val() );
+	var strip_to = $.trim( $('[name="stripped-to-filter"]').val() );
 	var seal_from = $.trim( $('[name="seal-from-filter"]').val() );
 	var seal_to = $.trim( $('[name="seal-to-filter"]').val() );
+	var rdd_from = $.trim( $('[name="rdd-from-filter"]').val() );
+	var rdd_to = $.trim( $('[name="rdd-to-filter"]').val() );
 	var block_from = $.trim( $('[name="block-from-filter"]').val() );
 	var block_to = $.trim( $('[name="block-to-filter"]').val() );
 	var incoming_mat = $('[name="incoming-mat-filter"]').val();
@@ -209,12 +213,28 @@ function get_filter_data() {
 		data['stuff_to'] = stuff_to;
 		filter_active = true;
 	}
+	if( strip_from != '' ) {
+		data['strip_from'] = strip_from;
+		filter_active = true;
+	}
+	if( strip_to != '' ) {
+		data['strip_to'] = strip_to;
+		filter_active = true;
+	}
 	if( seal_from != '' ) {
 		data['seal_from'] = seal_from;
 		filter_active = true;
 	}
 	if( seal_to != '' ) {
 		data['seal_to'] = seal_to;
+		filter_active = true;
+	}
+	if( rdd_from != '' ) {
+		data['rdd_from'] = rdd_from;
+		filter_active = true;
+	}
+	if( rdd_to != '' ) {
+		data['rdd_to'] = rdd_to;
 		filter_active = true;
 	}
 	if( block_from != '' ) {

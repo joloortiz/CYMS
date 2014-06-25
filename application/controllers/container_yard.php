@@ -156,6 +156,12 @@ class Container_yard extends MY_Controller {
 					'tc_datestripped' => $date_stripped != '' ? date("Y-m-d", strtotime($date_stripped)) : NULL,
 					'tc_strcontroller' => $user['u_id']
 				);
+				
+				// change tcard type to empty if date stripped is not empty
+				if( $date_stripped != '' ) {
+					$ttype = $this->tcard_model->get_type_by_name('EMPTY');
+					$tcard_type = $ttype ? $ttype->tt_id : $tcard_type;
+				}
 			}
 			
 			$data = array(
@@ -345,6 +351,7 @@ class Container_yard extends MY_Controller {
 					'v_no' => $tcard->v_no,
 					'tc_sealno' => $tcard->tc_sealno,
 					'tc_dn' => $tcard->tc_dn,
+					'tp_position' => $tcard->tp_position,
 					's_name' => $tcard->s_name,
 					'e_serial' => $this->tcard_model->exitpass_serial(),
 					'm_description' => $tcard->m_description,
@@ -426,6 +433,7 @@ class Container_yard extends MY_Controller {
 				$e['e_van_class'] = $this->_get_van_class_name($pass->e_van_class);
 				$e['e_van_class_code'] = $pass->e_van_class;
 				$e['m_description'] = $tcard->m_description;
+				$e['tp_position'] = $tcard->tp_position;
 				
 				$data['success'] = TRUE;
 			}
@@ -475,8 +483,12 @@ class Container_yard extends MY_Controller {
 			$exit_to = $this->input->post('exit_to');
 			$stuff_from = $this->input->post('stuff_from');
 			$stuff_to = $this->input->post('stuff_to');
+			$strip_from = $this->input->post('strip_from');
+			$strip_to = $this->input->post('strip_to');			
 			$seal_from = $this->input->post('seal_from');
 			$seal_to = $this->input->post('seal_to');
+			$rdd_from = $this->input->post('rdd_from');
+			$rdd_to = $this->input->post('rdd_to');
 			$block_from = $this->input->post('block_from');
 			$block_to = $this->input->post('block_to');
 			$incoming_mat = $this->input->post('incoming_mat');
@@ -500,8 +512,12 @@ class Container_yard extends MY_Controller {
 					'exit_to' => $exit_to,
 					'stuff_from' => $stuff_from,
 					'stuff_to' => $stuff_to,
+					'strip_from' => $strip_from,
+					'strip_to' => $strip_to,					
 					'seal_from' => $seal_from,
 					'seal_to' => $seal_to,
+					'rdd_from' => $rdd_from,
+					'rdd_to' => $rdd_to,
 					'block_from' => $block_from,
 					'block_to' => $block_to,
 					'incoming_mat' => $incoming_mat,

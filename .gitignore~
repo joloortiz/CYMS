@@ -32,7 +32,7 @@ local.properties
 #############
 ## CUSTOM
 #############
-.gitignore
+
 application/views/templates_c/
 application/config/database.php
 application/config/config.php

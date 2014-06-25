@@ -508,7 +508,8 @@ class Tcard_model extends CI_Model{
 					CONCAT(e.e_date,' ', e.e_timeout) as 'Exit Date',
 					tc.tc_datestuffed as 'Date Stuffed',
 					tc.tc_datesealed as 'Date Sealed',
-					tc.tc_dateblocked as 'Date Blocked', 
+					tc.tc_dateblocked as 'Date Blocked',
+                    tc.tc_datestripped as 'Date Stripped',
 					m.m_description as 'Material Desc(Outgoing)', 
 					m.m_name as 'Material(Outgoing)', 
 					CONCAT(u.u_lastname, u.u_firstname, u.u_mi) as 'CY Controller', 
@@ -516,10 +517,10 @@ class Tcard_model extends CI_Model{
 					e.e_destination as 'Destination', 
 					e.e_plateno as 'Plate #', 
 					tc.tc_block_reason as 'Reason/Defect',
-                    CASE WHEN e.e_date IS NULL THEN datediff(now(), tc.tc_entrydate) END AS 'Dwell  Time',
+                    CASE WHEN e.e_date IS NULL THEN concat(datediff(now(), tc.tc_entrydate), ' day/s') END AS 'Dwell Time',
                     CASE WHEN e.e_date IS NULL THEN tp.tp_position END AS 'Position',
                     GROUP_CONCAT(im.im_name separator ', ') as 'Material(Incoming)', 
-                    im.im_category as 'Material Group(Incoming)'  
+                    im.im_category as 'Material Group(Incoming)'
 			FROM tcards tc
 			INNER JOIN vans v
 			ON tc.v_id = v.v_id

@@ -391,13 +391,11 @@ class Container_yard extends MY_Controller {
 				);
 				
 				// Save
+				if( $plate_no != '' && $driver != '' ) {
+					$timeout = date('H:i:s');
+					$data['e_timeout'] = $timeout;
+				}
 				if( $this->_check_tcard_exitpass( $id ) ) {
-					
-					if( $plate_no != '' && $driver != '' ) {
-						$timeout = date('H:i:s');
-						$data['e_timeout'] = $timeout;
-					}
-					
 					$this->tcard_model->update_tcard_exitpass( $id, $data );
 				}else {
 					$data['tc_id'] = $id;
@@ -722,9 +720,17 @@ class Container_yard extends MY_Controller {
 	
 		array_push($foo, $val1, $val2);
 		*/
+
+		$session = $this->session->userdata(SESSION_VAR);
+
 		$id = $this->input->post('id');
 	
 		$results = $this->tcard_model->print_filter($id);
+
+		$current_user_fullname = $session['u_lastname'] . ', ' . $session['u_firstname'] . ' ' . $session['u_mi'];
+
+		array_push($results, $current_user_fullname);
+
 		echo json_encode($results);
 	
 	}

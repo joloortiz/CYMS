@@ -14,6 +14,7 @@
 							<label class="has-radio-checkbox"><input type="checkbox" name="sf-trucker" field="Trucker" checked> <span class="checkbox-radio-label">Trucker</span></label><br>
 							<label class="has-radio-checkbox"><input type="checkbox" name="sf-van-type" field="Van Type" checked> <span class="checkbox-radio-label">Van Type</span></label><br>
 							<label class="has-radio-checkbox"><input type="checkbox" name="sf-entry-date" field="Entry Date" checked> <span class="checkbox-radio-label">Entry Date</span></label><br>
+							<label class="has-radio-checkbox"><input type="checkbox" name="sf-entry-date" field="Dwell Time"> <span class="checkbox-radio-label">Dwell Time</span></label><br>
 							<label class="has-radio-checkbox"><input type="checkbox" name="sf-exit-date" field="Exit Date"> <span class="checkbox-radio-label">Exit Date</span></label><br>
 							<label class="has-radio-checkbox"><input type="checkbox" name="sf-rdd" field="RDD"> <span class="checkbox-radio-label">RDD</span></label><br>
 							<label class="has-radio-checkbox"><input type="checkbox" name="sf-tcard-type" field="Tcard Type"> <span class="checkbox-radio-label">Tcard Type</span></label><br>
@@ -23,6 +24,7 @@
 							<label class="has-radio-checkbox"><input type="checkbox" name="sf-position" field="Position"> <span class="checkbox-radio-label">Position</span></label><br>
 							<label class="has-radio-checkbox"><input type="checkbox" name="sf-batch-code" field="Batch Code"> <span class="checkbox-radio-label">Batch Code</span></label><br>
 							<label class="has-radio-checkbox"><input type="checkbox" name="sf-date-stuffed" field="Date Stuffed"> <span class="checkbox-radio-label">Date Stuffed</span></label><br>
+							<label class="has-radio-checkbox"><input type="checkbox" name="sf-date-stuffed" field="Date Stripped"> <span class="checkbox-radio-label">Date Stripped</span></label><br>
 							<label class="has-radio-checkbox"><input type="checkbox" name="sf-date-sealed" field="Date Sealed"> <span class="checkbox-radio-label">Date Sealed</span></label><br>
 							<label class="has-radio-checkbox"><input type="checkbox" name="sf-date-blocked" field="Date Blocked"> <span class="checkbox-radio-label">Date Blocked</span></label><br>
 							<label class="has-radio-checkbox"><input type="checkbox" name="sf-plate-no" field="Reason/Defect"> <span class="checkbox-radio-label">Reason/Defect</span></label><br>

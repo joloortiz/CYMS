@@ -18,13 +18,12 @@ $('#confirm-select-fields-btn').click(function() {
 	columns = get_checked_fields();
 
 	//console.log(tcid);
-	//console.log(rows);
+	console.log(rows);
 	//console.log(columns);
 
 	$('#selectFieldsModal').modal('hide');
 	show_loader();
 
-	console.log('wee');
 	append_to_print_preview_header(columns);
 	set_rows(tcid, columns);
 	sf_preview(rows);
@@ -100,9 +99,10 @@ function set_rows(id, columns) {
 
 	$('.sf-preview').find('tr[data-tcid]').each(function() { 
 
-		for( i = 0; i < (columns.length); i++ ){
+		for( var i = 0; i < (columns.length); i++ ){
 			$(this).append('<td data-column="' + columns[i] + '"></td>')
 		}
+
 	});
 
 }
@@ -125,7 +125,9 @@ function empty_sf_preview() {
 
 function sf_preview(rows) {
 
-	for(i = 0; i < (rows.length - 1); i++) {
+	var rows_size = rows.length - 1;
+
+	for(var i = 0; i < rows_size; i++) {
 
 		console.log(rows[i]);
 			$.each(rows[i], function(key, value) {

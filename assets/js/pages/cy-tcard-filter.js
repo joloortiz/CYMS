@@ -55,6 +55,12 @@ $('input[type="text"]').keyup(function() {
 	initiate_auto_filter();
 });
 
+$('#searchFilterModal').on('shown.bs.modal', function() {
+
+    $('[name="van-presence"][value="0"]').focus();
+    
+});
+
 
 
 /*
@@ -136,6 +142,7 @@ function get_filter_data() {
 	var batch_code = $.trim( $('[name="batch-code-filter"]').val() );
 	var seal_no = $.trim( $('[name="seal-no-filter"]').val() );
 	var dn = $.trim( $('[name="dn-filter"]').val() );
+	var status = $.trim( $('[name="status-filter"]').val() );
 	var entry_from = $.trim( $('[name="entry-from-filter"]').val() );
 	var entry_to = $.trim( $('[name="entry-to-filter"]').val() );
 	var exit_from = $.trim( $('[name="exit-from-filter"]').val() );
@@ -187,6 +194,10 @@ function get_filter_data() {
 	}
 	if( dn != '' ) {
 		data['dn'] = dn;
+		filter_active = true;
+	}
+	if( status != '' ) {
+		data['status'] = status;
 		filter_active = true;
 	}
 	if( entry_from != '' ) {
@@ -249,7 +260,7 @@ function get_filter_data() {
 		data['incoming_mat'] = incoming_mat;
 		filter_active = true;
 	}
-	if( outgoing_mat != '' ) {
+	if( outgoing_mat ) {
 		data['outgoing_mat'] = outgoing_mat;
 		filter_active = true;
 	}
@@ -277,7 +288,7 @@ function reset_fields() {
 	$('#searchFilterModal').find('[type="text"]').val('');
 	$('#searchFilterModal').find('[name="van-presence"][value="0"]').prop('checked', true).trigger('change');
 	
-
+	setup_status_filter();
 	setup_tcard_type_filter();
 	setup_trucker_filter();
 	setup_shipper_filter();
@@ -288,7 +299,6 @@ function reset_fields() {
 
 function show_filter_modal() {
 	$('#searchFilterModal').modal({
-		keyboard: false,
 		backdrop: 'static'
 	});
 }
@@ -309,6 +319,13 @@ function append_select_options(select_name, data) {
 
 
     return true;
+}
+
+function setup_status_filter() {
+	$('[name="status-filter"]').val('').removeClass('select2-offscreen').select2({
+        placeholder: 'Status',
+		allowClear: true
+    });
 }
 
 function setup_van_type_filter() {

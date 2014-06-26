@@ -2,11 +2,9 @@
  * INIT
  */
 
-var van_list = Array();
 var n = {}; // form names
 var c = {}; // checkers
 
-setup_van_nos();
 reset_tcard();
 
 
@@ -70,6 +68,7 @@ $('body').on('click', '.entry', function() {
     });
 
     $('[name="incoming-materials"]').trigger('change');
+    $('[name="mat-no"]').trigger('change');
 
     if( details['exitpass-id'] ) {
         $('#view-exitpass').text(details['exitpass-serial']);
@@ -92,9 +91,10 @@ $('body').on('click', '.entry', function() {
 
     $('[name="is-blocked"]').trigger('change');
 
-    // Controller display
-    $('.stuff-controller').text(details['stu-controller']);
-    $('.strip-controller').text(details['str-controller']);
+    // Text displays
+    $('.stuff-controller.text-with-default').text(details['stu-controller']);
+    $('.strip-controller.text-with-default').text(details['str-controller']);
+    $('.entry-date.text-with-default').text(details['entry-date']);
 
     $('#newEntryModal').find('.semi-real-time').trigger('change').trigger('change');
 
@@ -104,6 +104,10 @@ $('body').on('click', '.entry', function() {
 
 $("#newEntryModal").on('click', '#edit-tcard', function() {
     set_modal_state(false, true);
+});
+
+$("#newEntryModal").on('click', '#force-return-van', function() {
+    save();
 });
 
 $('#stuff-filter').change(function() {
@@ -206,14 +210,13 @@ $('[name="is-blocked"]').change(function() {
 $('#block-tcard').click(function() {
 
     $('#tcardBlockModal').modal({
-      keyboard: false,
       backdrop: 'static'
     });
 
+});
 
-
-    /*$('[name="is-blocked"]').prop('checked', true);
-    $('[name="is-blocked"]').trigger('change');*/
+$('#tcardBlockModal').on('shown.bs.modal', function() {
+    $('#reason').focus();
 });
 
 $('#confirm-block-btn').click(function() {
@@ -234,6 +237,7 @@ $('#unblock-tcard').click(function() {
  */
 
 function setup_van_nos() {
+    var van_list = Array();
 
    $.ajax({
        url: $('body').attr('base-url') + 'container_yard/get_vans',
@@ -242,7 +246,7 @@ function setup_van_nos() {
        success: function (response) {
            var result = jQuery.parseJSON(response);
 
-           if( result.success && result.vans && result.vans.length > 0 ) {
+           if( result.vans && result.vans.length > 0 ) {
                $.each(result.vans, function(key, van) {
                    van_list.push(van.v_no);
                });
@@ -261,6 +265,9 @@ function reset_tcard(){
 
     update_modal_field_state();
     reset_errors();
+
+    // Auto Complete
+    setup_van_nos();
 
     // Select2
     setup_tcard_types();
@@ -281,10 +288,10 @@ function reset_tcard(){
     $('.exit-pass-btn-container').removeClass('absolute-hide');
     $('.exit-pass-timeout-container').addClass('absolute-hide');
 
-    $('#view-exitpass').text('');
+    $('#newEntryModal').find('.text-holder').text('');
 
-    $('.controller-text').each(function() {
-        $(this).text( $(this).data('active-controller') );
+    $('.text-with-default').each(function() {
+        $(this).text( $(this).attr('data-text-default') );
     });
 
     $('[name="card-id"]').val('');
@@ -354,24 +361,29 @@ function get_form_values() {
     var is_defective = 0;
     var block_reason = null;
 
-    forms = get_form_names();
+    if( $('#force-return-van').length > 0 ) {
+        values['is-returned'] = 1;
+    }else {
+        forms = get_form_names();
 
-    $.each(forms, function(key, form_name) {
-        values[form_name] = $('[name="'+ form_name +'"]').not('[type="checkbox"]').val();
-    });
+        $.each(forms, function(key, form_name) {
+            values[form_name] = $('[name="'+ form_name +'"]').not('[type="checkbox"]').val();
+        });
+
+        // is_blocked
+        values['is-blocked'] = $('[name="is-blocked"]').prop('checked') ? 1 : 0;
+
+        if( values['is-blocked'] == 1 ) {
+            is_defective = $('[name="is-defective"]').prop('checked') ? 1 : 0;
+            block_reason = $.trim( $('[name="block-reason"]').val() );
+        }
+        values['is-defective'] = is_defective;
+        values['block-reason'] = block_reason;
+    }
 
     // special case (not in form names)
     values['card_id'] = $('[name="card-id"]').val();
-
-    // is_blocked
-    values['is-blocked'] = $('[name="is-blocked"]').prop('checked') ? 1 : 0;
-
-    if( values['is-blocked'] == 1 ) {
-        is_defective = $('[name="is-defective"]').prop('checked') ? 1 : 0;
-        block_reason = $.trim( $('[name="block-reason"]').val() );
-    }
-    values['is-defective'] = is_defective;
-    values['block-reason'] = block_reason;
+    
 
     return values;
 }
@@ -520,8 +532,6 @@ function save() {
                     $('#newEntryModal').modal('hide');
                     $('#loading-overlay').addClass('hide');
                 }, 500);
-
-                setup_van_nos();
             }
         }
     });
@@ -540,6 +550,10 @@ function set_modal_state(preview, editable) {
     notifier_content  = preview && editable ? '<button id="edit-tcard" class="btn-link">Click here to edit&nbsp;&nbsp;<span class="glyphicon glyphicon-pencil"></span></button>' : '&nbsp;';
     cancel_button_text = preview ? 'Done' : 'Cancel';
 
+    if( !editable && user_is_admin() ) {
+        notifier_content = '<button id="force-return-van" class="btn btn-danger"><span class="glyphicon glyphicon-warning-sign"></span>&nbsp; Return Van to Layout</button>';
+    }
+
     $('#cancel-card').text(cancel_button_text);
     $('.tcard-modal-state-notifier').html(notifier_content);
 
@@ -551,6 +565,23 @@ function set_modal_state(preview, editable) {
         $('#unblock-tcard').removeClass('absolute-hide');
         $('#save-card').removeClass('absolute-hide');
     }
+}
+
+function user_is_admin() {
+    var is_admin = true;
+
+    $.ajax({
+        url:$('body').attr('base-url') + 'container_yard/check_user_auth',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+            
+            is_admin = decode.is_admin;
+        }
+    });
+
+    return is_admin;
 }
 
 function get_tcard_details(tc_id) {
@@ -815,6 +846,7 @@ function setup_checkers() {
 
 function setup_outgoing_mats() {
     var outgoing_mats = Array();
+    var option_str = '';
 
     $.ajax({
        url: $('body').attr('base-url') + 'container_yard/mat_nos_for_select',
@@ -825,12 +857,20 @@ function setup_outgoing_mats() {
 
            if( result.success ) {
                 outgoing_mats = result.list;
+                $('[name="mat-no"]').empty();
+
+                option_str = '<option value=""></option>';
+
+                $.each(outgoing_mats, function( key, material ) {
+                    option_str += '<option value="' + material.id + '">' + material.text + '</option>';
+
+                });
+                $('[name="mat-no"]').append(option_str);
 
                 $('[name="mat-no"]').removeClass('select2-offscreen').select2({
-                    placeholder: 'None',
-                    allowClear: true,
-                    data: outgoing_mats
-                }).val('').trigger('change');
+                    placeholder: 'Select Materials',
+                    allowClear: true
+                });
            }
        }
    });
@@ -853,13 +893,12 @@ function setup_incoming_mats() {
                 $('[name="incoming-materials"]').empty();
 
                 option_str = '<option value=""></option>';
-                $('[name="incoming-materials"]').append(option_str);
 
                 $.each(incoming_mats, function( key, material ) {
-                    option_str = '<option value="' + material.id + '">' + material.text + '</option>';
+                    option_str += '<option value="' + material.id + '">' + material.text + '</option>';
 
-                    $('[name="incoming-materials"]').append(option_str);
                 });
+                $('[name="incoming-materials"]').append(option_str);
 
                 $('[name="incoming-materials"]').removeClass('select2-offscreen').select2({
                     placeholder: 'Select Materials',

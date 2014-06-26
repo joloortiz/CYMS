@@ -61,7 +61,7 @@ class Vans_model extends CI_Model{
 		return $returnVal;
 	}
 	
-	function get_unsed_vans() {
+	function get_unused_vans() {
 		$returnVal = NULL;
 	
 		$this->db->select('v.*');

@@ -1,12 +1,9 @@
 $( "body" ).on('focus', '.generic-datepicker' ,function(){
 	
 	$(this).datepicker( {
-		'dateFormat': 'yy-mm-dd',
+		'dateFormat': 'dd M yy',
 		'changeYear': true,
-		'changeMonth': true,
-		'maxDate': '+0D',
-		'minDate': '-70Y',
-		'yearRange': '-100:+0'
+		'changeMonth': true
 	} );
 	
 });

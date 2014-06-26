@@ -113,6 +113,15 @@ class Incoming_materials_model extends CI_Model{
 		}
 	}
 	
+	function unpurge_tcard_incoming_material( $id ) {
+		$data = array(
+			'is_deleted' => FALSE
+		);
+		
+		$this->db->where('tim_id', $id);
+		$query = $this->db->update('tcard_incoming_materials', $data);
+	}
+	
 	/* DELETE */
 	
 	/**
@@ -128,15 +137,6 @@ class Incoming_materials_model extends CI_Model{
 		
 		$this->db->where('im_id', $id);
 		$query = $this->db->update('incoming_materials', $data);
-	}
-	
-	function unpurge_tcard_incoming_material( $id ) {
-		$data = array(
-			'is_deleted' => FALSE
-		);
-		
-		$this->db->where('tim_id', $id);
-		$query = $this->db->update('tcard_incoming_materials', $data);
 	}
 	
 }

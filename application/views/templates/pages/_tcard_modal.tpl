@@ -54,8 +54,8 @@
               <td class="col-xs-6">
                 <strong>Materials</strong>
                 <select name="{$form->incoming_materials}" class="form-control" multiple>
-                  <option value=""></option>
                 </select>
+                <span class="help-inline"></span>
               </td>
               <td class="col-xs-3"></td>
             </tr>
@@ -65,25 +65,29 @@
                 <input name="{$form->bin_no}" class="form-control input-sm" type="text">
                 <span class="help-inline"></span>
       				</td>
-      				<td class="col-xs-6">
+              <td class="col-xs-6">
+                <strong>Material No.</strong>
+                <select name="{$form->material_no}" class="form-control input-sm semi-real-time" multiple>
+                </select>
+              </td>
+      				<td class="col-xs-3">
       					<strong>Batch Codes</strong>
       					<input name="{$form->batch_code}" class="form-control input-sm" type="text">
       					<span class="help-inline"></span>
       				</td>
-      				<td class="col-xs-3">
-                <strong>Material No.</strong>
-                <input name="{$form->material_no}" class="form-control input-sm semi-real-time" type="hidden">
-                <span class="help-inline"></span>
-      				</td>
       			</tr>
-            <tr class="stuffing-card-field absolute-hide">
+            <tr class="card-field-row">
               <td class="col-xs-3"></td>
               <td class="col-xs-6">
                 <div class="row">
                   <div class="col-sm-6">
+                    <strong>Entry Date</strong>
+                    <h5 class="entry-date text-with-default" data-text-default="{$current_date_entry}">{$current_date_entry}</h5>
+                  </div>
+                  <div class="col-sm-6 stuffing-card-field absolute-hide">
                     <strong>RDD</strong>
                     <input name="{$form->rdd}" class="form-control input-sm unrestricted-datepicker" type="text">
-                  <span class="help-inline"></span>
+                    <span class="help-inline"></span>
                   </div>
                 </div>
               </td>
@@ -141,9 +145,9 @@
                   </div>
                   <div class="col-sm-6">
                     <strong>Controller</strong>
-                    <h5 class="controller-text stuff-controller" data-active-controller="{$active_controller}">{$active_controller}</h5>
+                    <h5 class="stuff-controller text-with-default" data-text-default="{$active_controller}">{$active_controller}</h5>
                     <!-- <input name="{$form->stuff_controller}" class="form-control input-sm" type="text"> -->
-                  <span class="help-inline"></span>
+                    <span class="help-inline"></span>
                   </div>
                 </div>
               </td>
@@ -165,7 +169,7 @@
                   </div>
                   <div class="col-sm-6">
                     <strong>Controller</strong>
-                    <h5 class="controller-text strip-controller" data-active-controller="{$active_controller}">{$active_controller}</h5>
+                    <h5 class="strip-controller text-with-default" data-text-default="{$active_controller}">{$active_controller}</h5>
                     <!-- <input name="{$form->strip_controller}" class="form-control input-sm" type="text"> -->
                   <span class="help-inline"></span>
                   </div>
@@ -230,22 +234,19 @@
       				<td class="col-xs-3"></td>
       				<td class="col-xs-6">
       					<div class="row">
-      						<div class="col-sm-6">
-      							<strong>Entry Date</strong>
-      							<input name="{$form->entry_date}" class="form-control input-sm" type="text">
-  								  <span class="help-inline"></span>
-      						</div>
-      						<div class="col-sm-6 update-card-field">
+                  <div class="col-sm-6 update-card-field">
                     <div class="absolute-hide exit-pass-timeout-container">
                       <strong>Exit Pass</strong>
                       <div>
-        							   <button id="view-exitpass" class="btn btn-link" title="View Exit Pass"></button>
+                         <button id="view-exitpass" class="btn btn-link text-holder" title="View Exit Pass"></button>
                      </div>
                     </div>
                     <div class="exit-pass-btn-container">
                       <br>
                       <button id="new-exit-pass-btn" class="btn btn-primary in-form-button">Create Exit Pass</button>
                     </div>
+                  </div>
+      						<div class="col-sm-6">
       						</div>
       					</div>
       				</td>

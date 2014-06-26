@@ -55,6 +55,12 @@ class Tcard_model extends CI_Model{
 		return $this->db->insert_id();
 	}
 	
+	function new_tcard_outgoing_material( $data ) {
+		$this->db->insert('tcard_outgoing_materials', $data);
+	
+		return $this->db->insert_id();
+	}
+	
 	function new_tcard_exitpass($data) {
 		$serial = $this->exitpass_serial();
 		
@@ -79,10 +85,6 @@ class Tcard_model extends CI_Model{
 		$this->db->select(' tc.*,
 							v.v_no,
 							SUBSTRING(v.v_no, 1, 3) AS display_chars,
-							m.m_name,
-							m.m_description,
-							m.m_type,
-							m.m_category,
 							s.s_name,
 							s.s_code,
 							s.s_color,
@@ -112,7 +114,7 @@ class Tcard_model extends CI_Model{
 		$this->db->join('shippers s', 'tc.s_id = s.s_id');
 		$this->db->join('van_types vt', 'tc.vt_id = vt.vt_id');
 		$this->db->join('tcard_types tt', 'tc.tt_id = tt.tt_id');
-		$this->db->join('materials m', 'tc.m_id = m.m_id', 'left');
+// 		$this->db->join('materials m', 'tc.m_id = m.m_id', 'left');
 		$this->db->join('exit_passes e', 'tc.tc_id = e.tc_id', 'left');
 		$this->db->where('tc.tc_id', $id);
 		$this->db->order_by('tp.tp_timestamp', 'DESC');
@@ -275,6 +277,20 @@ class Tcard_model extends CI_Model{
 		return $returnVal;
 	}
 	
+	function get_card_outgoing_materials( $tc_id ) {
+		$returnVal = NULL;
+	
+		$this->db->from('tcard_outgoing_materials');
+		$this->db->where('tc_id', $tc_id);
+		$query = $this->db->get();
+	
+		if( $query->num_rows() > 0 ) {
+			$returnVal = $query->result();
+		}
+	
+		return $returnVal;
+	}
+	
 	function get_card_current_incoming_materials( $tc_id ) {
 		$returnVal = NULL;
 		
@@ -288,6 +304,22 @@ class Tcard_model extends CI_Model{
 			$returnVal = $query->result();
 		}
 		
+		return $returnVal;
+	}
+	
+	function get_card_current_outgoing_materials( $tc_id ) {
+		$returnVal = NULL;
+	
+		$this->db->from('tcard_outgoing_materials');
+		$this->db->where('tc_id', $tc_id);
+		$this->db->where('is_deleted', FALSE);
+	
+		$query = $this->db->get();
+	
+		if( $query->num_rows() > 0 ) {
+			$returnVal = $query->result();
+		}
+	
 		return $returnVal;
 	}
 	
@@ -346,6 +378,25 @@ class Tcard_model extends CI_Model{
 		return $returnVal;
 	}
 	
+	function get_card_by_van_shipper_trucker( $v_no, $s_id, $t_id ) {
+		$returnVal = NULL;
+		
+		$this->db->select('tc.*');
+		$this->db->from('vans v');
+		$this->db->join('tcards tc', 'v.v_id = tc.v_id');
+		$this->db->where('v.v_no', $v_no);
+		$this->db->where('tc.s_id', $s_id);
+		$this->db->where('tc.t_id', $t_id);
+		$query = $this->db->get();
+		
+		if( $query->num_rows() > 0 ) {
+			$returnVal = $query->result();
+		}
+		
+		return $returnVal;		
+		
+	}
+	
 	function filter_tcard( $filter_data ) {
 		
 		$returnVal = NULL;
@@ -355,6 +406,7 @@ class Tcard_model extends CI_Model{
 		$this->db->join('vans v', 'tc.v_id = v.v_id');
 		$this->db->join('exit_passes e', 'e.tc_id = tc.tc_id', 'left');
 		$this->db->join('tcard_incoming_materials tim', 'tc.tc_id = tim.tc_id', 'left');
+		$this->db->join('tcard_outgoing_materials tom', 'tc.tc_id = tom.tc_id', 'left');
 		
 		// Tcard Type
 		if( $filter_data['tcard_type'] ) {
@@ -401,6 +453,11 @@ class Tcard_model extends CI_Model{
 			$this->db->where('tc.tc_dn LIKE "%'. $filter_data['dn'] .'%"');
 		}
 		
+		// Status
+		if( $filter_data['status'] ) {
+			$this->db->where('tc.tc_status LIKE "%'. $filter_data['status'] .'%"');
+		}
+		
 		// Incoming Materials
 		if( $filter_data['incoming_mat'] ) {
 			$this->db->where_in('tim.im_id', $filter_data['incoming_mat']);
@@ -411,7 +468,10 @@ class Tcard_model extends CI_Model{
 		
 		// Outgoing Materials
 		if( $filter_data['outgoing_mat'] ) {
-			$this->db->where('tc.m_id', $filter_data['outgoing_mat']);
+			$this->db->where_in('tom.m_id', $filter_data['outgoing_mat']);
+			$this->db->where('tom.is_deleted <>', TRUE);
+			$this->db->group_by('tom.tc_id');
+			$this->db->having('COUNT(tom.m_id) = '. count($filter_data['outgoing_mat']), FALSE);
 		}
 		
 		// Entry Date Range
@@ -629,6 +689,15 @@ class Tcard_model extends CI_Model{
 		
 		$this->db->where('tc_id', $tcard_id);
 		$this->db->update('tcard_incoming_materials', $data);
+	}
+	
+	function flush_tcard_outgoing_materials( $tcard_id ) {
+		$data = array(
+				'is_deleted' => TRUE
+		);
+	
+		$this->db->where('tc_id', $tcard_id);
+		$this->db->update('tcard_outgoing_materials', $data);
 	}
 	
 	

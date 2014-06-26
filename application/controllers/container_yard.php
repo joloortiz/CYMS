@@ -20,7 +20,7 @@ class Container_yard extends MY_Controller {
 		// JS
 		$js = array(
 				'jquery-ui-1.10.4.smoothness.js',
-				'generic-datepicker.js',
+				'custom-datepicker.js',
 				'jquery.nicescroll.min.js',
 				'timepicker.js',
 				'select2.min.js',
@@ -38,6 +38,10 @@ class Container_yard extends MY_Controller {
 		$c_data = $this->users_model->get_user_by_id( $c['u_id'] );
 		$controller = $c_data[0]['u_firstname'] . ' ' . $c_data[0]['u_lastname'];
 		$this->smarty->assign('active_controller', $controller);
+		
+		// Current Date
+		$date_entry = date('d M Y');
+		$this->smarty->assign('current_date_entry', $date_entry);
 		
 		// Form names
 		$form_names = $this->_form_names();
@@ -87,135 +91,158 @@ class Container_yard extends MY_Controller {
 		try {
 			
 			$id = trim( $this->input->post('card_id') );
+			$is_returned = $this->input->post('is-returned');
 			
-			$shipper = $this->input->post($forms->shipper);
-			$trucker = $this->input->post($forms->trucker);
-			$bin_no = $this->input->post($forms->bin_no);
-			$van = $this->input->post($forms->van_no);
-			$tcard_type = $this->input->post($forms->card_type);
-			$material_no = $this->input->post($forms->material_no);
-			$incoming_materials = $this->input->post('incoming-materials');
-			$van_type = $this->input->post($forms->van_type);
-			$batch_code = $this->input->post($forms->batch_code);
-			$status = $this->input->post($forms->status);
-			$qty_cases = $this->input->post($forms->qty_cases);
-			$qty_bags = $this->input->post($forms->qty_bags);
-			$date_stuffed = $this->input->post($forms->date_stuffed);
-			$date_stripped = $this->input->post($forms->date_stripped);
-			$checker = $this->input->post($forms->checker);
-			$entry_date = $this->input->post($forms->entry_date);
-			$rdd = $this->input->post($forms->rdd);
-			$dn = $this->input->post($forms->dn_no);
-			$date_sealed = $this->input->post($forms->date_sealed);
-			$seal_no = $this->input->post($forms->seal_no);
-			$remarks = $this->input->post($forms->remarks);
-			
-
-			$is_blocked = $this->input->post($forms->is_blocked);
-			$is_defective = $this->input->post($forms->is_defective);
-			$block_reason = $this->input->post($forms->block_reason);
-			
- 			$user = $this->session->userdata(SESSION_VAR);
- 			
-			/* TRANSFORM DATA */
-			$action = $id && $id != '' && $this->_validate_card_id($id) ? 'update' : 'create';
-			$material_no = isset($material_no) && $material_no != '' ? $material_no : '1';
-			$shipper = isset($shipper) && $shipper != '' ? $shipper : '1';
-			$trucker = isset($trucker) && $trucker != '' ? $trucker : '1';
-			$checker = isset($checker) && $checker != '' ? $checker : '1';
-			
- 			// Get T-card block status
- 			$current_block_status = $action == 'update' ? $this->tcard_model->get_tcard_block_status($id)->is_blocked : 0;
- 			$date_blocked = $is_blocked == 1 && $current_block_status == 0 ? date("Y-m-d H:i:s") : NULL;
-			
-			// Van ID
-			$matching_van = $this->vans_model->get_van_by_no($van);
-			if( $matching_van ) {
-				$van_id = $matching_van->v_id;
+			if( $is_returned == '1' ) {
+				
+				$this->_force_return_van($id);
+				$action = 'create';
+				
 			}else {
-				$data = array('v_no' => strtoupper($van));
-				$van_id = $this->vans_model->new_van($data);
-			}
-			
-			// Incoming Materials
-			$incoming_materials = $this->_udpate_incoming_materials($id, $incoming_materials);
-			
-			// Stuffing Controller
-			$stu_data = array();
-			if( $this->_card_value_changed($id, 'tc_datestuffed', $date_stuffed) ) {
-				$stu_data = array(
-					'tc_datestuffed' => $date_stuffed != '' ? date("Y-m-d", strtotime($date_stuffed)) : NULL,
-					'tc_stucontroller' => $user['u_id']
-				);
-			}
-			
-			// Stripping Controller
-			$str_data = array();
-			if( $this->_card_value_changed($id, 'tc_datestripped', $date_stripped) ) {
-				$str_data = array(
-					'tc_datestripped' => $date_stripped != '' ? date("Y-m-d", strtotime($date_stripped)) : NULL,
-					'tc_strcontroller' => $user['u_id']
-				);
-				
-				// change tcard type to empty if date stripped is not empty
-				if( $date_stripped != '' ) {
-					$ttype = $this->tcard_model->get_type_by_name('EMPTY');
-					$tcard_type = $ttype ? $ttype->tt_id : $tcard_type;
-				}
-			}
-			
-			$data = array(
-					's_id' => $shipper,
-					't_id' => $trucker,
-					'tc_bin' => strtoupper( $bin_no ),
-					'v_id' => $van_id,
-					'c_id' => $checker,
-					'm_id' => $material_no,
-					'vt_id' => $van_type,
-					'tt_id' => $tcard_type,
-					'tc_batchcode' => strtoupper( $batch_code ),
-					'tc_status' => strtoupper( $status ),
-					'tc_qcases' => $qty_cases,
-					'tc_qbags' => $qty_bags,
-					'tc_dateblocked' => $date_blocked,
-					'tc_entrydate' => $entry_date != '' ? date("Y-m-d H:i:s", strtotime($entry_date)) : NULL,
-					'tc_rdd' => $rdd != '' ? date("Y-m-d", strtotime($rdd)) : NULL,
-					'tc_dn' => strtoupper($dn),
-					'tc_datesealed' => $date_sealed != '' ? date("Y-m-d", strtotime($date_sealed)) : NULL,
-					'tc_sealno' => strtoupper( $seal_no ),
-					'tc_remarks' => strtoupper( $remarks ),
-					'tc_block_reason' => strtoupper( $block_reason ),
-					'is_blocked' => $is_blocked,
-					'is_defective' => $is_defective,
-					'u_id' => $user['u_id']
-			);
-			
-			$data = array_merge($data, $stu_data, $str_data);
-			
-			if( $action == 'create' ) {
-				$id = $this->tcard_model->new_card($data);
-				
-				$tp_data = array(
-					'tc_id' => $id,
-					'tp_position' => 'pending'
-				);
-				
-				$tp_id = $this->tcard_model->new_card_position($tp_data);
-			}elseif( $action == 'update' ) {
-				$this->tcard_model->update_tcard($id, $data);
-			}
-			
-			// Insert new incoming materials
-			if( $incoming_materials ) {
-				foreach( $incoming_materials as $k => $mat ) {
-					$mat_data = array(
-						'tc_id' => $id,
-						'im_id' => $mat
-					);
+				$shipper = $this->input->post($forms->shipper);
+				$trucker = $this->input->post($forms->trucker);
+				$bin_no = $this->input->post($forms->bin_no);
+				$van = $this->input->post($forms->van_no);
+				$tcard_type = $this->input->post($forms->card_type);
+				$material_nos = $this->input->post($forms->material_no);
+				$incoming_materials = $this->input->post('incoming-materials');
+				$van_type = $this->input->post($forms->van_type);
+				$batch_code = $this->input->post($forms->batch_code);
+				$status = $this->input->post($forms->status);
+				$qty_cases = $this->input->post($forms->qty_cases);
+				$qty_bags = $this->input->post($forms->qty_bags);
+				$date_stuffed = $this->input->post($forms->date_stuffed);
+				$date_stripped = $this->input->post($forms->date_stripped);
+				$checker = $this->input->post($forms->checker);
+				$rdd = $this->input->post($forms->rdd);
+				$dn = $this->input->post($forms->dn_no);
+				$date_sealed = $this->input->post($forms->date_sealed);
+				$seal_no = $this->input->post($forms->seal_no);
+				$remarks = $this->input->post($forms->remarks);
 					
-					$this->tcard_model->new_tcard_incoming_material( $mat_data );
+				
+				$is_blocked = $this->input->post($forms->is_blocked);
+				$is_defective = $this->input->post($forms->is_defective);
+				$block_reason = $this->input->post($forms->block_reason);
+					
+				$user = $this->session->userdata(SESSION_VAR);
+				
+				/* TRANSFORM DATA */
+				$action = $id && $id != '' && $this->_validate_card_id($id) ? 'update' : 'create';
+				$shipper = isset($shipper) && $shipper != '' ? $shipper : '1';
+				$trucker = isset($trucker) && $trucker != '' ? $trucker : '1';
+				$checker = isset($checker) && $checker != '' ? $checker : '1';
+					
+				// Get T-card block status
+				$current_block_status = $action == 'update' ? $this->tcard_model->get_tcard_block_status($id)->is_blocked : 0;
+				$date_blocked = $is_blocked == 1 && $current_block_status == 0 ? date("Y-m-d H:i:s") : NULL;
+					
+				// Van ID
+				$matching_van = $this->vans_model->get_van_by_no($van);
+				if( $matching_van ) {
+					$van_id = $matching_van->v_id;
+				}else {
+					$data = array('v_no' => strtoupper($van));
+					$van_id = $this->vans_model->new_van($data);
+				}
+					
+				// Incoming Materials
+				$incoming_materials = $this->_udpate_incoming_materials($id, $incoming_materials);
+				
+				// Outgoing Materials
+				$outgoing_materials = $this->_udpate_outgoing_materials( $id, $material_nos );
+					
+				// Stuffing Controller
+				$stu_data = array();
+				if( $this->_card_value_changed($id, 'tc_datestuffed', $date_stuffed) ) {
+					$stu_data = array(
+							'tc_datestuffed' => $date_stuffed != '' ? date("Y-m-d", strtotime($date_stuffed)) : NULL,
+							'tc_stucontroller' => $user['u_id']
+					);
+				}
+					
+				// Stripping Controller
+				$str_data = array();
+				if( $this->_card_value_changed($id, 'tc_datestripped', $date_stripped) ) {
+					$str_data = array(
+							'tc_datestripped' => $date_stripped != '' ? date("Y-m-d", strtotime($date_stripped)) : NULL,
+							'tc_strcontroller' => $user['u_id']
+					);
+				
+					// change tcard type to empty if date stripped is not empty
+					if( $date_stripped != '' ) {
+						$ttype = $this->tcard_model->get_type_by_name('EMPTY');
+						$tcard_type = $ttype ? $ttype->tt_id : $tcard_type;
+					}
+				}
+					
+				$data = array(
+						's_id' => $shipper,
+						't_id' => $trucker,
+						'tc_bin' => strtoupper( $bin_no ),
+						'v_id' => $van_id,
+						'c_id' => $checker,
+						'vt_id' => $van_type,
+						'tt_id' => $tcard_type,
+						'tc_batchcode' => strtoupper( $batch_code ),
+						'tc_status' => strtoupper( $status ),
+						'tc_qcases' => $qty_cases,
+						'tc_qbags' => $qty_bags,
+						'tc_dateblocked' => $date_blocked,
+						'tc_rdd' => $rdd != '' ? date("Y-m-d", strtotime($rdd)) : NULL,
+						'tc_dn' => strtoupper($dn),
+						'tc_datesealed' => $date_sealed != '' ? date("Y-m-d", strtotime($date_sealed)) : NULL,
+						'tc_sealno' => strtoupper( $seal_no ),
+						'tc_remarks' => strtoupper( $remarks ),
+						'tc_block_reason' => strtoupper( $block_reason ),
+						'is_blocked' => $is_blocked,
+						'is_defective' => $is_defective,
+						'u_id' => $user['u_id']
+				);
+					
+				$data = array_merge($data, $stu_data, $str_data);
+					
+				if( $action == 'create' ) {
+					// add entry date
+					$data['tc_entrydate'] = date("Y-m-d H:i:s");
+					
+					$id = $this->tcard_model->new_card($data);
+				
+					$tp_data = array(
+							'tc_id' => $id,
+							'tp_position' => 'pending'
+					);
+				
+					$tp_id = $this->tcard_model->new_card_position($tp_data);
+				}elseif( $action == 'update' ) {
+					$this->tcard_model->update_tcard($id, $data);
+				}
+					
+				// Insert new incoming materials
+				if( $incoming_materials ) {
+					foreach( $incoming_materials as $k => $mat ) {
+						$mat_data = array(
+								'tc_id' => $id,
+								'im_id' => $mat
+						);
+							
+						$this->tcard_model->new_tcard_incoming_material( $mat_data );
+					}
+				}
+				
+				// Insert new outgoing materials
+				if( $outgoing_materials ) {
+					foreach( $outgoing_materials as $k => $mat ) {
+						$mat_data = array(
+								'tc_id' => $id,
+								'm_id' => $mat
+						);
+							
+						$this->tcard_model->new_tcard_outgoing_material( $mat_data );
+					}
 				}
 			}
+			
 			
 			$tcard = $this->_get_tcard_by_id($id);
 			
@@ -297,6 +324,25 @@ class Container_yard extends MY_Controller {
 		return $is_date;
 	}
 	
+	function van_unique( $van_no, $trucker_shipper_ids ) {
+		$is_unique = TRUE;
+		
+		$id_array = explode(',', $trucker_shipper_ids);
+		$id_array = array(
+			'trucker' => trim($id_array[0]) ? trim($id_array[0]) : 1,
+			'shipper' => trim($id_array[1]) ? trim($id_array[1]) : 1
+		);
+		
+		$card = $this->tcard_model->get_card_by_van_shipper_trucker( $van_no, $id_array['shipper'], $id_array['trucker'] );
+		
+		if( $card ) {
+			$is_unique = FALSE;
+			$this->form_validation->set_message('van_unique', 'This van number along with the selected shipper and/or trucker is already present inside the yard.');
+		}
+		
+		return $is_unique;
+	}
+	
 	function get_card_details() {
 		$id = trim($this->input->post('id'));
 		
@@ -354,7 +400,6 @@ class Container_yard extends MY_Controller {
 					'tp_position' => $tcard->tp_position,
 					's_name' => $tcard->s_name,
 					'e_serial' => $this->tcard_model->exitpass_serial(),
-					'm_description' => $tcard->m_description,
 					'date' => date('M d, Y')
 				);
 				
@@ -430,7 +475,6 @@ class Container_yard extends MY_Controller {
 				$e['e_date'] = date('M d, Y', strtotime($pass->e_date));
 				$e['e_van_class'] = $this->_get_van_class_name($pass->e_van_class);
 				$e['e_van_class_code'] = $pass->e_van_class;
-				$e['m_description'] = $tcard->m_description;
 				$e['tp_position'] = $tcard->tp_position;
 				
 				$data['success'] = TRUE;
@@ -475,6 +519,7 @@ class Container_yard extends MY_Controller {
 			$batch_code = $this->input->post('batch_code');
 			$seal_no = $this->input->post('seal_no');
 			$dn = $this->input->post('dn');
+			$status = $this->input->post('status');
 			$entry_from = $this->input->post('entry_from');
 			$entry_to = $this->input->post('entry_to');
 			$exit_from = $this->input->post('exit_from');
@@ -504,6 +549,7 @@ class Container_yard extends MY_Controller {
 					'batch_code' => strtoupper($batch_code),
 					'seal_no' => strtoupper($seal_no),
 					'dn' => strtoupper($dn),
+					'status' => strtoupper($status),
 					'entry_from' => $entry_from,
 					'entry_to' => $entry_to,
 					'exit_from' => $exit_from,
@@ -735,6 +781,21 @@ class Container_yard extends MY_Controller {
 	
 	}
 	
+	public function check_user_auth() {
+		
+		try {
+			$user = $this->session->userdata( SESSION_VAR );
+			
+			$is_admin = $user ? $user['u_isadmin'] : FALSE;
+			
+		} catch (Exception $e) {
+			$is_admin = FALSE;
+		}
+		
+		$data['is_admin'] = $is_admin;
+		echo json_encode( $data );
+	}
+	
 	/* PRIVATES */
 	
 	private function _validate_card_id( $id ) {
@@ -757,8 +818,8 @@ class Container_yard extends MY_Controller {
 		
 		try {
 		
-// 			$returnVal = $this->vans_model->get_vans();
-			$returnVal = $this->vans_model->get_unsed_vans();
+			$returnVal = $this->vans_model->get_vans();
+// 			$returnVal = $this->vans_model->get_unused_vans();
 			
 		} catch (Exception $e) {
 			unset($e);
@@ -804,11 +865,13 @@ class Container_yard extends MY_Controller {
 	private function _set_form_rules() {
 	
 		$forms = $this->_form_names();
+		$trucker = $this->input->post($forms->trucker);
+		$shipper = $this->input->post($forms->shipper);
 	
 		$rules = array(
 				'card_type' => 'required|xss_clean',
 				'bin_no' => 'xss_clean',
-				'van_no' => 'required|xss_clean',
+				'van_no' => 'required|callback_van_unique['. $trucker. ','. $shipper .']|xss_clean',
 				'material_no' => 'xss_clean',
 				'incoming_materials' => 'xss_clean',
 				'van_type' => 'required|xss_clean',
@@ -818,16 +881,16 @@ class Container_yard extends MY_Controller {
 				'trucker' => 'xss_clean',
 				'qty_cases' => 'integer|xss_clean',
 				'qty_bags' => 'integer|xss_clean',
-				'date_stuffed' => 'callback_is_date|xss_clean',
+				'date_stuffed' => 'xss_clean',
 				'stuff_controller' => 'xss_clean',
-				'date_stripped' => 'callback_is_date|xss_clean',
+				'date_stripped' => 'xss_clean',
 				'strip_controller' => 'xss_clean',
 				'checker' => 'xss_clean',
-				'entry_date' => 'callback_is_date|xss_clean',
-				'rdd' => 'callback_is_date|xss_clean',
+				'entry_date' => 'xss_clean',
+				'rdd' => 'xss_clean',
 				'time_out' => 'xss_clean',
 				'dn_no' => 'xss_clean',
-				'date_sealed' => 'callback_is_date|xss_clean',
+				'date_sealed' => 'xss_clean',
 				'seal_no' => 'xss_clean',
 				'block_reason' => 'xss_clean',
 				'remarks' => 'xss_clean'
@@ -871,7 +934,7 @@ class Container_yard extends MY_Controller {
 			$card[$forms->card_type] = $details->tt_id;
 			$card[$forms->bin_no] = $details->tc_bin;
 			$card[$forms->van_no] = $details->v_no;
-			$card[$forms->material_no] = $details->m_id;
+			$card[$forms->material_no] = $this->_get_card_outgoing_materials_id($details->tc_id);
 			$card[$forms->van_type] = $details->vt_id;
 			$card[$forms->batch_code] = $details->tc_batchcode;
 			$card[$forms->status] = $details->tc_status;
@@ -884,7 +947,7 @@ class Container_yard extends MY_Controller {
 			$card[$forms->date_stripped] = $details->tc_datestripped;
 			$card[$forms->strip_controller] = $details->tc_strcontroller;
 			$card[$forms->checker] = $details->c_id;
-			$card[$forms->entry_date] = $details->tc_entrydate;
+			$card[$forms->entry_date] = date('d M Y', strtotime($details->tc_entrydate));
 			$card[$forms->rdd] = $details->tc_rdd;
 			$card[$forms->time_out] = $details->e_timeout;
 			$card[$forms->dn_no] = $details->tc_dn;
@@ -943,6 +1006,42 @@ class Container_yard extends MY_Controller {
 		
 	}
 	
+	private function _udpate_outgoing_materials( $tcard_id, $new_mats ) {
+	
+		if( $this->_validate_card_id($tcard_id) ) {
+				
+			$old_mats = array();
+				
+			$this->tcard_model->flush_tcard_outgoing_materials($tcard_id);
+				
+			$previous_material = $this->tcard_model->get_card_outgoing_materials($tcard_id);
+				
+			if( $previous_material ) {
+				foreach( $previous_material as $k => $mat ) {
+					$old_mats[$mat->tom_id] = $mat->m_id;
+				}
+			}
+				
+			if( $new_mats && !empty( $new_mats ) ) {
+				foreach( $new_mats as $k => $new_mat ) {
+					if( in_array($new_mat, $old_mats) ) {
+						$this->materials_model->unpurge_tcard_outgoing_material( array_search($new_mat, $old_mats) );
+						unset( $new_mats[$k] );
+					}
+				}
+			}
+				
+				
+			$returnVal = $new_mats;
+				
+		}
+	
+		$returnVal = $new_mats;
+	
+		return $returnVal;
+	
+	}
+	
 	private function _get_card_incoming_materials_id( $tcard_id ) {
 		$returnVal = array();
 		
@@ -955,6 +1054,46 @@ class Container_yard extends MY_Controller {
 		}
 		
 		return $returnVal;
+	}
+	
+	private function _get_card_outgoing_materials_id( $tcard_id ) {
+		$returnVal = array();
+	
+		$materials = $this->tcard_model->get_card_current_outgoing_materials($tcard_id);
+	
+		if( $materials ) {
+			foreach( $materials as $k => $mat ) {
+				$returnVal[] = $mat->m_id;
+			}
+		}
+	
+		return $returnVal;
+	}
+	
+	private function _force_return_van( $id ) {
+		
+		if( $this->_validate_card_id( $id ) ) {
+			$exit_pass = $this->tcard_model->get_tcard_exit_pass($id);
+				
+			if( $exit_pass && $exit_pass->e_timeout ) {
+				$ep_data = array(
+						'e_timeout' => NULL,
+						'e_driver' => '',
+						'e_plateno' => ''
+				);
+				$this->tcard_model->update_tcard_exitpass( $id, $ep_data );
+		
+		
+				$pos_data = array(
+						'tc_id' => $id,
+						'tp_position' => 'pending',
+						'tp_top' => NULL,
+						'tp_left' => NULL
+				);
+				$this->tcard_model->new_card_position( $pos_data );
+			}
+				
+		}
 	}
 	
 	private function _check_tcard_exitpass( $tcard_id ) {
@@ -1017,6 +1156,13 @@ class Container_yard extends MY_Controller {
 			$t['for_dispatch'] = $this->_is_ready_for_dispatch( $id ) ? 'true' : 'false';
 			$t['dayspan'] = $this->_get_dayspan(new DateTime( $t['tc_entrydate'] ), new DateTime());
 			$t['timespan'] = $this->_get_timespan( mysql_to_unix( $t['tc_entrydate'] ), time() );
+
+			$t['tc_entrydate'] = $t['tc_entrydate'] ? date( "d M Y", strtotime( $t['tc_entrydate'] ) ) : NULL;
+			$t['tc_rdd'] = $t['tc_rdd'] ? date( "d M Y", strtotime( $t['tc_rdd'] ) ) : NULL;
+			$t['tc_datestuffed'] = $t['tc_datestuffed'] ? date( "d M Y", strtotime( $t['tc_datestuffed'] ) ) : NULL;
+			$t['tc_datesealed'] = $t['tc_datesealed'] ? date( "d M Y", strtotime( $t['tc_datesealed'] ) ) : NULL;
+			$t['tc_datestripped'] = $t['tc_datestripped'] ? date( "d M Y", strtotime( $t['tc_datestripped'] ) ) : NULL;
+			$t['tc_dateblocked'] = $t['tc_dateblocked'] ? date( "d M Y", strtotime( $t['tc_dateblocked'] ) ) : NULL;
 			
 			$card = (object)$t;
 		}
@@ -1028,7 +1174,8 @@ class Container_yard extends MY_Controller {
 		$returnVal = FALSE;
 		
 		$card = $this->tcard_model->get_tcard_by_id($card_id);
-		if( $card && $card->ttg_id == 3 && $card->tc_dn != null && $card->tc_dn != '' && $card->tc_sealno != null && $card->tc_sealno != '' ) {
+		$exit_pass = $this->tcard_model->get_tcard_exit_pass( $card_id );
+		if( ($card && $card->ttg_id == 3 && $card->tc_dn != null && $card->tc_dn != '' && $card->tc_sealno != null && $card->tc_sealno != '') || $exit_pass ) {
 			$returnVal = TRUE;
 		}
 		

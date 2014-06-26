@@ -76,8 +76,6 @@ function initiate_new_exit_pass( tcard_id ) {
            		$('.dn-no-text').text(details.tc_dn ? details.tc_dn : '');
            		$('.shipper-text').text(details.s_name ? details.s_name : '');
               $('.epass-serial-text').text(details.e_serial ? details.e_serial : '');
-
-              $('[name="particulars"]').val(details.m_description);
            }
        }
    });
@@ -121,7 +119,7 @@ function initiate_exit_pass_preview( tcard_id ) {
 
                   $('[name="destination"]').val(details.e_destination);
                   $('[name="plate-no"]').val(details.e_plateno);
-                  $('[name="particulars"]').val(details.e_particulars ? details.e_particulars : details.m_description);
+                  $('[name="particulars"]').val(details.e_particulars);
                   $('[name="driver"]').val(details.e_driver);
 
                   // Van Class
@@ -201,7 +199,7 @@ function reset_exit_pass() {
   $('#exitPassModal').find('[type="text"], [type="hidden"]').val('');
   $('#exitPassModal').find('[type="radio"][value="FG"]').prop('checked', true).trigger('change');
   $('#exitPassModal').data('preview', false);
-  $('.text-holder').text('');
+  $('#exitPassModal').find('.text-holder').text('');
 
   $('.preview-field').addClass('absolute-hide');
   $('.entry-field').removeClass('absolute-hide');

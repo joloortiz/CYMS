@@ -73,7 +73,7 @@
 						<div class="row buffer-top">
 							<div class="col-md-4"><h5><strong>Material No.</strong></h5></div>
 							<div class="col-md-8">
-								<select name="outgoing-mat-filter" class="form-control input-sm">
+								<select name="outgoing-mat-filter" class="form-control input-sm" multiple>
 									<option value=""></option>
 	      						</select>
 							</div>
@@ -89,6 +89,16 @@
 						<div class="row buffer-top">
 							<div class="col-md-4"><h5><strong>DN No.</strong></h5></div>
 							<div class="col-md-8"><input name="dn-filter" class="form-control input-sm" type="text" placeholder="DN No."></div>
+						</div>
+						<div class="row buffer-top">
+							<div class="col-md-4"><h5><strong>Status</strong></h5></div>
+							<div class="col-md-8">
+								<select name="status-filter" class="form-control input-sm">
+									<option value=""></option>
+									<option value="empty">EMPTY</option>
+									<option value="fulls">FULLS</option>
+	      						</select>
+							</div>
 						</div>
 						<div class="row buffer-top">
 							<div class="col-md-4"><h5><strong>Entry</strong></h5></div>

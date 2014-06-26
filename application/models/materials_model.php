@@ -115,6 +115,15 @@ class Materials_model extends CI_Model{
 		}
 	}
 	
+	function unpurge_tcard_outgoing_material( $id ) {
+		$data = array(
+				'is_deleted' => FALSE
+		);
+	
+		$this->db->where('tom_id', $id);
+		$query = $this->db->update('tcard_outgoing_materials', $data);
+	}
+	
 	/* DELETE */
 	
 	/**
@@ -131,4 +140,6 @@ class Materials_model extends CI_Model{
 		$this->db->where('m_id', $id);
 		$query = $this->db->update('materials', $data);
 	}
+	
+	
 }

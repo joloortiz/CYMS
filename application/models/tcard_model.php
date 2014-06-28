@@ -129,6 +129,21 @@ class Tcard_model extends CI_Model{
 		return $returnVal;
 	}
 	
+	function get_simple_tcard_by_id( $id ) {
+		$returnVal = NULL;
+		
+		$this->db->from('tcards');
+		$this->db->where('tc_id', $id);
+		$query = $this->db->get();
+		
+		if( $query->num_rows() == 1 ) {
+			$returnVal = $query->result();
+			$returnVal = $returnVal[0];
+		}
+		
+		return $returnVal;
+	}
+	
 	function get_tcard_block_status($id) {
 		$returnVal = NULL;
 		
@@ -348,10 +363,9 @@ class Tcard_model extends CI_Model{
 		
 		$this->db->select('tc.*, v.v_no');
 		$this->db->from('tcards tc');
-		$this->db->join('tcard_types tt', 'tc.tt_id = tt.tt_id');
 		$this->db->join('exit_passes e', 'e.tc_id = tc.tc_id', 'left');
 		$this->db->join('vans v', 'tc.v_id = v.v_id');
-		$this->db->where('tt.tt_name', 'EMPTY');
+		$this->db->where('tc.tc_status', 'EMPTY');
 		$this->db->where('e.e_timeout IS NULL');
 		$this->db->order_by('tc.tc_entrydate', 'DESC');
 		$query = $this->db->get();
@@ -378,15 +392,22 @@ class Tcard_model extends CI_Model{
 		return $returnVal;
 	}
 	
-	function get_card_by_van_shipper_trucker( $v_no, $s_id, $t_id ) {
+	function get_card_by_van_shipper_trucker( $v_no, $s_id, $t_id, $tc_id ) {
 		$returnVal = NULL;
 		
 		$this->db->select('tc.*');
 		$this->db->from('vans v');
 		$this->db->join('tcards tc', 'v.v_id = tc.v_id');
+		$this->db->join('exit_passes e', 'tc.tc_id = e.tc_id', 'left');
 		$this->db->where('v.v_no', $v_no);
 		$this->db->where('tc.s_id', $s_id);
 		$this->db->where('tc.t_id', $t_id);
+		$this->db->where('e.e_timeout IS NOT NULL');
+		
+		if( $tc_id != '' ) {
+			$this->db->where('tc.tc_id <>', $tc_id);
+		}
+		
 		$query = $this->db->get();
 		
 		if( $query->num_rows() > 0 ) {
@@ -665,6 +686,16 @@ class Tcard_model extends CI_Model{
 		$this->db->update('exit_passes', $data);
 	}
 	
+	function update_tcard_incoming_materials( $tcard_id, $data ){
+		$this->db->where('tc_id', $tcard_id);
+		$this->db->update('tcard_incoming_materials', $data);
+	}
+	
+	function update_tcard_outgoing_materials( $tcard_id, $data ){
+		$this->db->where('tc_id', $tcard_id);
+		$this->db->update('tcard_outgoing_materials', $data);
+	}
+	
 	/* DELETE */
 	
 	/**
@@ -698,6 +729,11 @@ class Tcard_model extends CI_Model{
 	
 		$this->db->where('tc_id', $tcard_id);
 		$this->db->update('tcard_outgoing_materials', $data);
+	}
+	
+	function purge_tcard_exit_pass( $tcard_id ) {
+		$this->db->where( 'tc_id', $tcard_id );
+		$this->db->delete( 'exit_passes' );
 	}
 	
 	

@@ -7,7 +7,7 @@
       			<h4 class="modal-title">T-Card Details</h4>
       		</div>
       		<div class="col-xs-4">
-            <input name="{$form->card_type}" class="form-control input-sm semi-real-time" type="hidden">
+            <input name="{$form->card_type}" class="form-control input-sm semi-real-time card-status-switch" type="hidden">
 					<span class="help-inline"></span>
       		</div>
       	</div>		        
@@ -45,7 +45,11 @@
       				</td>
       				<td class="col-xs-3">
                 <strong>Status</strong>
-                <input name="{$form->status}" class="form-control input-sm" type="text">
+                <select name="{$form->status}" class="form-control">
+                    <option value=""></option>
+                    <option value="empty">EMPTY</option>
+                    <option value="fulls">FULLS</option>
+                </select>
                 <span class="help-inline"></span>
       				</td>
       			</tr>
@@ -140,7 +144,7 @@
                 <div class="row disabled faded">
                   <div class="col-sm-6">
                     <strong>Date Stuffed</strong>
-                    <input name="{$form->date_stuffed}" class="form-control input-sm generic-datepicker" type="text">
+                    <input name="{$form->date_stuffed}" class="form-control input-sm generic-datepicker card-status-switch" type="text">
                     <span class="help-inline"></span>
                   </div>
                   <div class="col-sm-6">
@@ -164,7 +168,7 @@
                 <div class="row disabled faded">
                   <div class="col-sm-6">
                     <strong>Date Stripped</strong>
-                    <input name="{$form->date_stripped}" class="form-control input-sm generic-datepicker" type="text">
+                    <input name="{$form->date_stripped}" class="form-control input-sm generic-datepicker card-status-switch" type="text">
                   <span class="help-inline"></span>
                   </div>
                   <div class="col-sm-6">
@@ -246,7 +250,11 @@
                       <button id="new-exit-pass-btn" class="btn btn-primary in-form-button">Create Exit Pass</button>
                     </div>
                   </div>
-      						<div class="col-sm-6">
+      						<div class="col-sm-6 update-card-field">
+                    <div class="van-transfer-btn-container">
+                      <br>
+                      <button id="van-transfer-btn-tcard" class="btn btn-danger in-form-button van-transfer-btn" data-origin="tcard">Transfer</button>
+                    </div>
       						</div>
       					</div>
       				</td>

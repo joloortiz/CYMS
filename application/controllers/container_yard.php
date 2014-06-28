@@ -29,6 +29,7 @@ class Container_yard extends MY_Controller {
 				'pages/cy-exitpass.js',
 				'pages/cy-tcard-filter.js',
 				'pages/cy-print-filter.js',
+				'pages/cy-van-transfer.js',
 				'checknumeric.js'
 		);
 		$this->smarty->assign('page_js', $js);
@@ -92,10 +93,14 @@ class Container_yard extends MY_Controller {
 			
 			$id = trim( $this->input->post('card_id') );
 			$is_returned = $this->input->post('is-returned');
+			$wingvan_transfer = $this->input->post('wingvan-transfer');
 			
 			if( $is_returned == '1' ) {
 				
 				$this->_force_return_van($id);
+				$action = 'create';
+				
+			}else if( $wingvan_transfer == '1' ) {
 				$action = 'create';
 				
 			}else {
@@ -168,12 +173,6 @@ class Container_yard extends MY_Controller {
 							'tc_datestripped' => $date_stripped != '' ? date("Y-m-d", strtotime($date_stripped)) : NULL,
 							'tc_strcontroller' => $user['u_id']
 					);
-				
-					// change tcard type to empty if date stripped is not empty
-					if( $date_stripped != '' ) {
-						$ttype = $this->tcard_model->get_type_by_name('EMPTY');
-						$tcard_type = $ttype ? $ttype->tt_id : $tcard_type;
-					}
 				}
 					
 				$data = array(
@@ -330,10 +329,11 @@ class Container_yard extends MY_Controller {
 		$id_array = explode(',', $trucker_shipper_ids);
 		$id_array = array(
 			'trucker' => trim($id_array[0]) ? trim($id_array[0]) : 1,
-			'shipper' => trim($id_array[1]) ? trim($id_array[1]) : 1
+			'shipper' => trim($id_array[1]) ? trim($id_array[1]) : 1,
+			'tcard_id' => $id_array[2] ? trim($id_array[2]) : ''
 		);
 		
-		$card = $this->tcard_model->get_card_by_van_shipper_trucker( $van_no, $id_array['shipper'], $id_array['trucker'] );
+		$card = $this->tcard_model->get_card_by_van_shipper_trucker( $van_no, $id_array['shipper'], $id_array['trucker'], $id_array['tcard_id'] );
 		
 		if( $card ) {
 			$is_unique = FALSE;
@@ -757,6 +757,122 @@ class Container_yard extends MY_Controller {
 		echo json_encode( $var );
 	}
 	
+	function initiate_van_transfer() {
+		$success = FALSE;
+		
+		try {
+			$orig_tc_id = $this->input->post('orig_card');
+			$target_tc_id = $this->input->post('target_card');
+			$van_type = $this->_validate_card_id( $target_tc_id ) ? 'cv' : 'wv';
+			
+			$orig_card = $this->tcard_model->get_simple_tcard_by_id( $orig_tc_id );
+			$target_card = $this->tcard_model->get_simple_tcard_by_id( $target_tc_id );
+			
+			if( $this->_validate_card_id($orig_tc_id) && $van_type == 'cv') {
+				
+				// Switch card details except for van-related ones
+				$orig_switched = clone $target_card;
+				$orig_switched->vt_id = $orig_card->vt_id;
+				$orig_switched->v_id = $orig_card->v_id;
+				$orig_switched->s_id = $orig_card->s_id;
+				$orig_switched->t_id = $orig_card->t_id;
+				$orig_switched->tc_entrydate = $orig_card->tc_entrydate;
+				$orig_switched->tc_rdd = $orig_card->tc_rdd;
+				$orig_switched->tc_status = 'EMPTY';
+				unset( $orig_switched->tc_id );
+				
+				$orig_switched = (array)$orig_switched;
+				$this->tcard_model->update_tcard( $orig_card->tc_id, $orig_switched );
+				
+				$target_switched = clone $orig_card;
+				$target_switched->vt_id = $target_card->vt_id;
+				$target_switched->v_id = $target_card->v_id;
+				$target_switched->s_id = $target_card->s_id;
+				$target_switched->t_id = $target_card->t_id;
+				$target_switched->tc_entrydate = $target_card->tc_entrydate;
+				$target_switched->tc_rdd = $target_card->tc_rdd;
+				unset( $target_switched->tc_id );
+				
+				$target_switched = (array)$target_switched;
+				$this->tcard_model->update_tcard( $target_card->tc_id, $target_switched );
+				
+				$this->tcard_model->purge_tcard_exit_pass( $target_card->tc_id );
+				$this->tcard_model->flush_tcard_incoming_materials( $target_card->tc_id );
+				$this->tcard_model->flush_tcard_outgoing_materials( $target_card->tc_id );
+				
+				$this->tcard_model->update_tcard_exitpass( $orig_card->tc_id, array('tc_id' => $target_card->tc_id) );
+				$this->tcard_model->update_tcard_incoming_materials( $orig_card->tc_id, array('tc_id' => $target_card->tc_id) );
+				$this->tcard_model->update_tcard_outgoing_materials( $orig_card->tc_id, array('tc_id' => $target_card->tc_id) );
+
+				$var['new_id'] = $target_card->tc_id;
+				$success = TRUE;
+				
+			}else if( $this->_validate_card_id($orig_tc_id) && $van_type == 'wv') {
+				$card_for_wv = clone $orig_card;
+				$card_for_wv->v_id = '3';	// Wingvan
+				$card_for_wv->s_id = '1';	// Set shipper to none
+				$card_for_wv->t_id = '1';	// Set trucker to none
+				unset( $card_for_wv->tc_id );
+				
+				$card_for_wv = (array)$card_for_wv;
+				$new_id = $this->tcard_model->new_card( $card_for_wv );
+				
+				$pos_data = array(
+						'tc_id' => $new_id,
+						'tp_position' => 'pending',
+						'tp_top' => NULL,
+						'tp_left' => NULL
+				);
+				$this->tcard_model->new_card_position( $pos_data );
+				
+				$this->tcard_model->update_tcard_exitpass( $orig_card->tc_id, array('tc_id' => $new_id) );
+				$this->tcard_model->update_tcard_incoming_materials( $orig_card->tc_id, array('tc_id' => $new_id) );
+				$this->tcard_model->update_tcard_outgoing_materials( $orig_card->tc_id, array('tc_id' => $new_id) );
+				
+				
+				$orig_van = clone $orig_card;
+				$orig_van->tc_bin = '';
+				$orig_van->tc_batchcode = '';
+				$orig_van->tc_checker = '';
+				$orig_van->tc_status = 'EMPTY';
+				$orig_van->tc_datestuffed = '';
+				$orig_van->tc_dn = '';
+				$orig_van->tc_sealno = '';
+				$orig_van->tc_datesealed = '';
+				$orig_van->tc_qcases = '';
+				$orig_van->tc_qbags = '';
+				$orig_van->tc_datestripped = '';
+				$orig_van->tc_strcontroller = '';
+				$orig_van->tc_stucontroller = '';
+				
+				unset( $orig_van->tc_id );
+				unset( $orig_van->v_id );
+				unset( $orig_van->tt_id );
+				unset( $orig_van->s_id );
+				unset( $orig_van->t_id );
+				unset( $orig_van->u_id );
+				unset( $orig_van->c_id );
+				unset( $orig_van->tc_strcontroller );
+				unset( $orig_van->tc_stucontroller );
+				
+				$orig_van = (array)$orig_van;
+				$this->tcard_model->update_tcard( $orig_card->tc_id, $orig_van );
+				
+				$var['new_card_id'] = $new_id;
+				$var['details'] = $card_for_wv;
+				$success = TRUE;
+			}
+			
+			$var['van_type'] = $van_type;
+		} catch (Exception $e) {
+			unset($e);
+		}
+		
+
+		$var['success'] = $success;
+		echo json_encode( $var );
+	}
+	
 	function print_filter() {
 		/*
 			$val1 = "SOLID-G4592J";
@@ -865,18 +981,19 @@ class Container_yard extends MY_Controller {
 	private function _set_form_rules() {
 	
 		$forms = $this->_form_names();
+		$tc_id = trim( $this->input->post('card_id') );
 		$trucker = $this->input->post($forms->trucker);
 		$shipper = $this->input->post($forms->shipper);
 	
 		$rules = array(
 				'card_type' => 'required|xss_clean',
 				'bin_no' => 'xss_clean',
-				'van_no' => 'required|callback_van_unique['. $trucker. ','. $shipper .']|xss_clean',
+				'van_no' => 'required|callback_van_unique['. $trucker. ','. $shipper .', '. $tc_id .']|xss_clean',
 				'material_no' => 'xss_clean',
 				'incoming_materials' => 'xss_clean',
 				'van_type' => 'required|xss_clean',
 				'batch_code' => 'xss_clean',
-				'status' => 'xss_clean',
+				'status' => 'required|xss_clean',
 				'shipper' => 'xss_clean',
 				'trucker' => 'xss_clean',
 				'qty_cases' => 'integer|xss_clean',

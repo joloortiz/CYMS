@@ -98,6 +98,11 @@
 									<span class="pull-right position-text-container text-holder"></span>
 								</div>
 							</div>
+							<div class="row buffer-top">
+								<div class="col-xs-12">
+									<button id="van-transfer-btn-exitpass" class="btn btn-danger van-transfer-btn entry-field" data-origin="exitpass">Transfer</button>
+								</div>
+							</div>
 						</td>
 					</tr>
 				</table>

@@ -55,7 +55,7 @@
     vertical-align: top;
 }
 
-#history .panel-body, #empty-vans .panel-body, #pending .panel-body {
+#history .panel-body, #empty-vans .panel-body {
     overflow-y: scroll;
 }
 
@@ -68,7 +68,7 @@
 }
 
 #pending .panel-body {
-    max-height: 165px;
+    height: 165px;
 }
 
 #filter-list {

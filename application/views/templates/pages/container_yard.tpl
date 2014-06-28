@@ -976,6 +976,9 @@
 <!-- Select Fields Modal -->
 {include file="pages/_select_fields_modal.tpl"}
 
+<!-- Van Transfer Modal -->
+{include file="pages/_van_transfer_modal.tpl"}
+
 <!-- Print Preview Modal -->
 {include file="pages/_sf_preview_modal.tpl"}
 

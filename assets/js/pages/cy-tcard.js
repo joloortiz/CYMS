@@ -98,6 +98,11 @@ $('body').on('click', '.entry', function() {
 
     $('#newEntryModal').find('.semi-real-time').trigger('change').trigger('change');
 
+    // Status - last minute change
+    if( $.trim(details['status']) != '' ) {    
+        $('[name="status"]').val(details['status'].toLowerCase()).trigger('change');
+    }
+
     set_modal_state(true, !old_van);    // if it is an old van then it must not be editable. therefore, !old_van = editable
     show_new_entry_modal();
 });
@@ -231,6 +236,10 @@ $('#unblock-tcard').click(function() {
     $('[name="is-blocked"]').trigger('change');
 });
 
+$('#newEntryModal').on('change', '.card-status-switch', function() {
+    check_card_status();
+});
+
 
 /*
  * FUNCTIONS
@@ -271,6 +280,7 @@ function reset_tcard(){
 
     // Select2
     setup_tcard_types();
+    setup_status();
     setup_shippers();
     setup_truckers();
     setup_van_types();
@@ -363,6 +373,8 @@ function get_form_values() {
 
     if( $('#force-return-van').length > 0 ) {
         values['is-returned'] = 1;
+    }else if( $('#wingvan-transfer').length > 0 ) {
+        values['wingvan-transfer'] = 1;
     }else {
         forms = get_form_names();
 
@@ -380,6 +392,7 @@ function get_form_values() {
         values['is-defective'] = is_defective;
         values['block-reason'] = block_reason;
     }
+
 
     // special case (not in form names)
     values['card_id'] = $('[name="card-id"]').val();
@@ -722,6 +735,28 @@ function update_filters() {
     }
 }
 
+function check_card_status() {
+    var card_id = $('[name="card-type"]').val();
+    var card_group = $('#card-type-select-group-' + card_id).val();
+    var date_stuffed = $('[name="date-stuffed"]').val();
+    var date_stripped = $('[name="date-stripped"]').val();
+
+    switch( card_group ) {
+        case '2':   // Stripping
+            status = date_stripped != '' ? 'empty' : 'fulls';
+            break;
+        case '3':   // Stuffing
+            status = date_stuffed != '' ? 'fulls' : 'empty';
+            break;
+        default:    // none;
+            status = '';
+            break;
+    }
+
+    $('[name="status"]').val(status).trigger('change');
+
+}
+
 function setup_tcard_types() {
 
     var types = Array();
@@ -747,6 +782,15 @@ function setup_tcard_types() {
        }
    });
     
+}
+
+function setup_status() {
+
+    $('[name="status"]').removeClass('select2-offscreen').select2({
+        placeholder: 'Select Status',
+        allowClear: false
+    }).val('').trigger('change');
+
 }
 
 function setup_shippers() {

@@ -25,7 +25,9 @@ $('#van-transfer-type-selector').change(function() {
     switch( van_type ) {
         case '1': // Container van
             list_empty_vans();
-            $('#transfer-van-btn').prop('disabled', false);
+            if( $('#empty-van-transfer-list').children().length; > 0 ) {
+                $('#transfer-van-btn').prop('disabled', false);
+            }
 
             break;
         case '2': // Wing van
@@ -90,7 +92,7 @@ function list_empty_vans() {
     $.ajax({
         url: $('body').attr('base-url') + 'container_yard/get_empty_vans',
         type: 'POST',
-        async: true,
+        async: false,
         success: function (response) {
             var decode = jQuery.parseJSON(response);
             var list_str = '';
@@ -152,24 +154,6 @@ function transfer_van( from_card, to_card ) {
 
                     $('#vanTransferModal').append('<input id="wingvan-transfer" type="hidden">');
                     $('[name="card-id"]').val(new_card_id);
-
-                    /*var details = decode.details;
-
-                    $.each(details, function(form_name, val) {
-                        $('[name="'+ form_name +'"]').not('[type="checkbox"]').val(val);
-                    });
-
-                    // Block status
-                    var is_blocked = details['is-blocked'] == 0 ? false : true;
-                    var is_defective = details['is-defective'] == 0 ? false : true;
-                    $('[name="is-blocked"]').prop('checked', is_blocked);
-                    $('[name="is-defective"]').prop('checked', is_defective);
-                    $('[name="is-blocked"]').trigger('change');
-
-                    // Tcard Status - last minute change
-                    if( $.trim(details['status']) != '' ) {
-                        $('[name="status"]').val(details['status'].toLowerCase()).trigger('change');
-                    }*/
 
                     save();   // save new tcard - function from cy-tcard.parseJSON
 

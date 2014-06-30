@@ -534,7 +534,9 @@ function save() {
 
                 }
 
-                update_empty_van_list(); // from container-yard.js
+                // Functions from container-yard.js
+                update_empty_van_list();
+                init_pending_counter( pending_count() );
 
                 setTimeout(function() {
 

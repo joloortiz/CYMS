@@ -189,6 +189,10 @@ function save_exitpass() {
                 var tcard_id = $('[name="card-id"]').val();
 
                 $('#' + tcard_id).remove();
+
+                // Functions from container-yard.js
+                update_empty_van_list();
+                init_pending_counter( pending_count() );
               }
            }
        }

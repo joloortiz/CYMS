@@ -66,6 +66,7 @@ function get_advanced_search_results() {
 	//get all van nos from the advanced search results
 	var vans = [];
 	$('#present-van-list').find('.filtered-van').each(function(){ vans.push($(this).attr('data-card-id')) });
+	$('#previous-van-list').find('.old-van').each(function(){ vans.push($(this).attr('data-card-id')) });
 
 	return vans;
 

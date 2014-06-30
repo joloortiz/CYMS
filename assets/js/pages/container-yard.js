@@ -679,3 +679,125 @@ function update_empty_van_list() {
         }
     });
 }
+
+//Function to append date and time on the footer
+function append_datetime() {
+
+    $('.footer-datetime-greeting .date-time').empty();
+    $('.footer-datetime-greeting .date-time').append(now().date + ", " + now().time)
+
+} 
+
+//Function to append the greeting on the footer
+function append_greeting() {
+
+    var current_user = get_current_user();
+
+    var greeting = 'Hello, ' + current_user.u_username;
+
+    $('.footer-datetime-greeting .greeting').append(greeting);
+
+}
+
+function append_total_teu () {
+
+    var total_teu = get_total_teu();
+
+    $('.total-teu .label').empty();
+
+    $('.total-teu .label').append(total_teu[0].TEU);
+
+    if($('.total-teu .label').is(':empty')) {
+
+        $('.total-teu .label').append('0');
+
+    }
+
+}
+
+function append_total_vans () {
+
+    var vans = get_total_by_van_type();
+
+    $('.total-40-ftr .label').empty();
+    $('.total-20-ftr .label').empty();
+    $('.total-10-ftr .label').empty();
+
+    for(var i = 0; i < vans.length; i++) {
+
+        $('.total-' + vans[i].vt_name +'-ftr .label').append(vans[i].vans);
+
+    }
+
+    if($('.total-40-ftr .label').is(':empty')) {
+
+        $('.total-40-ftr .label').append('0');
+
+    }
+
+    if($('.total-20-ftr .label').is(':empty')) {
+
+        $('.total-20-ftr .label').append('0');
+
+    }
+
+    if($('.total-10-ftr .label').is(':empty')) {
+
+        $('.total-10-ftr .label').append('0');
+
+    }
+    
+}
+
+/*
+*
+* CY INITS
+*
+*/
+
+append_total_teu();
+append_total_vans();
+
+/*
+*
+* AJAX Functions
+*
+*/
+
+function get_total_teu(){
+
+    var data = [];
+
+    $.ajax({
+        url: $('body').attr('base-url') + 'container_yard/get_total_teu',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}
+
+function get_total_by_van_type() {
+
+    var data = [];
+
+    $.ajax({
+        url: $('body').attr('base-url') + 'container_yard/get_total_by_van_type',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}

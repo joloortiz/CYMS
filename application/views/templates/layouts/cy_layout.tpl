@@ -20,7 +20,7 @@
         <script data-main="{$base_url}{$smarty.const.SCRIPTS_DIR}/cy layout/bootloader" src="{$base_url}{$smarty.const.SCRIPTS_DIR}{$layout_js}"></script>
 
     </head>
-    <body base-url="{$base_url}">
+    <body base-url="{$base_url}" onload="append_datetime();append_greeting();">
     <div id="loading-overlay" class="loading-overlay hide">    
         <div class="spinner spinner-whole-page">
             <div class="bounce1"></div>
@@ -32,6 +32,10 @@
     	{block name=body}{/block}
 
     	<footer>
+            <div class="footer-datetime-greeting pull-right"> 
+                <h4 class="greeting"></h4>
+                <h4 class="date-time"></h4>
+            </div>
     		{include file="segments/scripts.tpl"}
     	</footer>
     </body>

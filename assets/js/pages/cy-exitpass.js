@@ -33,6 +33,9 @@ $('#save-exitpass-btn').click(function() {
   save_exitpass();
 });
 
+$('#print-exitpass-btn').click(function() {
+  print_exit_pass();
+});
 
 // Modal Events
 $('#exitPassModal').on('hidden.bs.modal', function() {
@@ -102,6 +105,7 @@ function initiate_exit_pass_preview( tcard_id ) {
               $('.date-text-container').text(details.e_date);
               $('.vantype-text-container').text(details.vt_name);
               $('.position-text-container').text(details.tp_position);
+              $('.timeout-text-container').text(details.e_timeout ? details.e_timeout : '');
               $('.van-no-text').text(details.v_no ? details.v_no : '');
               $('.seal-no-text').text(details.tc_sealno ? details.tc_sealno : '');
               $('.dn-no-text').text(details.tc_dn ? details.tc_dn : '');
@@ -228,5 +232,66 @@ function show_exit_pass_modal( ) {
           backdrop: 'static'
       });
   }, 200);
+
+  check_exit_pass();
   
+}
+
+function print_exit_pass () {
+
+    var tcard_id = $('[name="card-id"]').val();
+
+    var exit_pass_details = get_tcard_exit_pass(tcard_id);
+
+    if(exit_pass_details.e_driver != '' && exit_pass_details.e_plateno != '') {
+        
+        print_element("print-section-exit-pass", 'reports-print.css');
+
+    } else {
+        
+        print_element("print-section-exit-pass", 'reports-print.css');
+
+    }
+
+}
+
+function check_exit_pass() {
+    
+    var tcard_id = $('[name="card-id"]').val();
+    var data = get_tcard_exit_pass (tcard_id);
+
+    $('#print-exitpass-btn').removeClass('hide');
+
+    if(data == null) {
+        $('#print-exitpass-btn').addClass('hide');
+    }
+
+}
+
+/*
+*
+* AJAX Functions 
+*
+*/
+
+function get_tcard_exit_pass ( tcard_id ) {
+
+  var data = [];
+
+    $.ajax({
+        url: $('body').attr('base-url') + 'container_yard/get_tcard_exit_pass',
+        type: 'POST',
+        async: false,
+        data: {
+        tcard_id : tcard_id
+        },
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
 }

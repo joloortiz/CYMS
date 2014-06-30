@@ -75,8 +75,11 @@
 
 					<div id="legend" class="panel panel-default">
 						<div class="panel-body">
-							<div class="pull-left">
-								<h4>Legend</h4>
+							<div class="cy-status pull-left">
+								<span class="h4 total-teu">Total TEUs: <span class="label label-info"></span></span>
+								<span class="h4 total-40-ftr">40 ftr: <span class="label label-info"></span></span>
+								<span class="h4 total-20-ftr">20 ftr: <span class="label label-info"></span></span>
+								<span class="h4 total-10-ftr">10 ftr: <span class="label label-info"></span></span>
 							</div>
 							<div class="pull-right">
 							
@@ -982,7 +985,7 @@
 <!-- Print Preview Modal -->
 {include file="pages/_sf_preview_modal.tpl"}
 
-<iframe id="reports-placeholder" style="width: 1000px; display: none;"></iframe> 
+<iframe id="reports-placeholder" style="width: 1000px; visibility: hidden; position: absolute; left: -9999999999999999999999999999999px;"></iframe> 
 
 {/block}
 

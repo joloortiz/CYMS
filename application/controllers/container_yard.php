@@ -9,7 +9,6 @@ class Container_yard extends MY_Controller {
 		// css
 		$css = array(
 				'select2.css',
-				/* 'jquery-ui-1.8.16.bootstrap.css', */
 				'jquery-ui-1.10.4.custom.css',
 				'timepicker.css',
 				'container-yard.css', 
@@ -143,7 +142,7 @@ class Container_yard extends MY_Controller {
 				$date_blocked = $is_blocked == 1 && $current_block_status == 0 ? date("Y-m-d H:i:s") : NULL;
 					
 				// Van ID
-				$van_id = $this->_get_van_id( $van );
+				$matching_id = $this->_get_van_id( $van );
 					
 				// Incoming Materials
 				$incoming_materials = $this->_udpate_incoming_materials($id, $incoming_materials);
@@ -555,11 +554,11 @@ class Container_yard extends MY_Controller {
 					'strip_from' => $strip_from != '' ? date("Y-m-d", strtotime($strip_from)) : NULL,
 					'strip_to' => $strip_to != '' ? date("Y-m-d", strtotime($strip_to)) : NULL,
 					'seal_from' => $seal_from != '' ? date("Y-m-d", strtotime($seal_from)) : NULL,
-					'seal_to' => $seal_to,
-					'rdd_from' => $rdd_from,
-					'rdd_to' => $rdd_to,
-					'block_from' => $block_from,
-					'block_to' => $block_to,
+					'seal_to' => $seal_to != '' ? date("Y-m-d", strtotime($seal_to)) : NULL,
+					'rdd_from' => $rdd_from != '' ? date("Y-m-d", strtotime($rdd_from)) : NULL,
+					'rdd_to' => $rdd_to != '' ? date("Y-m-d", strtotime($rdd_to)) : NULL,
+					'block_from' => $block_from != '' ? date("Y-m-d", strtotime($block_from)) : NULL,
+					'block_to' => $block_to != '' ? date("Y-m-d", strtotime($block_to)) : NULL,
 					'incoming_mat' => $incoming_mat,
 					'outgoing_mat' => $outgoing_mat
 			);
@@ -871,14 +870,6 @@ class Container_yard extends MY_Controller {
 	}
 	
 	function print_filter() {
-		/*
-			$val1 = "SOLID-G4592J";
-		$val2 = "SOLID 5730";
-	
-		$foo = array();
-	
-		array_push($foo, $val1, $val2);
-		*/
 
 		$session = $this->session->userdata(SESSION_VAR);
 
@@ -892,6 +883,31 @@ class Container_yard extends MY_Controller {
 
 		echo json_encode($results);
 	
+	}
+
+	function get_total_teu() {
+
+		$results = $this->tcard_model->get_total_teu();
+
+		echo json_encode($results);
+
+	}
+
+	function get_total_by_van_type() {
+
+		$results = $this->tcard_model->get_total_by_van_type();
+
+		echo json_encode($results);
+
+	}
+
+	function get_tcard_exit_pass() {
+
+		$tcard_id = $this->input->post('tcard_id');
+		$results = $this->tcard_model->get_tcard_exit_pass($tcard_id);
+
+		echo json_encode($results); 
+
 	}
 	
 	public function check_user_auth() {
@@ -908,6 +924,15 @@ class Container_yard extends MY_Controller {
 		$data['is_admin'] = $is_admin;
 		echo json_encode( $data );
 	}
+
+	public function get_current_user() {
+
+		$session = $this->session->userdata(SESSION_VAR);
+
+		echo json_encode($session);
+
+	}
+
 	
 	/* PRIVATES */
 	

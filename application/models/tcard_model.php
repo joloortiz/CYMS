@@ -618,14 +618,16 @@ class Tcard_model extends CI_Model{
 			ON tc.vt_id = vt.vt_id
 			INNER JOIN tcard_types tt
 			ON tc.tt_id = tt.tt_id
-			INNER JOIN materials m
-			ON tc.m_id = m.m_id
 			INNER JOIN users u
 			ON tc.u_id = u.u_id
 			LEFT JOIN tcard_incoming_materials tim
 			ON tc.tc_id = tim.tc_id
             LEFT JOIN incoming_materials im
 			ON im.im_id = tim.im_id
+			LEFT JOIN tcard_outgoing_materials tom
+			ON tc.tc_id = tom.tc_id
+            LEFT JOIN materials m
+			ON m.m_id = tom.m_id
 			LEFT JOIN exit_passes e
 			ON e.tc_id = tc.tc_id
             LEFT JOIN (SELECT *
@@ -642,6 +644,43 @@ class Tcard_model extends CI_Model{
 	
 		return $query->result();
 	
+	}
+	
+	function get_total_teu() {
+
+		$sql = "
+			SELECT sum(case vt.vt_id when 2 then 2 else 1 end) as TEU
+			FROM tcards tc
+            INNER JOIN van_types vt
+			ON tc.vt_id = vt.vt_id
+            LEFT JOIN exit_passes e
+			ON e.tc_id = tc.tc_id
+            WHERE (e.e_driver = '' || e.e_plateno = '' || e.e_id IS NULL);
+        ";
+
+		$query = $this->db->query($sql);
+	
+		return $query->result();
+
+	}
+
+	function get_total_by_van_type() {
+
+		$sql = "
+			SELECT vt.vt_name, count(vt.vt_id) as vans
+			FROM tcards tc
+            INNER JOIN van_types vt
+			ON tc.vt_id = vt.vt_id
+            LEFT JOIN exit_passes e
+			ON e.tc_id = tc.tc_id
+            WHERE (e.e_driver = '' || e.e_plateno = '' || e.e_id IS NULL) && (vt.vt_id != 3)
+            GROUP BY vt.vt_id
+        ";
+
+		$query = $this->db->query($sql);
+	
+		return $query->result();
+		
 	}
 	
 	function exitpass_serial() {

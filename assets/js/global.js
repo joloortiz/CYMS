@@ -1,4 +1,25 @@
-/* Global Jquery INITS */
+/* 
+* 
+* Global INITS 
+*
+*/
+
+start_clock()
+
+/*
+*
+* EVENT LISTENERS
+*
+*/
+
+
+
+/*
+*
+* FUNCTIONS
+*
+*/
+
 
 function remove_alert_classes(id) {
 	$(id).removeClass('alert-danger');
@@ -56,27 +77,67 @@ function print_element(id, css, append) {
 function now() {
 	var currentdate = new Date();
 	var month = new Array();
-		month[0] = "January";
-		month[1] = "February";
-		month[2] = "March";
-		month[3] = "April";
+		month[0] = "Jan";
+		month[1] = "Feb";
+		month[2] = "Mar";
+		month[3] = "Apr";
 		month[4] = "May";
-		month[5] = "June";
-		month[6] = "July";
-		month[7] = "August";
-		month[8] = "September";
-		month[9] = "October";
-		month[10] = "November";
-		month[11] = "December"; 
+		month[5] = "Jun";
+		month[6] = "Jul";
+		month[7] = "Aug";
+		month[8] = "Sep";
+		month[9] = "Oct";
+		month[10] = "Nov";
+		month[11] = "Dec"; 
+
+	m = format_time(currentdate.getMinutes());
+	s = format_time(currentdate.getSeconds());
 
 	//format: hours:mins:secs
-	var time = currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+	var time = currentdate.getHours() + ":" + m + ":" + s;
 	
-	//format: month day, year ex. May 23, 2014
-	var date = month[currentdate.getMonth()] + " " + currentdate.getDate() + ", " + currentdate.getFullYear();
+	//format: day month year ex. 23 Dec 2014
+	var date = currentdate.getDate() + " " + month[currentdate.getMonth()] + " " + currentdate.getFullYear();
 
 	return {
 		date: date,
 		time: time
 	} 
+}
+
+function format_time (i) {
+	if(i < 10) {
+		i = "0" + i
+	}
+
+	return i;
+}
+
+function start_clock() {
+
+	setInterval(function() {append_datetime()}, 1000);
+
+}
+
+/*
+*
+* AJAX FUNCTIONS
+*
+*/
+
+function get_current_user() {
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'container_yard/get_current_user',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
 }

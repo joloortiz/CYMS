@@ -36,6 +36,9 @@ $('.modal').on('shown.bs.modal', function() {
     $('.modal.active').addClass('hide');
     $('.current-active').removeClass('current-active');
 
+
+    $(this).removeClass('hide');    // for previously forced hidden modals
+
     $(this).addClass('current-active');
     $(this).addClass('active');
 });
@@ -653,10 +656,10 @@ function update_empty_van_list() {
             var count;
             var list_str = '';
 
-            if(decode.success ) {
+            $('#empty-van-list').empty();
+            $('#empty-count').text('');
 
-                $('#empty-van-list').empty();
-                $('#empty-count').text('');
+            if(decode.success ) {
 
                 if( decode.list ) {
 
@@ -669,8 +672,6 @@ function update_empty_van_list() {
                         $('#empty-van-list').append(list_str);
                     });
 
-                }else {
-                    count = 0;
                 }
                 
                 $('#empty-count').text(count);

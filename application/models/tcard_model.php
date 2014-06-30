@@ -358,7 +358,7 @@ class Tcard_model extends CI_Model{
 		return $returnVal;
 	}
 	
-	function get_empty_vans() {
+	function get_empty_vans( $except=NULL ) {
 		$returnVal = NULL;
 		
 		$this->db->select('tc.*, v.v_no');
@@ -367,6 +367,11 @@ class Tcard_model extends CI_Model{
 		$this->db->join('vans v', 'tc.v_id = v.v_id');
 		$this->db->where('tc.tc_status', 'EMPTY');
 		$this->db->where('e.e_timeout IS NULL');
+		
+		if( $except ) {
+			$this->db->where('tc.tc_id <>', $except);
+		}
+		
 		$this->db->order_by('tc.tc_entrydate', 'DESC');
 		$query = $this->db->get();
 		

@@ -143,13 +143,7 @@ class Container_yard extends MY_Controller {
 				$date_blocked = $is_blocked == 1 && $current_block_status == 0 ? date("Y-m-d H:i:s") : NULL;
 					
 				// Van ID
-				$matching_van = $this->vans_model->get_van_by_no($van);
-				if( $matching_van ) {
-					$van_id = $matching_van->v_id;
-				}else {
-					$data = array('v_no' => strtoupper($van));
-					$van_id = $this->vans_model->new_van($data);
-				}
+				$van_id = $this->_get_van_id( $van );
 					
 				// Incoming Materials
 				$incoming_materials = $this->_udpate_incoming_materials($id, $incoming_materials);
@@ -493,7 +487,9 @@ class Container_yard extends MY_Controller {
 		$var['success'] = FALSE;
 		
 		try {
-			$vans = $this->tcard_model->get_empty_vans();
+			$exempted_id = $this->input->post('except');
+			
+			$vans = $this->tcard_model->get_empty_vans( $exempted_id );
 			
 			if( $vans ) {
 				$var['list'] = $vans;
@@ -550,15 +546,15 @@ class Container_yard extends MY_Controller {
 					'seal_no' => strtoupper($seal_no),
 					'dn' => strtoupper($dn),
 					'status' => strtoupper($status),
-					'entry_from' => $entry_from,
-					'entry_to' => $entry_to,
-					'exit_from' => $exit_from,
-					'exit_to' => $exit_to,
-					'stuff_from' => $stuff_from,
-					'stuff_to' => $stuff_to,
-					'strip_from' => $strip_from,
-					'strip_to' => $strip_to,					
-					'seal_from' => $seal_from,
+					'entry_from' => $entry_from != '' ? date("Y-m-d", strtotime($entry_from)) : NULL,
+					'entry_to' => $entry_to != '' ? date("Y-m-d", strtotime($entry_to)) : NULL,
+					'exit_from' => $exit_from != '' ? date("Y-m-d", strtotime($exit_from)) : NULL,
+					'exit_to' => $exit_to != '' ? date("Y-m-d", strtotime($exit_to)) : NULL,
+					'stuff_from' => $stuff_from != '' ? date("Y-m-d", strtotime($stuff_from)) : NULL,
+					'stuff_to' => $stuff_to != '' ? date("Y-m-d", strtotime($stuff_to)) : NULL,
+					'strip_from' => $strip_from != '' ? date("Y-m-d", strtotime($strip_from)) : NULL,
+					'strip_to' => $strip_to != '' ? date("Y-m-d", strtotime($strip_to)) : NULL,
+					'seal_from' => $seal_from != '' ? date("Y-m-d", strtotime($seal_from)) : NULL,
 					'seal_to' => $seal_to,
 					'rdd_from' => $rdd_from,
 					'rdd_to' => $rdd_to,
@@ -809,9 +805,10 @@ class Container_yard extends MY_Controller {
 				
 			}else if( $this->_validate_card_id($orig_tc_id) && $van_type == 'wv') {
 				$card_for_wv = clone $orig_card;
-				$card_for_wv->v_id = '3';	// Wingvan
+				$card_for_wv->vt_id = '3';	// Wingvan
 				$card_for_wv->s_id = '1';	// Set shipper to none
 				$card_for_wv->t_id = '1';	// Set trucker to none
+				$card_for_wv->v_id = $this->_get_van_id( 'WINGVAN' );
 				unset( $card_for_wv->tc_id );
 				
 				$card_for_wv = (array)$card_for_wv;
@@ -1349,5 +1346,18 @@ class Container_yard extends MY_Controller {
 		}
 		
 		return $changed;
+	}
+	
+	private function _get_van_id( $van_no ) {
+
+		$matching_van = $this->vans_model->get_van_by_no($van_no);
+		if( $matching_van ) {
+			$van_id = $matching_van->v_id;
+		}else {
+			$data = array('v_no' => strtoupper($van_no));
+			$van_id = $this->vans_model->new_van($data);
+		}
+		
+		return $van_id;
 	}
 }

@@ -25,9 +25,7 @@ $('#van-transfer-type-selector').change(function() {
     switch( van_type ) {
         case '1': // Container van
             list_empty_vans();
-            if( $('#empty-van-transfer-list').children().length; > 0 ) {
-                $('#transfer-van-btn').prop('disabled', false);
-            }
+            $('#transfer-van-btn').prop('disabled', true);
 
             break;
         case '2': // Wing van
@@ -41,6 +39,12 @@ $('#van-transfer-type-selector').change(function() {
 
     }
 });
+
+$('#vanTransferModal').on('change', '[name="cv-transfer-selection"]', function() {
+    if( $(this).val() != '' ) {
+        $('#transfer-van-btn').prop('disabled', false);
+    }
+})
 
 $('#transfer-van-btn').click( function() {
     var target_card_id = $('[name="cv-transfer-selection"]:checked').val();
@@ -88,11 +92,15 @@ function show_van_transfer_modal( btn_origin ) {
 } 
 
 function list_empty_vans() {
+    var current_card = $('[name="card-id"]').val();
 
     $.ajax({
         url: $('body').attr('base-url') + 'container_yard/get_empty_vans',
         type: 'POST',
         async: false,
+        data: {
+            except: current_card
+        },
         success: function (response) {
             var decode = jQuery.parseJSON(response);
             var list_str = '';
@@ -155,11 +163,13 @@ function transfer_van( from_card, to_card ) {
                     $('#vanTransferModal').append('<input id="wingvan-transfer" type="hidden">');
                     $('[name="card-id"]').val(new_card_id);
 
-                    save();   // save new tcard - function from cy-tcard.parseJSON
+                    $.when( save() ).done(function() {
+                        console.log(new_card_id);
 
-                    setTimeout(function() {
-                        $('[name="card-id"]').val(new_card_id);
-                    }, 200);
+                        setTimeout(function() { // just one sec... really
+                            $('[name="card-id"]').val(new_card_id);
+                        }, 1000);
+                    });
 
                 }else if( decode.van_type == 'cv' ) {
                     $('#newEntryModal').modal('hide');

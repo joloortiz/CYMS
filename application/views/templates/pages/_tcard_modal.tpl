@@ -90,7 +90,7 @@
                   </div>
                   <div class="col-sm-6 stuffing-card-field absolute-hide">
                     <strong>RDD</strong>
-                    <input name="{$form->rdd}" class="form-control input-sm unrestricted-datepicker" type="text">
+                    <input name="{$form->rdd}" class="form-control input-sm generic-datepicker" type="text">
                     <span class="help-inline"></span>
                   </div>
                 </div>

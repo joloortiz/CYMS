@@ -74,11 +74,11 @@
 #filter-list {
     margin-top: 1em;
     overflow-y: scroll;
-    height: 525px;
+    height: 100%px;
 }
 
 .filter-list-container {
-    height: 616px;
+    height: 875px;
 }
 
 

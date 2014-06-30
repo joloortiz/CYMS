@@ -189,6 +189,7 @@ function save_exitpass() {
                 var tcard_id = $('[name="card-id"]').val();
 
                 $('#' + tcard_id).remove();
+                $('#newEntryModal').modal('hide');
 
                 // Functions from container-yard.js
                 update_empty_van_list();

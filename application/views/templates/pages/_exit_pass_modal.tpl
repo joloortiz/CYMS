@@ -133,8 +133,7 @@
 							<td><input type="text" name="destination" class="form-control" placeholder="Destination"></td>
 							<td><input type="text" name="plate-no" class="form-control" placeholder="Plate No."></td>
 							<td>
-								<textarea name="particulars" class="form-control" placeholder="Particulars">
-								</textarea>
+								<textarea name="particulars" class="form-control" placeholder="Particulars"></textarea>
 								<!-- <input type="text" name="particulars" class="form-control" placeholder="Particulars"> -->
 							</td>
 							<td><input type="text" name="driver" class="form-control" placeholder="Driver"></td>

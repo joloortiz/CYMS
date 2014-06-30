@@ -473,7 +473,7 @@ function save() {
     data = get_form_values();
     $('#loading-overlay').removeClass('hide');
 
-    $.ajax({
+    return $.ajax({
         url: $('body').attr('base-url') + 'container_yard/save_card',
         type: 'POST',
         async: true,
@@ -772,15 +772,15 @@ function setup_tcard_types() {
 
            if( result.success ) {
                 types = result.list;
-
-                $('[name="card-type"]').removeClass('select2-offscreen').select2({
-                    placeholder: 'Select Card Type',
-                    data: types,
-                    formatResult: format_tcard_type_select,
-                    formatSelection: format_tcard_type_select,
-                    escapeMarkup: function(m) { return m; }
-                }).val('').trigger('change');
            }
+
+           $('[name="card-type"]').removeClass('select2-offscreen').select2({
+                placeholder: 'Select Card Type',
+                data: types,
+                formatResult: format_tcard_type_select,
+                formatSelection: format_tcard_type_select,
+                escapeMarkup: function(m) { return m; }
+            }).val('').trigger('change');
        }
    });
     
@@ -807,13 +807,13 @@ function setup_shippers() {
 
            if( result.success ) {
                 shippers = result.list;
-
-                $('[name="shipper"]').removeClass('select2-offscreen').select2({
-                    placeholder: 'None',
-                    allowClear: true,
-                    data: shippers
-                }).val('').trigger('change');
            }
+
+            $('[name="shipper"]').removeClass('select2-offscreen').select2({
+                placeholder: 'None',
+                allowClear: true,
+                data: shippers
+            }).val('').trigger('change');
        }
    });
 
@@ -831,13 +831,13 @@ function setup_truckers() {
 
            if( result.success ) {
                 truckers = result.list;
-
-                $('[name="trucker"]').removeClass('select2-offscreen').select2({
-                    placeholder: 'None',
-                    allowClear: true,
-                    data: truckers
-                }).val('').trigger('change');
            }
+
+            $('[name="trucker"]').removeClass('select2-offscreen').select2({
+                placeholder: 'None',
+                allowClear: true,
+                data: truckers
+            }).val('').trigger('change');
        }
    });
 
@@ -855,12 +855,12 @@ function setup_van_types() {
 
            if( result.success ) {
                 van_types = result.list;
-
-                $('[name="van-type"]').removeClass('select2-offscreen').select2({
-                    placeholder: 'Select Van Type',
-                    data: van_types
-                }).val('').trigger('change');
            }
+
+            $('[name="van-type"]').removeClass('select2-offscreen').select2({
+                placeholder: 'Select Van Type',
+                data: van_types
+            }).val('').trigger('change');
        }
    });
 
@@ -878,13 +878,13 @@ function setup_checkers() {
 
            if( result.success ) {
                 checkers = result.list;
-
-                $('[name="checker"]').removeClass('select2-offscreen').select2({
-                    placeholder: 'None',
-                    allowClear: true,
-                    data: checkers
-                }).val('').trigger('change');
            }
+
+            $('[name="checker"]').removeClass('select2-offscreen').select2({
+                placeholder: 'None',
+                allowClear: true,
+                data: checkers
+            }).val('').trigger('change');
        }
    });
 
@@ -903,21 +903,23 @@ function setup_outgoing_mats() {
 
            if( result.success ) {
                 outgoing_mats = result.list;
-                $('[name="mat-no"]').empty();
-
-                option_str = '<option value=""></option>';
-
-                $.each(outgoing_mats, function( key, material ) {
-                    option_str += '<option value="' + material.id + '">' + material.text + '</option>';
-
-                });
-                $('[name="mat-no"]').append(option_str);
-
-                $('[name="mat-no"]').removeClass('select2-offscreen').select2({
-                    placeholder: 'Select Materials',
-                    allowClear: true
-                });
            }
+
+
+            $('[name="mat-no"]').empty();
+
+            option_str = '<option value=""></option>';
+
+            $.each(outgoing_mats, function( key, material ) {
+                option_str += '<option value="' + material.id + '">' + material.text + '</option>';
+
+            });
+            $('[name="mat-no"]').append(option_str);
+
+            $('[name="mat-no"]').removeClass('select2-offscreen').select2({
+                placeholder: 'Select Materials',
+                allowClear: true
+            });
        }
    });
 
@@ -936,21 +938,22 @@ function setup_incoming_mats() {
 
            if( result.success ) {
                 incoming_mats = result.list;
-                $('[name="incoming-materials"]').empty();
-
-                option_str = '<option value=""></option>';
-
-                $.each(incoming_mats, function( key, material ) {
-                    option_str += '<option value="' + material.id + '">' + material.text + '</option>';
-
-                });
-                $('[name="incoming-materials"]').append(option_str);
-
-                $('[name="incoming-materials"]').removeClass('select2-offscreen').select2({
-                    placeholder: 'Select Materials',
-                    allowClear: true
-                });
            }
+
+            $('[name="incoming-materials"]').empty();
+
+            option_str = '<option value=""></option>';
+
+            $.each(incoming_mats, function( key, material ) {
+                option_str += '<option value="' + material.id + '">' + material.text + '</option>';
+
+            });
+            $('[name="incoming-materials"]').append(option_str);
+
+            $('[name="incoming-materials"]').removeClass('select2-offscreen').select2({
+                placeholder: 'Select Materials',
+                allowClear: true
+            });
        }
    });
 

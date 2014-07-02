@@ -20,7 +20,7 @@
         <script data-main="{$base_url}{$smarty.const.SCRIPTS_DIR}/cy layout/bootloader" src="{$base_url}{$smarty.const.SCRIPTS_DIR}{$layout_js}"></script>
 
     </head>
-    <body base-url="{$base_url}" onload="append_datetime();append_greeting();">
+    <body base-url="{$base_url}" onload="append_datetime();append_greeting();start_clock();">
     <div id="loading-overlay" class="loading-overlay hide">    
         <div class="spinner spinner-whole-page">
             <div class="bounce1"></div>

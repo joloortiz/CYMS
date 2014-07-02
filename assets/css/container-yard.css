@@ -8047,3 +8047,7 @@ footer::before {
 .temp-bay {
   border-color: #FFCDCD;
 }
+
+.footer-datetime-greeting {
+  margin-right: 35px;
+}

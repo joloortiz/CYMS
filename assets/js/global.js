@@ -4,7 +4,6 @@
 *
 */
 
-start_clock()
 
 /*
 *

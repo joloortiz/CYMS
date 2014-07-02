@@ -254,10 +254,14 @@ $('#daily-inventory-report').click(function() {
 
     $('.timestamp').empty();
 
-    var data = di_stripping_packmats();
+    var packmats = di_stripping_packmats();
+    var rawmats = di_stripping_rawmats();
 
-    console.log(data);
-    set_di_stripping_packmats(data);
+    console.log(packmats);
+    set_di_stripping_packmats(packmats);
+
+	console.log(rawmats);
+    set_di_stripping_rawmats(rawmats);
 
     remove_loader();
 
@@ -268,15 +272,16 @@ $('#daily-inventory-report').click(function() {
 	})
 
 });
-/*
+
 //when the modal is closed
-$('.empty-vans-report-modal').on('hidden.bs.modal', function () {
+$('.daily-inventory-report-modal').on('hidden.bs.modal', function () {
 	
 	//empty all the data on the tables
-    empty_empty_vans_report();
+    clear_daily_inventory_report();
 
 });
 
+/*
 //user prints the preview
 $('.empty-vans-report-modal #report-print').click(function() {
 	
@@ -299,10 +304,30 @@ function set_di_stripping_packmats(rows) {
 
 		$('.daily-inventory-report-modal .di-pack-mats .' + rows[i].im_category.toLowerCase() + ' tr[data-mid="' + rows[i].im_id + '"][data-vtid="' + rows[i].vt_id + '"][data-tid="' + rows[i].t_id +'"]').find('td:nth-child(4)').append(rows[i].vans);
 		
-		total++;
+		total += parseInt(rows[i].vans);
 	}
 
 	$('.daily-inventory-report-modal .di-pack-mats .total').find('th:nth-child(2)').append(total);
+
+}
+
+function set_di_stripping_rawmats(rows) {
+
+	var total = 0;
+
+	for(var i = 0; i < rows.length; i++) {
+
+		$('.daily-inventory-report-modal .di-raw-mats .' + rows[i].im_category.toLowerCase() + ' tr[data-mid="' + rows[i].im_id + '"][data-vtid="' + rows[i].vt_id + '"][data-tid="' + rows[i].t_id +'"]').find('td:nth-child(4)').append(rows[i].vans);
+		$('.daily-inventory-report-modal .di-raw-mats .' + rows[i].im_category.toLowerCase() + ' tr[data-mid="' + rows[i].im_id + '"][data-vtid="' + rows[i].vt_id + '"][data-sid="' + rows[i].s_id +'"]').find('td:nth-child(4)').append(rows[i].vans);
+
+		if(rows[i].s_id == '2' || rows[i].s_id == '3'){
+			$('.daily-inventory-report-modal .di-raw-mats .' + rows[i].im_category.toLowerCase() + ' tr[data-mid="' + rows[i].im_id + '"][data-vtid="' + rows[i].vt_id + '"][data-sid="' + rows[i].s_id +'"]').find('td:nth-child(4)').append(rows[i].vans);
+		}
+
+		total += parseInt(rows[i].vans);
+	}
+
+	$('.daily-inventory-report-modal .di-raw-mats .total').find('th:nth-child(2)').append(total);
 
 }
 
@@ -327,10 +352,13 @@ function empty_empty_vans_report() {
 
 }
 
-function empty_daily_inventory_report() {
+function clear_daily_inventory_report() {
 
-	$('.daily-inventory-report .di-pack-mats .imported tr td').empty();
-	$('.daily-inventory-report .di-pack-mats .local tr td').empty();
+	$('.daily-inventory-report .di-pack-mats').find('tr td:nth-child(4)').empty();
+	$('.daily-inventory-report .di-raw-mats').find('tr td:nth-child(4)').empty();
+
+	$('.daily-inventory-report .total').find('th:nth-child(2)').empty();
+	//$('.daily-inventory-report .di-pack-mats .local tr td').empty();
 
 }
 
@@ -393,6 +421,7 @@ function empty_vans_report() {
 }
 
 function empty_vans_report() {
+
 	var data = [];
 
   	$.ajax({
@@ -407,9 +436,11 @@ function empty_vans_report() {
     });
 
     return data;
+
 }
 
 function di_stripping_packmats() {
+
 	var data = [];
 
   	$.ajax({
@@ -424,4 +455,24 @@ function di_stripping_packmats() {
     });
 
     return data;
+
+}
+
+function di_stripping_rawmats() {
+
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/di_stripping_rawmats',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
 }

@@ -167,7 +167,7 @@
 					      					<td>TST</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr data-mid="15" data-vtid="1" data-tid="2">
+					      				<tr data-mid="15" data-vtid="1" data-tid="8">
 					      					<td>POLYTHYLENE</td>
 					      					<td>20</td>
 					      					<td>INLAND</td>
@@ -364,13 +364,12 @@
 					      					<td>TST</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="total">
-					      					<th colspan="3">Total</th>
-					      					<th></th>
-					      				</tr>
 					      			</tbody>
 
 					      			<tbody class="tempload">
+					      				<tr>
+					      					<th colspan="4">TEMPORARY LOAD</th>
+					      				</tr>
 					      				<tr data-mid="39" data-vtid="1" data-sid="2-3">
 					      					<td>Malto Powder</td>
 					      					<td>20</td>
@@ -388,6 +387,10 @@
 					      					<td>20</td>
 					      					<td>TST</td>
 					      					<td></td>
+					      				</tr>
+					      				<tr class="total">
+					      					<th colspan="3">Total</th>
+					      					<th></th>
 					      				</tr>
 					      			</tbody>
 					      		</table>

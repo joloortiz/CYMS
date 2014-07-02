@@ -537,6 +537,8 @@ function save() {
                 // Functions from container-yard.js
                 update_empty_van_list();
                 init_pending_counter( pending_count() );
+                append_total_teu();
+                append_total_vans();
 
                 setTimeout(function() {
 

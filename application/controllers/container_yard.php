@@ -142,7 +142,7 @@ class Container_yard extends MY_Controller {
 				$date_blocked = $is_blocked == 1 && $current_block_status == 0 ? date("Y-m-d H:i:s") : NULL;
 					
 				// Van ID
-				$matching_id = $this->_get_van_id( $van );
+				$van_id = $this->_get_van_id( $van );
 					
 				// Incoming Materials
 				$incoming_materials = $this->_udpate_incoming_materials($id, $incoming_materials);

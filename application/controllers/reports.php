@@ -75,4 +75,14 @@ class Reports extends MY_Controller {
 		echo json_encode($data);
 	}
 
+	function di_stripping_rawmats() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_stripping_rawmats();
+
+		echo json_encode($data);
+		
+	}
+
 }

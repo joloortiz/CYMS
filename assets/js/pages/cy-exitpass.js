@@ -205,7 +205,7 @@ function save_exitpass() {
 }
 
 function reset_exit_pass() {
-  $('#exitPassModal').find('[type="text"], [type="hidden"]').val('');
+  $('#exitPassModal').find('[type="text"], [type="hidden"], textarea').val('');
   $('#exitPassModal').find('[type="radio"][value="FG"]').prop('checked', true).trigger('change');
   $('#exitPassModal').data('preview', false);
   $('#exitPassModal').find('.text-holder').text('');

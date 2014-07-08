@@ -67,7 +67,9 @@ INSERT INTO `shippers` (`s_name`, `s_code`, `s_color`, `is_deleted`) VALUES
 ('PSACC', NULL, '#FEFF0A', 0),
 ('APL', NULL, '#FFFFFF', 0),
 ('NNCU', NULL, '#FFFFFF', 0),
-('MAERSK', NULL, '#FFFFFF', 0);
+('MAERSK', NULL, '#FFFFFF', 0),
+('NYK', NULL, '#FFFFFF', 0),
+('SLI', NULL, '#FFFFFF', 0);
 
 INSERT INTO `tcard_type_group` (`ttg_id`, `ttg_name`) VALUES
 (1, 'None'),  
@@ -87,7 +89,8 @@ INSERT INTO `truckers` (`t_name`, `t_code`, `is_deleted`) VALUES
 ('FAST CARGO', 'FCTC', 0),
 ('INLAND', 'INLAND', 0),
 ('ONESTOP', 'ONESTOP', 0),
-('RC', 'ONESTOP', 0);
+('RC', 'RC', 0),
+('KMI', 'KMI', 0);
 
 INSERT INTO `users` (`u_id`, `u_username`, `u_password`, `u_firstname`, `u_lastname`, `u_mi`, `u_isactive`, `u_addedby`, `u_dateadded`, `u_contactno`, `u_isadmin`) VALUES
 ('', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Admin', '', '', 1, NULL, '2014-04-23 19:07:40', '', 1);

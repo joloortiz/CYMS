@@ -56,8 +56,8 @@
 		      	</div>
 	 		</div>
 	 		<div class="modal-footer">
-	 			<button id="report-print" type="button" class="btn btn-default">Print</button>
 	      		<button id="report-close" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      		<button id="report-print" type="button" class="btn btn-primary">Print</button>
 	 		</div>
 	 	</div>
 	 </div>

@@ -92,9 +92,14 @@
 					      					<td>Wing Van</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="MSKUFCTC">
+					      				<tr class="MSKU20">
 					      					<td>MSKU</td>
-					      					<td>FCTC</td>
+					      					<td>20</td>
+					      					<td></td>
+					      				</tr>
+					      				<tr class="MSKU40">
+					      					<td>MSKU</td>
+					      					<td>40</td>
 					      					<td></td>
 					      				</tr>
 					      			</tbody>
@@ -277,7 +282,9 @@
 					      				</tr>
 					      				<tr class="total">
 					      					<th colspan="2">Total</th>
-					      					<th colspan="2"></th>
+					      					<th colspan="1"></th>
+					      					<th colspan="1"></th>
+					      				</tr>
 					      			</tbody>
 					      		</table>
 
@@ -318,11 +325,6 @@
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="GOTHONG20">
-					      					<td>GOTHONG</td>
-					      					<td>20 Ftr</td>
-					      					<td></td>
-					      				</tr>
 					      				<tr class="SSR20">
 					      					<td>SSR</td>
 					      					<td>20 Ftr</td>
@@ -333,30 +335,34 @@
 					      					<td>40 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="COFIPAC20">
-					      					<td>COFIPAC</td>
+					      				<tr class="GS20">
+					      					<td>GS</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="COFIPAC40">
-					      					<td>COFIPAC</td>
+					      				<tr class="TST20">
+					      					<td>TST</td>
+					      					<td>20 Ftr</td>
+					      					<td></td>
+					      				</tr>
+					      				<tr class="MSKU20">
+					      					<td>MSKU</td>
+					      					<td>20 Ftr</td>
+					      					<td></td>
+					      				</tr>
+					      				<tr class="MSKU40">
+					      					<td>MSKU</td>
 					      					<td>40 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="CDCWINGVAN">
-					      					<td>CDC</td>
-					      					<td>Wing Van</td>
+					      				<tr class="SKMTI20">
+					      					<td>SKMTI</td>
+					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="TSTWINGVAN">
-					      					<td>TST</td>
-					      					<td>Wing Van</td>
-					      					<td></td>
-					      				</tr>
-					      				<tr class="MSKUFCTC">
-					      					<td>MSKU</td>
-					      					<td>FCTC</td>
-					      					<td></td>
+					      				<tr class="total">
+					      					<th colspan="2">Total</th>
+					      					<th colspan="2"></th>
 					      				</tr>
 					      			</tbody>
 					      		</table>
@@ -398,8 +404,8 @@
 
 	      	</div>
 	      	<div class="modal-footer">
-	      		<button id="report-print" type="button" class="btn btn-default">Print</button>
 	      		<button id="report-close" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      		<button id="report-print" type="button" class="btn btn-primary">Print</button>
 	      	</div>
 	    </div>
 	 </div>

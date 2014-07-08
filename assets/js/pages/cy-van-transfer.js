@@ -164,7 +164,6 @@ function transfer_van( from_card, to_card ) {
                     $('[name="card-id"]').val(new_card_id);
 
                     $.when( save() ).done(function() {
-                        console.log(new_card_id);
 
                         setTimeout(function() { // just one sec... really
                             $('[name="card-id"]').val(new_card_id);

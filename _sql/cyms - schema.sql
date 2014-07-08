@@ -19,8 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `cyms`
 --
-CREATE DATABASE IF NOT EXISTS `cyms` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `cyms`;
+CREATE DATABASE IF NOT EXISTS `cyms2` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `cyms2`;
 
 DELIMITER $$
 --

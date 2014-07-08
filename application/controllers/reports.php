@@ -85,4 +85,115 @@ class Reports extends MY_Controller {
 		
 	}
 
+	function di_stripping_greencoffee() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_stripping_greencoffee();
+
+		echo json_encode($data);
+		
+	}
+
+
+	function di_empty_for_return() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_empty_for_return();
+
+		echo json_encode($data);
+
+	}
+
+	function di_defective_vans() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_defective_vans();
+
+		echo json_encode($data);
+
+	}
+
+	function di_finished_goods_shippers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_finished_goods_shippers();
+
+		echo json_encode($data);
+
+	}
+
+	function di_finished_goods_truckers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_finished_goods_truckers();
+
+		echo json_encode($data);
+
+	}
+
+	function di_semi_finished_goods_shippers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_semi_finished_goods_shippers();
+
+		echo json_encode($data);
+
+	}
+
+	function di_semi_finished_goods_truckers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_semi_finished_goods_truckers();
+
+		echo json_encode($data);
+
+	}
+
+	function di_hold_products_shippers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_hold_products_shippers();
+
+		echo json_encode($data);
+
+	}
+
+	function di_hold_products_truckers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_hold_products_truckers();
+
+		echo json_encode($data);
+
+	}
+
+	function di_for_processing_late_over_shippers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_for_processing_late_over_shippers();
+
+		echo json_encode($data);
+
+	}
+
+	function di_for_processing_late_over_truckers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_for_processing_late_over_truckers();
+
+		echo json_encode($data);
+
+	}
+
 }

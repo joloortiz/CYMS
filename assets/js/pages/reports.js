@@ -25,7 +25,11 @@ $('#fsc-outbound-report').click(function() {
 	var pfu = data.pending_fulls_unsealed;
 	var pes = data.pending_exfac_sealed;
 	var peu = data.pending_exfac_unsealed;
-	var evrb =data.empty_vans_running_balance
+	var evrb = data.empty_vans_running_balance;
+	var ds_total = 0;
+	var pse_total = 0;
+	var psne_total = 0;
+	var ev_total = 0;
 
 
 	if(dsf.length > 0){
@@ -49,6 +53,7 @@ $('#fsc-outbound-report').click(function() {
 	}
 
 	if(pfs.length > 0) {
+
 
 		for(var i = 0; i < pfs.length; i++) {
 
@@ -94,11 +99,65 @@ $('#fsc-outbound-report').click(function() {
 
 			$('.fsc-outbound-report .empty-vans>tbody').find('.' + evrb[i].s_name + evrb[i].vt_name + ' td:nth-child(3)').append(evrb[i].vans);
 
+			$('.fsc-outbound-report .empty-vans>tbody').find('.' + evrb[i].t_code + evrb[i].vt_name + ' td:nth-child(3)').append(evrb[i].vans);
+
 		}
+
+		
 
 	}
 
 
+	$('.fsc-outbound-report .dispatch>tbody tr').find('td:nth-child(3)').each(function() {
+		
+		var vans = parseInt($(this).text())
+		if(vans) {
+
+			ds_total += vans;
+			
+		}
+
+	});	
+
+	$('.fsc-outbound-report .pending>tbody tr').find('td:nth-child(3)').each(function() {
+		
+		var vans = parseInt($(this).text())
+		if(vans) {
+
+			pse_total += vans;
+			
+		}
+
+	});	
+
+	$('.fsc-outbound-report .pending>tbody tr').find('td:nth-child(4)').each(function() {
+		
+		var vans = parseInt($(this).text())
+
+		if(vans) {
+
+			psne_total += vans;
+			
+		}
+
+	});	
+
+	$('.fsc-outbound-report .empty-vans>tbody tr').find('td:nth-child(3)').each(function() {
+		
+		var vans = parseInt($(this).text())
+		if(vans) {
+
+			ev_total += vans;
+			
+		}
+
+	});	
+
+	//Append totals
+	$('.fsc-outbound-report .dispatch>tbody .total').find('th:nth-child(2)').append(ds_total);
+	$('.fsc-outbound-report .pending>tbody .total').find('th:nth-child(2)').append(pse_total);
+	$('.fsc-outbound-report .pending>tbody .total').find('th:nth-child(3)').append(psne_total);
+	$('.fsc-outbound-report .empty-vans>tbody .total').find('th:nth-child(2)').append(ev_total);
 
 
 		$('.fsc-outbound-report .timestamp').append('Generated at ' + now().time + ' on ' + now().date);
@@ -148,7 +207,6 @@ $('#defective-vans-report').click(function() {
     $('.timestamp').empty();
 
     var data = defective_vans_report();
-    console.log(data);
 
     if(data.length > 0) {
 
@@ -160,7 +218,6 @@ $('#defective-vans-report').click(function() {
 
     } else {
 
-    	console.log('hi');
     	$('.defective-vans').find('tbody').append('<tr><td colspan="5">Sorry there are currently no defective vans in the Container Yard</td></tr>');
     
     }
@@ -210,7 +267,8 @@ $('#empty-vans-report').click(function() {
 
     	for(var i = 0; i < data.length; i++) {
 
-    		$('.empty-vans').find('.' + data[i].s_name + data[i].vt_name + ' td:nth-child(3)').append(data[i].vans);
+    		$('.empty-vans-report .empty-vans').find('.' + data[i].s_name + data[i].vt_name + ' td:nth-child(3)').append(data[i].vans);
+    		$('.empty-vans-report .empty-vans').find('.' + data[i].t_code + data[i].vt_name + ' td:nth-child(3)').append(data[i].vans);
 
     	}
 
@@ -256,12 +314,54 @@ $('#daily-inventory-report').click(function() {
 
     var packmats = di_stripping_packmats();
     var rawmats = di_stripping_rawmats();
+    var greencoffee = di_stripping_greencoffee();
+    var empty_for_return = di_empty_for_return();
+    var empty_for_stuffing = empty_vans_report();
+    var empty_defectives = di_defective_vans();
+    var finished_goods_shippers = di_finished_goods_shippers();
+    var finished_goods_truckers = di_finished_goods_truckers();
+    var semi_finished_goods_shippers = di_semi_finished_goods_shippers();
+    var semi_finished_goods_truckers = di_semi_finished_goods_truckers();
+    var hold_products_shippers = di_hold_products_shippers();
+    var hold_products_truckers = di_hold_products_truckers();
+    var for_processing_late_over_shippers = di_for_processing_late_over_shippers();
+    var for_processing_late_over_truckers = di_for_processing_late_over_truckers();
 
-    console.log(packmats);
+
+    //console.log(packmats);
     set_di_stripping_packmats(packmats);
 
-	console.log(rawmats);
+	//console.log(rawmats);
     set_di_stripping_rawmats(rawmats);
+
+	//console.log(greencoffee);
+    set_di_stripping_greencoffee(greencoffee);
+
+    //console.log(empty_for_return);
+    set_di_empty_for_return(empty_for_return);
+
+    //console.log(empty_for_stuffing);
+    set_di_empty_for_stuffing(empty_for_stuffing);
+
+    //console.log(empty_defectives);
+    set_di_empty_defectives(empty_defectives);
+
+    //console.log(finished_goods_shippers);
+    //console.log(finished_goods_truckers);
+    set_di_finished_goods(finished_goods_shippers, finished_goods_truckers);
+
+    //console.log(semi_finished_goods_shippers);
+    //console.log(semi_finished_goods_truckers);
+    set_di_semi_finished_goods(semi_finished_goods_shippers, semi_finished_goods_truckers);
+
+    //console.log(hold_products_shippers);
+    //console.log(hold_products_truckers);
+    set_di_hold_products(hold_products_shippers, hold_products_truckers);
+
+    console.log(for_processing_late_over_shippers);
+    console.log(for_processing_late_over_truckers);
+    set_di_for_processing_late_over(for_processing_late_over_shippers, for_processing_late_over_truckers);    
+
 
     remove_loader();
 
@@ -281,14 +381,14 @@ $('.daily-inventory-report-modal').on('hidden.bs.modal', function () {
 
 });
 
-/*
+
 //user prints the preview
-$('.empty-vans-report-modal #report-print').click(function() {
+$('.daily-inventory-report-modal #report-print').click(function() {
 	
-	print_element('print-section-empty-vans', 'reports-print.css');
+	print_element('print-section-daily-inventory-report', 'reports-print.css');
 
 });	
-*/
+
 
 /* 
 *
@@ -304,8 +404,19 @@ function set_di_stripping_packmats(rows) {
 
 		$('.daily-inventory-report-modal .di-pack-mats .' + rows[i].im_category.toLowerCase() + ' tr[data-mid="' + rows[i].im_id + '"][data-vtid="' + rows[i].vt_id + '"][data-tid="' + rows[i].t_id +'"]').find('td:nth-child(4)').append(rows[i].vans);
 		
-		total += parseInt(rows[i].vans);
 	}
+
+	//compute and append total
+	$('.daily-inventory-report .di-pack-mats tr').find('td:nth-child(4)').each(function() {
+		
+		var vans = parseInt($(this).text())
+		if(vans) {
+
+			total += vans;
+			
+		}
+
+	});
 
 	$('.daily-inventory-report-modal .di-pack-mats .total').find('th:nth-child(2)').append(total);
 
@@ -314,22 +425,552 @@ function set_di_stripping_packmats(rows) {
 function set_di_stripping_rawmats(rows) {
 
 	var total = 0;
+	var total_malto_powder = 0;
+	var total_msk_medium_heat = 0;
 
 	for(var i = 0; i < rows.length; i++) {
 
 		$('.daily-inventory-report-modal .di-raw-mats .' + rows[i].im_category.toLowerCase() + ' tr[data-mid="' + rows[i].im_id + '"][data-vtid="' + rows[i].vt_id + '"][data-tid="' + rows[i].t_id +'"]').find('td:nth-child(4)').append(rows[i].vans);
 		$('.daily-inventory-report-modal .di-raw-mats .' + rows[i].im_category.toLowerCase() + ' tr[data-mid="' + rows[i].im_id + '"][data-vtid="' + rows[i].vt_id + '"][data-sid="' + rows[i].s_id +'"]').find('td:nth-child(4)').append(rows[i].vans);
 
-		if(rows[i].s_id == '2' || rows[i].s_id == '3'){
-			$('.daily-inventory-report-modal .di-raw-mats .' + rows[i].im_category.toLowerCase() + ' tr[data-mid="' + rows[i].im_id + '"][data-vtid="' + rows[i].vt_id + '"][data-sid="' + rows[i].s_id +'"]').find('td:nth-child(4)').append(rows[i].vans);
+		if((rows[i].im_id == '39' && rows[i].vt_id == '1') && (rows[i].s_id == '2' || rows[i].s_id == '3')){
+
+			total_malto_powder += parseInt(rows[i].vans);
+
 		}
 
-		total += parseInt(rows[i].vans);
+		if((rows[i].im_id == '40' && rows[i].vt_id == '1') && (rows[i].s_id == '2' || rows[i].s_id == '3')) {
+
+			total_msk_medium_heat += parseInt(rows[i].vans);
+
+		}
+
 	}
+
+	if(total_malto_powder != 0) {
+
+		$('.daily-inventory-report-modal .di-raw-mats .tempload tr[data-mid="39"][data-vtid="1"][data-sid="2-3"]').find('td:nth-child(4)').append(total_malto_powder);
+	}
+
+	if(total_msk_medium_heat != 0) {
+
+		$('.daily-inventory-report-modal .di-raw-mats .tempload tr[data-mid="40"][data-vtid="1"][data-sid="2-3"]').find('td:nth-child(4)').append(total_msk_medium_heat);
+	
+	}
+
+	//compute and append total
+	$('.daily-inventory-report .di-raw-mats tr').find('td:nth-child(4)').each(function() {
+		
+		var vans = parseInt($(this).text())
+		if(vans) {
+
+			total += vans;
+			
+		}
+
+	});
 
 	$('.daily-inventory-report-modal .di-raw-mats .total').find('th:nth-child(2)').append(total);
 
 }
+
+function set_di_stripping_greencoffee(rows) {
+
+	var total = 0;
+	var others_total = 0;
+	var others_arr = ['1', '5', '6', '10'];
+
+	for(var i = 0; i < rows.length; i++) {
+
+		$('.daily-inventory-report-modal .di-green-coffee .' + rows[i].im_category.toLowerCase() + ' tr[data-vtid="' + rows[i].vt_id + '"][data-tid="' + rows[i].t_id +'"]').find('td:nth-child(3)').append(rows[i].vans);
+		
+		if(others_arr.indexOf(rows[i].t_id) > -1) {
+
+			others_total += parseInt(rows[i].vans);
+
+		}
+	}
+
+	if(others_total != 0) {
+
+		$('.daily-inventory-report-modal .di-green-coffee .local tr[data-vtid = "1"][data-tid = "others"]').find('td:nth-child(3)').append(others_total);
+
+	}
+
+	//compute and append total
+	$('.daily-inventory-report .di-green-coffee tr').find('td:nth-child(3)').each(function() {
+		
+		var vans = parseInt($(this).text())
+		if(vans) {
+
+			total += vans;
+			
+		}
+
+	});
+
+	$('.daily-inventory-report-modal .di-green-coffee .total').find('th:nth-child(2)').append(total);
+
+}
+
+function set_di_empty_for_return(rows) {
+
+	var total = 0;
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		$('.daily-inventory-report-modal .di-empty-vans tr').find('.'+ rows[i].im_category.toLowerCase() + '.for-return[data-tid="' + rows[i].t_id + '"]').next('.for-return[data-vtid="' + rows[i].vt_id + '"]').next('.for-return').append(rows[i].vans);
+
+	}
+
+
+	//compute and append total
+	$('.daily-inventory-report .di-empty-vans tr').find('.for-return.efr-vans').each(function() {
+		
+		var vans = parseInt($(this).text())
+		if(vans) {
+
+			total += vans;
+			
+		}
+
+	});
+
+	$('.daily-inventory-report-modal .di-empty-vans .total').find('th:nth-child(2)').append(total);
+
+
+}
+
+function set_di_empty_for_stuffing(rows) {
+
+	var total = 0;
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		$('.daily-inventory-report-modal .di-empty-vans tr').find('.for-stuffing[data-tid="' + rows[i].t_id + '"]').next('.for-stuffing[data-vtid="' + rows[i].vt_id + '"]').next('.for-stuffing').append(rows[i].vans);
+		$('.daily-inventory-report-modal .di-empty-vans tr').find('.for-stuffing[data-sid="' + rows[i].s_id + '"]').next('.for-stuffing[data-vtid="' + rows[i].vt_id + '"]').next('.for-stuffing').append(rows[i].vans);
+
+	}
+
+	
+	//compute and append total
+	$('.daily-inventory-report .di-empty-vans tr').find('.for-stuffing.efs-vans').each(function() {
+		
+		var vans = parseInt($(this).text())
+		if(vans) {
+
+			total += vans;
+			
+		}
+
+	});
+
+	$('.daily-inventory-report-modal .di-empty-vans .total').find('th:nth-child(4)').append(total);
+	
+
+}
+
+function set_di_empty_defectives(rows) {
+
+	var total = 0;
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		$('.daily-inventory-report-modal .di-empty-vans tr').find('.defective[data-tid="' + rows[i].t_id + '"]').next('.defective[data-vtid="' + rows[i].vt_id + '"]').next('.defective').append(rows[i].vans);
+		$('.daily-inventory-report-modal .di-empty-vans tr').find('.defective[data-sid="' + rows[i].s_id + '"]').next('.defective[data-vtid="' + rows[i].vt_id + '"]').next('.defective').append(rows[i].vans);
+
+	}
+	
+	//compute and append total
+	$('.daily-inventory-report .di-empty-vans tr').find('.defective.dfs-vans').each(function() {
+		
+		var vans = parseInt($(this).text())
+
+		if(vans) {
+
+			total += vans;
+			
+		}
+
+	});
+
+	$('.daily-inventory-report-modal .di-empty-vans .total').find('th:nth-child(6)').append(total);
+	
+}
+
+/*
+*
+* FG
+*
+*/
+
+
+function set_di_finished_goods_shippers(rows) {
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		$('.daily-inventory-report-modal .di-finished-goods tr[data-sid="' + rows[i].s_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('.' + rows[i].tt_name.toLowerCase() + '.' + rows[i].m_type.toLowerCase()).append(rows[i].vans);
+
+	}
+	
+}
+
+function set_di_finished_goods_truckers(rows) {
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		$('.daily-inventory-report-modal .di-finished-goods tr[data-tid="' + rows[i].t_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('.' + rows[i].tt_name.toLowerCase() + '.' + rows[i].m_type.toLowerCase()).append(rows[i].vans);
+
+	}
+	
+}
+
+function set_di_finished_goods_total() {
+
+	var total_rm = 0; 
+	var total_rc = 0;
+	var total_em = 0;
+	var total_ec = 0;
+
+	$('.daily-inventory-report-modal .di-finished-goods tr').find('td.resupply.milk').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
+			
+			total_rm += vans;
+
+		}
+
+	});
+
+	$('.daily-inventory-report-modal .di-finished-goods .total').find('.resupply.milk').append(total_rm);
+
+
+	$('.daily-inventory-report-modal .di-finished-goods tr').find('td.resupply.coffee').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
+
+			total_rc += vans;
+
+		}
+
+	});
+
+	$('.daily-inventory-report-modal .di-finished-goods .total').find('.resupply.coffee').append(total_rc);
+
+
+	$('.daily-inventory-report-modal .di-finished-goods tr').find('td.exfactory.milk').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
+
+			total_em += vans;
+
+		}
+
+	});
+
+	$('.daily-inventory-report-modal .di-finished-goods .total').find('.exfactory.milk').append(total_em);
+
+
+	$('.daily-inventory-report-modal .di-finished-goods tr').find('td.exfactory.coffee').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
+
+			total_ec += vans;
+
+		}
+
+	});
+
+	$('.daily-inventory-report-modal .di-finished-goods .total').find('.exfactory.coffee').append(total_ec);
+
+
+}
+
+function set_di_finished_goods(finished_goods_shippers, finished_goods_truckers) {
+
+    set_di_finished_goods_shippers(finished_goods_shippers);
+    set_di_finished_goods_truckers(finished_goods_truckers);
+    set_di_finished_goods_total();
+
+}
+
+/*
+*
+* END FG
+*
+*/
+
+/*
+*
+* SEMI FG
+*
+*/
+
+function set_di_semi_finished_goods_shippers(rows) {
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		$('.daily-inventory-report-modal .di-semi-finished-goods tr[data-sid="' + rows[i].s_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('.' + rows[i].m_type.toLowerCase()).append(rows[i].vans);
+
+	}
+	
+}
+
+function set_di_semi_finished_goods_truckers(rows) {
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		$('.daily-inventory-report-modal .di-semi-finished-goods tr[data-tid="' + rows[i].t_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('.' + rows[i].m_type.toLowerCase()).append(rows[i].vans);
+
+	}
+	
+}
+
+function set_di_semi_finished_goods_total() {
+
+	var total_m = 0; 
+	var total_c = 0;
+
+	$('.daily-inventory-report-modal .di-semi-finished-goods tr').find('td.milk').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
+			
+			total_m += vans;
+
+		}
+
+	});
+
+	$('.daily-inventory-report-modal .di-semi-finished-goods .total').find('.milk').append(total_m);
+
+
+	$('.daily-inventory-report-modal .di-semi-finished-goods tr').find('td.coffee').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
+
+			total_c += vans;
+
+		}
+
+	});
+
+	$('.daily-inventory-report-modal .di-semi-finished-goods .total').find('.coffee').append(total_c);
+
+}
+
+function set_di_semi_finished_goods(semi_finished_goods_shippers, semi_finished_goods_truckers) {
+
+    set_di_semi_finished_goods_shippers(semi_finished_goods_shippers);
+    set_di_semi_finished_goods_truckers(semi_finished_goods_truckers);
+    set_di_semi_finished_goods_total();
+
+}
+
+/*
+*
+* END SEMI FG
+*
+*/
+
+/*
+*
+* HOLD PRODUCTS
+*
+*/
+
+function set_di_hold_products_shippers(rows) {
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		$('.daily-inventory-report-modal .di-hold-products tr[data-sid="' + rows[i].s_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('.' + rows[i].m_type.toLowerCase() + '.' + rows[i].m_category.toLowerCase()).append(rows[i].vans);
+
+	}
+	
+}
+
+function set_di_hold_products_truckers(rows) {
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		$('.daily-inventory-report-modal .di-hold-products tr[data-tid="' + rows[i].t_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('.' + rows[i].m_type.toLowerCase() + '.' + rows[i].m_category.toLowerCase()).append(rows[i].vans);
+
+	}
+	
+}
+
+function set_di_hold_products_total() {
+
+	var total_mf = 0; 
+	var total_cf = 0;
+	var total_ms = 0;
+	var total_cs = 0;
+
+	$('.daily-inventory-report-modal .di-hold-productstr').find('td.milk.fg').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
+			
+			total_mf += vans;
+
+		}
+
+	});
+
+	$('.daily-inventory-report-modal .di-hold-products .total').find('.milk.fg').append(total_mf);
+
+
+	$('.daily-inventory-report-modal .di-hold-products tr').find('td.coffee.fg').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
+
+			total_cf += vans;
+
+		}
+
+	});
+
+	$('.daily-inventory-report-modal .di-hold-products .total').find('.coffee.fg').append(total_cf);
+
+
+	$('.daily-inventory-report-modal .di-hold-products tr').find('td.milk.sfg').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
+
+			total_ms += vans;
+
+		}
+
+	});
+
+	$('.daily-inventory-report-modal .di-hold-products .total').find('.milk.sfg').append(total_ms);
+
+
+	$('.daily-inventory-report-modal .di-hold-products tr').find('td.coffee.sfg').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
+
+			total_cs += vans;
+
+		}
+
+	});
+
+	$('.daily-inventory-report-modal .di-hold-products .total').find('.coffee.sfg').append(total_cs);
+
+
+}
+
+function set_di_hold_products(hold_products_shippers, hold_products_truckers) {
+
+    set_di_hold_products_shippers(hold_products_shippers);
+    set_di_hold_products_truckers(hold_products_truckers);
+    set_di_hold_products_total();
+
+}
+
+/*
+*
+* END HOLD PRODUCTS
+*
+*/
+
+/*
+*
+* FOR PROCESSING AND LATE OVER
+*
+*/
+
+function set_di_for_processing_late_over_shippers(rows) {
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		$('.daily-inventory-report-modal .di-for-processing-late-over tr[data-sid="' + rows[i].s_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('.for-processing').append(rows[i].for_processing);
+		$('.daily-inventory-report-modal .di-for-processing-late-over tr[data-sid="' + rows[i].s_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('.late-over').append(rows[i].late_over);
+
+	}
+	
+}
+
+function set_di_for_processing_late_over_truckers(rows) {
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		$('.daily-inventory-report-modal .di-for-processing-late-over tr[data-tid="' + rows[i].t_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('.for-processing').append(rows[i].for_processing);
+		$('.daily-inventory-report-modal .di-for-processing-late-over tr[data-tid="' + rows[i].t_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('.late-over').append(rows[i].late_over);
+
+	}
+	
+}
+
+function set_di_for_processing_late_over_total() {
+
+	var total_fp = 0; 
+	var total_lo = 0;
+
+	$('.daily-inventory-report-modal .di-for-processing-late-over').find('td.for-processing').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
+			
+			total_fp += vans;
+
+		}
+
+	});
+
+	$('.daily-inventory-report-modal .di-for-processing-late-over .total').find('.for-processing').append(total_fp);
+
+
+	$('.daily-inventory-report-modal .di-for-processing-late-over tr').find('td.late-over').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
+
+			total_lo += vans;
+
+		}
+
+	});
+
+	$('.daily-inventory-report-modal .di-for-processing-late-over .total').find('.late-over').append(total_lo);
+
+}
+
+function set_di_for_processing_late_over(for_processing_late_over_shippers, for_processing_late_over_truckers) {
+
+    set_di_for_processing_late_over_shippers(for_processing_late_over_shippers);
+    set_di_for_processing_late_over_truckers(for_processing_late_over_truckers);
+    set_di_for_processing_late_over_total();
+
+}
+
+/*
+*
+* END FOR PROCESSING AND LATE OVER
+*
+*/
+
 
 function empty_fsc_outbound_report() {
 
@@ -337,6 +978,11 @@ function empty_fsc_outbound_report() {
 	$('.fsc-outbound-report-modal .pending>tbody').find('tr td:nth-child(3)').empty();
 	$('.fsc-outbound-report-modal .pending>tbody').find('tr td:nth-child(4)').empty();
 	$('.fsc-outbound-report-modal .empty-vans>tbody').find('tr td:nth-child(3)').empty();
+
+	$('.fsc-outbound-report .dispatch>tbody .total').find('th:nth-child(2)').empty();
+	$('.fsc-outbound-report .pending>tbody .total').find('th:nth-child(2)').empty();
+	$('.fsc-outbound-report .pending>tbody .total').find('th:nth-child(3)').empty();
+	$('.fsc-outbound-report .empty-vans>tbody .total').find('th:nth-child(2)').empty();	
 
 }
 
@@ -354,11 +1000,23 @@ function empty_empty_vans_report() {
 
 function clear_daily_inventory_report() {
 
-	$('.daily-inventory-report .di-pack-mats').find('tr td:nth-child(4)').empty();
-	$('.daily-inventory-report .di-raw-mats').find('tr td:nth-child(4)').empty();
+	//Stripping Reports
+	$('.daily-inventory-report .di-pack-mats tr').find('td:nth-child(4)').empty();
+	$('.daily-inventory-report .di-raw-mats tr').find('td:nth-child(4)').empty();
+	$('.daily-inventory-report .di-green-coffee tr').find('td:nth-child(3)').empty();
 
-	$('.daily-inventory-report .total').find('th:nth-child(2)').empty();
 	//$('.daily-inventory-report .di-pack-mats .local tr td').empty();
+
+	$('.daily-inventory-report .di-empty-vans tr').find('td:nth-child(3)').empty();
+	$('.daily-inventory-report .di-empty-vans tr').find('td:nth-child(6)').empty();
+	$('.daily-inventory-report .di-empty-vans tr').find('td:nth-child(9)').empty();
+
+	//Stuffing Reports
+	$('.daily-inventory-report .di-finished-goods tr').find('td:nth-child(3), td:nth-child(4), td:nth-child(5), td:nth-child(6)').empty();
+	$('.daily-inventory-report .di-semi-finished-goods tr').find('td:nth-child(3), td:nth-child(4)').empty();
+
+
+	$('.daily-inventory-report .total').find('th:nth-child(2), th:nth-child(3), th:nth-child(4), th:nth-child(5), th:nth-child(6)').empty();
 
 }
 
@@ -420,25 +1078,6 @@ function empty_vans_report() {
     return data;
 }
 
-function empty_vans_report() {
-
-	var data = [];
-
-  	$.ajax({
-        url: $('body').attr('base-url') + 'reports/empty_vans_report',
-        type: 'POST',
-        async: false,
-        success: function (response) {
-            var decode = jQuery.parseJSON(response);
-
-            data = decode;
-        }
-    });
-
-    return data;
-
-}
-
 function di_stripping_packmats() {
 
 	var data = [];
@@ -475,4 +1114,213 @@ function di_stripping_rawmats() {
 
     return data;
 
+}
+
+function di_stripping_greencoffee() {
+
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/di_stripping_greencoffee',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}
+
+function di_empty_for_return() {
+
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/di_empty_for_return',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}
+
+function di_defective_vans() {
+
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/di_defective_vans',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}
+
+function di_finished_goods_shippers() {
+
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/di_finished_goods_shippers',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}
+
+function di_finished_goods_truckers() {
+
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/di_finished_goods_truckers',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}
+
+function di_semi_finished_goods_shippers() {
+
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/di_semi_finished_goods_shippers',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}
+
+function di_semi_finished_goods_truckers() {
+
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/di_semi_finished_goods_truckers',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}
+
+function di_hold_products_shippers() {
+
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/di_hold_products_shippers',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}
+
+function di_hold_products_truckers() {
+
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/di_hold_products_truckers',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}
+
+function di_for_processing_late_over_shippers() {
+
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/di_for_processing_late_over_shippers',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}
+
+function di_for_processing_late_over_truckers() {
+
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/di_for_processing_late_over_truckers',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+    
 }

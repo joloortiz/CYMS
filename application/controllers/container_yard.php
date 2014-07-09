@@ -125,9 +125,11 @@ class Container_yard extends MY_Controller {
 				$remarks = $this->input->post($forms->remarks);
 					
 				
+				$is_tempload = $this->input->post($forms->is_tempload);
 				$is_blocked = $this->input->post($forms->is_blocked);
 				$is_defective = $this->input->post($forms->is_defective);
 				$block_reason = $this->input->post($forms->block_reason);
+				$tempload_status = $this->input->post($forms->tempload_status);
 					
 				$user = $this->session->userdata(SESSION_VAR);
 				
@@ -186,6 +188,8 @@ class Container_yard extends MY_Controller {
 						'tc_datesealed' => $date_sealed != '' ? date("Y-m-d", strtotime($date_sealed)) : NULL,
 						'tc_sealno' => strtoupper( $seal_no ),
 						'tc_remarks' => strtoupper( $remarks ),
+						'tc_tempload_status' => $is_tempload == 1 ? strtoupper( $tempload_status ) : '',
+						'is_tempload' => $is_tempload,
 						'tc_block_reason' => strtoupper( $block_reason ),
 						'is_blocked' => $is_blocked,
 						'is_defective' => $is_defective,
@@ -341,6 +345,10 @@ class Container_yard extends MY_Controller {
 		
 		try {
 			$details = $this->_get_card_details_by_id($id);
+
+			// modify is-defective
+			$details['isdefective'] = $details['is-defective'];
+			unset( $details['is-defective'] );
 			
 			$var['details'] = $details;
 			$var['success'] = !empty($details) ? TRUE : FALSE;
@@ -993,6 +1001,8 @@ class Container_yard extends MY_Controller {
 				'seal_no' => 'seal-no',
 				'is_blocked' => 'is-blocked',
 				'is_defective' => 'is-defective',
+				'is_tempload' => 'is-tempload',
+				'tempload_status' => 'tempload-status',
 				'block_reason' => 'block-reason',
 				'remarks' => 'remarks'
 		);
@@ -1092,9 +1102,11 @@ class Container_yard extends MY_Controller {
 			$card[$forms->dn_no] = $details->tc_dn;
 			$card[$forms->date_sealed] = $details->tc_datesealed;
 			$card[$forms->seal_no] = $details->tc_sealno;
+			$card[$forms->tempload_status] = $details->tc_tempload_status;
 			$card[$forms->block_reason] = $details->tc_block_reason;
 			$card[$forms->is_blocked] = $details->is_blocked;
 			$card[$forms->is_defective] = $details->is_defective;
+			$card[$forms->is_tempload] = $details->is_tempload;
 			$card[$forms->remarks] = $details->tc_remarks;
 			
 			// Special Cases

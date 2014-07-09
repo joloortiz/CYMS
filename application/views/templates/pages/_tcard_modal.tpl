@@ -81,7 +81,23 @@
       				</td>
       			</tr>
             <tr class="card-field-row">
-              <td class="col-xs-3"></td>
+              <td class="col-xs-3">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <strong><label class="has-radio-checkbox"><input type="checkbox" name="{$form->is_tempload}"> <span class="checkbox-radio-label">Tempload</span></label></strong>
+                  </div>
+                </div>
+                <div class="row disabled faded">
+                  <div class="col-sm-12">
+                    <select name="{$form->tempload_status}" class="form-control input-sm non-modal-state-preview-dependent">
+                      <option value=""></option>
+                      <option value="HOUSEKEEPING">HOUSEKEEPING</option>
+                      <option value="BACKLOAD">BACKLOAD</option>
+                      <option value="REWORK">REWORK</option>
+                    </select>
+                  </div>
+                </div>
+              </td>
               <td class="col-xs-6">
                 <div class="row">
                   <div class="col-sm-6">

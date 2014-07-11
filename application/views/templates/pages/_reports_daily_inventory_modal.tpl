@@ -783,8 +783,8 @@
 				      							</tr>
 				      							<tr class="total">
 				      								<th colspan="2">Total</th>
-				      								<td class="for-processing"></td>
-				      								<td class="late-over"></td>
+				      								<th class="for-processing"></th>
+				      								<th class="late-over"></th>
 				      							</tr>
 				      						</tbody>
 				      					</table>
@@ -1045,7 +1045,7 @@
 					      					<td class="imported for-return" data-vtid="1">20</td>
 					      					<td class="imported for-return efr-vans"></td>
 
-					      					<td class="for-stuffing" data-tid="4">2GO</td>
+					      					<td class="for-stuffing" data-sid="4">2GO</td>
 					      					<td class="for-stuffing" data-vtid="1">20</td>
 					      					<td class="for-stuffing efs-vans"></td>
 

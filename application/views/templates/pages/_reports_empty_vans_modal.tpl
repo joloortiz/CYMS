@@ -27,60 +27,64 @@
 					      					<th>Size</th>
 					      					<th>No. of TEUs</th>
 					      				</tr>
-					      				<tr class="NMC20">
+					      				<tr data-sid="2" data-vtid="1">
 					      					<td>NMC</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="NMC40">
+					      				<tr data-sid="2" data-vtid="2">
 					      					<td>NMC</td>
 					      					<td>40 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="SOLID20">
+					      				<tr data-sid="3" data-vtid="1">
 					      					<td>SOLID</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="2GO20">
+					      				<tr data-sid="4" data-vtid="1">
 					      					<td>2GO</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="SSR20">
+					      				<tr data-sid="6" data-vtid="1">
 					      					<td>SSR</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="SSR40">
+					      				<tr data-sid="6" data-vtid="2">
 					      					<td>SSR</td>
 					      					<td>40 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="GS20">
+					      				<tr data-sid="5" data-vtid="1">
 					      					<td>GS</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="TST20">
+					      				<tr data-tid="2" data-vtid="1">
 					      					<td>TST</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="MSKU20">
+					      				<tr data-sid="11" data-vtid="1">
 					      					<td>MSKU</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="MSKU40">
+					      				<tr data-sid="11" data-vtid="2">
 					      					<td>MSKU</td>
 					      					<td>40 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="SKMTI20">
+					      				<tr data-tid="2" data-vtid="1">
 					      					<td>SKMTI</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
+					      				</tr>
+					      				<tr class="total">
+					      					<th colspan="2">Total</th>
+					      					<th></th>
 					      				</tr>
 					      			</tbody>
 					      		</table>

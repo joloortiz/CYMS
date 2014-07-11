@@ -221,10 +221,10 @@ class Reports_model extends CI_Model{
 
 	}
 
-	function empty_vans_running_balance() {
+	function empty_vans_running_balance_shippers() {
 
 		$sql = "
-			SELECT tc.tc_id, s.s_id, s.s_name, t.t_id, t.t_name, t.t_code, vt.vt_id, vt.vt_name, count(tc.tc_id) as vans
+			SELECT tc.tc_id, s.s_id, s.s_name, vt.vt_id, vt.vt_name, count(tc.tc_id) as vans
 			FROM tcards tc
 			INNER JOIN shippers s
 			ON tc.s_id = s.s_id
@@ -252,10 +252,52 @@ class Reports_model extends CI_Model{
 					(s.s_id = 11 && vt.vt_id = 2) ||
 					(s.s_id = 13 && vt.vt_id = 1) ||
 					(s.s_id = 18 && vt.vt_id = 1) ||
-					(s.s_id = 19 && vt.vt_id = 1) ||
-					(t.t_id = 4 && vt.vt_id = 1) ||
-					(t.t_id = 2 && vt.vt_id = 1) || 
-					(t.t_id = 4 && vt.vt_id = 1)) && 
+					(s.s_id = 19 && vt.vt_id = 1)) && 
+					(tc.is_blocked = FALSE && tc.is_defective = FALSE)
+			GROUP by vt.vt_name, s.s_name; 		
+		";
+
+		$query = $this->db->query($sql);
+
+		return $query->result();
+
+	}
+
+	function empty_vans_running_balance_truckers() {
+
+		$sql = "
+			SELECT tc.tc_id, t.t_id, t.t_code, vt.vt_id, vt.vt_name, count(tc.tc_id) as vans
+			FROM tcards tc
+			INNER JOIN shippers s
+			ON tc.s_id = s.s_id
+			INNER JOIN truckers t
+			ON tc.t_id = t.t_id
+			INNER JOIN van_types vt
+			ON tc.vt_id = vt.vt_id
+			INNER JOIN tcard_types tt
+			ON tc.tt_id = tt.tt_id
+			INNER JOIN tcard_type_group ttg
+			ON tt.ttg_id = ttg.ttg_id
+			LEFT JOIN exit_passes e
+			ON e.tc_id = tc.tc_id
+			WHERE 	(tc.tc_status = 'EMPTY' && e.e_id IS NULL) &&
+					(ttg.ttg_name = 'Stuffing') && 
+					((t.t_id = 4 && vt.vt_id = 1) ||
+					 (t.t_id = 2 && vt.vt_id = 1) || 
+					 (t.t_id = 4 && vt.vt_id = 1)) &&
+					((s.s_id != 2) && 
+					 (s.s_id != 2) && 
+					 (s.s_id != 3) && 
+					 (s.s_id != 4) && 
+					 (s.s_id != 6) && 
+					 (s.s_id != 6) && 
+					 (s.s_id != 5) && 
+					 (s.s_id != 9) && 
+					 (s.s_id != 11) &&
+					 (s.s_id != 11) &&
+					 (s.s_id != 13) &&
+					 (s.s_id != 18) &&
+					 (s.s_id != 19)) &&
 					(tc.is_blocked = FALSE && tc.is_defective = FALSE)
 			GROUP by vt.vt_name, s.s_name; 		
 		";
@@ -609,10 +651,10 @@ class Reports_model extends CI_Model{
 
 	}
 
-	function di_defective_vans() {
+	function di_defective_vans_shippers() {
 
 		$sql = "
-			SELECT v.v_no, tc.tc_entrydate, s.s_id, s.s_name, t.t_id, t.t_name, vt.vt_id, vt.vt_name, tc.tc_block_reason, count(tc.tc_id) as vans
+			SELECT v.v_no, tc.tc_entrydate, s.s_id, s.s_name, vt.vt_id, vt.vt_name, tc.tc_block_reason, count(tc.tc_id) as vans
 			FROM tcards tc
 			INNER JOIN shippers s
 			ON tc.s_id = s.s_id
@@ -627,17 +669,53 @@ class Reports_model extends CI_Model{
 			WHERE 	(is_blocked = TRUE && is_defective = TRUE && e.e_id IS NULL) &&
 					((s.s_id = 4 && vt.vt_id = 1) ||
 					 (s.s_id = 3 && vt.vt_id = 1) || 
-					 (s.s_id = 19 && vt.vt_id = 1) ||
-					 (t.t_id = 7 && vt.vt_id = 1) ||
+					 (s.s_id = 19 && vt.vt_id = 1) ||				 
 					 (s.s_id = 6 && vt.vt_id = 1) ||	
 					 (s.s_id = 5 && vt.vt_id = 1) ||
 					 (s.s_id = 17 && vt.vt_id = 1) ||
 					 (s.s_id = 6 && vt.vt_id = 2) ||
-					 (t.t_id = 2 && vt.vt_id = 1) ||
 					 (s.s_id = 2 && vt.vt_id = 1) ||
-					 (t.t_id = 4 && vt.vt_id = 1) ||
 					 (s.s_id = 10 && vt.vt_id = 1))
-			GROUP by vt.vt_name, s.s_name; 	
+			GROUP by s.s_name, vt.vt_name; 	
+		";
+
+		$query = $this->db->query($sql);
+
+		return $query->result();
+
+	}
+
+	function di_defective_vans_truckers() {
+
+		$sql = "
+			SELECT v.v_no, tc.tc_entrydate, t.t_id, t.t_code, vt.vt_id, vt.vt_name, tc.tc_block_reason, count(tc.tc_id) as vans
+			FROM tcards tc
+			INNER JOIN shippers s
+			ON tc.s_id = s.s_id
+			INNER JOIN truckers t
+			ON tc.t_id = t.t_id
+			INNER JOIN van_types vt
+			ON tc.vt_id = vt.vt_id
+			INNER JOIN vans v
+			on tc.v_id = v.v_id
+			LEFT JOIN exit_passes e
+			on e.tc_id = tc.tc_id
+			WHERE 	(is_blocked = TRUE && is_defective = TRUE && e.e_id IS NULL) &&
+					((t.t_id = 7 && vt.vt_id = 1) ||
+					 (t.t_id = 2 && vt.vt_id = 1) || 
+					 (t.t_id = 4 && vt.vt_id = 1)
+					 ) &&
+					((s.s_id != 4) &&
+					 (s.s_id != 3) && 
+					 (s.s_id != 19) &&				 
+					 (s.s_id != 6) &&	
+					 (s.s_id != 5) &&
+					 (s.s_id != 17) &&
+					 (s.s_id != 6) &&
+					 (s.s_id != 2) &&
+					 (s.s_id != 10)
+					)
+			GROUP by t.t_code, vt.vt_name; 	
 		";
 
 		$query = $this->db->query($sql);

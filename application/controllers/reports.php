@@ -56,11 +56,21 @@ class Reports extends MY_Controller {
 
 	}
 
-	function empty_vans_report() {
+	function empty_vans_report_shippers() {
 
 		$this->load->model('reports_model');
 
-		$data = $this->reports_model->empty_vans_running_balance();
+		$data = $this->reports_model->empty_vans_running_balance_shippers();
+
+		echo json_encode($data);
+
+	}
+
+	function empty_vans_report_truckers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->empty_vans_running_balance_truckers();
 
 		echo json_encode($data);
 
@@ -106,11 +116,21 @@ class Reports extends MY_Controller {
 
 	}
 
-	function di_defective_vans() {
+	function di_defective_vans_shippers() {
 
 		$this->load->model('reports_model');
 
-		$data = $this->reports_model->di_defective_vans();
+		$data = $this->reports_model->di_defective_vans_shippers();
+
+		echo json_encode($data);
+
+	}
+
+	function di_defective_vans_truckers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_defective_vans_truckers();
 
 		echo json_encode($data);
 

@@ -924,19 +924,19 @@
 					      				<tr>
 					      					<th colspan="4">TEMPORARY LOAD</th>
 					      				</tr>
-					      				<tr data-mid="39" data-vtid="1" data-sid="2-3">
+					      				<tr class="malto-powder">
 					      					<td>Malto Powder</td>
 					      					<td>20</td>
 					      					<td>NMC/SOLID</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr data-mid="40" data-vtid="1" data-sid="2-3">
+					      				<tr class="msk-medium-heat">
 					      					<td>MSK Medium Heat</td>
 					      					<td>20</td>
 					      					<td>NMC/SOLID</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr data-mid="41" data-vtid="1" data-tid="2">
+					      				<tr class="amf-drums-sbmp">
 					      					<td>AMF/DRUMS/SBMP</td>
 					      					<td>20</td>
 					      					<td>TST</td>

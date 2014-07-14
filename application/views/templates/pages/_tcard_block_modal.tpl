@@ -7,7 +7,12 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-md-12">
-						<label class="has-radio-checkbox"><input type="checkbox" name="is-defective"> <span class="checkbox-radio-label">Defective Van</span></label>
+						<label class="has-radio-checkbox"><input type="radio" name="is-defective" value="0" checked> <span class="checkbox-radio-label">FG Quality Issues</span></label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<label class="has-radio-checkbox"><input type="radio" name="is-defective" value="1"> <span class="checkbox-radio-label">Defective Van</span></label>
 					</div>
 				</div>
 				<div class="row buffer-top">

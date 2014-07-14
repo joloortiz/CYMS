@@ -282,8 +282,7 @@ class Materials extends MY_Controller {
 	private function _get_material_category_fullname( $var ) {
 		$categories = array(
 				'FG' => 'FINISHED GOODS',
-				'SFG' => 'SEMI-FINISHED GOODS',
-				'RP' => 'REWORK POWDER'
+				'SFG' => 'SEMI-FINISHED GOODS'
 		);	
 	
 		if( isset( $categories[ strtoupper($var) ] ) ) {

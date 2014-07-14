@@ -85,9 +85,18 @@ $('body').on('click', '.entry', function() {
 
     // is blocked
     var is_blocked = details['is-blocked'] == 0 ? false : true;
-    var is_defective = details['is-defective'] == 0 ? false : true;
+    var is_defective = details['isdefective'] == 0 ? false : true;
+    var is_tempload = details['is-tempload'] == 0 ? false : true;
+
     $('[name="is-blocked"]').prop('checked', is_blocked);
-    $('[name="is-defective"]').prop('checked', is_defective);
+
+    if( is_defective ) {
+        $('[name="is-defective"]').filter(function() {
+            return $(this).val() == '1';
+        }).prop('checked', true).trigger('change');
+    }
+
+    $('[name="is-tempload"]').prop('checked', is_tempload).trigger('change');
 
     $('[name="is-blocked"]').trigger('change');
 
@@ -240,6 +249,20 @@ $('#newEntryModal').on('change', '.card-status-switch', function() {
     check_card_status();
 });
 
+$('[name="is-tempload"]').change(function() {
+    var is_checked = $(this).prop('checked');
+    var form_group = $('[name="tempload-status"]').closest('.row');
+
+    if( is_checked ) {
+        form_group.removeClass( 'faded');
+        form_group.removeClass('disabled');
+    }else {
+        $('[name="tempload-status"]').val('').trigger('change');
+        form_group.addClass('faded');
+        form_group.addClass('disabled');
+    }
+});
+
 
 /*
  * FUNCTIONS
@@ -279,6 +302,7 @@ function reset_tcard(){
     setup_van_nos();
 
     // Select2
+    setup_tempload_status();
     setup_tcard_types();
     setup_status();
     setup_shippers();
@@ -310,7 +334,11 @@ function reset_tcard(){
 }
 
 function reset_block_modal() {
-    $('[name="is-defective"]').prop('checked', false);
+    $('[name="is-defective"]').filter( function() {
+        return $(this).val() == '0';
+    }).prop('checked', true).trigger('change');
+
+
     $('[name="block-reason"]').val('');
 }
 
@@ -386,13 +414,17 @@ function get_form_values() {
         values['is-blocked'] = $('[name="is-blocked"]').prop('checked') ? 1 : 0;
 
         if( values['is-blocked'] == 1 ) {
-            is_defective = $('[name="is-defective"]').prop('checked') ? 1 : 0;
+            is_defective = $('[name="is-defective"]').filter(function() {
+                return $(this).val() == '1';
+            }).prop('checked') ? 1 : 0;
             block_reason = $.trim( $('[name="block-reason"]').val() );
         }
         values['is-defective'] = is_defective;
         values['block-reason'] = block_reason;
-    }
 
+        // is tempload
+        values['is-tempload'] = $('[name="is-tempload"]').prop('checked') ? 1 : 0;
+    }
 
     // special case (not in form names)
     values['card_id'] = $('[name="card-id"]').val();
@@ -671,7 +703,9 @@ function tcard_block( param ) {
     param = typeof param == 'undefined' ? true : param;
 
     if( param ) {
-        var is_defective = $('[name="is-defective"]').prop('checked');
+        var is_defective = $('[name="is-defective"]').filter(function() {
+            return $(this).val() == '1';
+        }).prop('checked');
         var reason = $.trim( $('[name="block-reason"]').val() );
 
         $('#block-tcard').addClass('absolute-hide');
@@ -761,6 +795,15 @@ function check_card_status() {
 
 }
 
+function setup_tempload_status() {
+
+    $('[name="tempload-status"]').removeClass('select2-offscreen').select2({
+        placeholder: 'Set status',
+        minimumResultsForSearch: 5   // minimum number of options to show search box
+    }).val('').trigger('change');
+    
+}
+
 function setup_tcard_types() {
 
     var types = Array();
@@ -792,6 +835,7 @@ function setup_status() {
 
     $('[name="status"]').removeClass('select2-offscreen').select2({
         placeholder: 'Select Status',
+        minimumResultsForSearch: 5,   // minimum number of options to show search box
         allowClear: false
     }).val('').trigger('change');
 

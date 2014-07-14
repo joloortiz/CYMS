@@ -20,7 +20,7 @@
 		      			<div class="row">
 			      			<div class="col-md-1"></div>
 			      			<div class="col-md-10">
-					      		<table class="reports-table dispatch">
+					      		<table class="reports-table fsc-dispatch-standings">
 					      			<thead>
 					      				<tr>
 					      					<td colspan="3">
@@ -28,7 +28,7 @@
 					      					</td>
 					      				</tr>
 					      			</thead>
-					      			<tbody class="fulls">
+					      			<tbody class="resupply">
 					      				<tr>
 					      					<th colspan="3">FULLS</th>
 					      				</tr>
@@ -37,103 +37,108 @@
 					      					<th>Size</th>
 					      					<th>No. of TEUs</th>
 					      				</tr>
-					      				<tr class="NMC20">
+					      				<tr data-sid="2" data-vtid="1">
 					      					<td>NMC</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="NMC40">
+					      				<tr data-sid="2" data-vtid="2">
 					      					<td>NMC</td>
 					      					<td>40 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="SOLID20">
+					      				<tr data-sid="3" data-vtid="1">
 					      					<td>SOLID</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="2GO20">
+					      				<tr data-sid="4" data-vtid="1">
 					      					<td>2GO</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="GOTHONG20">
+					      				<tr data-sid="5" data-vtid="1">
 					      					<td>GOTHONG</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="SSR20">
+					      				<tr data-sid="6" data-vtid="1">
 					      					<td>SSR</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="SSR40">
+					      				<tr data-sid="6" data-vtid="2">
 					      					<td>SSR</td>
 					      					<td>40 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="COFIPAC20">
+					      				<tr data-sid="7" data-vtid="1">
 					      					<td>COFIPAC</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="COFIPAC40">
+					      				<tr data-sid="2" data-vtid="2">
 					      					<td>COFIPAC</td>
 					      					<td>40 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="CDCWINGVAN">
+					      				<tr data-sid="8" data-vtid="3">
 					      					<td>CDC</td>
 					      					<td>Wing Van</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="TSTWINGVAN">
+					      				<tr data-tid="2" data-vtid="3">
 					      					<td>TST</td>
 					      					<td>Wing Van</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="MSKU20">
+					      				<tr data-tid="3" data-vtid="3">
+					      					<td>TW</td>
+					      					<td>20 Ftr</td>
+					      					<td></td>
+					      				</tr>
+					      				<tr data-sid="11" data-vtid="1">
 					      					<td>MSKU</td>
 					      					<td>20</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="MSKU40">
+					      				<tr data-sid="11" data-vtid="2">
 					      					<td>MSKU</td>
 					      					<td>40</td>
 					      					<td></td>
 					      				</tr>
 					      			</tbody>
-					      			<tbody class="exfac">
+					      			<tbody class="exfactory">
 					      				<tr>
 					      					<th colspan="2">EXFAC</th>
 					      					<th>No. of TEUs</th>
 					      				</tr>
-					      				<tr class="NMC20">
+					      				<tr data-sid="2" data-vtid="1">
 					      					<td>NMC</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="SOLID20">
+					      				<tr data-sid="3" data-vtid="1">
 					      					<td>SOLID</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="2GO20">
+					      				<tr data-sid="4" data-vtid="1">
 					      					<td>2GO</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="SKMIWINGVAN">
-					      					<td>SKMI</td>
+					      				<tr data-tid="4" data-vtid="1">
+					      					<td>SKMTI</td>
 					      					<td>Wing Van</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="TST20">
+					      				<tr data-tid="2" data-vtid="1">
 					      					<td>TST</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="FCTCWINGVAN">
+					      				<tr data-tid="7" data-vtid="1">
 					      					<td>FCTC</td>
 					      					<td>Wing Van</td>
 					      					<td></td>
@@ -144,7 +149,7 @@
 					      			</tbody>
 					      		</table>
 
-					      		<table class="reports-table pending">
+					      		<table class="reports-table fsc-pending">
 					      			<thead>
 					      				<tr>
 					      					<td colspan="4">
@@ -152,7 +157,7 @@
 					      					</td>
 					      				</tr>
 					      			</thead>
-					      			<tbody class="fulls">
+					      			<tbody class="resupply">
 					      				<tr>
 					      					<th colspan="4">FULLS</th>
 					      				</tr>
@@ -163,118 +168,130 @@
 					      					<th>No. of TEUs</th>
 					      				</tr>
 					      				<tr class="i-9">
-					      					<th>SEALED/WITH EXIT PASS</th>
 					      					<th>UNSEALED/NO EXIT PASS</th>
+					      					<th>SEALED/WITH EXIT PASS</th>
 					      				</tr>
-					      				<tr class="NMC20">
+					      				<tr data-sid="2" data-vtid="1">
 					      					<td>NMC</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="NMC40">
+					      				<tr data-sid="2" data-vtid="2">
 					      					<td>NMC</td>
 					      					<td>40 Ftr</td>
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="SOLID20">
+					      				<tr data-sid="3" data-vtid="1">
 					      					<td>SOLID</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="2GO20">
+					      				<tr data-sid="4" data-vtid="1">
 					      					<td>2GO</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="GOTHONG20">
+					      				<tr data-sid="5" data-vtid="1">
 					      					<td>GOTHONG</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="SSR20">
+					      				<tr data-sid="6" data-vtid="1">
 					      					<td>SSR</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="SSR40">
+					      				<tr data-sid="6" data-vtid="2">
 					      					<td>SSR</td>
 					      					<td>40 Ftr</td>
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="COFIPAC20">
+					      				<tr data-sid="7" data-vtid="1">
 					      					<td>COFIPAC</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="COFIPAC40">
+					      				<tr data-sid="2" data-vtid="2">
 					      					<td>COFIPAC</td>
 					      					<td>40 Ftr</td>
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="CDCWINGVAN">
+					      				<tr data-sid="8" data-vtid="3">
 					      					<td>CDC</td>
 					      					<td>Wing Van</td>
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="TSTWINGVAN">
+					      				<tr data-tid="2" data-vtid="3">
 					      					<td>TST</td>
 					      					<td>Wing Van</td>
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="MSKUFCTC">
+					      				<tr data-tid="3" data-vtid="3">
+					      					<td>TW</td>
+					      					<td>20 Ftr</td>
+					      					<td></td>
+					      					<td></td>
+					      				</tr>
+					      				<tr data-sid="11" data-vtid="1">
 					      					<td>MSKU</td>
-					      					<td>FCTC</td>
+					      					<td>20</td>
+					      					<td></td>
+					      					<td></td>
+					      				</tr>
+					      				<tr data-sid="11" data-vtid="2">
+					      					<td>MSKU</td>
+					      					<td>40</td>
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
 					      			</tbody>
-					      			<tbody class="exfac">
+					      			<tbody class="exfactory">
 					      				<tr>
 					      					<th colspan="2">EXFAC</th>
 					      					<th colspan="2">No. of TEUs</th>
 					      				</tr>
-					      				<tr class="NMC20">
+					      				<tr data-sid="2" data-vtid="1">
 					      					<td>NMC</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="SOLID20">
+					      				<tr data-sid="3" data-vtid="1">
 					      					<td>SOLID</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="2GO20">
+					      				<tr data-sid="4" data-vtid="1">
 					      					<td>2GO</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="SKMIWINGVAN">
-					      					<td>SKMI</td>
+					      				<tr data-tid="4" data-vtid="1">
+					      					<td>SKMTI</td>
 					      					<td>Wing Van</td>
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="TST20">
+					      				<tr data-tid="2" data-vtid="1">
 					      					<td>TST</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="FCTCWINGVAN">
+					      				<tr data-tid="7" data-vtid="1">
 					      					<td>FCTC</td>
 					      					<td>Wing Van</td>
 					      					<td></td>
@@ -288,7 +305,7 @@
 					      			</tbody>
 					      		</table>
 
-					      		<table class="reports-table empty-vans">
+					      		<table class="reports-table fsc-empty-vans">
 					      			<thead>
 					      				<tr>
 					      					<td colspan="3">
@@ -305,64 +322,64 @@
 					      					<th>Size</th>
 					      					<th>No. of TEUs</th>
 					      				</tr>
-					      				<tr class="NMC20">
+					      				<tr data-sid="2" data-vtid="1">
 					      					<td>NMC</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="NMC40">
+					      				<tr data-sid="2" data-vtid="2">
 					      					<td>NMC</td>
 					      					<td>40 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="SOLID20">
+					      				<tr data-sid="3" data-vtid="1">
 					      					<td>SOLID</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="2GO20">
+					      				<tr data-sid="4" data-vtid="1">
 					      					<td>2GO</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="SSR20">
+					      				<tr data-sid="6" data-vtid="1">
 					      					<td>SSR</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="SSR40">
+					      				<tr data-sid="6" data-vtid="2">
 					      					<td>SSR</td>
 					      					<td>40 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="GS20">
+					      				<tr data-sid="5" data-vtid="1">
 					      					<td>GS</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="TST20">
+					      				<tr data-tid="2" data-vtid="1">
 					      					<td>TST</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="MSKU20">
+					      				<tr data-sid="11" data-vtid="1">
 					      					<td>MSKU</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="MSKU40">
+					      				<tr data-sid="11" data-vtid="2">
 					      					<td>MSKU</td>
 					      					<td>40 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="SKMTI20">
+					      				<tr data-sid="4" data-vtid="1">
 					      					<td>SKMTI</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
 					      				<tr class="total">
 					      					<th colspan="2">Total</th>
-					      					<th colspan="2"></th>
+					      					<th></th>
 					      				</tr>
 					      			</tbody>
 					      		</table>

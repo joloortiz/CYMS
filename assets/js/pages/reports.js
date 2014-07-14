@@ -18,155 +18,32 @@ $('#fsc-outbound-report').click(function() {
 	$('.issues-text').val('');
     $('.timestamp').empty();
 
-	var data = fsc_outbound_report();
-	var dsf = data.dispatch_standings_fulls;
-	var dse = data.dispatch_standings_exfac;
-	var pfs = data.pending_fulls_sealed;
-	var pfu = data.pending_fulls_unsealed;
-	var pes = data.pending_exfac_sealed;
-	var peu = data.pending_exfac_unsealed;
-	var evrb = data.empty_vans_running_balance;
-	var ds_total = 0;
-	var pse_total = 0;
-	var psne_total = 0;
-	var ev_total = 0;
+    var dispatch_standings_shippers = fsc_dispatch_standings_shippers();
+    var dispatch_standings_truckers = fsc_dispatch_standings_truckers();
+    var pending_shippers = fsc_pending_shippers();
+    var pending_truckers = fsc_pending_truckers();
+    var empty_vans_for_stuffing_shippers = fsc_empty_vans_for_stuffing_shippers();
+    var empty_vans_for_stuffing_truckers = fsc_empty_vans_for_stuffing_truckers();
 
+   	//console.log(dispatch_standings_shippers);
+   	//console.log(dispatch_standings_truckers);
+    set_fsc_dispatch_standings(dispatch_standings_shippers, dispatch_standings_truckers);
 
-	if(dsf.length > 0){
+    //console.log(pending_shippers);
+    //console.log(pending_truckers);
+    set_fsc_pending(pending_shippers, pending_truckers);
 
-		for(var i = 0; i < dsf.length; i++) {
+   	console.log(empty_vans_for_stuffing_shippers);
+   	console.log(empty_vans_for_stuffing_truckers);
+   	set_fsc_empty_vans_for_stuffing(empty_vans_for_stuffing_shippers, empty_vans_for_stuffing_truckers);
 
-			$('.fsc-outbound-report .dispatch>.fulls').find('.' + dsf[i].s_name + dsf[i].vt_name + ' td:nth-child(3)').append(dsf[i].TEU);
+	$('.fsc-outbound-report .timestamp').append('Generated at ' + now().time + ' on ' + now().date);
 
-		}
+	remove_loader();
 
-	}
-
-	if(dse.length > 0){
-
-		for(var i = 0; i < dse.length; i++) {
-
-			$('.fsc-outbound-report .dispatch>.exfac').find('.' + dse[i].s_name + dse[i].vt_name + ' td:nth-child(3)').append(dse[i].TEU);
-
-		}
-
-	}
-
-	if(pfs.length > 0) {
-
-
-		for(var i = 0; i < pfs.length; i++) {
-
-			$('.fsc-outbound-report .pending>.fulls').find('.' + pfs[i].s_name + pfs[i].vt_name + ' td:nth-child(3)').append(pfs[i].TEU);
-
-		}
-
-	}
-
-	if(pfu.length > 0) {
-
-		for(var i = 0; i < pfu.length; i++) {
-
-			$('.fsc-outbound-report .pending>.fulls').find('.' + pfu[i].s_name + pfu[i].vt_name + ' td:nth-child(4)').append(pfu[i].TEU);
-
-		}
-
-	}
-
-	if(pes.length > 0) {
-
-		for(var i = 0; i < pes.length; i++) {
-
-			$('.fsc-outbound-report .pending>.exfac').find('.' + pes[i].s_name + pes[i].vt_name + ' td:nth-child(3)').append(pes[i].TEU);
-
-		}
-
-	}
-
-	if(peu.length > 0) {
-
-		for(var i = 0; i < peu.length; i++) {
-
-			$('.fsc-outbound-report .pending>.exfac').find('.' + peu[i].s_name + peu[i].vt_name + ' td:nth-child(4)').append(peu[i].TEU);
-
-		}
-
-	}
-
-	if(evrb.length > 0) {
-
-		for(var i = 0; i < evrb.length; i++) {
-
-			$('.fsc-outbound-report .empty-vans>tbody').find('.' + evrb[i].s_name + evrb[i].vt_name + ' td:nth-child(3)').append(evrb[i].vans);
-
-			$('.fsc-outbound-report .empty-vans>tbody').find('.' + evrb[i].t_code + evrb[i].vt_name + ' td:nth-child(3)').append(evrb[i].vans);
-
-		}
-
-		
-
-	}
-
-
-	$('.fsc-outbound-report .dispatch>tbody tr').find('td:nth-child(3)').each(function() {
-		
-		var vans = parseInt($(this).text())
-		if(vans) {
-
-			ds_total += vans;
-			
-		}
-
-	});	
-
-	$('.fsc-outbound-report .pending>tbody tr').find('td:nth-child(3)').each(function() {
-		
-		var vans = parseInt($(this).text())
-		if(vans) {
-
-			pse_total += vans;
-			
-		}
-
-	});	
-
-	$('.fsc-outbound-report .pending>tbody tr').find('td:nth-child(4)').each(function() {
-		
-		var vans = parseInt($(this).text())
-
-		if(vans) {
-
-			psne_total += vans;
-			
-		}
-
-	});	
-
-	$('.fsc-outbound-report .empty-vans>tbody tr').find('td:nth-child(3)').each(function() {
-		
-		var vans = parseInt($(this).text())
-		if(vans) {
-
-			ev_total += vans;
-			
-		}
-
-	});	
-
-	//Append totals
-	$('.fsc-outbound-report .dispatch>tbody .total').find('th:nth-child(2)').append(ds_total);
-	$('.fsc-outbound-report .pending>tbody .total').find('th:nth-child(2)').append(pse_total);
-	$('.fsc-outbound-report .pending>tbody .total').find('th:nth-child(3)').append(psne_total);
-	$('.fsc-outbound-report .empty-vans>tbody .total').find('th:nth-child(2)').append(ev_total);
-
-
-		$('.fsc-outbound-report .timestamp').append('Generated at ' + now().time + ' on ' + now().date);
-
-		remove_loader();
-
-		$('.fsc-outbound-report-modal').modal({
-			show: true
-		})
+	$('.fsc-outbound-report-modal').modal({
+		show: true
+	})
 
 });
 
@@ -306,7 +183,8 @@ $('#daily-inventory-report').click(function() {
     $('.timestamp').empty();
 
     var packmats = di_stripping_packmats();
-    var rawmats = di_stripping_rawmats();
+    var stripping_rawmats_shippers = di_stripping_rawmats_shippers();
+    var stripping_rawmats_truckers = di_stripping_rawmats_truckers();
     var greencoffee = di_stripping_greencoffee();
     var empty_for_return = di_empty_for_return();
     var empty_for_stuffing_shippers = empty_vans_report_shippers();
@@ -317,6 +195,8 @@ $('#daily-inventory-report').click(function() {
     var finished_goods_truckers = di_finished_goods_truckers();
     var semi_finished_goods_shippers = di_semi_finished_goods_shippers();
     var semi_finished_goods_truckers = di_semi_finished_goods_truckers();
+    var rework_powder_shippers = di_rework_powder_shippers();
+    var rework_powder_truckers = di_rework_powder_truckers();
     var hold_products_shippers = di_hold_products_shippers();
     var hold_products_truckers = di_hold_products_truckers();
     var for_processing_late_over_shippers = di_for_processing_late_over_shippers();
@@ -326,8 +206,9 @@ $('#daily-inventory-report').click(function() {
     //console.log(packmats);
     set_di_stripping_packmats(packmats);
 
-	//console.log(rawmats);
-    set_di_stripping_rawmats(rawmats);
+	//console.log(stripping_rawmats_shippers);
+    //console.log(stripping_rawmats_truckers)
+    set_di_stripping_rawmats(stripping_rawmats_shippers, stripping_rawmats_truckers);
 
 	//console.log(greencoffee);
     set_di_stripping_greencoffee(greencoffee);
@@ -350,6 +231,10 @@ $('#daily-inventory-report').click(function() {
     //console.log(semi_finished_goods_shippers);
     //console.log(semi_finished_goods_truckers);
     set_di_semi_finished_goods(semi_finished_goods_shippers, semi_finished_goods_truckers);
+
+    //console.log(rework_powder_shippers);
+    //console.log(rework_powder_truckers);
+    set_di_rework_powder(rework_powder_shippers, rework_powder_truckers);
 
     //console.log(hold_products_shippers);
     //console.log(hold_products_truckers);
@@ -390,6 +275,267 @@ $('.daily-inventory-report-modal #report-print').click(function() {
 /* 
 *
 * Front End Functions 
+*
+*/
+
+/*
+*
+* FSC DISPATCH STANDINGS
+*
+*/
+
+function set_fsc_dispatch_standings_shippers(rows) {
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		if(rows[i].tt_id == '2') {
+
+			$('.fsc-outbound-report-modal .fsc-dispatch-standings .resupply tr[data-sid="' + rows[i].s_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('td:nth-child(3)').append(rows[i].TEU);
+
+		} else if(rows[i].tt_id == '6'){
+
+			$('.fsc-outbound-report-modal .fsc-dispatch-standings .exfactory tr[data-sid="' + rows[i].s_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('td:nth-child(3)').append(rows[i].TEU);
+
+		}
+	}
+	
+}
+
+function set_fsc_dispatch_standings_truckers(rows) {
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		if(rows[i].tt_id == '2') {
+
+			$('.fsc-outbound-report-modal .fsc-dispatch-standings .resupply tr[data-tid="' + rows[i].t_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('td:nth-child(3)').append(rows[i].TEU);
+
+		} else if(rows[i].tt_id == '6'){
+
+			$('.fsc-outbound-report-modal .fsc-dispatch-standings .exfactory tr[data-tid="' + rows[i].t_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('td:nth-child(3)').append(rows[i].TEU);
+
+		}
+	}
+	
+}
+
+function set_fsc_dispatch_standings_total() {
+
+	var total = 0; 
+
+	$('.fsc-outbound-report-modal .fsc-dispatch-standings tr').find('td:nth-child(3)').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
+			
+			total += vans;
+
+		}
+
+	});
+
+	$('.fsc-outbound-report-modal .fsc-dispatch-standings .total').find('th:nth-child(2)').append(total);
+
+}
+
+function set_fsc_dispatch_standings(fsc_dispatch_standings_shippers, fsc_dispatch_standings_truckers) {
+
+	set_fsc_dispatch_standings_shippers(fsc_dispatch_standings_shippers);
+	set_fsc_dispatch_standings_truckers(fsc_dispatch_standings_truckers);
+	set_fsc_dispatch_standings_total()
+
+}
+
+/*
+*
+* END FSC DISPATCH STANDINGS
+*
+*/
+
+/*
+*
+* FSC PENDING
+*
+*/
+
+function set_fsc_pending_shippers(rows) {
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		if(rows[i].tt_id == '2') {
+
+			if(parseInt(rows[i].for_processing) > 0){
+
+				$('.fsc-outbound-report-modal .fsc-pending .resupply tr[data-sid="' + rows[i].s_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('td:nth-child(3)').append(rows[i].for_processing);
+			
+			}
+
+			if(parseInt(rows[i].late_over) > 0){
+
+				$('.fsc-outbound-report-modal .fsc-pending .resupply tr[data-sid="' + rows[i].s_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('td:nth-child(4)').append(rows[i].late_over);
+
+			}
+
+		} else if(rows[i].tt_id == '6'){
+
+			if(parseInt(rows[i].for_processing) > 0){
+
+				$('.fsc-outbound-report-modal .fsc-pending .exfactory tr[data-tid="' + rows[i].s_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('td:nth-child(3)').append(rows[i].for_processing);
+			
+			}
+
+			if(parseInt(rows[i].late_over) > 0){
+
+				$('.fsc-outbound-report-modal .fsc-pending .resupply tr[data-tid="' + rows[i].s_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('td:nth-child(4)').append(rows[i].late_over);
+
+			}
+		}
+	}
+	
+}
+
+function set_fsc_pending_truckers(rows) {
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		if(rows[i].tt_id == '2') {
+
+			if(parseInt(rows[i].for_processing) > 0){
+
+				$('.fsc-outbound-report-modal .fsc-pending .resupply tr[data-tid="' + rows[i].t_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('td:nth-child(3)').append(rows[i].for_processing);
+
+			}
+
+			if(parseInt(rows[i].late_over) > 0){
+
+				$('.fsc-outbound-report-modal .fsc-pending .resupply tr[data-tid="' + rows[i].t_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('td:nth-child(4)').append(rows[i].late_over);
+
+			}
+
+		} else if(rows[i].tt_id == '6'){
+
+			if(parseInt(rows[i].for_processing) > 0){
+
+				$('.fsc-outbound-report-modal .fsc-pending .exfactory tr[data-tid="' + rows[i].t_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('td:nth-child(3)').append(rows[i].for_processing);
+
+			}
+
+			if(parseInt(rows[i].late_over) > 0){
+
+				$('.fsc-outbound-report-modal .fsc-pending .exfactory tr[data-tid="' + rows[i].t_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('td:nth-child(4)').append(rows[i].late_over);
+
+			}
+		}
+	}
+	
+}
+
+function set_fsc_pending_total() {
+
+	var total_fp = 0; 
+	var total_lo = 0;
+
+	$('.fsc-outbound-report-modal .fsc-pending tr').find('td:nth-child(3)').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
+			
+			total_fp += vans;
+
+		}
+
+	});
+
+	$('.fsc-outbound-report-modal .fsc-pending .total').find('th:nth-child(2)').append(total_fp);
+
+		$('.fsc-outbound-report-modal .fsc-pending tr').find('td:nth-child(4)').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
+			
+			total_lo += vans;
+
+		}
+
+	});
+
+	$('.fsc-outbound-report-modal .fsc-pending .total').find('th:nth-child(3)').append(total_lo);
+
+}
+
+function set_fsc_pending(fsc_pending_shippers, fsc_pending_truckers) {
+
+	set_fsc_pending_shippers(fsc_pending_shippers);
+	set_fsc_pending_truckers(fsc_pending_truckers);
+	set_fsc_pending_total()
+
+}
+
+/*
+*
+* END PENDING
+*
+*/
+
+/*
+*
+* FSC EMPTY VANS (FOR STUFFING)
+*
+*/
+
+function set_fsc_empty_vans_for_stuffing_shippers(rows) {
+
+	for(var i = 0; i < rows.length; i ++) {
+		
+		$('.fsc-outbound-report-modal .fsc-empty-vans tr[data-sid="' + rows[i].s_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('td:nth-child(3)').append(rows[i].vans);
+	
+	}
+
+}
+
+function set_fsc_empty_vans_for_stuffing_truckers(rows) {
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		$('.fsc-outbound-report-modal .fsc-empty-vans tr[data-tid="' + rows[i].t_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('td:nth-child(3)').append(rows[i].vans);
+	
+	}
+
+}
+
+function set_fsc_empty_vans_for_stuffing_total() {
+
+	var total = 0;
+
+	$('.fsc-outbound-report-modal .fsc-empty-vans tr').find('td:nth-child(3)').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
+			
+			total += vans;
+
+		}
+
+	});
+
+	$('.fsc-outbound-report-modal .fsc-empty-vans .total').find('th:nth-child(2)').append(total);
+
+}
+
+function set_fsc_empty_vans_for_stuffing(empty_vans_for_stuffing_shippers, empty_vans_for_stuffing_truckers) {
+
+	set_fsc_empty_vans_for_stuffing_shippers(empty_vans_for_stuffing_shippers);
+	set_fsc_empty_vans_for_stuffing_truckers(empty_vans_for_stuffing_truckers);
+	set_fsc_empty_vans_for_stuffing_total()
+
+}
+
+/*
+*
+* END EMPTY VANS(FOR STUFFING)
 *
 */
 
@@ -479,50 +625,92 @@ function set_di_stripping_packmats(rows) {
 
 }
 
-function set_di_stripping_rawmats(rows) {
+/*
+*
+* RAWMATS
+*
+*/
 
-	var total = 0;
-	var total_malto_powder = 0;
-	var total_msk_medium_heat = 0;
+function set_di_stripping_rawmats_shippers(rows) {
 
-	for(var i = 0; i < rows.length; i++) {
+	var total_msk = 0;
+	var total_malto = 0;
 
-		$('.daily-inventory-report-modal .di-raw-mats .' + rows[i].im_category.toLowerCase() + ' tr[data-mid="' + rows[i].im_id + '"][data-vtid="' + rows[i].vt_id + '"][data-tid="' + rows[i].t_id +'"]').find('td:nth-child(4)').append(rows[i].vans);
-		$('.daily-inventory-report-modal .di-raw-mats .' + rows[i].im_category.toLowerCase() + ' tr[data-mid="' + rows[i].im_id + '"][data-vtid="' + rows[i].vt_id + '"][data-sid="' + rows[i].s_id +'"]').find('td:nth-child(4)').append(rows[i].vans);
+	for(var i = 0; i < rows.length; i ++) {
 
-		if((rows[i].im_id == '39' && rows[i].vt_id == '1') && (rows[i].s_id == '2' || rows[i].s_id == '3')){
+		if(rows[i].is_tempload == false) {
 
-			total_malto_powder += parseInt(rows[i].vans);
+			$('.daily-inventory-report-modal .di-raw-mats tr[data-sid="' + rows[i].s_id + '"][data-vtid="' +  rows[i].vt_id+'"][data-mid="' + rows[i].im_id + '"]').find('td:nth-child(4)').append(rows[i].vans);
+		
+		} else {
 
-		}
+			if(rows[i].im_id == '39' && rows[i].vt_id == '1' && (rows[i].s_id == '2' || rows[i].s_id == '3')) {
 
-		if((rows[i].im_id == '40' && rows[i].vt_id == '1') && (rows[i].s_id == '2' || rows[i].s_id == '3')) {
+				total_malto += parseInt(rows[i].vans);
 
-			total_msk_medium_heat += parseInt(rows[i].vans);
+			} else if(rows[i].im_id == '27' && rows[i].vt_id == '1' && (rows[i].s_id == '2' || rows[i].s_id == '3')) {
+
+				total_msk += parseInt(rows[i].vans);
+
+			}
 
 		}
 
 	}
 
-	if(total_malto_powder != 0) {
-
-		$('.daily-inventory-report-modal .di-raw-mats .tempload tr[data-mid="39"][data-vtid="1"][data-sid="2-3"]').find('td:nth-child(4)').append(total_malto_powder);
-	}
-
-	if(total_msk_medium_heat != 0) {
-
-		$('.daily-inventory-report-modal .di-raw-mats .tempload tr[data-mid="40"][data-vtid="1"][data-sid="2-3"]').find('td:nth-child(4)').append(total_msk_medium_heat);
+	if(total_msk){
+	
+		$('.daily-inventory-report-modal .di-raw-mats .tempload .msk-medium-heat').find('td:nth-child(4)').append(total_msk);
 	
 	}
 
-	//compute and append total
-	$('.daily-inventory-report .di-raw-mats tr').find('td:nth-child(4)').each(function() {
-		
-		var vans = parseInt($(this).text())
-		if(vans) {
+	if(total_malto) {
+	
+		$('.daily-inventory-report-modal .di-raw-mats .tempload .malto-powder').find('td:nth-child(4)').append(total_malto);
+	
+	}
+}
 
-			total += vans;
+function set_di_stripping_rawmats_truckers(rows) {
+
+	var total = 0;
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		if(rows[i].is_tempload == false) {
+
+			$('.daily-inventory-report-modal .di-raw-mats tr[data-tid="' + rows[i].t_id + '"][data-vtid="' +  rows[i].vt_id+'"][data-mid="' + rows[i].im_id + '"]').find('td:nth-child(4)').append(rows[i].vans);
+		
+		} else {
+
+			if((rows[i].im_id == '32' || rows[i].im_id == '28')  && rows[i].vt_id == '1' && (rows[i].t_id == '2')) {
+
+				total += parseInt(rows[i].vans);
+				
+			}
+
+		}
+	}
+
+	if(total){
+	
+		$('.daily-inventory-report-modal .di-raw-mats .tempload .amf-drums-sbmp').find('td:nth-child(4)').append(total);
+	
+	}
+}
+
+function set_di_stripping_rawmats_total() {
+
+	var total = 0; 
+
+	$('.daily-inventory-report .di-raw-mats tr').find('td:nth-child(4)').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
 			
+			total += vans;
+
 		}
 
 	});
@@ -530,6 +718,20 @@ function set_di_stripping_rawmats(rows) {
 	$('.daily-inventory-report-modal .di-raw-mats .total').find('th:nth-child(2)').append(total);
 
 }
+
+function set_di_stripping_rawmats(stripping_rawmats_shippers, stripping_rawmats_truckers) {
+
+	set_di_stripping_rawmats_shippers(stripping_rawmats_shippers);
+	set_di_stripping_rawmats_truckers(stripping_rawmats_truckers);
+	set_di_stripping_rawmats_total();
+
+}
+
+/*
+*
+* END RAWMATS
+*
+*/
 
 function set_di_stripping_greencoffee(rows) {
 
@@ -918,6 +1120,82 @@ function set_di_semi_finished_goods(semi_finished_goods_shippers, semi_finished_
 
 /*
 *
+* REWORK POWDER
+*
+*/
+
+function set_di_rework_powder_shippers(rows) {
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		$('.daily-inventory-report-modal .di-rework-powder tr[data-sid="' + rows[i].s_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('.' + rows[i].m_type.toLowerCase()).append(rows[i].vans);
+
+	}
+	
+}
+
+function set_di_rework_powder_truckers(rows) {
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		$('.daily-inventory-report-modal .di-rework-powder tr[data-tid="' + rows[i].t_id + '"][data-vtid="' + rows[i].vt_id + '"]').find('.' + rows[i].m_type.toLowerCase()).append(rows[i].vans);
+
+	}
+	
+}
+
+function set_di_rework_powder_total() {
+
+	var total_m = 0; 
+	var total_c = 0;
+
+	$('.daily-inventory-report-modal .di-rework-powder tr').find('td.milk').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
+			
+			total_m += vans;
+
+		}
+
+	});
+
+	$('.daily-inventory-report-modal .di-rework-powder .total').find('.milk').append(total_m);
+
+
+	$('.daily-inventory-report-modal .di-rework-powder tr').find('td.coffee').each(function() {
+
+		var vans = parseInt($(this).text());
+
+		if(vans) {
+
+			total_c += vans;
+
+		}
+
+	});
+
+	$('.daily-inventory-report-modal .di-rework-powder .total').find('.coffee').append(total_c);
+
+}
+
+function set_di_rework_powder(rework_powder_shippers, rework_powder_truckers) {
+
+    set_di_rework_powder_shippers(rework_powder_shippers);
+    set_di_rework_powder_truckers(rework_powder_truckers);
+    set_di_rework_powder_total();
+
+}
+
+/*
+*
+* END REWORK POWDER
+*
+*/
+
+/*
+*
 * HOLD PRODUCTS
 *
 */
@@ -1179,11 +1457,11 @@ function clear_daily_inventory_report() {
 */
 
 
-function fsc_outbound_report() {
+function fsc_dispatch_standings_shippers() {
 	var data = [];
 
   	$.ajax({
-        url: $('body').attr('base-url') + 'reports/fsc_outbound_report',
+        url: $('body').attr('base-url') + 'reports/fsc_dispatch_standings_shippers',
         type: 'POST',
         async: false,
         success: function (response) {
@@ -1193,7 +1471,92 @@ function fsc_outbound_report() {
         }
     });
 
-    return data;
+    return data;	
+}
+
+function fsc_dispatch_standings_truckers() {
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/fsc_dispatch_standings_truckers',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;	
+}
+
+function fsc_pending_shippers() {
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/fsc_pending_shippers',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;	
+}
+
+function fsc_pending_truckers() {
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/fsc_pending_truckers',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;	
+}
+
+function fsc_empty_vans_for_stuffing_shippers() {
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/fsc_empty_vans_for_stuffing_shippers',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;	
+}
+
+function fsc_empty_vans_for_stuffing_truckers() {
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/fsc_empty_vans_for_stuffing_truckers',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;	
 }
 
 function defective_vans_report() {
@@ -1266,12 +1629,31 @@ function di_stripping_packmats() {
 
 }
 
-function di_stripping_rawmats() {
+function di_stripping_rawmats_shippers() {
 
 	var data = [];
 
   	$.ajax({
-        url: $('body').attr('base-url') + 'reports/di_stripping_rawmats',
+        url: $('body').attr('base-url') + 'reports/di_stripping_rawmats_shippers',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}
+
+function di_stripping_rawmats_truckers() {
+
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/di_stripping_rawmats_truckers',
         type: 'POST',
         async: false,
         success: function (response) {
@@ -1424,6 +1806,44 @@ function di_semi_finished_goods_truckers() {
 
   	$.ajax({
         url: $('body').attr('base-url') + 'reports/di_semi_finished_goods_truckers',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}
+
+function di_rework_powder_shippers() {
+
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/di_rework_powder_shippers',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}
+
+function di_rework_powder_truckers() {
+
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/di_rework_powder_truckers',
         type: 'POST',
         async: false,
         success: function (response) {

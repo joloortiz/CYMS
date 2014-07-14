@@ -46,6 +46,80 @@ class Reports extends MY_Controller {
 		echo json_encode($data);
 	}
 
+/*
+*
+* FSC OUTBOUND REPORT
+*
+*/
+
+	function fsc_dispatch_standings_shippers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->fsc_dispatch_standings_shippers();
+
+		echo json_encode($data);
+
+	}
+
+	function fsc_dispatch_standings_truckers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->fsc_dispatch_standings_truckers();
+
+		echo json_encode($data);
+
+	}
+
+	function fsc_pending_shippers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->fsc_pending_shippers();
+
+		echo json_encode($data);
+
+	}
+
+	function fsc_pending_truckers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->fsc_pending_truckers();
+
+		echo json_encode($data);
+
+	}
+
+	function fsc_empty_vans_for_stuffing_shippers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->fsc_empty_vans_for_stuffing_shippers();
+
+		echo json_encode($data);
+
+	}
+
+
+	function fsc_empty_vans_for_stuffing_truckers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->fsc_empty_vans_for_stuffing_truckers();
+
+		echo json_encode($data);
+
+	}
+
+
+/*
+*
+* END FSC OUTBOUND REPORT
+*
+*/
+
 	function defective_vans_report() {
 
 		$this->load->model('reports_model');
@@ -85,11 +159,21 @@ class Reports extends MY_Controller {
 		echo json_encode($data);
 	}
 
-	function di_stripping_rawmats() {
+	function di_stripping_rawmats_shippers() {
 
 		$this->load->model('reports_model');
 
-		$data = $this->reports_model->di_stripping_rawmats();
+		$data = $this->reports_model->di_stripping_rawmats_shippers();
+
+		echo json_encode($data);
+		
+	}
+
+	function di_stripping_rawmats_truckers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_stripping_rawmats_truckers();
 
 		echo json_encode($data);
 		
@@ -174,6 +258,24 @@ class Reports extends MY_Controller {
 
 		echo json_encode($data);
 
+	}
+
+	function di_rework_powder_shippers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_rework_powder_shippers();
+
+		echo json_encode($data);
+	}
+
+	function di_rework_powder_truckers() {
+		
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_rework_powder_truckers();
+
+		echo json_encode($data);
 	}
 
 	function di_hold_products_shippers() {

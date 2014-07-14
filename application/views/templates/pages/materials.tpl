@@ -29,7 +29,6 @@
 							<select class="form-control" name="material-category">
 								<option value="FG">Finished Goods</option>
 								<option value="SFG">Semi-finished Goods</option>
-								<option value="RP">Rework Powder</option>
 							</select>
 						</div>
 					</div>

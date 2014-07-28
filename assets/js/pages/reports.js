@@ -33,8 +33,8 @@ $('#fsc-outbound-report').click(function() {
     //console.log(pending_truckers);
     set_fsc_pending(pending_shippers, pending_truckers);
 
-   	console.log(empty_vans_for_stuffing_shippers);
-   	console.log(empty_vans_for_stuffing_truckers);
+   	//console.log(empty_vans_for_stuffing_shippers);
+   	//console.log(empty_vans_for_stuffing_truckers);
    	set_fsc_empty_vans_for_stuffing(empty_vans_for_stuffing_shippers, empty_vans_for_stuffing_truckers);
 
 	$('.fsc-outbound-report .timestamp').append('Generated at ' + now().time + ' on ' + now().date);
@@ -51,7 +51,7 @@ $('#fsc-outbound-report').click(function() {
 $('.fsc-outbound-report-modal').on('hidden.bs.modal', function () {
 	
 	//empty all the data on the tables
-    empty_fsc_outbound_report();
+  	clear_fsc_outbound_report()
 
 })
 
@@ -1399,17 +1399,17 @@ function set_di_for_processing_late_over(for_processing_late_over_shippers, for_
 */
 
 
-function empty_fsc_outbound_report() {
+function clear_fsc_outbound_report() {
 
-	$('.fsc-outbound-report-modal .dispatch>tbody').find('tr td:nth-child(3)').empty();
-	$('.fsc-outbound-report-modal .pending>tbody').find('tr td:nth-child(3)').empty();
-	$('.fsc-outbound-report-modal .pending>tbody').find('tr td:nth-child(4)').empty();
-	$('.fsc-outbound-report-modal .empty-vans>tbody').find('tr td:nth-child(3)').empty();
+	$('.fsc-outbound-report-modal .fsc-dispatch-standings>tbody').find('tr td:nth-child(3)').empty();
+	$('.fsc-outbound-report-modal .fsc-pending>tbody').find('tr td:nth-child(3)').empty();
+	$('.fsc-outbound-report-modal .fsc-pending>tbody').find('tr td:nth-child(4)').empty();
+	$('.fsc-outbound-report-modal .fsc-empty-vans>tbody').find('tr td:nth-child(3)').empty();
 
-	$('.fsc-outbound-report .dispatch>tbody .total').find('th:nth-child(2)').empty();
-	$('.fsc-outbound-report .pending>tbody .total').find('th:nth-child(2)').empty();
-	$('.fsc-outbound-report .pending>tbody .total').find('th:nth-child(3)').empty();
-	$('.fsc-outbound-report .empty-vans>tbody .total').find('th:nth-child(2)').empty();	
+	$('.fsc-outbound-report .fsc-dispatch-standings>tbody .total').find('th:nth-child(2)').empty();
+	$('.fsc-outbound-report .fsc-pending>tbody .total').find('th:nth-child(2)').empty();
+	$('.fsc-outbound-report .fsc-pending>tbody .total').find('th:nth-child(3)').empty();
+	$('.fsc-outbound-report .fsc-empty-vans>tbody .total').find('th:nth-child(2)').empty();	
 
 }
 

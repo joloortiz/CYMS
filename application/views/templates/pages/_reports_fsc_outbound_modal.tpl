@@ -77,7 +77,7 @@
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr data-sid="2" data-vtid="2">
+					      				<tr data-sid="7" data-vtid="2">
 					      					<td>COFIPAC</td>
 					      					<td>40 Ftr</td>
 					      					<td></td>
@@ -92,7 +92,7 @@
 					      					<td>Wing Van</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr data-tid="3" data-vtid="3">
+					      				<tr data-tid="3" data-vtid="1">
 					      					<td>TW</td>
 					      					<td>20 Ftr</td>
 					      					<td></td>
@@ -128,7 +128,7 @@
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr data-tid="4" data-vtid="1">
+					      				<tr data-tid="4" data-vtid="3">
 					      					<td>SKMTI</td>
 					      					<td>Wing Van</td>
 					      					<td></td>
@@ -138,7 +138,7 @@
 					      					<td>20 Ftr</td>
 					      					<td></td>
 					      				</tr>
-					      				<tr data-tid="7" data-vtid="1">
+					      				<tr data-tid="7" data-vtid="3">
 					      					<td>FCTC</td>
 					      					<td>Wing Van</td>
 					      					<td></td>
@@ -279,7 +279,7 @@
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr data-tid="4" data-vtid="1">
+					      				<tr data-tid="4" data-vtid="3">
 					      					<td>SKMTI</td>
 					      					<td>Wing Van</td>
 					      					<td></td>
@@ -291,7 +291,7 @@
 					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr data-tid="7" data-vtid="1">
+					      				<tr data-tid="7" data-vtid="3">
 					      					<td>FCTC</td>
 					      					<td>Wing Van</td>
 					      					<td></td>

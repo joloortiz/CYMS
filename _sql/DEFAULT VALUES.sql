@@ -1,3 +1,4 @@
+-- Date: 08/19/2014
 -- Restart all the autoincrement sequence
 
 ALTER TABLE `users` AUTO_INCREMENT = 1;

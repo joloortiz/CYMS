@@ -571,6 +571,7 @@ function save() {
                 init_pending_counter( pending_count() );
                 append_total_teu();
                 append_total_vans();
+                append_total_tcard_types();
 
                 setTimeout(function() {
 

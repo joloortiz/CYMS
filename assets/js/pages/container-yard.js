@@ -282,6 +282,14 @@ $('#empty-vans').on('click', '.empty-van-no', function(event) {
 
     focus_card_on_layout( card_id );
 });
+
+$('#dwell-time-monitor').on('click', '.dwell-time-van-no', function(event) {
+    event.preventDefault();
+
+    var card_id = $(this).data('card');
+
+    focus_card_on_layout( card_id );
+});
     
 });
 
@@ -488,7 +496,7 @@ function popover_placement(draggableid){
             placement: 'right', 
             trigger: 'hover',
             content: content_str,
-            delay: {show: 500}
+            delay: {show: 300}
         })
     }else if(top <= 59 && left >= 1381){
         $('#' + draggableid).popover({    
@@ -496,7 +504,7 @@ function popover_placement(draggableid){
             placement: 'left', 
             trigger: 'hover',
             content: content_str,
-            delay: {show: 500}
+            delay: {show: 300}
         })
     }
     else if(left <= 141){
@@ -505,7 +513,7 @@ function popover_placement(draggableid){
             placement: 'right', 
             trigger: 'hover',
             content: content_str,
-            delay: {show: 500}
+            delay: {show: 300}
         })
     }else if(left >= 1505){
         $('#' + draggableid).popover({    
@@ -513,7 +521,7 @@ function popover_placement(draggableid){
             placement: 'left', 
             trigger: 'hover',
             content: content_str,
-            delay: {show: 500}
+            delay: {show: 300}
         })        
     }else {
         $('#' + draggableid).popover({    
@@ -521,8 +529,9 @@ function popover_placement(draggableid){
             placement: 'top', 
             trigger: 'hover',
             content: content_str,
-            delay: {show: 500}
-        })              
+            delay: {show: 300}
+        })
+
     }
     //check if top popover doesn't overlap
 
@@ -616,10 +625,14 @@ function focus_card_on_layout( card_id ) {
             scrollTop: top - 258,
             scrollLeft: left - 480
         },
-            1000
+            1000,
+            function() {
+
+                $('#' + card_id).popover('show');
+            
+            }
         );
 
-        $('#' + card_id).popover('show');
     }
 
     popover_timeout = setTimeout(function(){$('#' + card_id).popover('hide');},5000);
@@ -699,7 +712,7 @@ function append_greeting() {
 
 }
 
-function append_total_teu () {
+function append_total_teu() {
 
     var total_teu = get_total_teu();
 
@@ -715,7 +728,7 @@ function append_total_teu () {
 
 }
 
-function append_total_vans () {
+function append_total_vans() {
 
     var vans = get_total_by_van_type();
 
@@ -749,14 +762,58 @@ function append_total_vans () {
     
 }
 
+function append_total_tcard_types() {
+
+    var vans = get_total_by_tcard_type();
+    var types = get_types();
+
+    $('#tcard-types-counter .panel-body ul li').empty();
+
+    for(var i = 0; i < types.length; i++) {
+
+        $('#tcard-types-counter .panel-body ul').append('<li data-ttid="' + types[i].tt_id + '">' + types[i].tt_name + '<span class="label label-info pull-right">0</span></li>');
+
+    }
+
+    for(var i = 0; i < vans.length; i++) {
+
+        $('#tcard-types-counter .panel-body ul li[data-ttid="' + vans[i].tt_id + '"] span').empty();
+        $('#tcard-types-counter .panel-body ul li[data-ttid="' + vans[i].tt_id + '"] span').append(vans[i].vans);
+
+    }
+
+}
+
+function append_dwell_time_monitor() {
+
+    var vans = get_dwell_time_list();
+
+    $('#dwell-time-monitor .panel-body ul').empty();
+
+    for(var i = 0; i < vans.length; i++) {
+
+        $('#dwell-time-monitor .panel-body ul').append('<li><a href="#" class="dwell-time-van-no" data-card="' + vans[i].tc_id + '">' + vans[i].v_no + '</a><span class="pull-right label label-danger">' + vans[i].dwell_time + '</span></li>');
+
+    }
+
+}
+
 /*
 *
 * CY INITS
 *
 */
 
+/*
+*
+* Initialization after saving on cy-tcard.js line 570
+*
+*/
+
 append_total_teu();
 append_total_vans();
+append_total_tcard_types();
+append_dwell_time_monitor()
 
 /*
 *
@@ -789,6 +846,63 @@ function get_total_by_van_type() {
 
     $.ajax({
         url: $('body').attr('base-url') + 'container_yard/get_total_by_van_type',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}
+
+function get_total_by_tcard_type() {
+
+    var data = [];
+
+    $.ajax({
+        url: $('body').attr('base-url') + 'container_yard/get_total_by_tcard_type',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}
+
+function get_types() {
+
+    var data = [];
+
+    $.ajax({
+        url: $('body').attr('base-url') + 'container_yard/get_types',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}
+
+function get_dwell_time_list() {
+
+    var data = [];
+
+    $.ajax({
+        url: $('body').attr('base-url') + 'container_yard/get_dwell_time_list',
         type: 'POST',
         async: false,
         success: function (response) {

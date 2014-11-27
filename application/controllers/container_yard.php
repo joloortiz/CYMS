@@ -909,6 +909,30 @@ class Container_yard extends MY_Controller {
 
 	}
 
+	function get_total_by_tcard_type() {
+
+		$results = $this->tcard_model->get_total_by_tcard_type();
+
+		echo json_encode($results);
+
+	}
+
+	function get_types() {
+
+		$results = $this->tcard_model->get_types();
+
+		echo json_encode($results);
+
+	}
+
+	function get_dwell_time_list() {
+
+		$results = $this->tcard_model->get_dwell_time_list();
+
+		echo json_encode($results);
+
+	}
+
 	function get_tcard_exit_pass() {
 
 		$tcard_id = $this->input->post('tcard_id');

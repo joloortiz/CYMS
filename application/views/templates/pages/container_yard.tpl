@@ -53,13 +53,7 @@
 								{/foreach}
 							{/if}
 						</div>
-					</div>
-					<div id="history" class="panel panel-default">
-						<div class="panel-heading">Recent History</div>
-						<div class="panel-body">
-							
-						</div>
-					</div>
+					</div>				
 					<div id="empty-vans" class="panel panel-default">
 						<div class="panel-heading">
 							Empty Vans
@@ -68,6 +62,27 @@
 						<div class="panel-body">
 							<ul id="empty-van-list">
 							</ul>
+						</div>
+					</div>
+					<div id="tcard-types-counter" class="panel panel-default">
+						<div class="panel-heading">Tcard Types Counter</div>
+						<div class="panel-body">
+							<ul>
+							</ul>
+						</div>
+					</div>
+					<div id="dwell-time-monitor" class="panel panel-default">
+					<div class="panel-heading">Dwell Time Monitor</div>
+						<div class="panel-body">
+							<h5>Van ID <span class="pull-right">Days</span></h5>
+							<ul>
+							</ul>
+						</div>
+					</div>
+					<div id="history" class="panel panel-default">
+						<div class="panel-heading">Recent History</div>
+						<div class="panel-body">
+							
 						</div>
 					</div>
 				</div>

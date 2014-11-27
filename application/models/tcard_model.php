@@ -682,6 +682,49 @@ class Tcard_model extends CI_Model{
 		return $query->result();
 		
 	}
+
+	function get_total_by_tcard_type() {
+
+		$sql = "
+			SELECT tt.tt_id, tt.tt_name, count(tt.tt_id) as vans
+			FROM tcards tc
+            INNER JOIN tcard_types tt
+			ON tc.tt_id = tt.tt_id
+			INNER JOIN van_types vt
+			ON tc.vt_id = vt.vt_id
+            LEFT JOIN exit_passes e
+			ON e.tc_id = tc.tc_id
+            WHERE (e.e_driver = '' || e.e_plateno = '' || e.e_id IS NULL) && (vt.vt_id != 3)
+            GROUP BY tt.tt_id
+        ";
+
+		$query = $this->db->query($sql);
+	
+		return $query->result();		
+
+	}
+
+	function get_dwell_time_list() {
+
+		$sql = "
+			SELECT tc.tc_id, v.v_no, DATEDIFF(NOW(), tc_entrydate) as dwell_time
+			FROM tcards tc
+			INNER JOIN vans v
+ 			ON tc.v_id = v.v_id
+			INNER JOIN van_types vt
+			ON tc.vt_id = vt.vt_id
+			LEFT JOIN exit_passes e
+			ON e.tc_id = tc.tc_id
+			WHERE (e.e_driver = '' || e.e_plateno = '' || e.e_id IS NULL) && (vt.vt_id != 3) && (DATEDIFF(NOW(), tc_entrydate) > 7)
+			ORDER BY tc_entrydate ASC
+			LIMIT 5
+        ";
+
+		$query = $this->db->query($sql);
+	
+		return $query->result();		
+
+	}
 	
 	function exitpass_serial() {
 		$this->db->select('(fnExitPassNo()) AS serial', FALSE);

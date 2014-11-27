@@ -7987,41 +7987,44 @@ footer::before {
 
 .overflow-bay {
   left: 192px;
-  top: 601px;
 }
 
 .alpha-bay {
-  left: 445px;
-  top: 601px;
+  left: 455px;
 }
 
 .bravo-bay {
-  left: 692px;
-  top: 601px;
+  left: 737px;
 }
 
 .charlie-bay {
-  left: 945px;
-  top: 601px;
+  left: 1007px;
 }
 
 .delta-bay {
-  left: 1191px;
-  top: 601px;
+  left: 1283px;
 }
 
 .carton-bay {
-  left: 1436px;
-  top: 601px;
+  left: 1537px;
 }
 
 .carton-ext-bay {
-  left: 1559px;
+  left: 1667px;
   top: 466px;
   -ms-transform:rotate(270deg); /* IE 9 */
   -moz-transform:rotate(270deg); /* Firefox */
   -webkit-transform:rotate(270deg); /* Safari and Chrome */
   -o-transform:rotate(270deg); /* Opera */
+}
+
+.bay-border {
+  position: absolute;
+  border: solid 1px #cccccc;
+  width: 194px;
+  height: 625px;
+  top: 0px;
+  text-indent: -9999px;
 }
 
 .rm-stripping {

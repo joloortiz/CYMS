@@ -974,11 +974,15 @@
 
 							{if isset($tcards.positioned)}
 								{foreach $tcards.positioned as $card}
-									<div id="{$card->tc_id}" class="entry cv ui-draggable" van-no="{$card->v_no}" bin-no="{$card->tc_bin}" dayspan="{$card->dayspan}" timespan="{$card->timespan}" data-position="{$card->tp_position}" data-dispatch="{$card->for_dispatch}" style="background-color: {$card->s_color}; border-color: {$card->tt_color};{if $card->tp_top}top: {$card->tp_top};{/if}{if $card->tp_left}left: {$card->tp_left}{/if}">
-										{if $card->for_dispatch == 'true'}
-											<span class="glyphicon glyphicon-ok"></span>
+									<div id="{$card->tc_id}" class="entry cv ui-draggable" van-no="{$card->v_no}" bin-no="{$card->tc_bin}" dayspan="{$card->dayspan}" timespan="{$card->timespan}" data-position="{$card->tp_position}" data-dispatch="{$card->for_dispatch}" data-blocked="{$card->is_blocked}" style="background-color: {$card->s_color}; border-color: {$card->tt_color};{if $card->tp_top}top: {$card->tp_top};{/if}{if $card->tp_left}left: {$card->tp_left}{/if}">
+										{if $card->is_blocked == 'true'}
+											<span class="glyphicon glyphicon-ban-circle"></span>
 										{else}
-											{$card->display_chars}
+											{if $card->for_dispatch == 'true'}
+												<span class="glyphicon glyphicon-ok"></span>
+											{else}
+												{$card->display_chars}
+											{/if}
 										{/if}
 									</div>
 								{/foreach}

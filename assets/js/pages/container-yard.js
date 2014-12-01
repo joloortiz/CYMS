@@ -481,13 +481,19 @@ function popover_placement(draggableid){
     var dwell_time = $('#' + draggableid).attr('dayspan') || 'No details found.';
     var position = $('#' + draggableid).attr('data-position') || 'pending';
     var dispatch = $('#' + draggableid).attr('data-dispatch');
+    var blocked = $('#' + draggableid).attr('data-blocked');
     var top = parseInt($('#' + draggableid).css('top').substring(0, $('#' + draggableid).css('top').length - 2));
     var left = parseInt($('#' + draggableid).css('left').substring(0, $('#' + draggableid).css('left').length - 2));
 
     var position_str = position != 'pending' ? '<br />Position: ' + position : '';
-    var dispatch_str = dispatch == 'true' ? '<strong>Ready for dispatch</strong><br /><br />' : '';
 
-    var content_str = dispatch_str + "Van No.: " + binno + "</br>BIN No.: " + vanno + position_str + "<br />Dwell Time: " + dwell_time;
+    if(blocked == 'true') {
+        var popover_header = '<strong>Blocked</strong><br /><br />';
+    } else {
+        var popover_header = dispatch == 'true' ? '<strong>Ready for dispatch</strong><br /><br />' : '';
+    }
+
+    var content_str = popover_header + "Van No.: " + binno + "</br>BIN No.: " + vanno + position_str + "<br />Dwell Time: " + dwell_time;
 
 
     if(top <= 59 && left < 1381){
@@ -545,16 +551,21 @@ function init_popover(){
         var dwell_time = $(this).attr('dayspan') || 'No details found.';
         var position = $(this).attr('data-position') || 'pending';
         var dispatch = $(this).attr('data-dispatch');
+        var blocked = $(this).attr('data-blocked');
 
         var position_str = position != 'pending' ? '<br />Position: ' + position : '';
-        var dispatch_str = dispatch == 'true' ? '<strong>Ready for dispatch</strong><br /><br />' : '';
+        if(blocked == 'true') {
+            var popover_header = '<strong>Blocked</strong><br /><br />';
+        } else {
+            var popover_header = dispatch == 'true' ? '<strong>Ready for dispatch</strong><br /><br />' : '';
+        }
 
         $(this).popover({    
             html: true, 
             animation: true,
             placement: 'auto', 
             trigger: 'hover',
-            content: dispatch_str + "Van No.: " + binno + "</br>BIN No.: " + vanno + position_str + "<br />Dwell Time: " + dwell_time,
+            content: popover_header + "Van No.: " + binno + "</br>BIN No.: " + vanno + position_str + "<br />Dwell Time: " + dwell_time,
             delay: {show: 500}
         });
     });

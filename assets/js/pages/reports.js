@@ -201,7 +201,8 @@ $('#daily-inventory-report').click(function() {
     var hold_products_truckers = di_hold_products_truckers();
     var for_processing_late_over_shippers = di_for_processing_late_over_shippers();
     var for_processing_late_over_truckers = di_for_processing_late_over_truckers();
-
+    var total_teu = get_total_teu();
+    var total_by_van_type = get_total_by_van_type();
 
     //console.log(packmats);
     set_di_stripping_packmats(packmats);
@@ -244,6 +245,9 @@ $('#daily-inventory-report').click(function() {
     //console.log(for_processing_late_over_truckers);
     set_di_for_processing_late_over(for_processing_late_over_shippers, for_processing_late_over_truckers);    
 
+    //console.log(total_by_van_type);
+    //console.log(total_teu);
+    set_grand_total(total_teu, total_by_van_type);
 
     remove_loader();
 
@@ -1398,6 +1402,61 @@ function set_di_for_processing_late_over(for_processing_late_over_shippers, for_
 *
 */
 
+/*
+*
+* START GRAND TOTAL
+*
+*/
+
+function set_grand_total(total_teu, rows) {
+
+	if(total_teu[0].TEU > 0) {
+		$('.grand-total .total-teu').append(total_teu[0].TEU);
+	} else {
+		$('.grand-total .total-teu').append('0');
+	}
+
+	for(var i = 0; i < rows.length; i ++) {
+
+		if(rows[i].vt_name == '10') {
+
+			$('.grand-total .total-10').append(rows[i].vans);
+
+		} else {
+
+			$('.grand-total .total-10').append('0');
+
+		}
+
+		if(rows[i].vt_name == '20') {
+
+			$('.grand-total .total-20').append(rows[i].vans);
+
+		} else {
+
+			$('.grand-total .total-20').append('0');
+
+		}
+
+		if(rows[i].vt_name == '40') {
+
+			$('.grand-total .total-40').append(rows[i].vans);
+
+		} else {
+
+			$('.grand-total .total-40').append('0');
+
+		}
+
+	}
+
+}
+
+/*
+*
+* END START GRAND TOTAL
+*
+*/
 
 function clear_fsc_outbound_report() {
 
@@ -1446,6 +1505,8 @@ function clear_daily_inventory_report() {
 	$('.daily-inventory-report .di-for-processing-late-over tr').find('td:nth-child(3), td:nth-child(4)').empty();
 
 	$('.daily-inventory-report .total').find('th:nth-child(2), th:nth-child(3), th:nth-child(4), th:nth-child(5), th:nth-child(6)').empty();
+
+	$('.grand-total span').empty();
 
 }
 
@@ -1931,4 +1992,61 @@ function di_for_processing_late_over_truckers() {
 
     return data;
     
+}
+
+function di_for_processing_late_over_truckers() {
+
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'reports/di_for_processing_late_over_truckers',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+    
+}
+
+function get_total_teu() {
+
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'container_yard/get_total_teu',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
+}
+
+function get_total_by_van_type() {
+
+	var data = [];
+
+  	$.ajax({
+        url: $('body').attr('base-url') + 'container_yard/get_total_by_van_type',
+        type: 'POST',
+        async: false,
+        success: function (response) {
+            var decode = jQuery.parseJSON(response);
+
+            data = decode;
+        }
+    });
+
+    return data;
+
 }

@@ -195,6 +195,11 @@
 	width: 400px;
 }
 
+.grand-total th {
+	font-size: 15px;
+	padding: 15px;
+}
+
 /* Pre defines */
 
 .i-9 {

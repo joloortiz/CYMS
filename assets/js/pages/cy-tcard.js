@@ -397,8 +397,8 @@ function get_form_names() {
 function get_form_values() {
     var values = {};
     var is_defective = 0;
-    var block_reason = null;
-
+    var block_reason = null
+;
     if( $('#force-return-van').length > 0 ) {
         values['is-returned'] = 1;
     }else if( $('#wingvan-transfer').length > 0 ) {
@@ -536,6 +536,8 @@ function save() {
                     cv = $('#' + tcard.tc_id);
                 }
 
+                var is_blocked = tcard.is_blocked == 1 ? 'true' : 'false';
+
                 // style segment
                 styleSegment = tcard.tp_top && tcard.tp_top != '' ? 'top: ' + tcard.tp_top + ';' : '';
                 styleSegment += tcard.tp_left && tcard.tp_left != '' ? 'left: ' + tcard.tp_left + ';' : '';
@@ -548,13 +550,18 @@ function save() {
                 cv.attr('dayspan', tcard.dayspan);
                 cv.attr('timespan', tcard.timespan);
                 cv.attr('data-dispatch', tcard.for_dispatch);
+                cv.attr('data-blocked', is_blocked);
 
                 cv.empty();
                 cv.text('');
-                if( tcard.for_dispatch == 'true' ) {
-                    cv.append('<span class="glyphicon glyphicon-ok"></span>');
-                }else {
-                    cv.text(tcard.display_chars);   
+                if(is_blocked == 'true') {
+                    cv.append('<span class="glyphicon glyphicon-ban-circle"></span>');
+                } else {
+                    if( tcard.for_dispatch == 'true' ) {
+                        cv.append('<span class="glyphicon glyphicon-ok"></span>');
+                    }else {
+                        cv.text(tcard.display_chars);   
+                    }
                 }
 
                 // append the cloned cv
@@ -702,7 +709,7 @@ function reset_seal_group() {
 function tcard_block( param ) {
 
     param = typeof param == 'undefined' ? true : param;
-
+    
     if( param ) {
         var is_defective = $('[name="is-defective"]').filter(function() {
             return $(this).val() == '1';

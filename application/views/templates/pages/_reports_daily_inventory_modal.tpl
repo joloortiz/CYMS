@@ -949,261 +949,275 @@
 					      			</tbody>
 					      		</table>
 					      	</div>
-					      	<div class="col-md-2">
-					      		<table class="reports-table di-green-coffee">
-					      			<thead>
-					      				<tr>
-					      					<td colspan="4">
-					      						Green Coffee Fulls
-					      					</td>
-					      				</tr>
-					      			</thead>
-					      			<tbody class="imported">
-					      				<tr>
-					      					<th>Size</th>
-					      					<th>Trucker</th>
-					      					<th># of Vans</th>
-					      				</tr>
-					      				<tr>
-					      					<th colspan="4">IMPORTED</th>
-					      				</tr>
-					      				<tr data-vtid="1" data-tid="3">
-					      					<td>20</td>
-					      					<td>TWBC</td>
-					      					<td></td>
-					      				</tr>
-					      				<tr data-vtid="1" data-tid="8">
-					      					<td>20</td>
-					      					<td>INLAND</td>
-					      					<td></td>
-					      				</tr>
-					      			</tbody>
-					      			<tbody class="local">
-					      				<tr>
-					      					<th colspan="4">LOCAL</th>
-					      				</tr>
-					      				<tr data-vtid="1" data-tid="7">
-					      					<td>20</td>
-					      					<td>FCTC</td>
-					      					<td></td>
-					      				</tr>
-					      				<tr data-vtid="1" data-tid="2">
-					      					<td>20</td>
-					      					<td>TST</td>
-					      					<td></td>
-					      				</tr>
-					      				<tr data-vtid="1" data-tid="4">
-					      					<td>20</td>
-					      					<td>SKMTI</td>
-					      					<td></td>
-					      				</tr>
-					      				<tr data-vtid="1" data-tid="9">
-					      					<td>20</td>
-					      					<td>ONESTOP</td>
-					      					<td></td>
-					      				</tr>
-					      				<tr data-vtid="1" data-tid="others">
-					      					<td>20</td>
-					      					<td>Others</td>
-					      					<td></td>
-					      				</tr>
-					      				<tr class="total">
-					      					<th colspan="2">Total</th>
-					      					<th></th>
-					      				</tr>
-					      			</tbody>
-					      		</table>
-					      	</div>
-					      	<div class="col-md-6">
-					      		<table class="reports-table di-empty-vans">
-					      			<thead>
-					      				<tr>
-					      					<td colspan="9">EMPTY VANS</td>
-					      				</tr>
-					      			</thead>
-					      			<tbody>
-					      				<tr>
-					      					<th colspan="3">FOR RETURN (Foreign)</th>
-					      					<th colspan="3">FOR STUFFING</th>
-					      					<th colspan="3">FOR RETURN (Defectives)</th>
-					      				</tr>
-					      				<tr>
-					      					<th>Trucker</th>
-					      					<th>Size</th>
-					      					<th># of Vans</th>
+					      	<div class="col-md-8">
+						      	<div class="row">
+							      	<div class="col-md-4">
+							      		<table class="reports-table di-green-coffee">
+							      			<thead>
+							      				<tr>
+							      					<td colspan="4">
+							      						Green Coffee Fulls
+							      					</td>
+							      				</tr>
+							      			</thead>
+							      			<tbody class="imported">
+							      				<tr>
+							      					<th>Size</th>
+							      					<th>Trucker</th>
+							      					<th># of Vans</th>
+							      				</tr>
+							      				<tr>
+							      					<th colspan="4">IMPORTED</th>
+							      				</tr>
+							      				<tr data-vtid="1" data-tid="3">
+							      					<td>20</td>
+							      					<td>TWBC</td>
+							      					<td></td>
+							      				</tr>
+							      				<tr data-vtid="1" data-tid="8">
+							      					<td>20</td>
+							      					<td>INLAND</td>
+							      					<td></td>
+							      				</tr>
+							      			</tbody>
+							      			<tbody class="local">
+							      				<tr>
+							      					<th colspan="4">LOCAL</th>
+							      				</tr>
+							      				<tr data-vtid="1" data-tid="7">
+							      					<td>20</td>
+							      					<td>FCTC</td>
+							      					<td></td>
+							      				</tr>
+							      				<tr data-vtid="1" data-tid="2">
+							      					<td>20</td>
+							      					<td>TST</td>
+							      					<td></td>
+							      				</tr>
+							      				<tr data-vtid="1" data-tid="4">
+							      					<td>20</td>
+							      					<td>SKMTI</td>
+							      					<td></td>
+							      				</tr>
+							      				<tr data-vtid="1" data-tid="9">
+							      					<td>20</td>
+							      					<td>ONESTOP</td>
+							      					<td></td>
+							      				</tr>
+							      				<tr data-vtid="1" data-tid="others">
+							      					<td>20</td>
+							      					<td>Others</td>
+							      					<td></td>
+							      				</tr>
+							      				<tr class="total">
+							      					<th colspan="2">Total</th>
+							      					<th></th>
+							      				</tr>
+							      			</tbody>
+							      		</table>
+							      	</div>
+							      	<div class="col-md-8">
+							      		<table class="reports-table di-empty-vans">
+							      			<thead>
+							      				<tr>
+							      					<td colspan="9">EMPTY VANS</td>
+							      				</tr>
+							      			</thead>
+							      			<tbody>
+							      				<tr>
+							      					<th colspan="3">FOR RETURN (Foreign)</th>
+							      					<th colspan="3">FOR STUFFING</th>
+							      					<th colspan="3">FOR RETURN (Defectives)</th>
+							      				</tr>
+							      				<tr>
+							      					<th>Trucker</th>
+							      					<th>Size</th>
+							      					<th># of Vans</th>
 
-					      					<th>Shipper/Trucker</th>
-					      					<th>Size</th>
-					      					<th># of Vans</th>
+							      					<th>Shipper/Trucker</th>
+							      					<th>Size</th>
+							      					<th># of Vans</th>
 
-					      					<th>Shipper/Trucker</th>
-					      					<th>Size</th>
-					      					<th># of Vans</th>
-					      				</tr>
-					      				<tr>
-					      					<td class="imported for-return" data-tid="3">TWBC</td>
-					      					<td class="imported for-return" data-vtid="1">20</td>
-					      					<td class="imported for-return efr-vans"></td>
+							      					<th>Shipper/Trucker</th>
+							      					<th>Size</th>
+							      					<th># of Vans</th>
+							      				</tr>
+							      				<tr>
+							      					<td class="imported for-return" data-tid="3">TWBC</td>
+							      					<td class="imported for-return" data-vtid="1">20</td>
+							      					<td class="imported for-return efr-vans"></td>
 
-					      					<td class="for-stuffing" data-sid="4">2GO</td>
-					      					<td class="for-stuffing" data-vtid="1">20</td>
-					      					<td class="for-stuffing efs-vans"></td>
+							      					<td class="for-stuffing" data-sid="4">2GO</td>
+							      					<td class="for-stuffing" data-vtid="1">20</td>
+							      					<td class="for-stuffing efs-vans"></td>
 
-					      					<td class="defective" data-tid="4">2GO</td>
-					      					<td class="defective" data-vtid="1">20</td>
-					      					<td class="defective dfs-vans"></td>
-					      				</tr>
-					      				<tr>
-					      					<td class="imported for-return" data-tid="8">INLAND</td>
-					      					<td class="imported for-return" data-vtid="1">20</td>
-					      					<td class="imported for-return efr-vans"></td>
+							      					<td class="defective" data-tid="4">2GO</td>
+							      					<td class="defective" data-vtid="1">20</td>
+							      					<td class="defective dfs-vans"></td>
+							      				</tr>
+							      				<tr>
+							      					<td class="imported for-return" data-tid="8">INLAND</td>
+							      					<td class="imported for-return" data-vtid="1">20</td>
+							      					<td class="imported for-return efr-vans"></td>
 
-					      					<td class="for-stuffing" data-sid="3">SOLID</td>
-					      					<td class="for-stuffing" data-vtid="1">20</td>
-					      					<td class="for-stuffing efs-vans"></td>
+							      					<td class="for-stuffing" data-sid="3">SOLID</td>
+							      					<td class="for-stuffing" data-vtid="1">20</td>
+							      					<td class="for-stuffing efs-vans"></td>
 
-					      					<td class="defective" data-sid="3">SOLID</td>
-					      					<td class="defective" data-vtid="1">20</td>
-					      					<td class="defective dfs-vans"></td>
-					      				</tr>
-					      				<tr>
-					      					<td class="imported for-return" data-tid="3">TWBC</td>
-					      					<td class="imported for-return" data-vtid="2">40</td>
-					      					<td class="imported for-return efr-vans"></td>
+							      					<td class="defective" data-sid="3">SOLID</td>
+							      					<td class="defective" data-vtid="1">20</td>
+							      					<td class="defective dfs-vans"></td>
+							      				</tr>
+							      				<tr>
+							      					<td class="imported for-return" data-tid="3">TWBC</td>
+							      					<td class="imported for-return" data-vtid="2">40</td>
+							      					<td class="imported for-return efr-vans"></td>
 
-					      					<td class="for-stuffing" data-tid="">SLI</td>
-					      					<td class="for-stuffing" data-vtid="1">20</td>
-					      					<td class="for-stuffing efs-vans"></td>
+							      					<td class="for-stuffing" data-tid="">SLI</td>
+							      					<td class="for-stuffing" data-vtid="1">20</td>
+							      					<td class="for-stuffing efs-vans"></td>
 
-					      					<td class="defective" data-tid="">SLI</td>
-					      					<td class="defective" data-vtid="1">20</td>
-					      					<td class="defective dfs-vans"></td>
-					      				</tr>
-					      				<tr>
-					      					<td class="imported for-return" data-tid="8">INLAND</td>
-					      					<td class="imported for-return" data-vtid="2">40</td>
-					      					<td class="imported for-return efr-vans"></td>
+							      					<td class="defective" data-tid="">SLI</td>
+							      					<td class="defective" data-vtid="1">20</td>
+							      					<td class="defective dfs-vans"></td>
+							      				</tr>
+							      				<tr>
+							      					<td class="imported for-return" data-tid="8">INLAND</td>
+							      					<td class="imported for-return" data-vtid="2">40</td>
+							      					<td class="imported for-return efr-vans"></td>
 
-					      					<td class="for-stuffing" data-sid="6">SSR</td>
-					      					<td class="for-stuffing" data-vtid="1">20</td>
-					      					<td class="for-stuffing efs-vans"></td>
+							      					<td class="for-stuffing" data-sid="6">SSR</td>
+							      					<td class="for-stuffing" data-vtid="1">20</td>
+							      					<td class="for-stuffing efs-vans"></td>
 
-					      					<td class="defective" data-tid="7">FCTC</td>
-					      					<td class="defective" data-vtid="1">20</td>
-					      					<td class="defective dfs-vans"></td>
-					      				</tr>
-					      				<tr>
-					      					<th colspan="3" rowspan="2">FOR RETURN(LOCAL)</th>
+							      					<td class="defective" data-tid="7">FCTC</td>
+							      					<td class="defective" data-vtid="1">20</td>
+							      					<td class="defective dfs-vans"></td>
+							      				</tr>
+							      				<tr>
+							      					<th colspan="3" rowspan="2">FOR RETURN(LOCAL)</th>
 
-					      					<td class="for-stuffing" data-sid="6">SSR</td>
-					      					<td class="for-stuffing" data-vtid="2">40</td>
-					      					<td class="for-stuffing efs-vans"></td>
+							      					<td class="for-stuffing" data-sid="6">SSR</td>
+							      					<td class="for-stuffing" data-vtid="2">40</td>
+							      					<td class="for-stuffing efs-vans"></td>
 
-					      					<td class="defective" data-sid="6">SSR</td>
-					      					<td class="defective" data-vtid="1">20</td>
-					      					<td class="defective dfs-vans"></td>
-					      				</tr>
-					      				<tr>
-					      					
-					      					<td class="for-stuffing" data-sid="13">SKMTI</td>
-					      					<td class="for-stuffing" data-vtid="1">20</td>
-					      					<td class="for-stuffing efs-vans"></td>
+							      					<td class="defective" data-sid="6">SSR</td>
+							      					<td class="defective" data-vtid="1">20</td>
+							      					<td class="defective dfs-vans"></td>
+							      				</tr>
+							      				<tr>
+							      					
+							      					<td class="for-stuffing" data-sid="13">SKMTI</td>
+							      					<td class="for-stuffing" data-vtid="1">20</td>
+							      					<td class="for-stuffing efs-vans"></td>
 
-					      					<td class="defective" data-sid="5">GS</td>
-					      					<td class="defective" data-vtid="1">20</td>
-					      					<td class="defective dfs-vans"></td>
-					      				</tr>
-					      				<tr>
-					      					<td class="local for-return" data-tid="7">FCTC</td>
-					      					<td class="local for-return" data-vtid="2">40</td>
-					      					<td class="local for-return efr-vans"></td>
+							      					<td class="defective" data-sid="5">GS</td>
+							      					<td class="defective" data-vtid="1">20</td>
+							      					<td class="defective dfs-vans"></td>
+							      				</tr>
+							      				<tr>
+							      					<td class="local for-return" data-tid="7">FCTC</td>
+							      					<td class="local for-return" data-vtid="2">40</td>
+							      					<td class="local for-return efr-vans"></td>
 
-					      					<td class="for-stuffing" data-sid="5">GS</td>
-					      					<td class="for-stuffing" data-vtid="1">20</td>
-					      					<td class="for-stuffing efs-vans"></td>
+							      					<td class="for-stuffing" data-sid="5">GS</td>
+							      					<td class="for-stuffing" data-vtid="1">20</td>
+							      					<td class="for-stuffing efs-vans"></td>
 
-					      					<td class="defective" data-sid="17">NNCU</td>
-					      					<td class="defective" data-vtid="1">20</td>
-					      					<td class="defective dfs-vans"></td>
-					      				</tr>
-					      				<tr>
-					      					<td class="local for-return" data-tid="7">FCTC</td>
-					      					<td class="local for-return" data-vtid="1">20</td>
-					      					<td class="local for-return efr-vans"></td>
+							      					<td class="defective" data-sid="17">NNCU</td>
+							      					<td class="defective" data-vtid="1">20</td>
+							      					<td class="defective dfs-vans"></td>
+							      				</tr>
+							      				<tr>
+							      					<td class="local for-return" data-tid="7">FCTC</td>
+							      					<td class="local for-return" data-vtid="1">20</td>
+							      					<td class="local for-return efr-vans"></td>
 
-					      					<td class="for-stuffing" data-tid="2">TST</td>
-					      					<td class="for-stuffing" data-vtid="1">20</td>
-					      					<td class="for-stuffing efs-vans"></td>
+							      					<td class="for-stuffing" data-tid="2">TST</td>
+							      					<td class="for-stuffing" data-vtid="1">20</td>
+							      					<td class="for-stuffing efs-vans"></td>
 
-					      					<td class="defective" data-sid="6">SSR</td>
-					      					<td class="defective" data-vtid="2">40</td>
-					      					<td class="defective dfs-vans"></td>
-					      				</tr>
-					      				<tr>
-					      					<td class="local for-return" data-tid="2">TST</td>
-					      					<td class="local for-return" data-vtid="1">20</td>
-					      					<td class="local for-return efr-vans"></td>
+							      					<td class="defective" data-sid="6">SSR</td>
+							      					<td class="defective" data-vtid="2">40</td>
+							      					<td class="defective dfs-vans"></td>
+							      				</tr>
+							      				<tr>
+							      					<td class="local for-return" data-tid="2">TST</td>
+							      					<td class="local for-return" data-vtid="1">20</td>
+							      					<td class="local for-return efr-vans"></td>
 
-					      					<td class="for-stuffing" data-sid="2">NMC</td>
-					      					<td class="for-stuffing" data-vtid="1">20</td>
-					      					<td class="for-stuffing efs-vans"></td>
-					      					
-					      					<td class="defective" data-tid="2">TST</td>
-					      					<td class="defective" data-vtid="1">20</td>
-					      					<td class="defective dfs-vans"></td>
-					      				</tr>
-					      				<tr>
-					      					<td class="local for-return" data-tid="2">TST</td>
-					      					<td class="local for-return" data-vtid="2">40</td>
-					      					<td class="local for-return efr-vans"></td>
+							      					<td class="for-stuffing" data-sid="2">NMC</td>
+							      					<td class="for-stuffing" data-vtid="1">20</td>
+							      					<td class="for-stuffing efs-vans"></td>
+							      					
+							      					<td class="defective" data-tid="2">TST</td>
+							      					<td class="defective" data-vtid="1">20</td>
+							      					<td class="defective dfs-vans"></td>
+							      				</tr>
+							      				<tr>
+							      					<td class="local for-return" data-tid="2">TST</td>
+							      					<td class="local for-return" data-vtid="2">40</td>
+							      					<td class="local for-return efr-vans"></td>
 
-					      					<td class="for-stuffing" data-sid="2">NMC</td>
-					      					<td class="for-stuffing" data-vtid="2">40</td>
-					      					<td class="for-stuffing efs-vans"></td>
+							      					<td class="for-stuffing" data-sid="2">NMC</td>
+							      					<td class="for-stuffing" data-vtid="2">40</td>
+							      					<td class="for-stuffing efs-vans"></td>
 
-					      					<td class="defective" data-sid="2">NMC</td>
-					      					<td class="defective" data-vtid="1">20</td>
-					      					<td class="defective dfs-vans"></td>
-					      				</tr>
-					      				<tr>
-					      					<td class="local for-return" data-tid="7">FCTC</td>
-					      					<td class="local for-return">10</td>
-					      					<td class="local for-return efr-vans"></td>
+							      					<td class="defective" data-sid="2">NMC</td>
+							      					<td class="defective" data-vtid="1">20</td>
+							      					<td class="defective dfs-vans"></td>
+							      				</tr>
+							      				<tr>
+							      					<td class="local for-return" data-tid="7">FCTC</td>
+							      					<td class="local for-return">10</td>
+							      					<td class="local for-return efr-vans"></td>
 
-					      					<td class="for-stuffing" data-sid="18">RCL/MAERSK</td>
-					      					<td class="for-stuffing" data-vtid="1">20</td>
-					      					<td class="for-stuffing efs-vans"></td>
+							      					<td class="for-stuffing" data-sid="18">RCL/MAERSK</td>
+							      					<td class="for-stuffing" data-vtid="1">20</td>
+							      					<td class="for-stuffing efs-vans"></td>
 
-					      					<td class="defective" data-sid="13">SKMTI</td>
-					      					<td class="defective" data-vtid="1">20</td>
-					      					<td class="defective dfs-vans"></td>
-					      				</tr>
-					      				<tr>
-					      					<td class="local for-return" data-sid="13">SKMTI</td>
-					      					<td class="local for-return" data-vtid="1">20</td>
-					      					<td class="local for-return efr-vans"></td>
+							      					<td class="defective" data-sid="13">SKMTI</td>
+							      					<td class="defective" data-vtid="1">20</td>
+							      					<td class="defective dfs-vans"></td>
+							      				</tr>
+							      				<tr>
+							      					<td class="local for-return" data-sid="13">SKMTI</td>
+							      					<td class="local for-return" data-vtid="1">20</td>
+							      					<td class="local for-return efr-vans"></td>
 
-					      					<td></td>
-					      					<td></td>
-					      					<td></td>
+							      					<td></td>
+							      					<td></td>
+							      					<td></td>
 
-					      					<td class="defective" data-tid="10">RCL</td>
-					      					<td class="defective" data-vtid="1">20</td>
-					      					<td class="defective dfs-vans"></td>
-					      				</tr>
-					      				<tr class="total">
-					      					<th colspan="2">Total</th>
-					      					<th></th>
+							      					<td class="defective" data-tid="10">RCL</td>
+							      					<td class="defective" data-vtid="1">20</td>
+							      					<td class="defective dfs-vans"></td>
+							      				</tr>
+							      				<tr class="total">
+							      					<th colspan="2">Total</th>
+							      					<th></th>
 
-					      					<th colspan="2">Total</th>
-					      					<th></th>
+							      					<th colspan="2">Total</th>
+							      					<th></th>
 
-					      					<th colspan="2">Total</th>
-					      					<th></th>
-					      				</tr>
-					      			</tbody>
-					      		</table>
-					      	</div>
+							      					<th colspan="2">Total</th>
+							      					<th></th>
+							      				</tr>
+							      			</tbody>
+							      		</table>
+							      	</div>
+							    </div>
+							    <div class="row">
+							    	<table class="grand-total pull-right">
+								    	<tr>
+								    		<th>Total TEU: <span class="total-teu"></span></th>
+								    		<th>40 ftr: <span class="total-40"></span></th>
+								    		<th>20 ftr: <span class="total-20"></span></th>
+								    		<th>10 ftr: <span class="total-10"></span></th>
+								    	</tr>
+							    	</table>
+							    </div>
+							</div>
 					    </div>
 
 		      			<div class="row signature-title">

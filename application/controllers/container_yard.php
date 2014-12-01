@@ -68,6 +68,7 @@ class Container_yard extends MY_Controller {
 				}
 				
 				$row['for_dispatch'] = $this->_is_ready_for_dispatch( $card->tc_id ) ? 'true' : 'false';
+				$row['is_blocked'] = $row['is_blocked'] ? 'true' : 'false';
 				$row['entry_timespan'] = $timespan;
 				$row['entry_dayspan'] = $dayspan;
 				

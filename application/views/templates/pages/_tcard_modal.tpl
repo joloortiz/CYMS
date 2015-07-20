@@ -102,7 +102,8 @@
                 <div class="row">
                   <div class="col-sm-6">
                     <strong>Entry Date</strong>
-                    <h5 class="entry-date text-with-default" data-text-default="{$current_date_entry}">{$current_date_entry}</h5>
+                    <h5 class="text-with-default hide" data-text-default="{$current_date_entry}">{$current_date_entry}</h5>
+                    <input name="{$form->entry_date}" class="form-control input-sm generic-datepicker" type="text">
                   </div>
                   <div class="col-sm-6 stuffing-card-field absolute-hide">
                     <strong>RDD</strong>

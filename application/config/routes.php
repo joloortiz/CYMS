@@ -51,6 +51,7 @@ $route['van-types'] = 'van_types';
 $route['van-types/(:num)'] = 'van_types/index/$1';
 $route['materials-incoming'] = 'incoming_materials';
 $route['materials-incoming/(:num)'] = 'incoming_materials/index/$1';
+$route['checkers/(:num)'] = 'checkers/index/$1';
 
 $route['logout'] = 'login/logout';
 

@@ -8058,3 +8058,7 @@ footer::before {
 #dwell-time-monitor h5 {
   font-weight: bolder;
 }
+
+.cy-alarm {
+  width: 100%;
+}

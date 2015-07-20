@@ -88,14 +88,23 @@
 				</div>
 				<div class="col-xs-10">
 
+					<div class="cy-alarm pull-left">
+						<div class="alert alert-danger alert-dismissible cy-alarm hide" role="alert">
+						  	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						  	<strong>Attention: </strong>
+						  	<ul>
+						  	</ul>
+						</div>
+					</div>
 					<div id="legend" class="panel panel-default">
 						<div class="panel-body">
 							<div class="cy-status pull-left">
 								<span class="h4 total-teu">Total TEUs: <span class="label label-info"></span></span>
-								<span class="h4 total-40-ftr">40 ftr: <span class="label label-info"></span></span>
-								<span class="h4 total-20-ftr">20 ftr: <span class="label label-info"></span></span>
-								<span class="h4 total-10-ftr">10 ftr: <span class="label label-info"></span></span>
+								<span class="h4 total-40-ftr">40 ftr: <span class="label label-success"></span></span>
+								<span class="h4 total-20-ftr">20 ftr: <span class="label label-primary"></span></span>
+								<span class="h4 total-10-ftr">10 ftr: <span class="label label-danger"></span></span>
 							</div>
+							
 							<div class="pull-right">
 							
 								<a id="edit-btn" class="btn btn-primary" editmode="0"><span class="glyphicon glyphicon-pencil"></span>  Edit</a>
@@ -119,7 +128,7 @@
 							<div class="bay-border" style="left: 662px;width: 226px;">Bravo Border</div>
 							<div class="bay-border" style="left: 957px;">Charlie Border</div>
 							<div class="bay-border" style="left: 1221px;">Delta Border</div>
-							<div class="bay-border" style="left: 1485px;">Carton Border</div>
+							<div class="bay-border" style="left: 1485px;width: 226px;">Carton Border</div>
 
 							<div id="T1" class="cv dp ui-droppable" style="left: 48px; top: 16px;" dp-bottom="T2">T1 </div>
 							<div id="T2" class="cv dp ui-droppable" style="left: 48px; top: 47px;" dp-top="T1">T2 </div>
@@ -365,10 +374,10 @@
 							<div id="B58" class="cv dp ui-droppable" style="left: 760px; top: 152px;" dp-top="B57">B58 </div>
 							<div id="B59" class="cv dp ui-droppable" style="left: 791px; top: 121px;" dp-bottom="B5A">B59 </div>
 							<div id="B5A" class="cv dp ui-droppable" style="left: 791px; top: 152px;" dp-top="B59">B5A </div>
-							<div id="B5B" class="cv dp ui-droppable" style="left: 853px; top: 121px;" dp-bottom="B5E">B5B </div>
-							<div id="B5C" class="cv dp ui-droppable" style="left: 853px; top: 152px;" dp-top="B5D">B5D </div>
-							<div id="B5D" class="cv dp ui-droppable" style="left: 822px; top: 121px;" dp-bottom="B5C">B5B </div>
-							<div id="B5E" class="cv dp ui-droppable" style="left: 822px; top: 152px;" dp-top="B5B">B5E </div>
+							<div id="B5B" class="cv dp ui-droppable" style="left: 822px; top: 121px;" dp-bottom="B5C">B5B</div>
+							<div id="B5C" class="cv dp ui-droppable" style="left: 822px; top: 152px;" dp-top="B5B">B5C</div>
+							<div id="B5D" class="cv dp ui-droppable" style="left: 853px; top: 121px;" dp-bottom="B5E">B5D </div>
+							<div id="B5E" class="cv dp ui-droppable" style="left: 853px; top: 152px;" dp-top="B5D">B5E </div>
 							<div id="B41" class="cv dp ui-droppable" style="left: 667px; top: 214px;" dp-bottom="B42">B41 </div>
 							<div id="B42" class="cv dp ui-droppable" style="left: 667px; top: 245px;" dp-top="B41">B42 </div>
 							<div id="B43" class="cv dp ui-droppable" style="left: 698px; top: 214px;" dp-bottom="B44">B43 </div>
@@ -664,6 +673,9 @@
 							<div id="c5A" class="cv dp ui-droppable" style="left: 1614px; top: 152px;" dp-top="c59">c5A </div>
 							<div id="c5B" class="cv dp ui-droppable" style="left: 1645px; top: 121px;" dp-bottom="c5C">c5B </div>
 							<div id="c5C" class="cv dp ui-droppable" style="left: 1645px; top: 152px;" dp-top="c5B">c5C </div>
+							<div id="c5D" class="cv dp ui-droppable" style="left: 1676px; top: 121px;" dp-bottom="c5E">c5D </div>
+							<div id="c5E" class="cv dp ui-droppable" style="left: 1676px; top: 152px;" dp-top="c5D">c5E </div>
+
 							<div id="c41" class="cv dp ui-droppable" style="left: 1490px; top: 214px;" dp-bottom="c42">c41 </div>
 							<div id="c42" class="cv dp ui-droppable" style="left: 1490px; top: 245px;" dp-top="c41">c42 </div>
 							<div id="c43" class="cv dp ui-droppable" style="left: 1521px; top: 214px;" dp-bottom="c44">c43 </div>
@@ -676,6 +688,9 @@
 							<div id="c4A" class="cv dp ui-droppable" style="left: 1614px; top: 245px;" dp-top="c49">c4A </div>
 							<div id="c4B" class="cv dp ui-droppable" style="left: 1645px; top: 214px;" dp-bottom="c4C">c4B </div>
 							<div id="c4C" class="cv dp ui-droppable" style="left: 1645px; top: 245px;" dp-top="c4B">c4C </div>
+							<div id="c4D" class="cv dp ui-droppable" style="left: 1676px; top: 214px;" dp-bottom="c4E">c4D </div>
+							<div id="c4E" class="cv dp ui-droppable" style="left: 1676px; top: 245px;" dp-top="c4D">c4E </div>
+
 							<div id="c31" class="cv dp ui-droppable" style="left: 1490px; top: 307px;" dp-bottom="c32">c31 </div>
 							<div id="c32" class="cv dp ui-droppable" style="left: 1490px; top: 338px;" dp-top="c31">c32 </div>
 							<div id="c33" class="cv dp ui-droppable" style="left: 1521px; top: 307px;" dp-bottom="c34">c33 </div>
@@ -688,6 +703,9 @@
 							<div id="c3A" class="cv dp ui-droppable" style="left: 1614px; top: 338px;" dp-top="c39">c3A </div>
 							<div id="c3B" class="cv dp ui-droppable" style="left: 1645px; top: 307px;" dp-bottom="c3C">c3B </div>
 							<div id="c3C" class="cv dp ui-droppable" style="left: 1645px; top: 338px;" dp-top="c3B">c3C </div>
+							<div id="c3D" class="cv dp ui-droppable" style="left: 1676px; top: 307px;" dp-bottom="c3E">c3D </div>
+							<div id="c3E" class="cv dp ui-droppable" style="left: 1676px; top: 338px;" dp-top="c3D">c3E </div>
+
 							<div id="c21" class="cv dp ui-droppable" style="left: 1490px; top: 400px;" dp-bottom="c22">c21 </div>
 							<div id="c22" class="cv dp ui-droppable" style="left: 1490px; top: 431px;" dp-top="c21">c22 </div>
 							<div id="c23" class="cv dp ui-droppable" style="left: 1521px; top: 400px;" dp-bottom="c24">c23 </div>
@@ -700,6 +718,9 @@
 							<div id="c2A" class="cv dp ui-droppable" style="left: 1614px; top: 431px;" dp-top="c29">c2A </div>
 							<div id="c2B" class="cv dp ui-droppable" style="left: 1645px; top: 400px;" dp-bottom="c2C">c2B </div>
 							<div id="c2C" class="cv dp ui-droppable" style="left: 1645px; top: 431px;" dp-top="c2B">c2C </div>
+							<div id="c2D" class="cv dp ui-droppable" style="left: 1676px; top: 400px;" dp-bottom="c2E">c2D </div>
+							<div id="c2E" class="cv dp ui-droppable" style="left: 1676px; top: 431px;" dp-top="c2D">c2E </div>
+
 							<div id="c11" class="cv dp ui-droppable" style="left: 1490px; top: 493px;" dp-bottom="c12">c11 </div>
 							<div id="c12" class="cv dp ui-droppable" style="left: 1490px; top: 524px;" dp-top="c11">c12 </div>
 							<div id="c13" class="cv dp ui-droppable" style="left: 1521px; top: 493px;" dp-bottom="c14">c13 </div>
@@ -712,41 +733,64 @@
 							<div id="c1A" class="cv dp ui-droppable" style="left: 1614px; top: 524px;" dp-top="c19">c1A </div>
 							<div id="c1B" class="cv dp ui-droppable" style="left: 1645px; top: 493px;" dp-bottom="c1C">c1B </div>
 							<div id="c1C" class="cv dp ui-droppable" style="left: 1645px; top: 524px;" dp-top="c1B">c1C </div>
-							
-							<div id="CE6" class="cv dp ui-droppable" style="left: 1738px; top: 524px;" dp-top="CE5">CE6 </div>
-							<div id="CE5" class="cv dp ui-droppable" style="left: 1738px; top: 493px;" dp-bottom="CE6">CE5 </div>
-							<div id="CE4" class="cv dp ui-droppable" style="left: 1738px; top: 462px;" dp-top="CE3">CE4 </div>
-							<div id="CE3" class="cv dp ui-droppable" style="left: 1738px; top: 431px;" dp-bottom="CE4">CE3 </div>
-							<div id="CE2" class="cv dp ui-droppable" style="left: 1738px; top: 400px;" dp-top="CE1">CE2 </div>
-							<div id="CE1" class="cv dp ui-droppable" style="left: 1738px; top: 369px;" dp-bottom="CE2">CE1 </div>
+							<div id="c1D" class="cv dp ui-droppable" style="left: 1676px; top: 493px;" dp-bottom="c1E">c1D </div>
+							<div id="c1E" class="cv dp ui-droppable" style="left: 1676px; top: 524px;" dp-top="c1D">c1E </div>
+
+
+							<div id="CEA" class="cv dp ui-droppable" style="left: 1738px; top: 433px;" dp-top="CE9">CEA </div>
+							<div id="CE9" class="cv dp ui-droppable" style="left: 1738px; top: 402px;" dp-bottom="CEA">CE9 </div>
+							<div id="CE8" class="cv dp ui-droppable" style="left: 1738px; top: 371px;" dp-top="CE7">CE8 </div>
+							<div id="CE7" class="cv dp ui-droppable" style="left: 1738px; top: 340px;" dp-bottom="CE8">CE7 </div>
+							<div id="CE6" class="cv dp ui-droppable" style="left: 1738px; top: 309px;" dp-top="CE5">CE6 </div>
+							<div id="CE5" class="cv dp ui-droppable" style="left: 1738px; top: 278px;" dp-bottom="CE6">CE5 </div>
+							<div id="CE4" class="cv dp ui-droppable" style="left: 1738px; top: 247px;" dp-top="CE3">CE4 </div>
+							<div id="CE3" class="cv dp ui-droppable" style="left: 1738px; top: 216px;" dp-bottom="CE4">CE3 </div>
+							<div id="CE2" class="cv dp ui-droppable" style="left: 1738px; top: 185px;" dp-top="CE1">CE2 </div>
+							<div id="CE1" class="cv dp ui-droppable" style="left: 1738px; top: 154px;" dp-bottom="CE2">CE1 </div>
 
 							<hr class="cy-hr">
 							
-							<div id="R1" class="cv dp ui-droppable" style="left: 1629px; top: 631px;">R1 </div>
-							<div id="R2" class="cv dp ui-droppable" style="left: 1598px; top: 631px;">R2 </div>
-							<div id="R3" class="cv dp ui-droppable" style="left: 1567px; top: 631px;">R3 </div>
-							<div id="R4" class="cv dp ui-droppable" style="left: 1536px; top: 631px;">R4 </div>
-							<div id="R5" class="cv dp ui-droppable" style="left: 1505px; top: 631px;">R5 </div>
-							<div id="R6" class="cv dp ui-droppable" style="left: 1474px; top: 631px;">R6 </div>
-							<div id="R7" class="cv dp ui-droppable" style="left: 1443px; top: 631px;">R7 </div>
-							<div id="R8" class="cv dp ui-droppable" style="left: 1412px; top: 631px;">R8 </div>
-							<div id="R9" class="cv dp ui-droppable" style="left: 1381px; top: 631px;">R9 </div>
-							<div id="R1A" class="cv dp ui-droppable" style="left: 1350px; top: 631px;">R10 </div>
-							<div id="R1B" class="cv dp ui-droppable" style="left: 1319px; top: 631px;">R11 </div>
-							<div id="R1C" class="cv dp ui-droppable" style="left: 1288px; top: 631px;">R12 </div>
+							<div id="R11" class="cv dp ui-droppable temp-bay" style="left: 1629px; top: 631px;" dp-bottom="R12">R11 </div>
+							<div id="R13" class="cv dp ui-droppable temp-bay" style="left: 1598px; top: 631px;" dp-bottom="R14">R13 </div>
+							<div id="R15" class="cv dp ui-droppable temp-bay" style="left: 1567px; top: 631px;" dp-bottom="R16">R15 </div>
+							<div id="R17" class="cv dp ui-droppable temp-bay" style="left: 1536px; top: 631px;" dp-bottom="R18">R17 </div>
+							<div id="R19" class="cv dp ui-droppable temp-bay" style="left: 1505px; top: 631px;" dp-bottom="R1A">R19 </div>
+							<div id="R1B" class="cv dp ui-droppable temp-bay" style="left: 1474px; top: 631px;" dp-bottom="R1C">R1B </div>
+							<div id="R1D" class="cv dp ui-droppable temp-bay" style="left: 1443px; top: 631px;" dp-bottom="R1E">R1D </div>
+							<div id="R1F" class="cv dp ui-droppable temp-bay" style="left: 1412px; top: 631px;" dp-bottom="R1G">R1F </div>
+							<div id="R1H" class="cv dp ui-droppable temp-bay" style="left: 1381px; top: 631px;" dp-bottom="R1I">R1H </div>
+							<div id="R1J" class="cv dp ui-droppable temp-bay" style="left: 1350px; top: 631px;" dp-bottom="R1K">R1J </div>
+							<div id="R1L" class="cv dp ui-droppable temp-bay" style="left: 1319px; top: 631px;" dp-bottom="R1M">R1L </div>
+							<div id="R1N" class="cv dp ui-droppable temp-bay" style="left: 1288px; top: 631px;" dp-bottom="R1O">R1N </div>
+
+							<div id="R12" class="cv dp ui-droppable temp-bay" style="left: 1629px; top: 662px;" dp-top="R11">R12 </div>
+							<div id="R14" class="cv dp ui-droppable temp-bay" style="left: 1598px; top: 662px;" dp-top="R13">R14</div>
+							<div id="R16" class="cv dp ui-droppable temp-bay" style="left: 1567px; top: 662px;" dp-top="R15">R16 </div>
+							<div id="R18" class="cv dp ui-droppable temp-bay" style="left: 1536px; top: 662px;" dp-top="R17">R18 </div>
+							<div id="R1A" class="cv dp ui-droppable temp-bay" style="left: 1505px; top: 662px;" dp-top="R19">R1A </div>
+							<div id="R1C" class="cv dp ui-droppable temp-bay" style="left: 1474px; top: 662px;" dp-top="R1B">R1C </div>
+							<div id="R1E" class="cv dp ui-droppable temp-bay" style="left: 1443px; top: 662px;" dp-top="R1D">R1E </div>
+							<div id="R1G" class="cv dp ui-droppable temp-bay" style="left: 1412px; top: 662px;" dp-top="R1F">R1G </div>
+							<div id="R1I" class="cv dp ui-droppable temp-bay" style="left: 1381px; top: 662px;" dp-top="R1H">R1I </div>
+							<div id="R1K" class="cv dp ui-droppable temp-bay" style="left: 1350px; top: 662px;" dp-top="R1J">R1K </div>
+							<div id="R1M" class="cv dp ui-droppable temp-bay" style="left: 1319px; top: 662px;" dp-top="R1L">R1M </div>
+							<div id="R1O" class="cv dp ui-droppable temp-bay" style="left: 1288px; top: 662px;" dp-top="R1N">R1O </div>
 							
-							<div id="G1" class="cv dp ui-droppable" style="left: 1629px; top: 831px; color: green;">G1 </div>
-							<div id="G2" class="cv dp ui-droppable" style="left: 1598px; top: 831px; color: green;">G2 </div>
-							<div id="G3" class="cv dp ui-droppable" style="left: 1567px; top: 831px; color: green;">G3 </div>
-							<div id="G4" class="cv dp ui-droppable" style="left: 1536px; top: 831px; color: green;">G4 </div>
-							<div id="G5" class="cv dp ui-droppable" style="left: 1505px; top: 831px; color: green;">G5 </div>
-							<div id="G6" class="cv dp ui-droppable" style="left: 1474px; top: 831px; color: green;">G6 </div>
-							<div id="G7" class="cv dp ui-droppable" style="left: 1443px; top: 831px; color: green;">G7 </div>
-							<div id="G8" class="cv dp ui-droppable" style="left: 1412px; top: 831px; color: green;">G8 </div>
-							<div id="G9" class="cv dp ui-droppable" style="left: 1381px; top: 831px; color: green;">G9 </div>
-							<div id="G1A" class="cv dp ui-droppable" style="left: 1350px; top: 831px; color: green;">G10 </div>
-							<div id="G1B" class="cv dp ui-droppable" style="left: 1319px; top: 831px; color: green;">G11 </div>
-							<div id="G1C" class="cv dp ui-droppable" style="left: 1288px; top: 831px; color: green;">G12 </div>
+							<div id="G1" class="cv dp ui-droppable" style="left: 1720px; top: 831px; color: green;" aria-disabled="false">G1 </div>
+							<div id="G2" class="cv dp ui-droppable" style="left: 1689px; top: 831px; color: green;" aria-disabled="false">G2 </div>
+							<div id="G3" class="cv dp ui-droppable" style="left: 1658px; top: 831px; color: green;" aria-disabled="false">G3 </div>
+							<div id="G4" class="cv dp ui-droppable" style="left: 1627px; top: 831px; color: green;" aria-disabled="false">G4 </div>
+							<div id="G5" class="cv dp ui-droppable" style="left: 1596px; top: 831px; color: green;" aria-disabled="false">G5 </div>
+							<div id="G6" class="cv dp ui-droppable" style="left: 1565px; top: 831px; color: green;" aria-disabled="false">G6 </div>
+							<div id="G7" class="cv dp ui-droppable" style="left: 1534px; top: 831px; color: green;" aria-disabled="false">G7 </div>
+							<div id="G8" class="cv dp ui-droppable" style="left: 1503px; top: 831px; color: green;" aria-disabled="false">G8 </div>
+							<div id="G9" class="cv dp ui-droppable" style="left: 1472px; top: 831px; color: green;" aria-disabled="false">G9 </div>
+							<div id="G10" class="cv dp ui-droppable" style="left: 1441px; top: 831px; color: green;" aria-disabled="false">G10 </div>
+							<div id="G11" class="cv dp ui-droppable" style="left: 1410px; top: 831px; color: green;" aria-disabled="false">G11 </div>
+							<div id="G12" class="cv dp ui-droppable" style="left: 1379px; top: 831px; color: green;" aria-disabled="false">G12 </div>
+							<div id="G13" class="cv dp ui-droppable" style="left: 1348px; top: 831px; color: green;" aria-disabled="false">G13 </div>
+							<div id="G14" class="cv dp ui-droppable" style="left: 1317px; top: 831px; color: green;" aria-disabled="false">G14 </div>
+							<div id="G15" class="cv dp ui-droppable" style="left: 1286px; top: 831px; color: green;" aria-disabled="false">G15 </div>
 							
 							<div id="11" class="cv dp ui-droppable" style="left: 1195px; top: 676px;" dp-bottom="12">11 </div>
 							<div id="12" class="cv dp ui-droppable" style="left: 1195px; top: 707px;" dp-top="11">12 </div>
@@ -790,8 +834,8 @@
 							<div id="4A" class="cv dp ui-droppable" style="left: 1102px; top: 955px;" dp-top="49">4A </div>
 							<div id="51" class="cv dp ui-droppable" style="left: 1071px; top: 676px;" dp-bottom="52">51 </div>
 							<div id="52" class="cv dp ui-droppable" style="left: 1071px; top: 707px;" dp-top="51">52 </div>
-							<div id="53" class="cv dp ui-droppable" style="left: 1071px; top: 738px;" dp-bottom="53">53 </div>
-							<div id="54" class="cv dp ui-droppable" style="left: 1071px; top: 769px;" dp-top="54">54 </div>
+							<div id="53" class="cv dp ui-droppable" style="left: 1071px; top: 738px;" dp-bottom="54">53 </div>
+							<div id="54" class="cv dp ui-droppable" style="left: 1071px; top: 769px;" dp-top="53">54 </div>
 							<div id="55" class="cv dp ui-droppable" style="left: 1071px; top: 800px;" dp-bottom="56">55 </div>
 							<div id="56" class="cv dp ui-droppable" style="left: 1071px; top: 831px;" dp-top="55">56 </div>
 							<div id="57" class="cv dp ui-droppable" style="left: 1071px; top: 862px;" dp-bottom="58">57 </div>
@@ -803,8 +847,8 @@
 							<div id="CS2" class="cv dp ui-droppable" style="left: 978px; top: 862px; color: red;">CS2 </div>
 							<div id="CS3" class="cv dp ui-droppable" style="left: 947px; top: 800px; color: red;">CS3 </div>
 							<div id="CS4" class="cv dp ui-droppable" style="left: 916px; top: 800px; color: red;">CS4 </div>
-							<div id="CS5" class="cv dp ui-droppable" style="left: 885px; top: 800px; color: brown;">CS5 </div>
-							<div id="CS6" class="cv dp ui-droppable" style="left: 854px; top: 800px; color: brown;">CS6 </div>
+							<div id="CS5" class="cv dp ui-droppable" style="left: 885px; top: 800px; color: red;">CS5 </div>
+							<div id="CS6" class="cv dp ui-droppable" style="left: 854px; top: 800px; color: red;">CS6 </div>
 							<div id="CS7" class="cv dp ui-droppable" style="left: 823px; top: 800px; color: brown;">CS7 </div>
 							<div id="CS8" class="cv dp ui-droppable" style="left: 792px; top: 800px; color: brown;">CS8 </div>
 							<div id="CS9" class="cv dp ui-droppable" style="left: 761px; top: 800px; color: brown;">CS9 </div>
@@ -850,6 +894,7 @@
 							<div id="MSG" class="cv dp ui-droppable" style="left: 203px; top: 676px;">MSG </div>
 							<div id="MSH" class="cv dp ui-droppable" style="left: 172px; top: 676px;">MSH </div>
 							<div id="MSI" class="cv dp ui-droppable" style="left: 141px; top: 676px;">MSI </div>
+							<div id="MSJ" class="cv dp ui-droppable" style="left: 110px; top: 676px;">MSJ </div>
 							
 							<div id="RM1" class="cv dp ui-droppable" style="left: 482px; top: 862px; color: blue;">RM1 </div>
 							<div id="RM2" class="cv dp ui-droppable" style="left: 451px; top: 862px; color: blue;">RM2 </div>

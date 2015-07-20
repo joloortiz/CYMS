@@ -119,6 +119,7 @@ class Container_yard extends MY_Controller {
 				$date_stuffed = $this->input->post($forms->date_stuffed);
 				$date_stripped = $this->input->post($forms->date_stripped);
 				$checker = $this->input->post($forms->checker);
+				$entry_date = $this->input->post($forms->entry_date);
 				$rdd = $this->input->post($forms->rdd);
 				$dn = $this->input->post($forms->dn_no);
 				$date_sealed = $this->input->post($forms->date_sealed);
@@ -184,6 +185,7 @@ class Container_yard extends MY_Controller {
 						'tc_qcases' => $qty_cases,
 						'tc_qbags' => $qty_bags,
 						'tc_dateblocked' => $date_blocked,
+						'tc_entrydate' => $entry_date != '' ? date("Y-m-d H:i", strtotime($entry_date)) : NULL,
 						'tc_rdd' => $rdd != '' ? date("Y-m-d", strtotime($rdd)) : NULL,
 						'tc_dn' => strtoupper($dn),
 						'tc_datesealed' => $date_sealed != '' ? date("Y-m-d", strtotime($date_sealed)) : NULL,
@@ -201,7 +203,7 @@ class Container_yard extends MY_Controller {
 					
 				if( $action == 'create' ) {
 					// add entry date
-					$data['tc_entrydate'] = date("Y-m-d H:i:s");
+					//$data['tc_entrydate'] = date("Y-m-d H:i:s");
 					
 					$id = $this->tcard_model->new_card($data);
 				
@@ -1121,7 +1123,7 @@ class Container_yard extends MY_Controller {
 			$card[$forms->date_stripped] = $details->tc_datestripped;
 			$card[$forms->strip_controller] = $details->tc_strcontroller;
 			$card[$forms->checker] = $details->c_id;
-			$card[$forms->entry_date] = date('d M Y', strtotime($details->tc_entrydate));
+			$card[$forms->entry_date] = date('d M Y H:i', strtotime($details->tc_entrydate));
 			$card[$forms->rdd] = $details->tc_rdd;
 			$card[$forms->time_out] = $details->e_timeout;
 			$card[$forms->dn_no] = $details->tc_dn;
@@ -1333,7 +1335,7 @@ class Container_yard extends MY_Controller {
 			$t['dayspan'] = $this->_get_dayspan(new DateTime( $t['tc_entrydate'] ), new DateTime());
 			$t['timespan'] = $this->_get_timespan( mysql_to_unix( $t['tc_entrydate'] ), time() );
 
-			$t['tc_entrydate'] = $t['tc_entrydate'] ? date( "d M Y", strtotime( $t['tc_entrydate'] ) ) : NULL;
+			$t['tc_entrydate'] = $t['tc_entrydate'] ? date( "d M Y H:i", strtotime( $t['tc_entrydate'] ) ) : NULL;
 			$t['tc_rdd'] = $t['tc_rdd'] ? date( "d M Y", strtotime( $t['tc_rdd'] ) ) : NULL;
 			$t['tc_datestuffed'] = $t['tc_datestuffed'] ? date( "d M Y", strtotime( $t['tc_datestuffed'] ) ) : NULL;
 			$t['tc_datesealed'] = $t['tc_datesealed'] ? date( "d M Y", strtotime( $t['tc_datesealed'] ) ) : NULL;

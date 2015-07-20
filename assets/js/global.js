@@ -94,13 +94,15 @@ function now() {
 
 	//format: hours:mins:secs
 	var time = currentdate.getHours() + ":" + m + ":" + s;
+	var ed_time = currentdate.getHours() + ":" + m;
 	
 	//format: day month year ex. 23 Dec 2014
 	var date = currentdate.getDate() + " " + month[currentdate.getMonth()] + " " + currentdate.getFullYear();
 
 	return {
 		date: date,
-		time: time
+		time: time,
+		ed_time: ed_time
 	} 
 }
 

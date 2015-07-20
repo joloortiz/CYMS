@@ -113,7 +113,7 @@
 					      					<td></td>
 					      				</tr>
 					      				<tr data-mid="7" data-vtid="1" data-tid="2">
-					      					<td>BBI 150 KDC</td>
+					      					<td>BBI 150G KDC</td>
 					      					<td>20</td>
 					      					<td>TST</td>
 					      					<td></td>
@@ -823,7 +823,7 @@
 					      					<td></td>
 					      				</tr>
 					      				<tr data-mid="25" data-vtid="1" data-tid="8">
-					      					<td>Glucose Power(Glucidex)</td>
+					      					<td>Glucose Powder(Glucidex)</td>
 					      					<td>20</td>
 					      					<td>INLAND</td>
 					      					<td></td>
@@ -888,10 +888,10 @@
 					      				<tr>
 					      					<th colspan="4">LOCAL</th>
 					      				</tr>
-					      				<tr data-mid="34" data-vtid="1" data-sid="3">
+					      				<tr data-mid="34" data-vtid="1" data-tid="c">
 					      					<td>DIMODAN</td>
 					      					<td>20</td>
-					      					<td>SOLID</td>
+					      					<td></td>
 					      					<td></td>
 					      				</tr>
 					      				<tr data-mid="35" data-vtid="1" data-tid="2">
@@ -924,19 +924,19 @@
 					      				<tr>
 					      					<th colspan="4">TEMPORARY LOAD</th>
 					      				</tr>
-					      				<tr class="malto-powder">
+					      				<tr data-mid="39" data-vtid="1" data-tid="c">
 					      					<td>Malto Powder</td>
 					      					<td>20</td>
-					      					<td>NMC/SOLID</td>
+					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="msk-medium-heat">
+					      				<tr data-mid="27" data-vtid="1" data-tid="c">
 					      					<td>MSK Medium Heat</td>
 					      					<td>20</td>
-					      					<td>NMC/SOLID</td>
+					      					<td></td>
 					      					<td></td>
 					      				</tr>
-					      				<tr class="amf-drums-sbmp">
+					      				<tr id="grouped-im">
 					      					<td>AMF/DRUMS/SBMP</td>
 					      					<td>20</td>
 					      					<td>TST</td>

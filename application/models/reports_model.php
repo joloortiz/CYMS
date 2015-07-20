@@ -365,6 +365,172 @@ class Reports_model extends CI_Model{
 
 	}
 
+	/* Empty Vans For Stripping Shippers */
+
+	function empty_vans_consolidated() {
+
+		$sql = "
+			SELECT s.s_id, s.s_name, t.t_id, t.t_code, vt.vt_id, vt.vt_name, count(tc.tc_id) as vans
+			FROM tcards tc
+			INNER JOIN shippers s
+			ON tc.s_id = s.s_id
+			INNER JOIN truckers t
+			ON tc.t_id = t.t_id
+			INNER JOIN van_types vt
+			ON tc.vt_id = vt.vt_id
+			INNER JOIN tcard_types tt
+			ON tc.tt_id = tt.tt_id
+			INNER JOIN tcard_type_group ttg
+			ON tt.ttg_id = ttg.ttg_id
+			LEFT JOIN exit_passes e
+			ON e.tc_id = tc.tc_id
+			WHERE 
+					(s.s_id != 1) &&
+					(tc.tc_status = 'EMPTY' && e.e_id IS NULL) &&
+					(ttg.ttg_id = 2) && 
+					(tc.is_blocked = FALSE && tc.is_defective = FALSE && tc.is_tempload = FALSE)
+			GROUP BY s.s_name, t.t_code, vt.vt_name;
+		";
+
+		$query = $this->db->query($sql);
+
+		return $query->result();
+
+	}
+
+
+	/* Empty Vans For Stripping Shippers (for return) */
+
+	function empty_vans_stripping_shippers() {
+
+		$sql = "
+			SELECT s.s_id, s.s_name, vt.vt_id, vt.vt_name, count(tc.tc_id) as vans
+			FROM tcards tc
+			INNER JOIN shippers s
+			ON tc.s_id = s.s_id
+			INNER JOIN truckers t
+			ON tc.t_id = t.t_id
+			INNER JOIN van_types vt
+			ON tc.vt_id = vt.vt_id
+			INNER JOIN tcard_types tt
+			ON tc.tt_id = tt.tt_id
+			INNER JOIN tcard_type_group ttg
+			ON tt.ttg_id = ttg.ttg_id
+			LEFT JOIN exit_passes e
+			ON e.tc_id = tc.tc_id
+			WHERE 
+					(s.s_id != 1) &&
+					(tc.tc_status = 'EMPTY' && e.e_id IS NULL) &&
+					(ttg.ttg_id = 2) && 
+					(tc.is_blocked = FALSE && tc.is_defective = FALSE && tc.is_tempload = FALSE)
+			GROUP BY s.s_name, vt.vt_name;
+		";
+
+		$query = $this->db->query($sql);
+
+		return $query->result();
+
+	}
+
+	/* Empty Vans For Stripping Truckers (for return) */
+
+	function empty_vans_stripping_truckers() {
+
+		$sql = "
+			SELECT t.t_id, t.t_code, vt.vt_id, vt.vt_name, count(tc.tc_id) as vans
+			FROM tcards tc
+			INNER JOIN shippers s
+			ON tc.s_id = s.s_id
+			INNER JOIN truckers t
+			ON tc.t_id = t.t_id
+			INNER JOIN van_types vt
+			ON tc.vt_id = vt.vt_id
+			INNER JOIN tcard_types tt
+			ON tc.tt_id = tt.tt_id
+			INNER JOIN tcard_type_group ttg
+			ON tt.ttg_id = ttg.ttg_id
+			LEFT JOIN exit_passes e
+			ON e.tc_id = tc.tc_id
+			WHERE 
+					(t.t_id != 1) &&
+					(tc.tc_status = 'EMPTY' && e.e_id IS NULL) &&
+					(ttg.ttg_id = 2) && 
+					(tc.is_blocked = FALSE && tc.is_defective = FALSE && tc.is_tempload = FALSE)
+			GROUP BY t.t_code, vt.vt_name;
+		";
+
+		$query = $this->db->query($sql);
+
+		return $query->result();
+
+	}
+
+	/* Empty Vans For Stuffing Shippers(for stuffing) */
+
+	function empty_vans_stuffing_shippers() {
+
+		$sql = "
+			SELECT s.s_id, s.s_name, vt.vt_id, vt.vt_name, count(tc.tc_id) as vans
+			FROM tcards tc
+			INNER JOIN shippers s
+			ON tc.s_id = s.s_id
+			INNER JOIN truckers t
+			ON tc.t_id = t.t_id
+			INNER JOIN van_types vt
+			ON tc.vt_id = vt.vt_id
+			INNER JOIN tcard_types tt
+			ON tc.tt_id = tt.tt_id
+			INNER JOIN tcard_type_group ttg
+			ON tt.ttg_id = ttg.ttg_id
+			LEFT JOIN exit_passes e
+			ON e.tc_id = tc.tc_id
+			WHERE 
+					(s.s_id != 1) &&
+					(tc.tc_status = 'EMPTY' && e.e_id IS NULL) &&
+					(ttg.ttg_id = 3) && 
+					(tc.is_blocked = FALSE && tc.is_defective = FALSE && tc.is_tempload = FALSE)
+			GROUP BY s.s_name, vt.vt_name;
+		";
+
+		$query = $this->db->query($sql);
+
+		return $query->result();
+
+	}
+
+	/* Empty Vans For Stuffing Truckers (for stuffing) */
+
+	function empty_vans_stuffing_truckers() {
+
+		$sql = "
+			SELECT t.t_id, t.t_code, vt.vt_id, vt.vt_name, count(tc.tc_id) as vans
+			FROM tcards tc
+			INNER JOIN shippers s
+			ON tc.s_id = s.s_id
+			INNER JOIN truckers t
+			ON tc.t_id = t.t_id
+			INNER JOIN van_types vt
+			ON tc.vt_id = vt.vt_id
+			INNER JOIN tcard_types tt
+			ON tc.tt_id = tt.tt_id
+			INNER JOIN tcard_type_group ttg
+			ON tt.ttg_id = ttg.ttg_id
+			LEFT JOIN exit_passes e
+			ON e.tc_id = tc.tc_id
+			WHERE 
+					(t.t_id != 1) &&
+					(tc.tc_status = 'EMPTY' && e.e_id IS NULL) &&
+					(ttg.ttg_id = 3) && 
+					(tc.is_blocked = FALSE && tc.is_defective = FALSE && tc.is_tempload = FALSE)
+			GROUP BY t.t_code, vt.vt_name;
+		";
+
+		$query = $this->db->query($sql);
+
+		return $query->result();
+
+	}
+
 	function defective_vans() {
 
 		$sql = "
@@ -396,7 +562,7 @@ class Reports_model extends CI_Model{
 	* 
 	*/
 
-	function di_stripping_packmats() {
+	function di_stripping_packmats_truckers() {
 
 		$sql = "
 			SELECT im.im_id, 
@@ -443,6 +609,14 @@ class Reports_model extends CI_Model{
 			     
 			     (im.im_id = 1 && vt.vt_id = 1 && t.t_id = 8) || 
 			     
+			     (im.im_id = 10 && vt.vt_id = 1 && t.t_id = 7) ||
+			     
+			     (im.im_id = 15 && vt.vt_id = 1 && t.t_id = 8) ||
+			     
+			     (im.im_id = 18 && vt.vt_id = 1 && t.t_id = 7) ||
+			     
+			     (im.im_id = 19 && vt.vt_id = 1 && t.t_id = 7) ||
+			     
 			     (im.im_id = 4 && vt.vt_id = 1 && t.t_id = 2) || 
 			     
 			     (im.im_id = 5 && vt.vt_id = 1 && t.t_id = 2) || 
@@ -455,8 +629,6 @@ class Reports_model extends CI_Model{
 			     
 			     (im.im_id = 9 && vt.vt_id = 1 && t.t_id = 2) ||
 			     
-			     (im.im_id = 10 && vt.vt_id = 1 && t.t_id = 7) ||
-			     
 			     (im.im_id = 11 && vt.vt_id = 1 && t.t_id = 2) ||
 			     
 			     (im.im_id = 12 && vt.vt_id = 1 && t.t_id = 2) ||
@@ -467,15 +639,9 @@ class Reports_model extends CI_Model{
 			     
 			     (im.im_id = 14 && vt.vt_id = 2 && t.t_id = 2) ||
 			     
-			     (im.im_id = 15 && vt.vt_id = 1 && t.t_id = 8) ||
-			     
 			     (im.im_id = 16 && vt.vt_id = 2 && t.t_id = 2) ||
 			     
 			     (im.im_id = 17 && vt.vt_id = 1 && t.t_id = 2) ||
-			     
-			     (im.im_id = 18 && vt.vt_id = 1 && t.t_id = 7) ||
-			     
-			     (im.im_id = 19 && vt.vt_id = 1 && t.t_id = 7) ||
 			     
 			     (im.im_id = 20 && vt.vt_id = 1 && t.t_id = 2) ||
 			     
@@ -485,12 +651,12 @@ class Reports_model extends CI_Model{
 			     
 			     (im.im_id = 22 && vt.vt_id = 1 && t.t_id = 2) ||
 			     
-			     (im.im_id = 23 && vt.vt_id = 4 && t.t_id = 2)     
-			     
+			     (im.im_id = 23 && vt.vt_id = 4 && t.t_id = 2)  
 				)
 			    &&
-				(ttg.ttg_id = 2 && tt.tt_id = 3) &&
-				(tc.tc_status = 'FULLS' && e.e_id IS NULL) &&
+				(tt.tt_id = 3) &&
+				(ttg.ttg_id = 2) &&
+				(tc.tc_datestripped IS NOT NULL && e.e_timeout IS NULL) &&
 				(tc.is_blocked = FALSE && tc.is_defective = FALSE && tc.is_tempload = FALSE)
 			GROUP BY im.im_name, vt.vt_name, t.t_name
 		";
@@ -500,19 +666,94 @@ class Reports_model extends CI_Model{
 		return $query->result();
 
 	}
+/*
+	function di_stripping_packmats_consolidated() {
 
-	function di_stripping_rawmats_shippers() {
+		$sql = "
+			SELECT im.im_id, 
+					vt.vt_id, 
+					im.im_name, 
+					vt.vt_name,  
+					count(tc.tc_id) as vans, 
+					ttg.ttg_name, 
+					im.im_category
+			FROM tcards tc
+			INNER JOIN vans v
+			ON tc.v_id = v.v_id
+			INNER JOIN van_types vt
+			ON tc.vt_id = vt.vt_id
+			INNER JOIN truckers t
+			ON tc.t_id = t.t_id
+			INNER JOIN tcard_types tt
+			ON tc.tt_id = tt.tt_id
+			INNER JOIN tcard_type_group ttg
+			ON tt.ttg_id = ttg.ttg_id
+			LEFT JOIN tcard_incoming_materials tim
+			ON tc.tc_id = tim.tc_id
+			LEFT JOIN incoming_materials im
+			ON im.im_id = tim.im_id
+			LEFT JOIN exit_passes e
+			ON e.tc_id = tc.tc_id
+			WHERE 
+				((im.im_id = 4 && vt.vt_id = 1) || 
+			     
+			     (im.im_id = 5 && vt.vt_id = 1) || 
+			     
+			     (im.im_id = 6 && vt.vt_id = 1) ||
+			     
+			     (im.im_id = 7 && vt.vt_id = 1) ||
+			     
+			     (im.im_id = 8 && vt.vt_id = 1) ||
+			     
+			     (im.im_id = 9 && vt.vt_id = 1) ||
+			     
+			     (im.im_id = 11 && vt.vt_id = 1) ||
+			     
+			     (im.im_id = 12 && vt.vt_id = 1) ||
+			     
+			     (im.im_id = 13 && vt.vt_id = 1) ||
+			     
+			     (im.im_id = 14 && vt.vt_id = 1) ||
+			     
+			     (im.im_id = 14 && vt.vt_id = 2) ||
+			     
+			     (im.im_id = 16 && vt.vt_id = 2) ||
+			     
+			     (im.im_id = 17 && vt.vt_id = 1) ||
+			     
+			     (im.im_id = 20 && vt.vt_id = 1) ||
+			     
+			     (im.im_id = 21 && vt.vt_id = 1) ||
+			     
+			     (im.im_id = 21 && vt.vt_id = 2) ||     
+			     
+			     (im.im_id = 22 && vt.vt_id = 1) ||
+			     
+			     (im.im_id = 23 && vt.vt_id = 4)     
+			     
+				)
+			    &&
+				(tt.tt_id = 3) &&
+				(ttg.ttg_id = 2) &&
+				(tc.tc_datestripped IS NOT NULL && e.e_timeout IS NULL) &&
+				(tc.is_blocked = FALSE && tc.is_defective = FALSE && tc.is_tempload = FALSE)
+			GROUP BY im.im_name, vt.vt_name
+		";
+
+		$query = $this->db->query($sql);
+
+		return $query->result();
+
+	}
+*/
+	function di_stripping_rawmats_consolidated() {
 
 		$sql = "
 			SELECT im.im_id, 
 					vt.vt_id, 
 					t.t_id, 
-					s.s_id,
 					im.im_name, 
 					vt.vt_name,  
-					t.t_name,
-					s.s_name, 
-					t.t_code, 
 					count(tc.tc_id) as vans, 
 					ttg.ttg_name, 
 					im.im_category,
@@ -537,15 +778,16 @@ class Reports_model extends CI_Model{
 			LEFT JOIN exit_passes e
 			ON e.tc_id = tc.tc_id
 			WHERE 
-				((im.im_id = 34 && vt.vt_id = 1 && s.s_id = 3) || 
-				 (im.im_id = 39 && vt.vt_id = 1 && (s.s_id = 3 || s.s_id = 2)) ||
-                 (im.im_id = 27 && vt.vt_id = 1 && (s.s_id = 3 || s.s_id = 2))
+				((im.im_id = 34 && vt.vt_id = 1) ||       
+				 (im.im_id = 39 && vt.vt_id = 1) ||
+                 (im.im_id = 27 && vt.vt_id = 1)
                 )
 			    &&
-				(ttg.ttg_id = 2 && tt.tt_id = 4) && 
-				(tc.tc_status = 'FULLS' && e.e_id IS NULL) &&
+				(tt.tt_id = 4) &&
+				(ttg.ttg_id = 2) &&
+				(tc.tc_datestripped IS NOT NULL && e.e_timeout IS NULL) &&
 				(tc.is_blocked = FALSE && tc.is_defective = FALSE)
-			GROUP BY im.im_name, vt.vt_name, s.s_name, tc.is_tempload;
+			GROUP BY im.im_name, vt.vt_name, tc.is_tempload;
 		";
 
 		$query = $this->db->query($sql);
@@ -592,7 +834,7 @@ class Reports_model extends CI_Model{
 				 (im.im_id = 26 && vt.vt_id = 1 && t.t_id = 8) || 
 				 (im.im_id = 27 && vt.vt_id = 2 && t.t_id = 3) || 
 				 (im.im_id = 27 && vt.vt_id = 1 && t.t_id = 3) || 
-				 (im.im_id = 28 && vt.vt_id = 1 && t.t_id = 3) || 
+				 (im.im_id = 33 && vt.vt_id = 1 && t.t_id = 3) || 
 				 (im.im_id = 29 && vt.vt_id = 1 && t.t_id = 7) || 
 				 (im.im_id = 30 && vt.vt_id = 2 && t.t_id = 8) ||
 				 (im.im_id = 31 && vt.vt_id = 2 && t.t_id = 8) ||
@@ -602,13 +844,14 @@ class Reports_model extends CI_Model{
 				 (im.im_id = 36 && vt.vt_id = 1 && t.t_id = 3) ||  
 				 (im.im_id = 37 && vt.vt_id = 1 && t.t_id = 3) || 
 				 (im.im_id = 38 && vt.vt_id = 1 && t.t_id = 2) ||
-				 ((im.im_id = 32 || im.im_id = 28) && vt.vt_id = 1 && t.t_id = 2)
+				 (im.im_id = 32 && vt.vt_id = 1 && t.t_id = 2) ||
+                 (im.im_id = 41 && vt.vt_id = 1 && t.t_id = 2) ||
+                 (im.im_id = 33 && vt.vt_id = 1 && t.t_id = 2)
 				)
 			    &&
-			    ((s.s_id != 2) &&
-			     (s.s_id != 3)) &&
-				(ttg.ttg_id = 2 && tt.tt_id = 4) && 
-				(tc.tc_status = 'FULLS' && e.e_id IS NULL) &&
+				(tt.tt_id = 4) &&
+				(ttg.ttg_id = 2) &&
+				(tc.tc_datestripped IS NOT NULL && e.e_timeout IS NULL) &&
 				(tc.is_blocked = FALSE && tc.is_defective = FALSE)
 			GROUP BY im.im_name, vt.vt_name, t.t_code, tc.is_tempload;
 		";
@@ -654,30 +897,13 @@ class Reports_model extends CI_Model{
 			LEFT JOIN exit_passes e
 			ON e.tc_id = tc.tc_id
 			WHERE 
-				((vt.vt_id = 1 && t.t_id = 3) || 
-
-				 (vt.vt_id = 1 && t.t_id = 8) ||
-
-				 (vt.vt_id = 1 && t.t_id = 7) ||
-
-				 (vt.vt_id = 1 && t.t_id = 2) ||
-
-				 (vt.vt_id = 1 && t.t_id = 4) ||
-
-				 (vt.vt_id = 1 && t.t_id = 9) ||
-
-				 (vt.vt_id = 1 && t.t_id = 1) ||
-
-				 (vt.vt_id = 1 && t.t_id = 5) ||
-
-				 (vt.vt_id = 1 && t.t_id = 6) ||
-
-				 (vt.vt_id = 1 && t.t_id = 10) 
+				((vt.vt_id = 1) 
 
 				)
 			    &&
-				(ttg.ttg_id = 2 && tt.tt_id = 1) && 
-				(tc.tc_status = 'FULLS' && e.e_id IS NULL) &&
+				(tt.tt_id = 1) &&
+				(ttg.ttg_id = 2) &&
+				(tc.tc_datestripped IS NOT NULL && e.e_timeout IS NULL) &&
 				(tc.is_blocked = FALSE && tc.is_defective = FALSE && tc.is_tempload = FALSE)
 			GROUP BY im.im_name, vt.vt_name, t.t_name
 		";

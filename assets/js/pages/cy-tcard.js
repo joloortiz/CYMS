@@ -11,7 +11,7 @@ reset_tcard();
 // Datepicker and Timepicker
 
 $('[name="entry-date"]').datetimepicker({
-    'dateFormat': 'yy-mm-dd',
+    'dateFormat': 'dd M yy',
     'changeYear': true,
     'changeMonth': true,
     'maxDate': '+0D',
@@ -29,10 +29,14 @@ $('#new-entry-btn').click(function() {
     set_modal_state(false, true);
 
     show_new_entry_modal();
+
+    var date
+
+    $('[name="entry-date"]').val(now().date + ' ' + now().ed_time);
 });
 
 $('#save-card').click(function() {
-    
+    console.log('saved!');
     if( validate_form() ) {
         save();
     }
@@ -62,7 +66,7 @@ $('body').on('click', '.entry', function() {
     var old_van = $(this).hasClass('old-van');
     var card_id = old_van ? $(this).attr('data-card-id') : $(this).attr('id');
     var details = get_tcard_details(card_id);
-
+    
     $.each(details, function(form_name, val) {
         $('[name="'+ form_name +'"]').not('[type="checkbox"]').val(val);
     });
@@ -544,7 +548,7 @@ function save() {
 
 
                 cv.attr('style', 'background-color: ' + tcard.s_color +'; border-color: ' + tcard.tt_color + ';' + styleSegment);
-                cv.attr('data-position', tcard.tp_position);
+                cv.attr('destination', tcard.e_destination);
                 cv.attr('bin-no', tcard.tc_bin);
                 cv.attr('van-no', tcard.v_no);
                 cv.attr('dayspan', tcard.dayspan);
@@ -579,6 +583,7 @@ function save() {
                 append_total_teu();
                 append_total_vans();
                 append_total_tcard_types();
+                append_alarm(check_alarm());
 
                 setTimeout(function() {
 

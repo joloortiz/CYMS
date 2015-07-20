@@ -476,16 +476,16 @@ function unset_occupied_droppable(droppableid){
 }
 
 function popover_placement(draggableid){
-    var binno = $('#' + draggableid).attr('van-no') || 'No details found.';
-    var vanno = $('#' + draggableid).attr('bin-no') || 'No details found.';
+    var binno = $('#' + draggableid).attr('bin-no') || 'No details found.';
+    var vanno = $('#' + draggableid).attr('van-no') || 'No details found.';
     var dwell_time = $('#' + draggableid).attr('dayspan') || 'No details found.';
-    var position = $('#' + draggableid).attr('data-position') || 'pending';
+    var destination = $('#' + draggableid).attr('destination') || 'No details found.';
     var dispatch = $('#' + draggableid).attr('data-dispatch');
     var blocked = $('#' + draggableid).attr('data-blocked');
     var top = parseInt($('#' + draggableid).css('top').substring(0, $('#' + draggableid).css('top').length - 2));
     var left = parseInt($('#' + draggableid).css('left').substring(0, $('#' + draggableid).css('left').length - 2));
 
-    var position_str = position != 'pending' ? '<br />Position: ' + position : '';
+    var destination_str = destination != 'pending' ? '<br />Destination: ' + destination : '';
 
     if(blocked == 'true') {
         var popover_header = '<strong>Blocked</strong><br /><br />';
@@ -493,7 +493,7 @@ function popover_placement(draggableid){
         var popover_header = dispatch == 'true' ? '<strong>Ready for dispatch</strong><br /><br />' : '';
     }
 
-    var content_str = popover_header + "Van No.: " + binno + "</br>BIN No.: " + vanno + position_str + "<br />Dwell Time: " + dwell_time;
+    var content_str = popover_header + "Van No.: " + vanno + "</br>BIN No.: " + binno + destination_str + "<br />Dwell Time: " + dwell_time;
 
 
     if(top <= 59 && left < 1381){
@@ -546,14 +546,14 @@ function popover_placement(draggableid){
 function init_popover(){
 
     $('#pending').find('.entry').each(function(){
-        var binno = $(this).attr('van-no') || 'No details found.';
-        var vanno = $(this).attr('bin-no') || 'No details found.';
+        var binno = $(this).attr('bin-no') || 'No details found.';
+        var vanno = $(this).attr('van-no') || 'No details found.';
         var dwell_time = $(this).attr('dayspan') || 'No details found.';
-        var position = $(this).attr('data-position') || 'pending';
+        var destination = $(this).attr('destination') || 'No details found.';
         var dispatch = $(this).attr('data-dispatch');
         var blocked = $(this).attr('data-blocked');
 
-        var position_str = position != 'pending' ? '<br />Position: ' + position : '';
+        var destination_str = destination != 'pending' ? '<br />Destination: ' + destination : '';
         if(blocked == 'true') {
             var popover_header = '<strong>Blocked</strong><br /><br />';
         } else {
@@ -565,7 +565,7 @@ function init_popover(){
             animation: true,
             placement: 'auto', 
             trigger: 'hover',
-            content: popover_header + "Van No.: " + binno + "</br>BIN No.: " + vanno + position_str + "<br />Dwell Time: " + dwell_time,
+            content: popover_header + "Van No.: " + vanno + "</br>BIN No.: " + binno + destination_str + "<br />Dwell Time: " + dwell_time,
             delay: {show: 500}
         });
     });
@@ -587,8 +587,8 @@ function destroy_popover(){
 }
 
 function search_id(entry){
-    var bid = $('html').find('div[bin-no="' + entry + '"]').attr('id');
-    var vid = $('html').find('div[van-no="' + entry + '"]').attr('id');
+    var bid = $('html').find('div[bin-no$="' + entry + '"]').attr('id');
+    var vid = $('html').find('div[van-no$="' + entry + '"]').attr('id');
 
     if(bid){
         return bid;
@@ -704,6 +704,44 @@ function update_empty_van_list() {
     });
 }
 
+function check_alarm() {
+
+    //check if TEU is critical 
+    var teu_critical = 567;
+    var total_teu = get_total_teu();
+    var msgs = [];
+
+    if(parseInt(total_teu[0].TEU) >= teu_critical) {
+
+        msgs.push('<li>Total TEU is at the critical count.</li>');
+
+    }
+
+    //get total vans by card type
+    var total_vans_by_tcard_type = get_total_by_tcard_type();
+
+    //check if RAW MATS at limit
+    var raw_mats_limit = 200;
+    var raw_mats_critical = 175;
+
+    jQuery.each(total_vans_by_tcard_type, function(i, tcard_type) {
+        
+        if(tcard_type.tt_id == '4' && parseInt(tcard_type.vans) == raw_mats_limit) {
+
+            msgs.push('<li>You have reached the maximum number of vans for Raw Materials.</li>')
+
+        } else if(tcard_type.tt_id == '4' && parseInt(tcard_type.vans) >= raw_mats_critical) {
+
+            msgs.push('<li>Raw Materials vans at the critical count.</li>')
+
+        }
+
+    });
+
+    return msgs;
+
+}
+
 //Function to append date and time on the footer
 function append_datetime() {
 
@@ -809,6 +847,23 @@ function append_dwell_time_monitor() {
 
 }
 
+function append_alarm(msgs) {
+
+    if(msgs.length > 0) {
+
+        $('.cy-alarm').removeClass('hide');
+
+        $('.cy-alarm ul').empty();
+
+        jQuery.each(msgs, function(index, msgs) {
+        
+            $('.cy-alarm ul').append(msgs);
+        
+        });
+
+    }
+}
+
 /*
 *
 * CY INITS
@@ -825,6 +880,7 @@ append_total_teu();
 append_total_vans();
 append_total_tcard_types();
 append_dwell_time_monitor()
+append_alarm(check_alarm());
 
 /*
 *

@@ -120,6 +120,12 @@ class Reports extends MY_Controller {
 *
 */
 
+/*
+*
+* START DEFECTIVE VANS REPORT
+*
+*/
+
 	function defective_vans_report() {
 
 		$this->load->model('reports_model');
@@ -129,6 +135,18 @@ class Reports extends MY_Controller {
 		echo json_encode($data);
 
 	}
+
+/*
+*
+* END DEFECTIVE VANS REPORT
+*
+*/
+
+/*
+*
+* START EMPTY VANS REPORT
+*
+*/
 
 	function empty_vans_report_shippers() {
 
@@ -150,20 +168,41 @@ class Reports extends MY_Controller {
 
 	}
 
-	function di_stripping_packmats() {
+/*
+*
+* END EMPTY VANS REPORT
+*
+*/	
+
+/*
+*
+* START DAILY INVENTORY REPORT
+*
+*/
+
+	function di_stripping_packmats_truckers() {
 
 		$this->load->model('reports_model');
 
-		$data = $this->reports_model->di_stripping_packmats();
+		$data = $this->reports_model->di_stripping_packmats_truckers();
 
 		echo json_encode($data);
 	}
-
-	function di_stripping_rawmats_shippers() {
+/* 
+	function di_stripping_packmats_consolidated() {
 
 		$this->load->model('reports_model');
 
-		$data = $this->reports_model->di_stripping_rawmats_shippers();
+		$data = $this->reports_model->di_stripping_packmats_consolidated();
+
+		echo json_encode($data);
+	}
+*/
+	function di_stripping_rawmats_consolidated() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_stripping_rawmats_consolidated();
 
 		echo json_encode($data);
 		
@@ -178,6 +217,16 @@ class Reports extends MY_Controller {
 		echo json_encode($data);
 		
 	}
+
+	function di_stripping_tempload() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->di_stripping_rawmats_tempload();
+
+		echo json_encode($data);
+		
+	}	
 
 	function di_stripping_greencoffee() {
 
@@ -317,5 +366,74 @@ class Reports extends MY_Controller {
 		echo json_encode($data);
 
 	}
+
+/*
+*
+* END DAILY INVENTORY REPORT
+*
+*/
+
+
+/*
+*
+* START EMPTY VANS REPORT
+*
+*/
+
+	function empty_vans_consolidated() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->empty_vans_consolidated();
+
+		echo json_encode($data);
+
+	}
+
+	function empty_vans_stripping_shippers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->empty_vans_stripping_shippers();
+
+		echo json_encode($data);
+
+	}
+
+	function empty_vans_stripping_truckers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->empty_vans_stripping_truckers();
+
+		echo json_encode($data);
+
+	}
+
+	function empty_vans_stuffing_shippers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->empty_vans_stuffing_shippers();
+
+		echo json_encode($data);
+
+	}
+
+	function empty_vans_stuffing_truckers() {
+
+		$this->load->model('reports_model');
+
+		$data = $this->reports_model->empty_vans_stuffing_truckers();
+
+		echo json_encode($data);
+
+	}
+
+/*
+*
+* END EMPTY VANS REPORT
+*
+*/
 
 }

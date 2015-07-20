@@ -10,6 +10,8 @@
 				<a id="fsc-outbound-report" href="#" class="list-group-item">FSC OUTBOUND REPORT</a>
 				<a id="defective-vans-report" href="#" class="list-group-item">DEFECTIVE VANS</a>
 				<a id="empty-vans-report" href="#" class="list-group-item">EMPTY VANS</a>
+				<a id="empty-vans-stripping-report" href="#" class="list-group-item">EMPTY VANS (for return)</a>
+				<a id="empty-vans-stuffing-report" href="#" class="list-group-item">EMPTY VANS (for stuffing)</a>
 		</div>
 
 
@@ -21,6 +23,12 @@
 	
 	<!-- Empty Vans Report Modal -->
 	{include file="pages/_reports_empty_vans_modal.tpl"}	
+
+	<!-- Empty Vans Stripping Report Modal -->
+	{include file="pages/_reports_empty_vans_stripping_modal.tpl"}	
+
+	<!-- Empty Vans Stuffing Report Modal -->
+	{include file="pages/_reports_empty_vans_stuffing_modal.tpl"}	
 
 	<!-- Daily Inventory Report Modal -->
 	{include file="pages/_reports_daily_inventory_modal.tpl"}

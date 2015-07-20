@@ -15,7 +15,7 @@
 |
 */
 
-$config['base_url']	= 'http://localhost/cyms';
+$config['base_url']	= 'http://localhost/CYMS';
 
 /*
 |--------------------------------------------------------------------------
